@@ -1,0 +1,7 @@
+.list-item.TASK_ARCHIVED input[type="text"] {
+  color: #4a5568;
+  text-decoration: line-through;
+}
+
+.pin-button {
+}

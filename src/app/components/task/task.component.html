@@ -1,0 +1,39 @@
+<div class="list-item {{ task.state }}">
+
+  <mat-checkbox
+    [checked]="task.state == 3"
+    (change)="onTaskToggle($event.checked)"
+  >
+  </mat-checkbox>
+
+  <mat-form-field class="example-form-field" appearance="standard">
+    <input
+      matInput
+      type="text"
+      [disabled]="task.state === 3"
+      [(ngModel)]="task.title"
+      id="title-{{ task.id }}"
+      name="title-{{ task.id }}"
+      placeholder="Input title"
+    >
+  </mat-form-field>
+
+  <button
+    mat-icon-button
+    color="accent"
+    *ngIf="this.task.isPinned"
+    (click)="onPin(false, task.id)"
+  >
+    <mat-icon>push_pin</mat-icon>
+  </button>
+
+  <button
+    mat-icon-button
+    color=""
+    *ngIf="!this.task.isPinned"
+    (click)="onPin(true, task.id)"
+  >
+    <mat-icon>push_pin</mat-icon>
+  </button>
+
+</div>

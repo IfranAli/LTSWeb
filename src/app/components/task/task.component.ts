@@ -1,21 +1,23 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Task, TaskState} from "../../models/task.model";
+import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 
 @Component({
   selector: 'app-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css']
 })
-export class TaskComponent implements OnInit{
+export class TaskComponent implements OnInit {
   @Input() task: Task = new Task();
 
-  // tslint:disable-next-line: no-output-on-prefix
   @Output()
-  onPinTask = new EventEmitter<Event>();
+  onPinTask = new EventEmitter<TaskPinnedEvent>();
 
-  // tslint:disable-next-line: no-output-on-prefix
   @Output()
-  onArchiveTask = new EventEmitter<Event>();
+  onTaskChanged = new EventEmitter<TaskUpdatedEvent>();
+
+  @Output()
+  onTaskDeleted = new EventEmitter<TaskDeletedEvent>();
 
   ngOnInit(): void {
   }
@@ -30,16 +32,20 @@ export class TaskComponent implements OnInit{
     this.onPinTask.emit(id);
   }
 
-  /**
-   * Component method to trigger the onArchive event
-   * @param id string
-   */
-  onArchive(id: any) {
-    this.task.state = TaskState.DONE;
-    this.onArchiveTask.emit(id);
-  }
-
   onTaskToggle(checked: boolean) {
     this.task.state = (checked ? TaskState.DONE : TaskState.TODO);
+
+    this.onTaskChanged.emit({
+      fields: ['state'],
+      task: this.task,
+      reason: 'Task item checked true'
+    });
+  }
+
+  onDelete(id: number) {
+    this.onTaskDeleted.emit({
+      taskID: id,
+      reason: 'Deleted by user'
+    })
   }
 }

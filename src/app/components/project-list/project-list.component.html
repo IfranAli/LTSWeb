@@ -1,15 +1,37 @@
-<mat-card>
-  <mat-card-title>{{title}}</mat-card-title>
-  <mat-card-subtitle>{{tasks.length}} Tasks</mat-card-subtitle>
+<!--<mat-card>-->
+<!--  <mat-card-title>{{title}}</mat-card-title>-->
+<!--  <mat-card-subtitle>{{tasks.length}} Tasks</mat-card-subtitle>-->
 
-  <mat-list>
-    <mat-list-item *ngFor="let task of tasks">
-        <app-task [task]="task"></app-task>
-    </mat-list-item>
-  </mat-list>
+<!--  <mat-list>-->
+<!--    <mat-list-item *ngFor="let task of tasks">-->
 
-  <mat-card-actions>
-    <button mat-button>Test</button>
-  </mat-card-actions>
+<!--    </mat-list-item>-->
+<!--  </mat-list>-->
 
-</mat-card>
+<!--  <mat-card-actions>-->
+<!--    <button mat-button (click)="addTask($event)">Add Task</button>-->
+<!--  </mat-card-actions>-->
+
+<!--</mat-card>-->
+
+<div>
+  <h2>{{project.title}}</h2>
+
+  <div
+    cdkDropList
+    [cdkDropListData]="project.tasks"
+    (cdkDropListDropped)="drop($event)">
+
+    <div class="example-box" *ngFor="let task of project.tasks"
+         cdkDrag
+         [cdkDragData]="task"
+    >
+      <app-task [task]="task"
+                (onPinTask)="onTaskPinned($event)"
+                (onTaskDeleted)="onTaskDeleted($event)"
+                (onTaskChanged)="onTaskChanged($event)">
+
+      </app-task>
+    </div>
+  </div>
+</div>

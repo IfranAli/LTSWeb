@@ -1,4 +1,4 @@
-import {TaskMockData} from "../src/app/mockData/Task.mock";
+import {TaskMockData} from "../src/app/mockData/task-data.mock";
 import {Project} from "../src/app/models/project.model";
 
 describe('Project Tests', () => {

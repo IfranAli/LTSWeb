@@ -10,7 +10,7 @@ import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {TaskState} from "../../models/task.model";
-import {TaskMockData} from "../../mockData/Task.mock";
+import {TaskMockData} from "../../mockData/task-data.mock";
 
 export default {
   component: TaskComponent,

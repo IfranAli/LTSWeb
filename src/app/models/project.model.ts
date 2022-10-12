@@ -1,9 +1,14 @@
 import {Task, TaskState} from "./task.model";
 
 export class Project {
-  private tasks: Task[] = [];
-  private id: number = 0;
-  private title: string = '';
+  tasks: Task[] = [];
+  id: number = 0;
+  title: string = '';
+
+  constructor(title: string, tasks: Task[] = []) {
+    this.title = title;
+    this.tasks = tasks;
+  }
 
   /**
    * Returns the length of tasks in this project.
@@ -19,8 +24,5 @@ export class Project {
   public removeTask(task: Task): void
   {
     const index = this.tasks.findIndex(({ id }) => id === task.id);
-
-    // if (index && this.tasks.)
-    // this.tasks.
   }
 }

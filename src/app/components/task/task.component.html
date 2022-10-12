@@ -20,20 +20,19 @@
 
   <button
     mat-icon-button
-    color="accent"
-    *ngIf="this.task.isPinned"
-    (click)="onPin(false, task.id)"
+    [color]="task.isPinned ? 'accent' : 'primary'"
+    (click)="onPin(!task.isPinned, task.id)"
   >
-    <mat-icon>push_pin</mat-icon>
+    <mat-icon>
+      {{task.isPinned ? 'star' : 'star_outline'}}
+    </mat-icon>
   </button>
 
   <button
     mat-icon-button
-    color=""
-    *ngIf="!this.task.isPinned"
-    (click)="onPin(true, task.id)"
+    (click)="onDelete(task.id)"
   >
-    <mat-icon>push_pin</mat-icon>
+    <mat-icon color="warn">delete_outline</mat-icon>
   </button>
 
 </div>

@@ -17,6 +17,9 @@ import {TaskEditViewComponent} from './components/task-edit-view/task-edit-view.
 import {ProjectListComponent} from './components/project-list/project-list.component';
 import {MatCardModule} from "@angular/material/card";
 import {MatListModule} from "@angular/material/list";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
   declarations: [
@@ -29,18 +32,21 @@ import {MatListModule} from "@angular/material/list";
     ProjectListComponent,
     ButtonComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatSliderModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    FormsModule,
-    MatCheckboxModule,
-    MatCardModule,
-    MatListModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatSliderModule,
+        MatIconModule,
+        MatButtonModule,
+        MatInputModule,
+        FormsModule,
+        MatCheckboxModule,
+        MatCardModule,
+        MatListModule,
+        MatGridListModule,
+        MatSidenavModule,
+        DragDropModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

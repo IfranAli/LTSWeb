@@ -1,4 +1,17 @@
-<div class="content" role="main">
-  <app-project-list></app-project-list>
-</div>
+<mat-sidenav-container class="example-container">
+  <!--  <mat-sidenav mode="side" opened>-->
+  <!--    <div class="sidebar">-->
+  <!--    </div>-->
+  <!--  </mat-sidenav>-->
 
+  <mat-sidenav-content>
+    <div class="container" role="main">
+      <div cdkDropListGroup>
+        <div *ngFor="let project of projects">
+          <app-project-list [project]="project">
+          </app-project-list>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

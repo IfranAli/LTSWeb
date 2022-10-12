@@ -19,7 +19,7 @@ export var TaskMockData: Task[] = [
     id: 2,
     state: TaskState.IN_PROGRESS,
     title: "Task 3",
-    isPinned: false,
+    isPinned: true,
     isArchived: false
   },
   {

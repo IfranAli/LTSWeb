@@ -1,0 +1,12 @@
+
+.sidebar {
+  padding: 1.6em;
+  width: 10em;
+}
+
+.container {
+  height: 100vh;
+  padding: 1.6em;
+  display: flex;
+  max-width: 80%;
+}

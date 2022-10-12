@@ -653,7 +653,7 @@
         },
         {
             "name": "ProjectListComponent",
-            "id": "component-ProjectListComponent-3b163abd91aa01dbfa5e0bca9fc1ea9f9b995c6e94620cadc65b5ce2f76ca85eb6c6c0fbb833ec86c944d45137557bfda095e32019a759d936e6680dccab1347",
+            "id": "component-ProjectListComponent-e9b75ea9daaed81f77baf4fc37e3975e44ebbb34e5bd00f23ca60398e7093af40ed1a6760e348daa2fe60ba836ca124b34261f998048720dded11e344b0f2331",
             "file": "src/app/components/project-list/project-list.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -681,7 +681,18 @@
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [],
+            "propertiesClass": [
+                {
+                    "name": "title",
+                    "defaultValue": "'Project 1'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                }
+            ],
             "methodsClass": [
                 {
                     "name": "ngOnInit",
@@ -689,7 +700,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 15,
+                    "line": 17,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -701,7 +712,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, Input, OnInit} from '@angular/core';\nimport {Task} from \"../../models/task.model\";\nimport {TaskMockData} from \"../../mockData/Task.mock\";\n\n@Component({\n  selector: 'app-project-list',\n  templateUrl: './project-list.component.html',\n  styleUrls: ['./project-list.component.css']\n})\nexport class ProjectListComponent implements OnInit {\n  @Input() tasks: Task[] = TaskMockData;\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n}\n",
+            "sourceCode": "import {Component, Input, OnInit} from '@angular/core';\nimport {Task} from \"../../models/task.model\";\nimport {TaskMockData} from \"../../mockData/Task.mock\";\n\n@Component({\n  selector: 'app-project-list',\n  templateUrl: './project-list.component.html',\n  styleUrls: ['./project-list.component.css']\n})\nexport class ProjectListComponent implements OnInit {\n  @Input() tasks: Task[] = TaskMockData;\n\n  title = 'Project 1';\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -716,12 +727,12 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 11
+                "line": 13
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "\n<ng-container *ngFor=\"let task of tasks\">\n  <app-task [task]=\"task\"></app-task>\n</ng-container>\n<app-task></app-task>\n"
+            "templateData": "<mat-card>\n  <mat-card-title>{{title}}</mat-card-title>\n  <mat-card-subtitle>{{tasks.length}} Tasks</mat-card-subtitle>\n\n  <mat-list>\n    <mat-list-item *ngFor=\"let task of tasks\">\n        <app-task [task]=\"task\"></app-task>\n    </mat-list-item>\n  </mat-list>\n\n  <mat-card-actions>\n    <button mat-button>Test</button>\n  </mat-card-actions>\n\n</mat-card>\n"
         },
         {
             "name": "TaskComponent",
@@ -950,7 +961,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<h1>TEST</h1>\n<div class=\"list-item {{ task.state }}\">\n\n  <mat-checkbox\n    [checked]=\"task.state == 3\"\n    (change)=\"onTaskToggle($event.checked)\"\n  >\n  </mat-checkbox>\n\n  <mat-form-field class=\"example-form-field\" appearance=\"standard\">\n    <input\n      matInput\n      type=\"text\"\n      [disabled]=\"task.state === 3\"\n      [(ngModel)]=\"task.title\"\n      id=\"title-{{ task.id }}\"\n      name=\"title-{{ task.id }}\"\n      placeholder=\"Input title\"\n    >\n  </mat-form-field>\n\n  <button\n    mat-icon-button\n    color=\"accent\"\n    *ngIf=\"this.task.isPinned\"\n    (click)=\"onPin(false, task.id)\"\n  >\n    <mat-icon>push_pin</mat-icon>\n  </button>\n\n  <button\n    mat-icon-button\n    color=\"\"\n    *ngIf=\"!this.task.isPinned\"\n    (click)=\"onPin(true, task.id)\"\n  >\n    <mat-icon>push_pin</mat-icon>\n  </button>\n\n</div>\n"
+            "templateData": "<div class=\"list-item {{ task.state }}\">\n\n  <mat-checkbox\n    [checked]=\"task.state == 3\"\n    (change)=\"onTaskToggle($event.checked)\"\n  >\n  </mat-checkbox>\n\n  <mat-form-field class=\"example-form-field\" appearance=\"standard\">\n    <input\n      matInput\n      type=\"text\"\n      [disabled]=\"task.state === 3\"\n      [(ngModel)]=\"task.title\"\n      id=\"title-{{ task.id }}\"\n      name=\"title-{{ task.id }}\"\n      placeholder=\"Input title\"\n    >\n  </mat-form-field>\n\n  <button\n    mat-icon-button\n    color=\"accent\"\n    *ngIf=\"this.task.isPinned\"\n    (click)=\"onPin(false, task.id)\"\n  >\n    <mat-icon>push_pin</mat-icon>\n  </button>\n\n  <button\n    mat-icon-button\n    color=\"\"\n    *ngIf=\"!this.task.isPinned\"\n    (click)=\"onPin(true, task.id)\"\n  >\n    <mat-icon>push_pin</mat-icon>\n  </button>\n\n</div>\n"
         },
         {
             "name": "TaskEditViewComponent",
@@ -1018,13 +1029,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-22d08bb800ca710f5b282412ac1aecaf041c327bda59cc11d1c7c49c57702820c27ef98e4cedcd96ed0a79c4f730e477f5db2edf85c579a646fb66abf9523425",
+            "id": "module-AppModule-e4de1e5352fa36874e58d170baf40f5414e3be12f1d8d964403d5c91fb39ef757563b381588f2635df3e199256af8bd3032f17350829ee930d893ae673d05c25",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppComponent} from './app.component';\nimport ButtonComponent from \"../stories/button.component\";\nimport PageComponent from \"../stories/page.component\";\nimport HeaderComponent from \"../stories/header.component\";\nimport {TaskComponent} from './components/task/task.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {MatSliderModule} from \"@angular/material/slider\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport {FormsModule} from \"@angular/forms\";\nimport {MatCheckboxModule} from \"@angular/material/checkbox\";\nimport {TaskEditViewComponent} from './components/task-edit-view/task-edit-view.component';\nimport {ProjectListComponent} from './components/project-list/project-list.component';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    ButtonComponent,\n    PageComponent,\n    HeaderComponent,\n    TaskComponent,\n    TaskEditViewComponent,\n    ProjectListComponent,\n    ButtonComponent,\n  ],\n  imports: [\n    BrowserModule,\n    BrowserAnimationsModule,\n    MatSliderModule,\n    MatIconModule,\n    MatButtonModule,\n    MatInputModule,\n    FormsModule,\n    MatCheckboxModule\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
+            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppComponent} from './app.component';\nimport ButtonComponent from \"../stories/button.component\";\nimport PageComponent from \"../stories/page.component\";\nimport HeaderComponent from \"../stories/header.component\";\nimport {TaskComponent} from './components/task/task.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {MatSliderModule} from \"@angular/material/slider\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport {FormsModule} from \"@angular/forms\";\nimport {MatCheckboxModule} from \"@angular/material/checkbox\";\nimport {TaskEditViewComponent} from './components/task-edit-view/task-edit-view.component';\nimport {ProjectListComponent} from './components/project-list/project-list.component';\nimport {MatCardModule} from \"@angular/material/card\";\nimport {MatListModule} from \"@angular/material/list\";\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    ButtonComponent,\n    PageComponent,\n    HeaderComponent,\n    TaskComponent,\n    TaskEditViewComponent,\n    ProjectListComponent,\n    ButtonComponent,\n  ],\n  imports: [\n    BrowserModule,\n    BrowserAnimationsModule,\n    MatSliderModule,\n    MatIconModule,\n    MatButtonModule,\n    MatInputModule,\n    FormsModule,\n    MatCheckboxModule,\n    MatCardModule,\n    MatListModule\n  ],\n  providers: [],\n  bootstrap: [AppComponent]\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -1684,7 +1695,7 @@
                 "linktype": "component",
                 "name": "ProjectListComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {

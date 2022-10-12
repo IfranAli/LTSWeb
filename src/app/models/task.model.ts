@@ -4,6 +4,10 @@ export class Task {
   state: TaskState = TaskState.TODO;
   isPinned: boolean = false;
   isArchived: boolean = false;
+
+  constructor(title: string = 'Untitled Task') {
+    this.title = title;
+  }
 }
 
 export enum TaskState {

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import {Task} from "./models/task.model";
-import {TaskMockData} from "./mockData/task-data.mock";
 import {Project} from "./models/project.model";
 import {ProjectDataMock} from "./mockData/project-data.mock";
+import {DataProviderService} from "./services/data-provider.service";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +10,11 @@ import {ProjectDataMock} from "./mockData/project-data.mock";
 })
 export class AppComponent {
   title = 'LTSweb';
-  projects: Project[] = ProjectDataMock;
-  // tasks: Task[] = TaskMockData;
-  // tasks2: Task[] = [];
+  projects: Project[] = [];
+
+  constructor(
+    private dataProvider: DataProviderService
+  ) {
+    this.projects = dataProvider.getProjects();
+  }
 }

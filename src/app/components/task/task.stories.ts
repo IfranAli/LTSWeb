@@ -9,8 +9,7 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {TaskState} from "../../models/task.model";
-import {TaskMockData} from "../../mockData/task-data.mock";
+import {TaskState} from "../../models/task";
 
 export default {
   component: TaskComponent,
@@ -48,14 +47,14 @@ const Template: Story = args => ({
 export const Default = Template.bind({});
 Default.args = {
   task: {
-    ...TaskMockData[0],
+    // ...TaskMockData[0],
   }
 };
 
 export const Pinned = Template.bind({});
 Pinned.args = {
   task: {
-    ...TaskMockData[0],
+    // ...TaskMockData[0],
     isPinned: true
   }
 };

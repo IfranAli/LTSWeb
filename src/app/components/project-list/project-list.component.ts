@@ -1,8 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Task, TaskState} from "../../models/task.model";
+import {Task} from "../../models/task";
 import {DataProviderService} from "../../services/data-provider.service";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
-import {TaskMockData} from "../../mockData/task-data.mock";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {Project} from "../../models/project.model";
 
@@ -12,7 +11,7 @@ import {Project} from "../../models/project.model";
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
-  @Input() project: Project = new Project('Untitled');
+  @Input() project: Project = this.dataProvider.addProject();
 
   @Output()
   onProjectChanged = new EventEmitter<Event>();
@@ -28,15 +27,6 @@ export class ProjectListComponent implements OnInit {
 
   onTaskChanged(task: TaskUpdatedEvent) {
     this.sortTasks();
-  }
-
-  addTask($event: MouseEvent) {
-    let newTask = this.dataProvider.newTask();
-    this.project.tasks.push(newTask);
-  }
-
-  trackByMethod(index: number, element: Task): number {
-    return element.id;
   }
 
   onTaskDeleted($event: TaskDeletedEvent) {
@@ -73,5 +63,6 @@ export class ProjectListComponent implements OnInit {
 
   drop($event: CdkDragDrop<Task[], any>) {
     let item = $event.item.data as Task;
+    // todo:: Find project (source container) from item
   }
 }

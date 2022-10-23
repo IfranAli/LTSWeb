@@ -1,6 +1,5 @@
-import { TestBed } from '@angular/core/testing';
-
-import { DataProviderService } from './services/data-provider.service';
+import { DataProviderService } from '../src/app/services/data-provider.service';
+import {TestBed} from "@angular/core/testing";
 
 describe('DataProviderService', () => {
   let service: DataProviderService;
@@ -12,5 +11,6 @@ describe('DataProviderService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+    expect(service.getProjects().length).not.toBe(0);
   });
 });

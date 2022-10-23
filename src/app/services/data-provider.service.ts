@@ -1,33 +1,55 @@
 import {Injectable} from '@angular/core';
-import {Task, TaskState} from "../models/task.model";
-import {TaskMockData} from "../mockData/task-data.mock";
+import {Task} from "../models/task";
+import {ProjectDataMock} from "../mockData/project-data.mock";
+import {Project} from "../models/project.model";
+import {IdentitySingleton} from "../lib/IdentitySingleton";
+import {TaskFactory} from "../lib/TaskFactory";
+import {ProjectFactory} from "../lib/ProjectFactory";
+
+export let taskIdentityProvider = IdentitySingleton.getInstance();
+export let projectIdentityProvider = IdentitySingleton.getInstance();
+
+let taskFactory = new TaskFactory(taskIdentityProvider);
+let projectFactory = new ProjectFactory(projectIdentityProvider);
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataProviderService {
+  private projects: Project[] = [];
   private tasks: Task[] = [];
-  private uuidCount = 5;
+  private nextTaskIndexID = 0;
+  private nextProjectIndexID = 0;
 
   constructor() {
-    this.buildTestTasks();
+    this.buildTestProjects();
   }
 
   public getTasks(): Task[] {
     return this.tasks;
   }
 
-  public newTask(): Task {
-    let task = new Task();
-    task.id = ++this.uuidCount;
-    return task;
+  public getProjects(): Project[] {
+    return this.projects;
+  }
+
+  public addTask(task: Task = new Task()): Task {
+    let newTask = taskFactory.newTask();
+    this.tasks.push(newTask);
+    return newTask;
   }
 
   public getTask(): Task {
     return this.tasks[0];
   }
 
-  private buildTestTasks(): void {
-    this.tasks = TaskMockData;
+  public addProject(): Project{
+    let newProject = projectFactory.newProject();
+    this.projects.push(newProject);
+    return newProject;
+  }
+
+  private buildTestProjects(): void {
+    this.projects = ProjectDataMock();
   }
 }

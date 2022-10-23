@@ -8,8 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {TaskState} from "../../models/task.model";
-import {TaskMockData} from "../../mockData/task-data.mock";
+import {TaskState} from "../../models/task";
 import {TaskComponent} from "../task/task.component";
 import {ProjectListComponent} from "./project-list.component";
 import {MatCardModule} from "@angular/material/card";
@@ -55,5 +54,5 @@ const Template: Story = args => ({
 
 export const Default = Template.bind({});
 Default.args = {
-  tasks: TaskMockData
+  // tasks: TaskMockData
 };

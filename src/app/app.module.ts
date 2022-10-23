@@ -20,6 +20,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
         MatListModule,
         MatGridListModule,
         MatSidenavModule,
-        DragDropModule
+        DragDropModule,
+        StoreModule.forRoot({}, {})
     ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,4 @@
-import {Task} from "./task.model";
+import {Task} from "./task";
 import {Project} from "./project.model";
 
 export type TaskPinnedEvent = {

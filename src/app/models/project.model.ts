@@ -1,13 +1,19 @@
-import {Task, TaskState} from "./task.model";
+import {Task, TaskState} from "./task";
+import {IdentitySingleton} from "../lib/IdentitySingleton";
 
-export class Project {
-  tasks: Task[] = [];
-  id: number = 0;
-  title: string = '';
+export interface ProjectModel {
+  id: number;
+  title: string;
+  tasks: Task[];
+}
 
-  constructor(title: string, tasks: Task[] = []) {
-    this.title = title;
-    this.tasks = tasks;
+export class Project implements ProjectModel{
+  public tasks: Task[] = [];
+  public id: number = 0;
+  public title: string = '';
+
+  constructor(private identityProvider: IdentitySingleton) {
+    this.id = identityProvider.getNextID();
   }
 
   /**
@@ -18,11 +24,12 @@ export class Project {
   }
 
   public addTask(task: Task): void {
+    task.id = this.identityProvider.getNextID();
+    task.projectID = this.id;
     this.tasks.push(task);
   }
 
-  public removeTask(task: Task): void
-  {
-    const index = this.tasks.findIndex(({ id }) => id === task.id);
+  public removeTask(task: Task): void {
+    const index = this.tasks.findIndex(({id}) => id === task.id);
   }
 }

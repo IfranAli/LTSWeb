@@ -5,8 +5,6 @@ import {ProjectFactory} from "../lib/ProjectFactory";
 
 export function ProjectDataMock(): Project[] {
   let identityProvider = IdentitySingleton.getInstance();
-
-  let taskFactory = new TaskFactory(identityProvider);
   let projectFactory = new ProjectFactory(identityProvider);
 
   let personalProject = projectFactory.newProject();

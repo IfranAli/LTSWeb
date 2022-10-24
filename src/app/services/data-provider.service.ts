@@ -25,10 +25,6 @@ export class DataProviderService {
     this.buildTestProjects();
   }
 
-  public getTasks(): Task[] {
-    return this.tasks;
-  }
-
   public getProjects(): Project[] {
     return this.projects;
   }
@@ -38,12 +34,7 @@ export class DataProviderService {
     this.tasks.push(newTask);
     return newTask;
   }
-
-  public getTask(): Task {
-    return this.tasks[0];
-  }
-
-  public addProject(): Project{
+  public addProject(): Project {
     let newProject = projectFactory.newProject();
     this.projects.push(newProject);
     return newProject;

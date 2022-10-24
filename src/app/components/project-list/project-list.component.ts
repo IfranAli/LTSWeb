@@ -11,35 +11,16 @@ import {Project} from "../../models/project.model";
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
-  @Input() project: Project = this.dataProvider.addProject();
+  // todo: Should not be an optional
+  @Input() project: Project | undefined;
 
-  @Output()
-  onProjectChanged = new EventEmitter<Event>();
+  @Output() onProjectChanged = new EventEmitter<Event>();
 
-  constructor(
-    private dataProvider: DataProviderService
-  ) {
+  constructor(private dataProvider: DataProviderService) {
     this.sortTasks();
   }
 
-  ngOnInit(): void {
-  }
-
-  onTaskChanged(task: TaskUpdatedEvent) {
-    this.sortTasks();
-  }
-
-  onTaskDeleted($event: TaskDeletedEvent) {
-    let findIndex = this.project.tasks.findIndex(value => {
-      return value.id == $event.taskID;
-    })
-
-    if (findIndex >= 0) {
-      this.project.tasks.splice(findIndex, 1);
-    }
-  }
-
-  taskSortMethod(a: Task, b: Task): number {
+  private static taskSortMethod(a: Task, b: Task): number {
     let pinned = (a.isPinned > b.isPinned);
 
     if (pinned) {
@@ -53,16 +34,46 @@ export class ProjectListComponent implements OnInit {
     return 1;
   }
 
+  ngOnInit(): void {
+  }
+
+  onTaskChanged(task: TaskUpdatedEvent) {
+    this.sortTasks();
+  }
+
+  onTaskDeleted($event: TaskDeletedEvent) {
+    if (!this.project) return;
+    if (!(this.project.tasks.length > 0)) return;
+
+    let findIndex = this.project.tasks.findIndex(value => {
+      return value.id == $event.taskID;
+    })
+
+    if (findIndex && findIndex >= 0) {
+      this.project.tasks.splice(findIndex, 1);
+    }
+  }
+
+  drop($event: CdkDragDrop<Task[], any>) {
+    if (!this.project) return;
+    if (!(this.project.tasks.length > 0)) return;
+
+    let item = $event.item.data as Task;
+    // todo:: Find project (source container) from item
+  }
+
   onTaskPinned($event: TaskPinnedEvent) {
     this.sortTasks();
   }
 
   sortTasks(): void {
-    this.project.tasks.sort(this.taskSortMethod);
+    if (!this.project) return;
+    if (!(this.project.tasks.length > 0)) return;
+
+    this.project.tasks.sort(ProjectListComponent.taskSortMethod);
   }
 
-  drop($event: CdkDragDrop<Task[], any>) {
-    let item = $event.item.data as Task;
-    // todo:: Find project (source container) from item
+  private hasTasks(): boolean {
+    return (this.project) ? (this.project.tasks?.length > 0) : false;
   }
 }

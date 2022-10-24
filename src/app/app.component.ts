@@ -17,4 +17,8 @@ export class AppComponent {
   ) {
     this.projects = dataProvider.getProjects();
   }
+
+  trackProjects(index: number, element: any) {
+    return element ? element.id: null
+  }
 }

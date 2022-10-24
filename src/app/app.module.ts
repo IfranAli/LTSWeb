@@ -20,7 +20,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {DragDropModule} from "@angular/cdk/drag-drop";
-import { StoreModule } from '@ngrx/store';
+import {StoreModule} from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -33,23 +33,24 @@ import { StoreModule } from '@ngrx/store';
     ProjectListComponent,
     ButtonComponent,
   ],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        MatSliderModule,
-        MatIconModule,
-        MatButtonModule,
-        MatInputModule,
-        FormsModule,
-        MatCheckboxModule,
-        MatCardModule,
-        MatListModule,
-        MatGridListModule,
-        MatSidenavModule,
-        DragDropModule,
-        StoreModule.forRoot({}, {})
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule,
+    FormsModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatListModule,
+    MatGridListModule,
+    MatSidenavModule,
+    DragDropModule,
+    StoreModule.forRoot({}, {})
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

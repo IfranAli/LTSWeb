@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProjectListComponent } from './project-list.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 describe('ProjectListComponent', () => {
   let component: ProjectListComponent;
@@ -8,7 +9,8 @@ describe('ProjectListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProjectListComponent ]
+      declarations: [ ProjectListComponent ],
+      imports: [DragDropModule]
     })
     .compileComponents();
 

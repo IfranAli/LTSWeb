@@ -1,5 +1,6 @@
-import {Task, TaskState} from "./task";
+import {Task} from "./task";
 import {IdentitySingleton} from "../lib/IdentitySingleton";
+import {TaskFactory} from "../lib/TaskFactory";
 
 export interface ProjectModel {
   id: number;
@@ -7,7 +8,7 @@ export interface ProjectModel {
   tasks: Task[];
 }
 
-export class Project implements ProjectModel{
+export class Project implements ProjectModel {
   public tasks: Task[] = [];
   public id: number = 0;
   public title: string = '';
@@ -27,6 +28,13 @@ export class Project implements ProjectModel{
     task.id = this.identityProvider.getNextID();
     task.projectID = this.id;
     this.tasks.push(task);
+  }
+
+  public addSimpleTask(title: string): void {
+    let taskFactory = new TaskFactory((this.identityProvider));
+    let task = taskFactory.newTask();
+    task.title = title;
+    this.addTask(task)
   }
 
   public removeTask(task: Task): void {

@@ -1,0 +1,12 @@
+@use "src/styles/global/colors";
+
+.list-item.TASK_ARCHIVED input[type="text"] {
+  color: colors.$color-archived;
+  text-decoration: line-through;
+}
+
+.list-item {
+  button {
+    width: auto;
+  }
+}

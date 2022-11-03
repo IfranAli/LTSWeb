@@ -1,37 +1,24 @@
-<!--<mat-card>-->
-<!--  <mat-card-title>{{title}}</mat-card-title>-->
-<!--  <mat-card-subtitle>{{tasks.length}} Tasks</mat-card-subtitle>-->
+<div *ngIf="project" class="project-list">
+  <mat-card>
+    <mat-card-title>{{project.title}}</mat-card-title>
+    <mat-card-subtitle>subtitle here</mat-card-subtitle>
 
-<!--  <mat-list>-->
-<!--    <mat-list-item *ngFor="let task of tasks">-->
+    <div
+      cdkDropList
+      [cdkDropListData]="project.tasks"
+      (cdkDropListDropped)="drop($event)">
 
-<!--    </mat-list-item>-->
-<!--  </mat-list>-->
+      <div class="example-box" *ngFor="let task of project.tasks"
+           cdkDrag
+           [cdkDragData]="task"
+      >
+        <app-task [task]="task"
+                  (onPinTask)="onTaskPinned($event)"
+                  (onTaskDeleted)="onTaskDeleted($event)"
+                  (onTaskChanged)="onTaskChanged($event)">
 
-<!--  <mat-card-actions>-->
-<!--    <button mat-button (click)="addTask($event)">Add Task</button>-->
-<!--  </mat-card-actions>-->
-
-<!--</mat-card>-->
-
-<div *ngIf="project">
-  <h2>{{project.title}}</h2>
-
-  <div
-    cdkDropList
-    [cdkDropListData]="project.tasks"
-    (cdkDropListDropped)="drop($event)">
-
-    <div class="example-box" *ngFor="let task of project.tasks"
-         cdkDrag
-         [cdkDragData]="task"
-    >
-      <app-task [task]="task"
-                (onPinTask)="onTaskPinned($event)"
-                (onTaskDeleted)="onTaskDeleted($event)"
-                (onTaskChanged)="onTaskChanged($event)">
-
-      </app-task>
+        </app-task>
+      </div>
     </div>
-  </div>
+  </mat-card>
 </div>

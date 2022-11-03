@@ -3,7 +3,7 @@ import {Task, TaskState} from "../../models/task";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 
 @Component({
-  selector: 'app-task', templateUrl: './task.component.html', styleUrls: ['./task.component.css']
+  selector: 'app-task', templateUrl: './task.component.html', styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
   @Input() task: Task = new Task();

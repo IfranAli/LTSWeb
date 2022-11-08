@@ -21,8 +21,8 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {StoreModule} from '@ngrx/store';
-import {taskReducer} from "./components/task/counter.reducer";
 import {ExportDataComponent} from "./components/export-data/export-data.component";
+import {projectReducer} from "./components/project-list/project.reducer";
 
 @NgModule({
   declarations: [
@@ -51,10 +51,8 @@ import {ExportDataComponent} from "./components/export-data/export-data.componen
     MatSidenavModule,
     DragDropModule,
     StoreModule.forRoot({
-      count: taskReducer
-    }, {
-
-    })
+      projects: projectReducer
+    }, {})
   ],
   providers: [],
   bootstrap: [AppComponent]

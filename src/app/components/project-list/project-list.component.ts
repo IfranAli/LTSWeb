@@ -3,7 +3,7 @@ import {Task} from "../../models/task";
 import {DataProviderService} from "../../services/data-provider.service";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
-import {Project} from "../../models/project.model";
+import {ProjectModel} from "../../models/project.model";
 
 @Component({
   selector: 'app-project-list',
@@ -11,8 +11,9 @@ import {Project} from "../../models/project.model";
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
-  // todo: Should not be an optional
-  @Input() project: Project | undefined;
+  @Input() project: ProjectModel = {
+    tasks: [], id: 0, title: ''
+  };
 
   @Output() onProjectChanged = new EventEmitter<Event>();
 

@@ -5,12 +5,12 @@
   <!--  </mat-sidenav>-->
 
   <mat-sidenav-content>
-    <app-export-data></app-export-data>
+<!--    <app-export-data></app-export-data>-->
 
     <div class="container" role="main">
-      <div cdkDropListGroup>
-        <ng-container *ngFor="let item of projects; index as i; trackBy: trackProjects">
-          <app-project-list [project]="item"></app-project-list>
+      <div cdkDropListGroup *ngIf="projects$ | async as projectState">
+        <ng-container *ngFor="let project of projectState.projects">
+          <app-project-list [project]="project"></app-project-list>
         </ng-container>
       </div>
     </div>

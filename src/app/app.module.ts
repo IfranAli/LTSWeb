@@ -24,6 +24,7 @@ import {StoreModule} from '@ngrx/store';
 import {ExportDataComponent} from "./components/export-data/export-data.component";
 import {projectReducer} from "./components/project-list/project.reducer";
 import {HttpClientModule} from "@angular/common/http";
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import {HttpClientModule} from "@angular/common/http";
     DragDropModule,
     StoreModule.forRoot({
       projects: projectReducer
-    }, {})
+    }, {}),
+    MatToolbarModule
   ],
   providers: [ HttpClientModule],
   bootstrap: [AppComponent]

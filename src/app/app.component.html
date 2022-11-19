@@ -1,18 +1,32 @@
-<mat-sidenav-container class="example-container">
-  <!--  <mat-sidenav mode="side" opened>-->
-  <!--    <div class="sidebar">-->
-  <!--    </div>-->
-  <!--  </mat-sidenav>-->
+<div class="container" role="main">
+  <mat-toolbar>
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
 
-  <mat-sidenav-content>
-<!--    <app-export-data></app-export-data>-->
+    <span>LTSWeb</span>
+    <span class="example-spacer"></span>
+    <button mat-icon-button>
+      <mat-icon>code</mat-icon>
+    </button>
+  </mat-toolbar>
 
-    <div class="container" role="main">
-      <div cdkDropListGroup *ngIf="projects$ | async as projectState">
-        <ng-container *ngFor="let project of projectState.projects">
-          <app-project-list [project]="project"></app-project-list>
-        </ng-container>
+  <mat-grid-list cols="2" rowHeight="8rem">
+
+    <div cdkDropListGroup
+         class="projects-drop-group"
+         *ngIf="projects$ | async as projectState">
+
+      <div
+        *ngFor="let project of projectState.projects">
+        <mat-grid-tile class="project-tile">
+          <app-project-list
+            [project]="project"
+          ></app-project-list>
+
+        </mat-grid-tile>
       </div>
+
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </mat-grid-list>
+</div>

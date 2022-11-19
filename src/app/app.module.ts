@@ -23,6 +23,7 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
 import {StoreModule} from '@ngrx/store';
 import {ExportDataComponent} from "./components/export-data/export-data.component";
 import {projectReducer} from "./components/project-list/project.reducer";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {projectReducer} from "./components/project-list/project.reducer";
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MatSliderModule,
     MatIconModule,
@@ -54,7 +56,7 @@ import {projectReducer} from "./components/project-list/project.reducer";
       projects: projectReducer
     }, {})
   ],
-  providers: [],
+  providers: [ HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {

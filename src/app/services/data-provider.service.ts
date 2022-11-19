@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Task} from "../models/task";
 import {ProjectDataMock} from "../mockData/project-data.mock";
-import {Project} from "../models/project.model";
+import {Project, ProjectDatabaseModel} from "../models/project.model";
 import {IdentitySingleton} from "../lib/IdentitySingleton";
 import {TaskFactory} from "../lib/TaskFactory";
 import {ProjectFactory} from "../lib/ProjectFactory";
+import {ProjectService} from "../project.service";
+import {Observable} from "rxjs";
 
 export let taskIdentityProvider = IdentitySingleton.getInstance();
 export let projectIdentityProvider = IdentitySingleton.getInstance();
@@ -21,12 +23,13 @@ export class DataProviderService {
   private nextTaskIndexID = 0;
   private nextProjectIndexID = 0;
 
-  constructor() {
-    this.buildTestProjects();
+  constructor(
+    private projectService: ProjectService
+  ) {
   }
 
-  public getProjects(): Project[] {
-    return this.projects;
+  public getProjects(): Observable<ProjectDatabaseModel[]> {
+    return this.projectService.getProjects();
   }
 
   public addTask(task: Task = new Task()): Task {
@@ -34,6 +37,7 @@ export class DataProviderService {
     this.tasks.push(newTask);
     return newTask;
   }
+
   public addProject(): Project {
     let newProject = projectFactory.newProject();
     this.projects.push(newProject);

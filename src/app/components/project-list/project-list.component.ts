@@ -12,7 +12,7 @@ import {ProjectModel} from "../../models/project.model";
 })
 export class ProjectListComponent implements OnInit {
   @Input() project: ProjectModel = {
-    tasks: [], id: 0, title: ''
+    tasks: [], ID: 0, Title: '', Description: ''
   };
 
   @Output() onProjectChanged = new EventEmitter<Event>();

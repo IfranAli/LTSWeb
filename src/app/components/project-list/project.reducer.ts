@@ -1,12 +1,12 @@
 import {createReducer, on} from '@ngrx/store';
-import {ProjectModel} from "../../models/project.model";
+import {ProjectDatabaseModels, ProjectModel} from "../../models/project.model";
 import {createProject, deleteProject, loadProjects, updateProject} from "./project.actions";
 
 export interface AppState {
   projects: ProjectState;
 }
 
-export interface ProjectState{
+export interface ProjectState {
   projects: ProjectModel[];
 }
 
@@ -16,13 +16,31 @@ export const initialState: ProjectState = {
 
 export const projectReducer = createReducer(
   initialState,
-  on(loadProjects, state => ({...state})),
-  on(createProject, (state) => {
+  on(loadProjects, (state, payload: ProjectDatabaseModels) => {
+    let projects: ProjectModel[] = payload.entities.map(databaseModel => ({
+      ID: databaseModel.ID,
+      Title: databaseModel.Title,
+      Description: databaseModel.Description,
+      tasks: []
+    }));
+
+    return {
+      ...state,
+      projects: [
+        ...state.projects,
+        ...projects
+      ]
+    };
+  }),
+  on(createProject, (state, payload) => {
     return {
       ...state,
       projects: [
         ...state.projects, {
-          id: 0, title: 'New Project', tasks: []
+          ID: 0,
+          Title: payload.Title,
+          Description: payload.Description,
+          tasks: []
         }
       ]
     };

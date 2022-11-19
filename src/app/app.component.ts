@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {DataProviderService} from "./services/data-provider.service";
-import {createProject} from "./components/project-list/project.actions";
+import {createProject, loadProjects} from "./components/project-list/project.actions";
 import {Store} from "@ngrx/store";
 import {AppState, ProjectState} from "./components/project-list/project.reducer";
 import {Observable} from "rxjs";
+import {ProjectDatabaseModel} from "./models/project.model";
 
 @Component({
   selector: 'app-root',
@@ -23,10 +24,14 @@ export class AppComponent {
       console.log(state.projects)
     });
 
-    // todo: Push projects from dataProvider to store.
-    store.dispatch(createProject());
-    store.dispatch(createProject());
-    store.dispatch(createProject());
+    dataProvider.getProjects().subscribe((projects: ProjectDatabaseModel[]) => {
+      store.dispatch(loadProjects({entities: projects}))
+    })
+
+    store.dispatch(createProject({
+      Title: 'new project',
+      Description: 'project description here'
+    }));
   }
 
   trackProjects(index: number, element: any) {

@@ -1,5 +1,4 @@
-import {Task} from "./task";
-import {Project} from "./project.model";
+import {TaskModel} from "./task.model";
 
 export type TaskPinnedEvent = {
   taskID: number;
@@ -7,7 +6,7 @@ export type TaskPinnedEvent = {
 }
 
 export type TaskUpdatedEvent = {
-  task: Task;
+  task: TaskModel;
   reason: string;
   fields: [string]
 }

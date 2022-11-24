@@ -21,7 +21,7 @@ export const projectReducer = createReducer(
       ID: databaseModel.ID,
       Title: databaseModel.Title,
       Description: databaseModel.Description,
-      tasks: []
+      Tasks: databaseModel.Tasks
     }));
 
     return {
@@ -40,7 +40,7 @@ export const projectReducer = createReducer(
           ID: 0,
           Title: payload.Title,
           Description: payload.Description,
-          tasks: []
+          Tasks: []
         }
       ]
     };

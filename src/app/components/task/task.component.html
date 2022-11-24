@@ -11,27 +11,21 @@
       matInput
       type="text"
       [disabled]="task.state === 3"
-      [(ngModel)]="task.title"
-      id="title-{{ task.id }}"
-      name="title-{{ task.id }}"
+      [(ngModel)]="task.Name"
+      id="title-{{ task.ID }}"
+      name="title-{{ task.ID }}"
       placeholder="Input title"
     >
   </mat-form-field>
 
   <button
     class="icon-small"
-    mat-icon-button
-    [color]="task.isPinned ? 'accent' : 'primary'"
-    (click)="onPin(!task.isPinned, task.id)"
-  >
-    <mat-icon>
-      {{task.isPinned ? 'star' : 'star_outline'}}
-    </mat-icon>
+    mat-icon-button>
   </button>
 
   <button
     mat-icon-button
-    (click)="onDelete(task.id)"
+    (click)="onDelete(task.ID)"
   >
     <mat-icon color="warn">delete_outline</mat-icon>
   </button>

@@ -1,26 +1,27 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {ProjectDatabaseModel, ProjectDatabaseModels} from "./models/project.model";
+import {ProjectModel} from "./models/project.model";
+import {TaskDatabaseModel} from "./models/task.model";
+
+// todo: put in env
+const baseUrl = 'http://localhost:7420/api/';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
-
   constructor(
     private http: HttpClient
   ) {
   }
 
   getProjects() {
-    let url = 'http://localhost:7420/api/projects';
-    return this.http.get<ProjectDatabaseModel[]>(url);
+    let url = 'projects';
+    return this.http.get<ProjectModel[]>(baseUrl + url);
   }
 
-  getProject(id: number) {
-    let url = 'http://localhost:7420/api/projects';
-    url += id.toString();
-    return this.http.get(url);
+  getTasks(projectID: number) {
+    let url = `projects/${projectID}/tasks`;
+    return this.http.get<TaskDatabaseModel[]>(baseUrl + url);
   }
 }

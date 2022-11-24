@@ -9,7 +9,7 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {TaskState} from "../../models/task";
+import {TaskState} from "../../models/task.model";
 
 export default {
   component: TaskComponent,

@@ -1,5 +1,4 @@
 import {Meta, moduleMetadata, Story} from "@storybook/angular";
-import {action} from "@storybook/addon-actions";
 import {CommonModule} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSliderModule} from "@angular/material/slider";
@@ -8,11 +7,10 @@ import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {TaskState} from "../../models/task";
 import {TaskComponent} from "../task/task.component";
 import {ProjectListComponent} from "./project-list.component";
 import {MatCardModule} from "@angular/material/card";
-import {MatList, MatListModule} from "@angular/material/list";
+import {MatListModule} from "@angular/material/list";
 
 export default {
   component: ProjectListComponent,

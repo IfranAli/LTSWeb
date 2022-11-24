@@ -21,11 +21,11 @@ describe('Project Tests', () => {
 
   test('All task and project IDs are unique among projects.', () => {
     let projects = ProjectDataMock();
-    let allProjectIds = projects.map(project => project.id);
+    let allProjectIds = projects.map(project => project.ID);
     let allTaskIDs: number[] = [];
 
     for (let project of projects) {
-      allTaskIDs.push(...project.tasks.map(task => task.id));
+      allTaskIDs.push(...project.Tasks.map(task => task.ID));
     }
 
     expect(projects.length).not.toBe(0);

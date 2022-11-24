@@ -4,4 +4,5 @@
 
 :host {
   width: 100%;
+  align-self: flex-start;
 }

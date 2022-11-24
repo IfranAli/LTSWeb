@@ -1,10 +1,10 @@
-import {Task} from "../src/app/models/task";
+import {TaskModel} from "../src/app/models/task.model";
 
 describe('testing tasks', () => {
 
   test('task is not empty', () => {
-    // let task: Task = TaskMockData[0];
+    // let task: TaskModel = TaskMockData[0];
     //
-    // expect(task.title).not.toBe('');
+    // expect(task.Name).not.toBe('');
   })
 });

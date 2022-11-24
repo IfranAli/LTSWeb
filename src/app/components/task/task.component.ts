@@ -1,12 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Task, TaskState} from "../../models/task";
+import {Task, TaskModel, TaskState} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 
 @Component({
   selector: 'app-task', templateUrl: './task.component.html', styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
-  @Input() task: Task = new Task();
+  @Input() task: TaskModel = new Task();
 
   @Output() onPinTask = new EventEmitter<TaskPinnedEvent>();
 
@@ -23,7 +23,7 @@ export class TaskComponent implements OnInit {
    * @param id string
    */
   onPin(state: boolean, id: any) {
-    this.task.isPinned = state;
+    // this.task.isPinned = state;
     this.onPinTask.emit(id);
   }
 
@@ -31,7 +31,7 @@ export class TaskComponent implements OnInit {
     this.task.state = (checked ? TaskState.DONE : TaskState.TODO);
 
     this.onTaskChanged.emit({
-      fields: ['state'], task: this.task, reason: 'Task item checked true'
+      fields: ['state'], task: this.task, reason: 'TaskModel item checked true'
     });
   }
 

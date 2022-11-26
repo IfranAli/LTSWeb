@@ -21,8 +21,7 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {StoreModule} from '@ngrx/store';
-import {ExportDataComponent} from "./components/export-data/export-data.component";
-import {projectReducer} from "./components/project-list/project.reducer";
+import {projectReducer} from "./reducers/project.reducer";
 import {HttpClientModule} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 
@@ -36,7 +35,6 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     TaskEditViewComponent,
     ProjectListComponent,
     ButtonComponent,
-    ExportDataComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,9 +51,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     MatGridListModule,
     MatSidenavModule,
     DragDropModule,
-    StoreModule.forRoot({
-      projects: projectReducer
-    }, {}),
+    StoreModule.forRoot({projectReducer}, {}),
     MatToolbarModule
   ],
   providers: [ HttpClientModule],

@@ -16,6 +16,6 @@ export class DataProviderService {
   }
 
   public getTasksByProject(project: ProjectDatabaseModel): Observable<TaskDatabaseModel[]> {
-    return this.projectService.getTasks(project.ID);
+    return this.projectService.getTasks(project.id);
   }
 }

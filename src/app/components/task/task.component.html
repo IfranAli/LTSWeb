@@ -12,20 +12,15 @@
       type="text"
       [disabled]="task.state === 3"
       [(ngModel)]="task.Name"
-      id="title-{{ task.ID }}"
-      name="title-{{ task.ID }}"
+      id="title-{{ task.id }}"
+      name="title-{{ task.id }}"
       placeholder="Input title"
     >
   </mat-form-field>
 
   <button
-    class="icon-small"
-    mat-icon-button>
-  </button>
-
-  <button
     mat-icon-button
-    (click)="onDelete(task.ID)"
+    (click)="onDelete(task.id)"
   >
     <mat-icon color="warn">delete_outline</mat-icon>
   </button>

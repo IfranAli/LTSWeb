@@ -11,22 +11,19 @@
     </button>
   </mat-toolbar>
 
-  <mat-grid-list cols="5" rowHeight="">
+  <div class="box">
+    <ng-container cdkDropListGroup
+                  class="projects-drop-group">
 
-    <div cdkDropListGroup
-         class="projects-drop-group"
-         *ngIf="projects$ | async as projectState">
-
-      <div
-        *ngFor="let project of projectState.projects">
-        <mat-grid-tile class="project-tile">
-          <app-project-list
-            [project]="project"
-          ></app-project-list>
-
-        </mat-grid-tile>
+      <div *ngFor="let project of projects">
+        <app-project-list
+          [project]="project"
+          (onAddTaskToProject)="addTaskToProject($event)"
+        ></app-project-list>
       </div>
 
-    </div>
-  </mat-grid-list>
+    </ng-container>
+
+  </div>
+
 </div>

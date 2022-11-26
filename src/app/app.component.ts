@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {DataProviderService} from "./services/data-provider.service";
-import {createProject, loadProjects} from "./components/project-list/project.actions";
+import {addTaskToProject, createProject, loadProjects} from "./actions/project.actions";
 import {Store} from "@ngrx/store";
-import {AppState, ProjectState} from "./components/project-list/project.reducer";
-import {Observable} from "rxjs";
+import * as fromProjects from "./reducers/project.reducer";
+import {TaskModel} from "./models/task.model";
+import {AppState} from "./state/AppState";
+import {ProjectModel} from "./models/project.model";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +14,7 @@ import {Observable} from "rxjs";
 })
 export class AppComponent implements OnInit {
   title = 'LTSweb';
-  projects$: Observable<ProjectState> = this.store.select('projects');
+  projects: ProjectModel[] = [];
 
   constructor(
     private dataProvider: DataProviderService,
@@ -22,25 +24,21 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projects$.subscribe(state => {
-      console.log(state.projects)
-    });
-
     this.dataProvider.getProjects().subscribe((projects) => {
       this.store.dispatch(loadProjects({entities: projects}))
+
+      this.store.dispatch(createProject({
+        title: 'new project',
+        description: 'project description here'
+      }));
+
+      this.store.select(fromProjects.selectEntities).subscribe(value => {
+        this.projects = Object.values(value) as ProjectModel[];
+      });
     })
-
-    this.store.dispatch(createProject({
-      Title: 'new project',
-      Description: 'project description here'
-    }));
   }
 
-  trackProjects(index: number, element: any) {
-    return element ? element.id : null
-  }
-
-  deleteItem(id: number) {
-    console.log('deleting' + ' ' + id);
+  addTaskToProject($event: Partial<TaskModel>) {
+    this.store.dispatch(addTaskToProject($event));
   }
 }

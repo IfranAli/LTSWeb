@@ -1,37 +1,40 @@
 import {IdentityInterface} from "./Identity.interface";
 import {TaskModel} from "./task.model";
+import {createEntityAdapter} from "@ngrx/entity";
 
 export interface ProjectModelPublic {
-  Title: string,
-  Description: string
+  title: string,
+  description: string
 }
 
 export interface ProjectDatabaseModel extends ProjectModelPublic, IdentityInterface {
 }
 
 export interface ProjectModel extends ProjectDatabaseModel {
-  Tasks: TaskModel[];
+  tasks: TaskModel[];
 }
 
 export interface ProjectDatabaseModels {
   entities: ProjectModel[];
 }
 
+export const projectAdapter = createEntityAdapter<ProjectModel>();
+
 export class Project implements ProjectModel {
-  ID: number = 0;
-  Title: string = '';
-  Description: string = '';
-  public Tasks: TaskModel[] = [];
+  id: number = 0;
+  title: string = '';
+  description: string = '';
+  public tasks: TaskModel[] = [];
 
   /**
    * Returns the length of tasks in this project.
    */
   public length() {
-    return this.Tasks.length;
+    return this.tasks.length;
   }
 
   public addTask(task: TaskModel): void {
-    task.ProjectID = this.ID;
-    this.Tasks.push(task);
+    task.ProjectID = this.id;
+    this.tasks.push(task);
   }
 }

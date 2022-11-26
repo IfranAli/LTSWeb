@@ -12,7 +12,7 @@ export interface TaskModel extends TaskDatabaseModel {
 }
 
 export class Task implements TaskModel {
-  ID: number = 0;
+  id: number = 0;
   ProjectID: number = 0;
   Name: string = 'new TaskModel';
   Content: string = '';
@@ -23,7 +23,7 @@ export class Task implements TaskModel {
   scheduleSettings?: ScheduleSettings = undefined;
 
   constructor(id: number = 0, title: string = 'Untitled TaskModel') {
-    this.ID = id;
+    this.id = id;
     this.Name = title;
   }
 }

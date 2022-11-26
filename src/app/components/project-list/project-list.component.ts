@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TaskModel} from "../../models/task.model";
-import {DataProviderService} from "../../services/data-provider.service";
+import {TaskModel, TaskState} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {ProjectModel} from "../../models/project.model";
@@ -12,12 +11,13 @@ import {ProjectModel} from "../../models/project.model";
 })
 export class ProjectListComponent implements OnInit {
   @Input() project: ProjectModel = {
-    Tasks: [], ID: 0, Title: '', Description: ''
+    tasks: [], id: 0, title: '', description: ''
   };
 
   @Output() onProjectChanged = new EventEmitter<Event>();
+  @Output() onAddTaskToProject = new EventEmitter<Partial<TaskModel>>();
 
-  constructor(private dataProvider: DataProviderService) {
+  constructor() {
     this.sortTasks();
   }
 
@@ -38,20 +38,20 @@ export class ProjectListComponent implements OnInit {
 
   onTaskDeleted($event: TaskDeletedEvent) {
     if (!this.project) return;
-    if (!(this.project.Tasks.length > 0)) return;
+    if (!(this.project.tasks.length > 0)) return;
 
-    let findIndex = this.project.Tasks.findIndex(value => {
-      return value.ID == $event.taskID;
+    let findIndex = this.project.tasks.findIndex(value => {
+      return value.id == $event.taskID;
     })
 
     if (findIndex && findIndex >= 0) {
-      this.project.Tasks.splice(findIndex, 1);
+      this.project.tasks.splice(findIndex, 1);
     }
   }
 
   drop($event: CdkDragDrop<TaskModel[], any>) {
     if (!this.project) return;
-    if (!(this.project.Tasks.length > 0)) return;
+    if (!(this.project.tasks.length > 0)) return;
 
     let item = $event.item.data as TaskModel;
     // todo:: Find project (source container) from item
@@ -63,12 +63,21 @@ export class ProjectListComponent implements OnInit {
 
   sortTasks(): void {
     if (!this.project) return;
-    if (!(this.project.Tasks.length > 0)) return;
+    if (!(this.project.tasks.length > 0)) return;
 
-    this.project.Tasks.sort(ProjectListComponent.taskSortMethod);
+    this.project.tasks.sort(ProjectListComponent.taskSortMethod);
+  }
+
+  addTaskToProject() {
+    this.onAddTaskToProject.emit({
+      Name: "Task Name",
+      Content: "New Task Content",
+      ProjectID: this.project.id,
+      state: TaskState.TODO
+    })
   }
 
   private hasTasks(): boolean {
-    return (this.project) ? (this.project.Tasks?.length > 0) : false;
+    return (this.project) ? (this.project.tasks?.length > 0) : false;
   }
 }

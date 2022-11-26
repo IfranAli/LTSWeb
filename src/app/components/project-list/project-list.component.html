@@ -1,14 +1,14 @@
 <div *ngIf="project" class="project-list">
   <mat-card>
-    <mat-card-title>{{project.Title}}</mat-card-title>
-    <mat-card-subtitle>{{project.Description}}</mat-card-subtitle>
+    <mat-card-title>{{project.title}}</mat-card-title>
+    <mat-card-subtitle>{{project.description}}</mat-card-subtitle>
 
     <div
       cdkDropList
-      [cdkDropListData]="project.Tasks"
+      [cdkDropListData]="project.tasks"
       (cdkDropListDropped)="drop($event)">
 
-      <div class="example-box" *ngFor="let task of project.Tasks"
+      <div class="example-box" *ngFor="let task of project.tasks"
            cdkDrag
            [cdkDragData]="task"
       >
@@ -20,5 +20,11 @@
         </app-task>
       </div>
     </div>
+
+    <mat-card-actions align="end">
+      <button mat-icon-button>
+        <mat-icon (click)="addTaskToProject()">add</mat-icon>
+      </button>
+    </mat-card-actions>
   </mat-card>
 </div>

@@ -70,9 +70,9 @@ export class ProjectListComponent implements OnInit {
 
   addTaskToProject() {
     this.onAddTaskToProject.emit({
-      Name: "Task Name",
-      Content: "New Task Content",
-      ProjectID: this.project.id,
+      name: "Task Name",
+      content: "New Task Content",
+      projectId: this.project.id,
       state: TaskState.TODO
     })
   }

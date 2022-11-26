@@ -2,9 +2,9 @@ import {ScheduleSettings} from "./ScheduleSettings";
 import {IdentityInterface} from "./Identity.interface";
 
 export interface TaskDatabaseModel extends IdentityInterface {
-  ProjectID: number
-  Name: string,
-  Content: string,
+  projectId: number
+  name: string,
+  content: string,
 }
 
 export interface TaskModel extends TaskDatabaseModel {
@@ -13,18 +13,16 @@ export interface TaskModel extends TaskDatabaseModel {
 
 export class Task implements TaskModel {
   id: number = 0;
-  ProjectID: number = 0;
-  Name: string = 'new TaskModel';
-  Content: string = '';
+  projectId: number = 0;
+  name: string = 'new TaskModel';
+  content: string = '';
   state: TaskState = TaskState.TODO;
 
-  isPinned: boolean = false;
-  isArchived: boolean = false;
   scheduleSettings?: ScheduleSettings = undefined;
 
   constructor(id: number = 0, title: string = 'Untitled TaskModel') {
     this.id = id;
-    this.Name = title;
+    this.name = title;
   }
 }
 

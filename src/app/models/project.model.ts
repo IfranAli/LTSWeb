@@ -34,7 +34,7 @@ export class Project implements ProjectModel {
   }
 
   public addTask(task: TaskModel): void {
-    task.ProjectID = this.id;
+    task.projectId = this.id;
     this.tasks.push(task);
   }
 }

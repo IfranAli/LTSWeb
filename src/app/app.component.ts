@@ -2,10 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {DataProviderService} from "./services/data-provider.service";
 import {addTaskToProject, createProject, loadProjects} from "./actions/project.actions";
 import {Store} from "@ngrx/store";
-import * as fromProjects from "./reducers/project.reducer";
+import * as fromProjects from "./reducers/projects.reducer";
 import {TaskModel} from "./models/task.model";
-import {AppState} from "./state/AppState";
 import {ProjectModel} from "./models/project.model";
+import {AppState} from "./reducers";
 
 @Component({
   selector: 'app-root',
@@ -35,6 +35,10 @@ export class AppComponent implements OnInit {
       this.store.select(fromProjects.selectEntities).subscribe(value => {
         this.projects = Object.values(value) as ProjectModel[];
       });
+
+      console.log(this.store.subscribe(value => {
+        console.log(value);
+      }));
     })
   }
 

@@ -21,9 +21,9 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSidenavModule} from "@angular/material/sidenav";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {StoreModule} from '@ngrx/store';
-import {projectReducer} from "./reducers/project.reducer";
 import {HttpClientModule} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {reducers} from "./reducers";
 
 @NgModule({
   declarations: [
@@ -51,7 +51,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
     MatGridListModule,
     MatSidenavModule,
     DragDropModule,
-    StoreModule.forRoot({projectReducer}, {}),
+    StoreModule.forRoot(reducers, {}),
     MatToolbarModule
   ],
   providers: [ HttpClientModule],

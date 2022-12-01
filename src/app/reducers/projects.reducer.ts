@@ -1,23 +1,26 @@
 import {createFeatureSelector, createReducer, on} from '@ngrx/store';
 import {projectAdapter, ProjectModel} from "../models/project.model";
 import {createProject, deleteProject, loadProjects, updateProject} from "../actions/project.actions";
-import {AppState} from "../state/AppState";
 
-const defaultProject = {
+export interface ProjectsState {
   ids: [],
   entities: {}
 }
 
-export const initialProjectState = projectAdapter.getInitialState(defaultProject);
+const defaultProject: ProjectsState = {
+  entities: {},
+  ids: []
+}
 
-export const selectProjectState = createFeatureSelector<AppState>('projectReducer');
+const initialProjectState = projectAdapter.getInitialState(defaultProject);
+export const selectProjectState = createFeatureSelector<ProjectsState>('projects');
 
 export const {
   selectIds,
   selectEntities
 } = projectAdapter.getSelectors(selectProjectState);
 
-export const projectReducer = createReducer(
+export const projectsReducer = createReducer(
   initialProjectState,
   on(loadProjects, (state, payload) => {
     return projectAdapter.addMany(payload.entities, state);

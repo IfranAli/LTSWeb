@@ -1,5 +1,7 @@
 <div *ngIf="project" class="project-list">
-  <mat-card>
+  <mat-card
+    [style.background]="projectColour"
+  >
     <mat-card-title>{{project.title}}</mat-card-title>
     <mat-card-subtitle>{{project.description}}</mat-card-subtitle>
 

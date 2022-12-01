@@ -17,7 +17,12 @@ export class ProjectListComponent implements OnInit {
   @Output() onProjectChanged = new EventEmitter<Event>();
   @Output() onAddTaskToProject = new EventEmitter<Partial<TaskModel>>();
 
+  projectColour: string = '#d2d2d2';
+
   constructor() {
+    // todo: Make it not so random.
+    const randomColor = '#'+(0x1000000+Math.random()*0xffffff).toString(16).substr(1,6)
+    this.projectColour = randomColor;
     this.sortTasks();
   }
 

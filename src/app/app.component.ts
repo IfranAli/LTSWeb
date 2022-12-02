@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {DataProviderService} from "./services/data-provider.service";
-import {addTaskToProject, createProject, loadProjects} from "./actions/project.actions";
+import {createProject, loadProjects} from "./actions/project.actions";
 import {Store} from "@ngrx/store";
 import * as fromProjects from "./reducers/projects.reducer";
-import {TaskModel} from "./models/task.model";
+import {TaskModel, TaskState} from "./models/task.model";
 import {ProjectModel} from "./models/project.model";
 import {AppState} from "./reducers";
+import {loadTasks} from "./actions/task.actions";
 
 @Component({
   selector: 'app-root',
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
       this.store.dispatch(loadProjects({entities: projects}))
 
       this.store.dispatch(createProject({
+        colour: "",
         title: 'new project',
         description: 'project description here'
       }));
@@ -40,9 +42,19 @@ export class AppComponent implements OnInit {
         console.log(value);
       }));
     })
-  }
 
-  addTaskToProject($event: Partial<TaskModel>) {
-    this.store.dispatch(addTaskToProject($event));
+    this.dataProvider.getTasks().subscribe(dbTasks => {
+      const taskModels: TaskModel[] = dbTasks.map(dbTask => {
+        return {
+          id: dbTask.id,
+          projectId: dbTask.projectId,
+          name: dbTask.name,
+          content: dbTask.content,
+          state: TaskState.TODO
+        }
+      })
+
+      this.store.dispatch(loadTasks({entities: taskModels}))
+    });
   }
 }

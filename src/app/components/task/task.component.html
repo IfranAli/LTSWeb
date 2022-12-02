@@ -10,8 +10,8 @@
     <input
       matInput
       type="text"
-      [disabled]="task.state === 3"
-      [(ngModel)]="task.name"
+      [formGroup]="formGroup"
+      [formControl]="formGroup.controls.name"
       id="title-{{ task.id }}"
       name="title-{{ task.id }}"
       placeholder="Input title"

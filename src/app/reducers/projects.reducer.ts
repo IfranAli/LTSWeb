@@ -30,6 +30,7 @@ export const projectsReducer = createReducer(
       id: payload.id ?? 0,
       title: payload.title ?? '',
       description: payload.description ?? '',
+      colour: payload.colour ?? '',
       tasks: []
     }
     return projectAdapter.addOne(project, state)

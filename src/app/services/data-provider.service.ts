@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {TaskDatabaseModel} from "../models/task.model";
-import {ProjectDatabaseModel, ProjectModel} from "../models/project.model";
-import {ProjectService} from "../project.service";
+import {TaskDatabaseModel, TaskDatabaseModels, TaskModelPublic} from "../models/task.model";
+import {ProjectModel} from "../models/project.model";
+import {ProjectService, ResponseMessage} from "../project.service";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -15,7 +15,15 @@ export class DataProviderService {
     return this.projectService.getProjects();
   }
 
-  public getTasksByProject(project: ProjectDatabaseModel): Observable<TaskDatabaseModel[]> {
-    return this.projectService.getTasks(project.id);
+  public getTasks(): Observable<TaskDatabaseModel[]> {
+    return this.projectService.getTasks();
+  }
+
+  public addTask(task: Partial<TaskModelPublic>): Observable<TaskDatabaseModel[]> {
+    return this.projectService.createTaskOnProject(task);
+  }
+
+  public deleteTask(taskId: number): Observable<ResponseMessage> {
+    return this.projectService.deleteTask(taskId);
   }
 }

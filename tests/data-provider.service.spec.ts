@@ -11,6 +11,5 @@ describe('DataProviderService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    expect(service.getProjects().length).not.toBe(0);
   });
 });

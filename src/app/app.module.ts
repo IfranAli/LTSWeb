@@ -11,7 +11,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {TaskEditViewComponent} from './components/task-edit-view/task-edit-view.component';
 import {ProjectListComponent} from './components/project-list/project-list.component';
@@ -52,7 +52,8 @@ import {reducers} from "./reducers";
     MatSidenavModule,
     DragDropModule,
     StoreModule.forRoot(reducers, {}),
-    MatToolbarModule
+    MatToolbarModule,
+    ReactiveFormsModule
   ],
   providers: [ HttpClientModule],
   bootstrap: [AppComponent]

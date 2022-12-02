@@ -18,7 +18,6 @@
       <div *ngFor="let project of projects">
         <app-project-list
           [project]="project"
-          (onAddTaskToProject)="addTaskToProject($event)"
         ></app-project-list>
       </div>
 

@@ -1,4 +1,4 @@
-import {createFeatureSelector, createReducer, on} from '@ngrx/store';
+import {createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
 import {TaskModel, tasksAdapter, TaskState} from "../models/task.model";
 import {createTask, deleteTask, loadTasks, updateTask} from "../actions/task.actions";
 
@@ -27,18 +27,29 @@ export const tasksReducer = createReducer(
   }),
   on(createTask, (state, payload: Partial<TaskModel>) => {
     const newTask: TaskModel = {
-      content: "New task",
-      id: payload.id ?? 999,
-      name: "test test",
+      content: payload.content ?? '',
+      id: payload.id!,
+      name: payload.name ?? '',
       projectId: payload.projectId ?? 0,
       state: TaskState.TODO
     }
     return tasksAdapter.addOne(newTask, state)
   }),
-  on(updateTask, (state) => {
-    return state;
+  on(updateTask, (state, payload) => {
+    return tasksAdapter.updateOne({
+      changes: {
+        name: payload.name,
+        content: payload.content,
+        projectId: payload.projectId,
+      },
+      id: payload.id
+    }, state);
   }),
-  on(deleteTask, (state) => {
+  on(deleteTask, (state, payload) => {
+    if (payload.id != null) {
+      return tasksAdapter.removeOne(payload.id, state);
+    }
+
     return state;
   }),
 );

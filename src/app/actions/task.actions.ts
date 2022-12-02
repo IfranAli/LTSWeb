@@ -1,13 +1,13 @@
 import {createAction, props} from "@ngrx/store";
 import {IdentityInterface} from "../models/Identity.interface";
-import {TaskDatabaseModels, TaskModel, TaskModelPublic} from "../models/task.model";
+import {TaskDatabaseModels, TaskModel} from "../models/task.model";
 
 export const createTask = createAction(
-  'Create Task action', props<TaskModelPublic>()
+  'Create Task action', props<TaskModel>()
 );
 
 export const updateTask = createAction(
-  'Update Task action', props<TaskModelPublic>()
+  'Update Task action', props<TaskModel>()
 );
 
 export const deleteTask = createAction(

@@ -5,6 +5,7 @@ import {createEntityAdapter} from "@ngrx/entity";
 export interface ProjectModelPublic {
   title: string,
   description: string
+  colour: string
 }
 
 export interface ProjectDatabaseModel extends ProjectModelPublic, IdentityInterface {
@@ -24,6 +25,7 @@ export class Project implements ProjectModel {
   id: number = 0;
   title: string = '';
   description: string = '';
+  colour: string = '#D2D2D2';
   public tasks: TaskModel[] = [];
 
   /**

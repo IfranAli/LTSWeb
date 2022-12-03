@@ -6,12 +6,17 @@
 }
 
 .list-item {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: baseline;
+  justify-content: flex-start;
+
   button {
     width: auto;
   }
 }
 
 mat-form-field {
-  width: auto;
   padding-left: 10px;
+  flex-grow: 1;
 }

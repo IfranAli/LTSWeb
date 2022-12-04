@@ -1,0 +1,24 @@
+<mat-form-field appearance="standard" [formGroup]="taskForm">
+  <mat-label>Name</mat-label>
+  <input matInput [formGroup]="taskForm" [formControl]="taskForm.controls.name">
+</mat-form-field>
+
+<mat-form-field appearance="standard">
+  <mat-label>State</mat-label>
+  <input matInput [formGroup]="taskForm" [formControl]="taskForm.controls.state">
+</mat-form-field>
+
+<mat-form-field appearance="standard">
+  <mat-label>Content</mat-label>
+  <input matInput [formGroup]="taskForm" [formControl]="taskForm.controls.content">
+</mat-form-field>
+
+<mat-form-field appearance="standard">
+  <mat-label>Project ID</mat-label>
+  <input matInput [formGroup]="taskForm" [formControl]="taskForm.controls.projectId">
+</mat-form-field>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="getDialogData()">Save</button>
+</div>

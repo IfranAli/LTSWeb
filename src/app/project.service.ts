@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ProjectModel} from "./models/project.model";
-import {TaskDatabaseModel, TaskModelPublic} from "./models/task.model";
+import {TaskDatabaseModel, TaskModel, TaskModelPublic} from "./models/task.model";
 
 // todo: put in env
 const baseUrl = 'http://localhost:7420/api/';
@@ -38,6 +38,11 @@ export class ProjectService {
   createTaskOnProject(task: Partial<TaskModelPublic>) {
     const url = `projects/${task.projectId}`;
     return this.http.post<TaskDatabaseModel[]>(baseUrl + url, task);
+  }
+
+  updateTask(task: Partial<TaskModel>) {
+    const url = `tasks/${task.id}`;
+    return this.http.put<TaskDatabaseModel[]>(baseUrl + url, task);
   }
 
   deleteTask(taskId: number) {

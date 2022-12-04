@@ -23,6 +23,10 @@ export class DataProviderService {
     return this.projectService.createTaskOnProject(task);
   }
 
+  public updateTask(task: Partial<TaskModelPublic>): Observable<TaskDatabaseModel[]> {
+    return this.projectService.updateTask(task);
+  }
+
   public deleteTask(taskId: number): Observable<ResponseMessage> {
     return this.projectService.deleteTask(taskId);
   }

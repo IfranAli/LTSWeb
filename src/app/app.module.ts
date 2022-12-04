@@ -24,6 +24,8 @@ import {StoreModule} from '@ngrx/store';
 import {HttpClientModule} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {reducers} from "./reducers";
+import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -35,6 +37,7 @@ import {reducers} from "./reducers";
     TaskEditViewComponent,
     ProjectListComponent,
     ButtonComponent,
+    EditTaskDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import {reducers} from "./reducers";
     DragDropModule,
     StoreModule.forRoot(reducers, {}),
     MatToolbarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
   ],
   providers: [ HttpClientModule],
   bootstrap: [AppComponent]

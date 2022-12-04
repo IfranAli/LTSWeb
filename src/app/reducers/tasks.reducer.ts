@@ -27,10 +27,10 @@ export const tasksReducer = createReducer(
   }),
   on(createTask, (state, payload: Partial<TaskModel>) => {
     const newTask: TaskModel = {
-      content: payload.content ?? '',
       id: payload.id!,
-      name: payload.name ?? '',
       projectId: payload.projectId ?? 0,
+      name: payload.name ?? '',
+      content: payload.content ?? '',
       state: TaskState.TODO
     }
     return tasksAdapter.addOne(newTask, state)

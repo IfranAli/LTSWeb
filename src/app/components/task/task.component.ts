@@ -5,8 +5,10 @@ import {FormControl, FormGroup} from "@angular/forms";
 import {debounceTime, distinctUntilChanged} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers";
-import {createTask, deleteTask, updateTask} from "../../actions/task.actions";
+import {deleteTask, updateTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
+import {MatDialog} from "@angular/material/dialog";
+import {EditTaskDialogComponent} from "../../edit-task-dialog/edit-task-dialog.component";
 
 @Component({
   selector: 'app-task', templateUrl: './task.component.html', styleUrls: ['./task.component.scss']
@@ -27,6 +29,7 @@ export class TaskComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private dataProvider: DataProviderService,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -45,7 +48,7 @@ export class TaskComponent implements OnInit {
           content: this.task.content,
         }
 
-        this.store.dispatch(updateTask(this.task))
+        this.updateTask();
       })
   }
 
@@ -60,5 +63,24 @@ export class TaskComponent implements OnInit {
     }, error => {
       console.log(error);
     })
+  }
+
+  updateTask() {
+    this.dataProvider.updateTask(this.task).subscribe(value => {
+      this.store.dispatch(updateTask(this.task))
+    })
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+      width: '250px',
+      data: {task: this.task},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result)
+      }
+    });
   }
 }

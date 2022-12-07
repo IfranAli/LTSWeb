@@ -79,7 +79,15 @@ export class TaskComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result)
+        const model: TaskModel = {
+          ...result
+        }
+
+        this.dataProvider.updateTask(model).subscribe(value => {
+          this.store.dispatch(updateTask({
+            ...model
+          }));
+        })
       }
     });
   }

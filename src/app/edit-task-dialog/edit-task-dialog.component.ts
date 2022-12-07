@@ -40,6 +40,7 @@ export class EditTaskDialogComponent implements OnInit {
   getDialogData(): TaskModel {
     return {
       ...this.task,
+      name: this.taskForm.controls.name.value ?? this.task.name,
       state: this.taskForm.controls.state.value ?? this.task.state,
       content: this.taskForm.controls.content.value ?? this.task.content,
       projectId: this.taskForm.controls.projectId.value ?? this.task.projectId,

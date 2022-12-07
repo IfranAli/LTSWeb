@@ -42,7 +42,7 @@ export const tasksReducer = createReducer(
         content: payload.content,
         projectId: payload.projectId,
       },
-      id: payload.id
+      id: payload.id!
     }, state);
   }),
   on(deleteTask, (state, payload) => {

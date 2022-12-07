@@ -7,7 +7,7 @@ export const createTask = createAction(
 );
 
 export const updateTask = createAction(
-  'Update Task action', props<TaskModel>()
+  'Update Task action', props<Partial<TaskModel>>()
 );
 
 export const deleteTask = createAction(

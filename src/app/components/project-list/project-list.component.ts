@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TaskDatabaseModel, TaskModel, TaskState} from "../../models/task.model";
+import {TaskDatabaseModel, TaskModel, TaskModelPublic, TaskState} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {ProjectModel} from "../../models/project.model";
@@ -8,7 +8,7 @@ import {AppState} from "../../reducers";
 
 import * as fromTask from "../../reducers/tasks.reducer"
 import {Dictionary} from "@ngrx/entity";
-import {createTask} from "../../actions/task.actions";
+import {createTask, updateTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
 import {EditProjectDialogComponent} from "../../edit-project-dialog/edit-project-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -88,8 +88,23 @@ export class ProjectListComponent implements OnInit {
     if (!this.project) return;
     if (!(this.project.tasks.length > 0)) return;
 
-    let item = $event.item.data as TaskModel;
-    // todo:: Find project (source container) from item
+    const item = $event.item.data as TaskModel;
+    const destinationContainer = $event.container;
+    const containerID = destinationContainer.id.split('-').pop() ?? '';
+    const newProjectID = Number.parseInt(containerID) ?? item.id;
+
+    let model: TaskDatabaseModel = {
+      id: item.id,
+      content: item.content,
+      name: item.name,
+      projectId: newProjectID,
+    }
+    this.dataProvider.updateTask(model).subscribe(value => {
+      const model: TaskDatabaseModel = value.shift()!;
+      this.store.dispatch(updateTask({
+        ...model
+      }));
+    })
   }
 
   onTaskPinned($event: TaskPinnedEvent) {

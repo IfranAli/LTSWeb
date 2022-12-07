@@ -1,0 +1,25 @@
+.project-list {
+  margin: 1rem 0.5rem;
+}
+
+mat-card {
+  mat-card-title {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    mat-icon {
+      vertical-align: baseline;
+    }
+  }
+
+  background: #d0d0d0;
+}
+
+:host {
+  /*width: 100%;*/
+  /*align-self: flex-start;*/
+}

@@ -1,5 +1,5 @@
 import {createAction, props} from "@ngrx/store";
-import {ProjectDatabaseModels, ProjectModelPublic} from "../models/project.model";
+import {ProjectDatabaseModel, ProjectDatabaseModels, ProjectModelPublic} from "../models/project.model";
 import {IdentityInterface} from "../models/Identity.interface";
 import {TaskModel} from "../models/task.model";
 
@@ -8,7 +8,7 @@ export const createProject = createAction(
 );
 
 export const updateProject = createAction(
-  'Update project action', props<ProjectModelPublic>()
+  'Update project action', props<ProjectDatabaseModel>()
 );
 
 export const deleteProject = createAction(

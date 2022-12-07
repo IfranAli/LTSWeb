@@ -10,11 +10,14 @@ import * as fromTask from "../../reducers/tasks.reducer"
 import {Dictionary} from "@ngrx/entity";
 import {createTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
+import {EditProjectDialogComponent} from "../../edit-project-dialog/edit-project-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {updateProject} from "../../actions/project.actions";
 
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.css']
+  styleUrls: ['./project-list.component.scss']
 })
 export class ProjectListComponent implements OnInit {
   @Input() project: ProjectModel = {
@@ -29,6 +32,7 @@ export class ProjectListComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private dataProvider: DataProviderService,
+    private dialog: MatDialog,
   ) {
     this.sortTasks();
   }
@@ -122,7 +126,24 @@ export class ProjectListComponent implements OnInit {
     })
   }
 
-  private hasTasks(): boolean {
-    return (this.project) ? (this.project.tasks?.length > 0) : false;
+  openDialog() {
+    const dialogRef = this.dialog.open(EditProjectDialogComponent, {
+      width: '250px',
+      data: {project: this.project},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        const model: ProjectModel = {
+          ...result
+        }
+
+        this.dataProvider.updateProject(model).subscribe(value => {
+          this.store.dispatch(updateProject({
+            ...model
+          }));
+        })
+      }
+    });
   }
 }

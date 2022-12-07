@@ -26,6 +26,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {reducers} from "./reducers";
 import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     ProjectListComponent,
     ButtonComponent,
     EditTaskDialogComponent,
+    EditProjectDialogComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ProjectModel} from "./models/project.model";
+import {ProjectDatabaseModel, ProjectModel} from "./models/project.model";
 import {TaskDatabaseModel, TaskModel, TaskModelPublic} from "./models/task.model";
 
 // todo: put in env
@@ -48,5 +48,10 @@ export class ProjectService {
   deleteTask(taskId: number) {
     const url = `tasks/${taskId}`;
     return this.http.delete<ResponseMessage>(baseUrl + url);
+  }
+
+  updateProject(model: ProjectModel) {
+    const url = `projects/${model.id}`;
+    return this.http.put<ProjectDatabaseModel[]>(baseUrl + url, model);
   }
 }

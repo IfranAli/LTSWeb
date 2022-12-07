@@ -2,7 +2,13 @@
   <mat-card
     [style.background]="projectColour"
   >
-    <mat-card-title>{{project.title}}</mat-card-title>
+    <mat-card-title>
+      {{project.title}}
+
+      <button mat-icon-button (click)="openDialog()">
+        <mat-icon color="secondary">settings</mat-icon>
+      </button>
+    </mat-card-title>
     <mat-card-subtitle>{{project.description}}</mat-card-subtitle>
 
     <div

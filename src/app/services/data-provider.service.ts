@@ -30,4 +30,8 @@ export class DataProviderService {
   public deleteTask(taskId: number): Observable<ResponseMessage> {
     return this.projectService.deleteTask(taskId);
   }
+
+  updateProject(model: ProjectModel) {
+    return this.projectService.updateProject(model);
+  }
 }

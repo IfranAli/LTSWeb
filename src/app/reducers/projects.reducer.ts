@@ -35,8 +35,13 @@ export const projectsReducer = createReducer(
     }
     return projectAdapter.addOne(project, state)
   }),
-  on(updateProject, (state) => {
-    return state;
+  on(updateProject, (state, payload) => {
+    return projectAdapter.updateOne({
+      changes: {
+        ...payload
+      },
+      id: payload.id,
+    }, state);
   }),
   on(deleteProject, (state) => {
     return state;

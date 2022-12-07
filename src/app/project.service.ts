@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ProjectDatabaseModel, ProjectModel} from "./models/project.model";
 import {TaskDatabaseModel, TaskModel, TaskModelPublic} from "./models/task.model";
+import {environment} from "../environments/environment";
 
-// todo: put in env
-const baseUrl = 'http://localhost:7420/api/';
+const baseUrl = environment.backendURL;
 
 export interface ResponseMessage {
   success: boolean,

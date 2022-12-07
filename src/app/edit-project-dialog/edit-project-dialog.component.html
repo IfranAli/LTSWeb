@@ -1,0 +1,19 @@
+<mat-form-field appearance="standard" [formGroup]="form">
+  <mat-label>Title</mat-label>
+  <input matInput [formGroup]="form" [formControl]="form.controls.title">
+</mat-form-field>
+
+<mat-form-field appearance="standard">
+  <mat-label>Content</mat-label>
+  <input matInput [formGroup]="form" [formControl]="form.controls.content">
+</mat-form-field>
+
+<mat-form-field appearance="standard">
+  <mat-label>Colour</mat-label>
+  <input matInput [formGroup]="form" [formControl]="form.controls.colour">
+</mat-form-field>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="getDialogData()">Save</button>
+</div>

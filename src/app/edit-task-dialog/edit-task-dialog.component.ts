@@ -1,7 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {TaskModel, TaskState} from "../models/task.model";
+import {TaskModel } from "../models/task.model";
 import {FormControl, FormGroup} from "@angular/forms";
+import {TaskState} from "../constants/constants";
 
 @Component({
   selector: 'app-edit-task-dialog',

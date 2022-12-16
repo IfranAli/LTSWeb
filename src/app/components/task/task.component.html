@@ -1,26 +1,45 @@
 <div class="project-task-item {{ task.state }}">
 
-  <mat-checkbox
-    [checked]="task.state == 3"
-    (change)="onTaskToggle($event.checked)"
-  >
-  </mat-checkbox>
+  <div class="task-controls">
+    <mat-checkbox
+      [checked]="task.state == 3"
+      (change)="onTaskToggle($event.checked)">
+    </mat-checkbox>
 
-  <mat-form-field class="example-form-field" appearance="standard">
-    <input
-      matInput
-      type="text"
-      [formGroup]="formGroup"
-      [formControl]="formGroup.controls.name"
-      id="title-{{ task.id }}"
-      name="title-{{ task.id }}"
-      placeholder="Input title"
-    >
-  </mat-form-field>
+    <div class="align-left">
+      <!--  TODO = 0, IN_PROGRESS = 1, BLOCKED = 2, DONE = 3,-->
+      <ng-container [ngSwitch]="task.state">
+        <mat-icon *ngSwitchCase="1" color="secondary">double_arrow</mat-icon>
+        <mat-icon *ngSwitchCase="2" color="secondary">block</mat-icon>
+      </ng-container>
 
-  <button mat-icon-button [cdkMenuTriggerFor]="menu">
-    <mat-icon color="secondary">more_horiz</mat-icon>
-  </button>
+      <!--  Priority Low, Standard, High -->
+      <!--  <mat-icon color="secondary">keyboard_double_arrow_down</mat-icon>-->
+      <!--  <mat-icon color="secondary">minimize</mat-icon>-->
+      <!--  <mat-icon color="secondary">keyboard_double_arrow_up</mat-icon>-->
+    </div>
+
+    <div class="stretch">
+<!--      <mat-form-field class="example-form-field" appearance="standard">-->
+<!--        <input-->
+<!--          matInput-->
+<!--          type="text"-->
+<!--          [formGroup]="formGroup"-->
+<!--          [formControl]="formGroup.controls.name"-->
+<!--          id="title-{{ task.id }}"-->
+<!--          name="title-{{ task.id }}"-->
+<!--          placeholder="Input title"-->
+<!--        >-->
+<!--      </mat-form-field>-->
+      <span>{{ task.name }}</span>
+    </div>
+
+    <div class="align-left">
+      <button mat-icon-button [cdkMenuTriggerFor]="menu">
+        <mat-icon color="secondary">more_vert</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>
 
 <ng-template #menu>

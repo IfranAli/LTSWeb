@@ -3,10 +3,11 @@ import {DataProviderService} from "./services/data-provider.service";
 import {createProject, loadProjects} from "./actions/project.actions";
 import {Store} from "@ngrx/store";
 import * as fromProjects from "./reducers/projects.reducer";
-import {TaskModel, TaskState} from "./models/task.model";
+import {TaskModel,} from "./models/task.model";
 import {ProjectModel} from "./models/project.model";
 import {AppState} from "./reducers";
 import {loadTasks} from "./actions/task.actions";
+import {TaskState} from "./constants/constants";
 
 @Component({
   selector: 'app-root',
@@ -44,7 +45,7 @@ export class AppComponent implements OnInit {
           projectId: dbTask.projectId,
           name: dbTask.name,
           content: dbTask.content,
-          state: TaskState.TODO
+          state: dbTask.state,
         }
       })
 

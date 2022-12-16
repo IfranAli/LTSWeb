@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Task, TaskDatabaseModel, TaskModel, TaskState} from "../../models/task.model";
+import {Task, TaskModel} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {FormControl, FormGroup} from "@angular/forms";
 import {debounceTime, distinctUntilChanged} from "rxjs";
@@ -9,6 +9,7 @@ import {deleteTask, updateTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
 import {MatDialog} from "@angular/material/dialog";
 import {EditTaskDialogComponent} from "../../edit-task-dialog/edit-task-dialog.component";
+import {TaskState} from "../../constants/constants";
 
 @Component({
   selector: 'app-task', templateUrl: './task.component.html', styleUrls: ['./task.component.scss']

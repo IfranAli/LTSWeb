@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TaskDatabaseModel, TaskModel, TaskModelPublic, TaskState} from "../../models/task.model";
+import {TaskDatabaseModel, TaskModel, } from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {ProjectModel} from "../../models/project.model";
@@ -13,6 +13,7 @@ import {DataProviderService} from "../../services/data-provider.service";
 import {EditProjectDialogComponent} from "../../edit-project-dialog/edit-project-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {updateProject} from "../../actions/project.actions";
+import {TaskState} from "../../constants/constants";
 
 @Component({
   selector: 'app-project-list',
@@ -95,6 +96,7 @@ export class ProjectListComponent implements OnInit {
       content: item.content,
       name: item.name,
       projectId: newProjectID,
+      state: item.state
     }
     this.dataProvider.updateTask(model).subscribe(value => {
       const model: TaskDatabaseModel = value.shift()!;

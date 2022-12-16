@@ -21,3 +21,7 @@ export enum DaySegments {
 export enum Priority { LOW, MEDIUM, HIGH, HIGHEST }
 
 export enum RepetitionType { ONCE, MULTIPLE }
+
+export enum TaskState {
+  TODO = 0, IN_PROGRESS = 1, BLOCKED = 2, DONE = 3,
+}

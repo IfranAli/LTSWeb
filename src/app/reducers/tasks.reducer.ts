@@ -1,6 +1,7 @@
-import {createFeatureSelector, createReducer, createSelector, on} from '@ngrx/store';
-import {TaskModel, tasksAdapter, TaskState} from "../models/task.model";
+import {createFeatureSelector, createReducer, on} from '@ngrx/store';
+import {TaskModel, tasksAdapter} from "../models/task.model";
 import {createTask, deleteTask, loadTasks, updateTask} from "../actions/task.actions";
+import {TaskState} from "../constants/constants";
 
 export interface TasksState {
   ids: [],
@@ -31,7 +32,7 @@ export const tasksReducer = createReducer(
       projectId: payload.projectId ?? 0,
       name: payload.name ?? '',
       content: payload.content ?? '',
-      state: TaskState.TODO
+      state: payload.state ?? TaskState.TODO,
     }
     return tasksAdapter.addOne(newTask, state)
   }),
@@ -41,6 +42,7 @@ export const tasksReducer = createReducer(
         name: payload.name,
         content: payload.content,
         projectId: payload.projectId,
+        state: payload.state,
       },
       id: payload.id!
     }, state);

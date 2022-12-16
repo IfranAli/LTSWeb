@@ -1,18 +1,20 @@
 import {ScheduleSettings} from "./ScheduleSettings";
 import {IdentityInterface} from "./Identity.interface";
 import {createEntityAdapter} from "@ngrx/entity";
+import {TaskState} from "../constants/constants";
 
 export interface TaskModelPublic {
   projectId: number
   name: string,
   content: string,
+  state: TaskState;
 }
 
 export interface TaskDatabaseModel extends TaskModelPublic, IdentityInterface {
 }
 
 export interface TaskModel extends TaskDatabaseModel {
-  state: TaskState;
+
 }
 
 export interface TaskDatabaseModels {
@@ -34,8 +36,4 @@ export class Task implements TaskModel {
     this.id = id;
     this.name = title;
   }
-}
-
-export enum TaskState {
-  TODO = 0, IN_PROGRESS = 1, BLOCKED = 2, DONE = 3,
 }

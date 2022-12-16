@@ -28,12 +28,6 @@ export class AppComponent implements OnInit {
     this.dataProvider.getProjects().subscribe((projects) => {
       this.store.dispatch(loadProjects({entities: projects}))
 
-      this.store.dispatch(createProject({
-        colour: "",
-        title: 'new project',
-        description: 'project description here'
-      }));
-
       this.store.select(fromProjects.selectEntities).subscribe(value => {
         this.projects = Object.values(value) as ProjectModel[];
       });

@@ -1,4 +1,4 @@
-<div class="list-item {{ task.state }}">
+<div class="project-task-item {{ task.state }}">
 
   <mat-checkbox
     [checked]="task.state == 3"
@@ -17,15 +17,24 @@
       placeholder="Input title"
     >
   </mat-form-field>
-  <button mat-icon-button (click)="openDialog()">
-    <mat-icon color="secondary">edit</mat-icon>
-  </button>
 
-  <button
-    mat-icon-button
-    (click)="onDelete(task.id)"
-  >
-    <mat-icon color="warn">delete_outline</mat-icon>
+  <button mat-icon-button [cdkMenuTriggerFor]="menu">
+    <mat-icon color="secondary">more_horiz</mat-icon>
   </button>
-
 </div>
+
+<ng-template #menu>
+  <div class="example-menu" cdkMenu>
+    <button mat-flat-button
+            class="example-menu-item"
+            (click)="openDialog()">
+      Edit
+    </button>
+
+    <button mat-flat-button
+            class="example-menu-item"
+            (click)="onDelete(task.id)">
+      Delete
+    </button>
+  </div>
+</ng-template>

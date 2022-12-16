@@ -1,27 +1,34 @@
+@use "src/styles/global/colors" as global;
+@use "src/styles/global/style" as style;
+
+body {
+}
+
 .container {
   width: 100%;
   height: 100vh;
+
+  .toolbar {
+    background: global.$toolbar-bg;
+    box-shadow: style.$box-shadow;
+    font-size: style.$font-large;
+  }
+
+  $grid-size: 50px;
+  $dash-length: 5px;
+  $dash-width: 1px;
+  $dash-color: global.$layer-three-bg;
+  $background: global.$layer-two-bg;
+
+  background-color: $background;
+  background-size: $dash-length*2 $dash-length*2, $grid-size $grid-size;
+  background-image: linear-gradient(to bottom, transparent $dash-length, $background $dash-length),
+  linear-gradient(to right, $dash-color $dash-width, transparent $dash-width),
+  linear-gradient(to right, transparent $dash-length, $background $dash-length),
+  linear-gradient(to bottom, $dash-color $dash-width, transparent $dash-width);
 }
 
 .box {
   display: flex;
-}
-
-@media only screen and (max-width: 600px) {
-  .box {
-    height: auto;
-    margin: 1rem;
-    flex-direction: column;
-    flex-wrap: nowrap;
-  }
-}
-
-@media only screen and (max-width: 1000px) {
-  .box {
-    flex-wrap: wrap;
-  }
-}
-
-.box > * {
-  flex: 1 1 auto;
+  flex-wrap: wrap;
 }

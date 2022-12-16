@@ -1,11 +1,15 @@
 @use "src/styles/global/colors";
+@use "src/styles/global/style" as style;
 
-.list-item.TASK_ARCHIVED input[type="text"] {
+.project-task-item.TASK_ARCHIVED input[type="text"] {
   color: colors.$color-archived;
   text-decoration: line-through;
 }
 
-.list-item {
+.project-task-item {
+  margin-left: 1rem;
+  margin-right: 1rem;
+
   display: flex;
   flex-wrap: nowrap;
   align-items: baseline;
@@ -19,4 +23,36 @@
 mat-form-field {
   padding-left: 10px;
   flex-grow: 1;
+}
+
+.example-menu {
+  border-style: solid;
+  border-width: 2px;
+  display: inline-flex;
+  flex-direction: column;
+  min-width: 100px;
+  background-color: white;
+  padding: 6px 0;
+  box-shadow: style.$box-shadow;
+}
+
+.example-menu .example-menu-item {
+  width: 100%;
+  border-radius: 0;
+  text-align: left;
+}
+
+.example-menu-item:hover {
+  background-color: rgb(208, 208, 208);
+}
+
+.example-menu-item:active {
+  background-color: rgb(170, 170, 170);
+}
+
+.example-standalone-item {
+  background-color: rgb(239, 239, 239);
+}
+.example-standalone-item:hover {
+  background-color: rgb(208, 208, 208);
 }

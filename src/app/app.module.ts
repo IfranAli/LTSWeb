@@ -27,6 +27,7 @@ import {reducers} from "./reducers";
 import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
+import {CdkMenuModule} from "@angular/cdk/menu";
 
 @NgModule({
   declarations: [
@@ -41,26 +42,27 @@ import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-d
     EditTaskDialogComponent,
     EditProjectDialogComponent,
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatSliderModule,
-    MatIconModule,
-    MatButtonModule,
-    MatInputModule,
-    FormsModule,
-    MatCheckboxModule,
-    MatCardModule,
-    MatListModule,
-    MatGridListModule,
-    MatSidenavModule,
-    DragDropModule,
-    StoreModule.forRoot(reducers, {}),
-    MatToolbarModule,
-    ReactiveFormsModule,
-    MatDialogModule,
-  ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatSliderModule,
+        MatIconModule,
+        MatButtonModule,
+        MatInputModule,
+        FormsModule,
+        MatCheckboxModule,
+        MatCardModule,
+        MatListModule,
+        MatGridListModule,
+        MatSidenavModule,
+        DragDropModule,
+        StoreModule.forRoot(reducers, {}),
+        MatToolbarModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        CdkMenuModule,
+    ],
   providers: [ HttpClientModule],
   bootstrap: [AppComponent]
 })

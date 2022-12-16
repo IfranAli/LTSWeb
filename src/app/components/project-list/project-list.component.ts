@@ -85,9 +85,6 @@ export class ProjectListComponent implements OnInit {
   }
 
   drop($event: CdkDragDrop<TaskModel[], any>) {
-    if (!this.project) return;
-    if (!(this.project.tasks.length > 0)) return;
-
     const item = $event.item.data as TaskModel;
     const destinationContainer = $event.container;
     const containerID = destinationContainer.id.split('-').pop() ?? '';

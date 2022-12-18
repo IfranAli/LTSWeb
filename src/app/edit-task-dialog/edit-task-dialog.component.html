@@ -9,6 +9,11 @@
 </mat-form-field>
 
 <mat-form-field appearance="standard">
+  <mat-label>Priority</mat-label>
+  <input matInput [formGroup]="taskForm" [formControl]="taskForm.controls.priority">
+</mat-form-field>
+
+<mat-form-field appearance="standard">
   <mat-label>Content</mat-label>
   <input matInput [formGroup]="taskForm" [formControl]="taskForm.controls.content">
 </mat-form-field>

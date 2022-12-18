@@ -1,13 +1,23 @@
 import {ScheduleSettings} from "./ScheduleSettings";
 import {IdentityInterface} from "./Identity.interface";
 import {createEntityAdapter} from "@ngrx/entity";
-import {TaskState} from "../constants/constants";
+import {Priority, TaskState} from "../constants/constants";
 
 export interface TaskModelPublic {
   projectId: number
   name: string,
   content: string,
-  state: TaskState;
+  state: TaskState,
+  priority: Priority,
+}
+
+const defaultTask: TaskModel = {
+  content: "",
+  id: -1,
+  name: "",
+  projectId: -1,
+  state: TaskState.TODO,
+  priority: Priority.MEDIUM,
 }
 
 export interface TaskDatabaseModel extends TaskModelPublic, IdentityInterface {
@@ -24,16 +34,31 @@ export interface TaskDatabaseModels {
 export const tasksAdapter = createEntityAdapter<TaskModel>();
 
 export class Task implements TaskModel {
-  id: number = 0;
-  projectId: number = 0;
-  name: string = 'new TaskModel';
-  content: string = '';
-  state: TaskState = TaskState.TODO;
+  id: number = defaultTask.id;
+  projectId: number = defaultTask.projectId;
+  name: string = defaultTask.name;
+  content: string = defaultTask.content;
+  state: TaskState = defaultTask.state;
+  priority = defaultTask.priority;
 
   scheduleSettings?: ScheduleSettings = undefined;
 
-  constructor(id: number = 0, title: string = 'Untitled TaskModel') {
+  constructor(id: number = 0, name: string = defaultTask.name) {
     this.id = id;
-    this.name = title;
+    this.name = name;
+  }
+}
+
+export function createTaskModel(
+  model: Partial<TaskModel> = {},
+  defaultVar: TaskModel = defaultTask
+): TaskModel {
+  return {
+    id: model.id ?? defaultVar.id,
+    projectId: model.projectId ?? defaultVar.projectId,
+    name: model.name ?? defaultVar.name,
+    content: model.content ?? defaultVar.content,
+    state: model.state ?? defaultTask.state,
+    priority: model.priority ?? defaultVar.priority,
   }
 }

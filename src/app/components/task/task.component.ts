@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Task, TaskModel} from "../../models/task.model";
+import {createTaskModel, Task, TaskModel} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {FormControl, FormGroup} from "@angular/forms";
 import {debounceTime, distinctUntilChanged} from "rxjs";
@@ -42,11 +42,8 @@ export class TaskComponent implements OnInit {
       .subscribe(value => {
 
         this.task = {
-          id: this.task.id,
-          projectId: this.task.projectId,
-          state: TaskState.TODO,
+          ...createTaskModel(this.task),
           name: value.name ?? this.task.name,
-          content: this.task.content,
         }
 
         this.updateTask();

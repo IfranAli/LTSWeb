@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {DataProviderService} from "./services/data-provider.service";
-import {createProject, loadProjects} from "./actions/project.actions";
+import {loadProjects} from "./actions/project.actions";
 import {Store} from "@ngrx/store";
 import * as fromProjects from "./reducers/projects.reducer";
-import {TaskModel,} from "./models/task.model";
+import {createTaskModel, } from "./models/task.model";
 import {ProjectModel} from "./models/project.model";
 import {AppState} from "./reducers";
 import {loadTasks} from "./actions/task.actions";
-import {TaskState} from "./constants/constants";
 
 @Component({
   selector: 'app-root',
@@ -39,17 +38,9 @@ export class AppComponent implements OnInit {
     })
 
     this.dataProvider.getTasks().subscribe(dbTasks => {
-      const taskModels: TaskModel[] = dbTasks.map(dbTask => {
-        return {
-          id: dbTask.id,
-          projectId: dbTask.projectId,
-          name: dbTask.name,
-          content: dbTask.content,
-          state: dbTask.state,
-        }
-      })
-
-      this.store.dispatch(loadTasks({entities: taskModels}))
+      this.store.dispatch(loadTasks({
+        entities: dbTasks.map(dbTask => createTaskModel(dbTask))
+      }))
     });
   }
 }

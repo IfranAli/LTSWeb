@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TaskDatabaseModel, TaskModel, } from "../../models/task.model";
+import {createTaskModel, TaskDatabaseModel, TaskModel,} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
 import {ProjectModel} from "../../models/project.model";
@@ -91,17 +91,15 @@ export class ProjectListComponent implements OnInit {
     const containerID = destinationContainer.id.split('-').pop() ?? '';
     const newProjectID = Number.parseInt(containerID) ?? item.id;
 
-    let model: TaskDatabaseModel = {
-      id: item.id,
-      content: item.content,
-      name: item.name,
-      projectId: newProjectID,
-      state: item.state
-    }
+    let model = createTaskModel({
+      ...item,
+      projectId: newProjectID
+    })
+
     this.dataProvider.updateTask(model).subscribe(value => {
-      const model: TaskDatabaseModel = value.shift()!;
+      const response: TaskDatabaseModel = value.shift()!;
       this.store.dispatch(updateTask({
-        ...model
+        ...response
       }));
     })
   }
@@ -119,6 +117,7 @@ export class ProjectListComponent implements OnInit {
 
   addTaskToProject() {
     const task = {
+      ...createTaskModel(),
       projectId: this.project.id,
       content: '',
       state: TaskState.TODO,
@@ -129,11 +128,7 @@ export class ProjectListComponent implements OnInit {
       const responseTask: TaskDatabaseModel = result.shift()!;
 
       this.store.dispatch(createTask({
-        id: responseTask.id,
-        projectId: responseTask.projectId,
-        name: responseTask.name,
-        content: responseTask.content,
-        state: TaskState.TODO,
+        ...createTaskModel(responseTask),
       }))
     }, error => {
 

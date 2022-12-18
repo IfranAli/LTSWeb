@@ -1,8 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {TaskModel } from "../models/task.model";
+import {createTaskModel, TaskModel} from "../models/task.model";
 import {FormControl, FormGroup} from "@angular/forms";
-import {TaskState} from "../constants/constants";
+import {Priority, TaskState} from "../constants/constants";
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -15,7 +15,8 @@ export class EditTaskDialogComponent implements OnInit {
     'name': new FormControl<string>(''),
     'content': new FormControl<string>(''),
     'projectId': new FormControl<number>(0),
-    'state': new FormControl<TaskState>(0),
+    'state': new FormControl<TaskState>(TaskState.TODO),
+    'priority': new FormControl<Priority>(Priority.MEDIUM),
   });
 
   constructor(
@@ -28,6 +29,7 @@ export class EditTaskDialogComponent implements OnInit {
       content: this.task.content,
       projectId: this.task.projectId,
       state: this.task.state,
+      priority: this.task.priority,
     })
   }
 
@@ -39,12 +41,7 @@ export class EditTaskDialogComponent implements OnInit {
   }
 
   getDialogData(): TaskModel {
-    return {
-      ...this.task,
-      name: this.taskForm.controls.name.value ?? this.task.name,
-      state: this.taskForm.controls.state.value ?? this.task.state,
-      content: this.taskForm.controls.content.value ?? this.task.content,
-      projectId: this.taskForm.controls.projectId.value ?? this.task.projectId,
-    }
+    const taskForm = this.taskForm.getRawValue() as Partial<TaskModel>;
+    return createTaskModel(taskForm, this.task);
   }
 }

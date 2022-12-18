@@ -1,5 +1,5 @@
 import {createFeatureSelector, createReducer, on} from '@ngrx/store';
-import {TaskModel, tasksAdapter} from "../models/task.model";
+import {createTaskModel, TaskModel, tasksAdapter} from "../models/task.model";
 import {createTask, deleteTask, loadTasks, updateTask} from "../actions/task.actions";
 import {TaskState} from "../constants/constants";
 
@@ -27,22 +27,12 @@ export const tasksReducer = createReducer(
     return tasksAdapter.addMany(payload.entities, state);
   }),
   on(createTask, (state, payload: Partial<TaskModel>) => {
-    const newTask: TaskModel = {
-      id: payload.id!,
-      projectId: payload.projectId ?? 0,
-      name: payload.name ?? '',
-      content: payload.content ?? '',
-      state: payload.state ?? TaskState.TODO,
-    }
-    return tasksAdapter.addOne(newTask, state)
+    return tasksAdapter.addOne(createTaskModel(payload), state)
   }),
   on(updateTask, (state, payload) => {
     return tasksAdapter.updateOne({
       changes: {
-        name: payload.name,
-        content: payload.content,
-        projectId: payload.projectId,
-        state: payload.state,
+        ...createTaskModel(payload),
       },
       id: payload.id!
     }, state);

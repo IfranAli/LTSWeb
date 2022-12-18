@@ -62,13 +62,10 @@ mat-form-field {
   display: flex;
   align-items: center;
 
-  mat-checkbox {
-    padding-right: 1rem;
-  }
-
   .align-left {
     display: flex;
-    align-items: start;
+    align-items: flex-start;
+    padding-left: 1rem;
   }
 
   .stretch {

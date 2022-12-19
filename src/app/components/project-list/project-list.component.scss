@@ -14,15 +14,20 @@ mat-card {
   color: global.$color-text-dark;
   box-shadow: style.$box-shadow;
   border-radius: 0;
-  padding: 1rem 0 1rem 0;
+  padding: 0.8rem 0 1rem 0;
 
   mat-card-title {
+    margin: 0;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     align-content: center;
     justify-content: space-between;
     align-items: flex-start;
+
+    button {
+      height: 2rem;
+    }
 
     mat-icon {
       vertical-align: baseline;
@@ -40,11 +45,17 @@ mat-card {
   color: global.$color-text-dark;
   background: global.$layer-two-bg;
   overflow: hidden;
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: style.$task-width;
   min-width: style.$task-width;
   min-height: style.$task-height;
   border-bottom: solid 1px #ccc;
+}
+
+.list-item {
+  border-style: none none solid none;
+  padding: 0.8rem 0.3rem;
 }
 
 .cdk-drag-preview {

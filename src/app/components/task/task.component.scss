@@ -76,3 +76,31 @@ mat-form-field {
     align-items: end;
   }
 }
+
+.status-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 0 0.2rem;
+  border-radius: 0px;
+}
+
+.todo{
+  background: #a4a4a4;
+  color: white;
+}
+
+.in-progress{
+  background: #ffdd3d;
+  color: white;
+}
+
+.blocked {
+  background: #e86767;
+  color: white;
+}
+
+.done {
+  background: #58dc66;
+  color: white;
+}

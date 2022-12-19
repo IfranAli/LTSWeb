@@ -7,12 +7,6 @@
     </mat-checkbox>
 
     <div class="align-left">
-      <!--  TODO = 0, IN_PROGRESS = 1, BLOCKED = 2, DONE = 3,-->
-      <ng-container [ngSwitch]="task.state">
-        <mat-icon *ngSwitchCase="1" color="secondary">double_arrow</mat-icon>
-        <mat-icon *ngSwitchCase="2" color="secondary">block</mat-icon>
-      </ng-container>
-
       <!--  Priority Low, Standard, High -->
       <!--  <mat-icon color="secondary">keyboard_double_arrow_down</mat-icon>-->
       <!--  <mat-icon color="secondary">minimize</mat-icon>-->
@@ -20,21 +14,28 @@
     </div>
 
     <div class="stretch">
-<!--      <mat-form-field class="example-form-field" appearance="standard">-->
-<!--        <input-->
-<!--          matInput-->
-<!--          type="text"-->
-<!--          [formGroup]="formGroup"-->
-<!--          [formControl]="formGroup.controls.name"-->
-<!--          id="title-{{ task.id }}"-->
-<!--          name="title-{{ task.id }}"-->
-<!--          placeholder="Input title"-->
-<!--        >-->
-<!--      </mat-form-field>-->
+      <!--      <mat-form-field class="example-form-field" appearance="standard">-->
+      <!--        <input-->
+      <!--          matInput-->
+      <!--          type="text"-->
+      <!--          [formGroup]="formGroup"-->
+      <!--          [formControl]="formGroup.controls.name"-->
+      <!--          id="title-{{ task.id }}"-->
+      <!--          name="title-{{ task.id }}"-->
+      <!--          placeholder="Input title"-->
+      <!--        >-->
+      <!--      </mat-form-field>-->
       <span>{{ task.name }}</span>
     </div>
 
-    <div class="align-left">
+    <ng-container [ngSwitch]="task.state">
+      <span *ngSwitchCase="0" class="status-text todo">Todo</span>
+      <span *ngSwitchCase="1" class="status-text in-progress">In progress</span>
+      <span *ngSwitchCase="2" class="status-text blocked">Blocked</span>
+      <span *ngSwitchCase="3" class="status-text done">Done</span>
+    </ng-container>
+
+    <div>
       <button mat-icon-button [cdkMenuTriggerFor]="menu">
         <mat-icon color="secondary">more_vert</mat-icon>
       </button>

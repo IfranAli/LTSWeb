@@ -28,6 +28,7 @@ import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.com
 import {MatDialogModule} from "@angular/material/dialog";
 import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
 import {CdkMenuModule} from "@angular/cdk/menu";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import {CdkMenuModule} from "@angular/cdk/menu";
         ReactiveFormsModule,
         MatDialogModule,
         CdkMenuModule,
+        MatSelectModule,
     ],
   providers: [ HttpClientModule],
   bootstrap: [AppComponent]

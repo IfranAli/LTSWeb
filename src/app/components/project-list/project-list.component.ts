@@ -137,8 +137,8 @@ export class ProjectListComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(EditProjectDialogComponent, {
-      width: '250px',
       data: {project: this.project},
+      panelClass: ['dialog-style', 'dialog-small'],
     });
 
     dialogRef.afterClosed().subscribe(result => {

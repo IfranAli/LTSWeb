@@ -7,7 +7,7 @@ import {Priority, TaskState} from "../constants/constants";
 @Component({
   selector: 'app-edit-task-dialog',
   templateUrl: './edit-task-dialog.component.html',
-  styleUrls: ['./edit-task-dialog.component.css']
+  styleUrls: ['./edit-task-dialog.component.scss']
 })
 export class EditTaskDialogComponent implements OnInit {
   task: TaskModel;
@@ -16,8 +16,10 @@ export class EditTaskDialogComponent implements OnInit {
     'content': new FormControl<string>(''),
     'projectId': new FormControl<number>(0),
     'state': new FormControl<TaskState>(TaskState.TODO),
-    'priority': new FormControl<Priority>(Priority.MEDIUM),
+    'priority': new FormControl<number>(Priority.MEDIUM),
   });
+
+  public Priority = Priority;
 
   constructor(
     public dialogRef: MatDialogRef<EditTaskDialogComponent>,

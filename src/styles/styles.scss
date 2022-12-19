@@ -1,0 +1,27 @@
+@use "src/styles/global/colors" as global;
+@use "src/styles/global/style" as style;
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.dialog-style .mat-dialog-container {
+  background: global.$layer-two-bg;
+  box-shadow: style.$box-shadow;
+  border-radius: 0;
+}
+
+.dialog-large {
+  width: style.$dialog-large;
+}
+
+.dialog-small {
+  width: style.$dialog-small;
+}

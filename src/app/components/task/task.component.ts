@@ -71,8 +71,8 @@ export class TaskComponent implements OnInit {
 
   openDialog() {
     const dialogRef = this.dialog.open(EditTaskDialogComponent, {
-      width: '250px',
       data: {task: this.task},
+      panelClass: ['dialog-style', 'dialog-small'],
     });
 
     dialogRef.afterClosed().subscribe(result => {

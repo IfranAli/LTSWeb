@@ -35,15 +35,27 @@ export class ProjectListComponent implements OnInit {
     private dataProvider: DataProviderService,
     private dialog: MatDialog,
   ) {
-    this.sortTasks();
   }
 
   private static taskSortMethod(a: TaskModel, b: TaskModel): number {
-    if (a.state > b.state) {
+    // All done tasks go to the bottom of the list.
+    if (a.state == TaskState.DONE) {
+      return 1;
+    } else if (b.state == TaskState.DONE) {
       return -1;
     }
 
-    return 1;
+    // Compare state.
+    if (a.priority == b.priority) {
+      if (a.state == b.state) {
+        return 0;
+      } else {
+          return a.state > b.state ? -1 : 1
+      }
+    }
+
+    // Compare priority.
+    return a.priority > b.priority ? -1 : 1
   }
 
   ngOnInit(): void {
@@ -57,7 +69,9 @@ export class ProjectListComponent implements OnInit {
 
     this.store.select(fromTask.selectEntities).subscribe((tasks: Dictionary<TaskModel>) => {
       const taskArray: TaskModel[] = Object.values(tasks) as TaskModel[] ?? [];
-      const filtered = taskArray.filter(value => value.projectId == this.project.id);
+      const filtered = taskArray
+        .filter(value => value.projectId == this.project.id)
+        .sort(ProjectListComponent.taskSortMethod)
 
       if (filtered != []) {
         this.project = {
@@ -69,7 +83,6 @@ export class ProjectListComponent implements OnInit {
   }
 
   onTaskChanged(task: TaskUpdatedEvent) {
-    this.sortTasks();
   }
 
   onTaskDeleted($event: TaskDeletedEvent) {
@@ -105,14 +118,6 @@ export class ProjectListComponent implements OnInit {
   }
 
   onTaskPinned($event: TaskPinnedEvent) {
-    this.sortTasks();
-  }
-
-  sortTasks(): void {
-    if (!this.project) return;
-    if (!(this.project.tasks.length > 0)) return;
-
-    this.project.tasks.sort(ProjectListComponent.taskSortMethod);
   }
 
   addTaskToProject() {

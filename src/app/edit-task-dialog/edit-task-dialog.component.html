@@ -7,7 +7,6 @@
   <mat-form-field appearance="fill">
     <mat-label>State</mat-label>
     <mat-select [formControl]="taskForm.controls.state">
-      <mat-option>None</mat-option>
       <mat-option [value]="0">Todo</mat-option>
       <mat-option [value]="1">In progress</mat-option>
       <mat-option [value]="2">Blocked</mat-option>
@@ -28,7 +27,6 @@
   <mat-form-field appearance="fill">
     <mat-label>Priority</mat-label>
     <mat-select [formControl]="taskForm.controls.priority">
-      <mat-option>None</mat-option>
       <mat-option [value]="0">Lowest</mat-option>
       <mat-option [value]="1">Medium</mat-option>
       <mat-option [value]="2">High</mat-option>

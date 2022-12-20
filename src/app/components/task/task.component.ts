@@ -66,8 +66,7 @@ export class TaskComponent implements OnInit {
   }
 
   onTaskToggle(checked: boolean) {
-    this.task.state = (checked ? TaskState.DONE : TaskState.TODO);
-
+    // todo: update state with new task state.
   }
 
   onDelete(id: number) {

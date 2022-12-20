@@ -10,9 +10,24 @@ import {DataProviderService} from "../../services/data-provider.service";
 import {MatDialog} from "@angular/material/dialog";
 import {EditTaskDialogComponent} from "../../edit-task-dialog/edit-task-dialog.component";
 import {TaskState} from "../../constants/constants";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {CdkMenuModule} from "@angular/cdk/menu";
+import {BrowserModule} from "@angular/platform-browser";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
-  selector: 'app-task', templateUrl: './task.component.html', styleUrls: ['./task.component.scss']
+  standalone: true,
+  selector: 'app-task',
+  templateUrl: './task.component.html',
+  styleUrls: ['./task.component.scss'],
+  imports: [
+    BrowserModule,
+    MatCheckboxModule,
+    CdkMenuModule,
+    MatIconModule,
+    MatButtonModule,
+  ]
 })
 export class TaskComponent implements OnInit {
   @Input() task: TaskModel = new Task();

@@ -1,5 +1,5 @@
 import {createFeatureSelector, createReducer, on} from '@ngrx/store';
-import {projectAdapter, ProjectModel} from "../models/project.model";
+import {createProjectModel, projectAdapter, ProjectModel} from "../models/project.model";
 import {createProject, deleteProject, loadProjects, updateProject} from "../actions/project.actions";
 
 export interface ProjectsState {
@@ -26,19 +26,12 @@ export const projectsReducer = createReducer(
     return projectAdapter.addMany(payload.entities, state);
   }),
   on(createProject, (state, payload: Partial<ProjectModel>) => {
-    const project: ProjectModel = {
-      id: payload.id ?? 0,
-      title: payload.title ?? '',
-      description: payload.description ?? '',
-      colour: payload.colour ?? '',
-      tasks: []
-    }
-    return projectAdapter.addOne(project, state)
+    return projectAdapter.addOne({...createProjectModel(payload)}, state)
   }),
   on(updateProject, (state, payload) => {
     return projectAdapter.updateOne({
       changes: {
-        ...payload
+        ...createProjectModel(payload),
       },
       id: payload.id,
     }, state);

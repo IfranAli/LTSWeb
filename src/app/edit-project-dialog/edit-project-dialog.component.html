@@ -5,6 +5,11 @@
   </mat-form-field>
 
   <mat-form-field appearance="standard">
+    <mat-label>Project Code</mat-label>
+    <input matInput [formControl]="form.controls.code">
+  </mat-form-field>
+
+  <mat-form-field appearance="standard">
     <mat-label>Content</mat-label>
     <input matInput [formControl]="form.controls.content">
   </mat-form-field>

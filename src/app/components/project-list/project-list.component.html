@@ -10,7 +10,10 @@
           <mat-icon color="secondary">settings</mat-icon>
         </button>
       </mat-card-title>
-      <mat-card-subtitle>{{project.description}}</mat-card-subtitle>
+      <mat-card-subtitle>
+        <span>{{project.description}}</span>
+        <span class="code">{{project.code}}</span>
+      </mat-card-subtitle>
     </div>
 
     <div

@@ -18,11 +18,11 @@ import {TaskState} from "../../constants/constants";
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.scss']
+  styleUrls: ['./project-list.component.scss'],
 })
 export class ProjectListComponent implements OnInit {
   @Input() project: ProjectModel = {
-    tasks: [], id: 0, title: '', description: '', colour: '#A0A0D0'
+    tasks: [], id: 0, title: '', description: '', colour: '#A0A0D0', code: ''
   };
 
   @Output() onProjectChanged = new EventEmitter<Event>();

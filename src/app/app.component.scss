@@ -10,8 +10,32 @@ body {
 
   .toolbar {
     background: global.$toolbar-bg;
-    box-shadow: style.$box-shadow;
+    border-width: style.$border-width;
+    border-style: style.$border-style-bottom;
     font-size: style.$font-large;
+  }
+
+  .mat-sidenav-container {
+    height: inherit;
+
+    .mat-nav-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+
+      width: 4rem;
+      height: inherit;
+      border-width: style.$border-width;
+      border-style: none solid none none;
+      background: global.$toolbar-bg;
+
+      button {
+        width: inherit;
+        height: auto;
+        padding: 1rem 0 1rem;
+      }
+    }
   }
 
   $grid-size: 50px;
@@ -31,4 +55,8 @@ body {
 .box {
   display: flex;
   flex-wrap: wrap;
+}
+
+.mat-drawer-container {
+  background: none;
 }

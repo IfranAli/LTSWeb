@@ -1,28 +1,44 @@
 <div class="container" role="main">
   <mat-toolbar class="toolbar">
-    <button mat-icon-button>
+    <button mat-icon-button (click)="sideNav.toggle()">
       <mat-icon>menu</mat-icon>
     </button>
 
     <span>LTSWeb</span>
     <span class="example-spacer"></span>
-    <button mat-icon-button>
-      <mat-icon>code</mat-icon>
-    </button>
+    <mat-icon>code</mat-icon>
   </mat-toolbar>
 
-  <div class="box">
-    <ng-container cdkDropListGroup
-                  class="projects-drop-group">
+  <mat-sidenav-container>
+    <mat-sidenav #sideNav mode="side">
+      <mat-nav-list>
+        <button mat-icon-button>
+          <mat-icon color="secondary">settings</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon color="secondary">settings</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon color="secondary">settings</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon color="secondary">settings</mat-icon>
+        </button>
+      </mat-nav-list>
+    </mat-sidenav>
 
-      <div *ngFor="let project of projects">
-        <app-project-list
-          [project]="project"
-        ></app-project-list>
-      </div>
+    <mat-sidenav-content class="box">
+      <ng-container cdkDropListGroup
+                    class="projects-drop-group">
 
-    </ng-container>
+        <div *ngFor="let project of projects">
+          <app-project-list
+            [project]="project"
+          ></app-project-list>
+        </div>
 
-  </div>
+      </ng-container>
 
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

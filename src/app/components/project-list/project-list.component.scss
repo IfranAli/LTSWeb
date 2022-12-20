@@ -35,7 +35,15 @@ mat-card {
   }
 
   mat-card-subtitle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     color: global.$color-text-dark;
+    margin: 0.5rem 0 0.8rem;
+
+    .code {
+      font-weight: bold;
+    }
   }
 
   background: global.$app-bg-main;

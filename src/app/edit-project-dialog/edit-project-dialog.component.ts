@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ProjectModel} from "../models/project.model";
+import {generateCode, ProjectModel} from "../models/project.model";
 import {FormControl, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 
@@ -14,6 +14,7 @@ export class EditProjectDialogComponent implements OnInit {
     'title': new FormControl<string>(''),
     'content': new FormControl<string>(''),
     'colour': new FormControl<string>(''),
+    'code': new FormControl<string>(''),
   });
 
   constructor(
@@ -25,6 +26,7 @@ export class EditProjectDialogComponent implements OnInit {
       title: this.model.title,
       content: this.model.description,
       colour: this.model.colour,
+      code: this.model.code,
     })
   }
 
@@ -36,11 +38,19 @@ export class EditProjectDialogComponent implements OnInit {
   }
 
   getDialogData(): ProjectModel {
+    const title = this.form.controls.title.value ?? this.model.title;
+    let projectCode = this.form.controls.code.value ?? this.model.code;
+
+    if (projectCode.length == 0) {
+      projectCode = generateCode(title);
+    }
+
     return {
       ...this.model,
-      title: this.form.controls.title.value ?? this.model.title,
+      title: title,
       description: this.form.controls.content.value ?? this.model.description,
       colour: this.form.controls.colour.value ?? this.model.colour,
+      code: projectCode,
     }
   }
 

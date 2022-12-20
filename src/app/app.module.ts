@@ -24,9 +24,9 @@ import {StoreModule} from '@ngrx/store';
 import {HttpClientModule} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {reducers} from "./reducers";
-import { EditTaskDialogComponent } from './edit-task-dialog/edit-task-dialog.component';
+import {EditTaskDialogComponent} from './edit-task-dialog/edit-task-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { EditProjectDialogComponent } from './edit-project-dialog/edit-project-dialog.component';
+import {EditProjectDialogComponent} from './edit-project-dialog/edit-project-dialog.component';
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {MatSelectModule} from "@angular/material/select";
 
@@ -36,36 +36,36 @@ import {MatSelectModule} from "@angular/material/select";
     ButtonComponent,
     PageComponent,
     HeaderComponent,
-    TaskComponent,
     TaskEditViewComponent,
     ProjectListComponent,
     ButtonComponent,
     EditTaskDialogComponent,
     EditProjectDialogComponent,
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        BrowserAnimationsModule,
-        MatSliderModule,
-        MatIconModule,
-        MatButtonModule,
-        MatInputModule,
-        FormsModule,
-        MatCheckboxModule,
-        MatCardModule,
-        MatListModule,
-        MatGridListModule,
-        MatSidenavModule,
-        DragDropModule,
-        StoreModule.forRoot(reducers, {}),
-        MatToolbarModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        CdkMenuModule,
-        MatSelectModule,
-    ],
-  providers: [ HttpClientModule],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatSliderModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule,
+    FormsModule,
+    MatCheckboxModule,
+    MatCardModule,
+    MatListModule,
+    MatGridListModule,
+    MatSidenavModule,
+    DragDropModule,
+    StoreModule.forRoot(reducers, {}),
+    MatToolbarModule,
+    ReactiveFormsModule,
+    MatDialogModule,
+    CdkMenuModule,
+    MatSelectModule,
+    TaskComponent,
+  ],
+  providers: [HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,0 +1,17 @@
+@use "src/styles/global/colors" as colors;
+@use "src/styles/global/style" as style;
+
+.login-dialog {
+  box-shadow: style.$box-shadow;
+  background: colors.$layer-two-bg;
+}
+
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}

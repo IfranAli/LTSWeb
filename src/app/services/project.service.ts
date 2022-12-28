@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ProjectDatabaseModel, ProjectModel} from "./models/project.model";
-import {TaskDatabaseModel, TaskModel, TaskModelPublic} from "./models/task.model";
-import {environment} from "../environments/environment";
+import {ProjectDatabaseModel, ProjectModel} from "../models/project.model";
+import {TaskDatabaseModel, TaskModel, TaskModelPublic} from "../models/task.model";
+import {environment} from "../../environments/environment";
 
 const baseUrl = environment.backendURL;
 

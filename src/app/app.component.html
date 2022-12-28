@@ -28,8 +28,12 @@
     </mat-sidenav>
 
     <mat-sidenav-content class="box">
+      <app-login-dialog *ngIf="!user" (onUserLogin)="onUserLogin($event)"></app-login-dialog>
+
       <ng-container cdkDropListGroup
-                    class="projects-drop-group">
+                    class="projects-drop-group"
+                    *ngIf="user"
+      >
 
         <div *ngFor="let project of projects">
           <app-project-list

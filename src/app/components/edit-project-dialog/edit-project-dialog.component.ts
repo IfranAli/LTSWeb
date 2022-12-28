@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {generateCode, ProjectModel} from "../models/project.model";
+import {generateCode, ProjectModel} from "../../models/project.model";
 import {FormControl, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 

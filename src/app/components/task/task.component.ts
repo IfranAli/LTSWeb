@@ -8,7 +8,7 @@ import {AppState} from "../../reducers";
 import {deleteTask, updateTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
 import {MatDialog} from "@angular/material/dialog";
-import {EditTaskDialogComponent} from "../../edit-task-dialog/edit-task-dialog.component";
+import {EditTaskDialogComponent} from "../edit-task-dialog/edit-task-dialog.component";
 import {TaskState} from "../../constants/constants";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {CdkMenuModule} from "@angular/cdk/menu";

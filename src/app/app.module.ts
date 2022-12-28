@@ -24,11 +24,12 @@ import {StoreModule} from '@ngrx/store';
 import {HttpClientModule} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {reducers} from "./reducers";
-import {EditTaskDialogComponent} from './edit-task-dialog/edit-task-dialog.component';
-import {MatDialogModule} from "@angular/material/dialog";
-import {EditProjectDialogComponent} from './edit-project-dialog/edit-project-dialog.component';
+import {EditTaskDialogComponent} from './components/edit-task-dialog/edit-task-dialog.component';
+import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {EditProjectDialogComponent} from './components/edit-project-dialog/edit-project-dialog.component';
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {MatSelectModule} from "@angular/material/select";
+import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {MatSelectModule} from "@angular/material/select";
     ButtonComponent,
     EditTaskDialogComponent,
     EditProjectDialogComponent,
+    LoginDialogComponent,
   ],
   imports: [
     BrowserModule,

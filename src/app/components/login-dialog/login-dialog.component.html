@@ -1,0 +1,17 @@
+<div class="login-dialog">
+  <form [formGroup]="form">
+    <mat-form-field appearance="standard">
+      <mat-label>Username</mat-label>
+      <input matInput [formControl]="form.controls.username">
+    </mat-form-field>
+
+    <mat-form-field appearance="standard">
+      <mat-label>Password</mat-label>
+      <input matInput [formControl]="form.controls.password">
+    </mat-form-field>
+  </form>
+
+  <div>
+    <button mat-button (click)="loginUser()">Login</button>
+  </div>
+</div>

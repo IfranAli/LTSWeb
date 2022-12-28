@@ -1,14 +1,18 @@
 import {Injectable} from '@angular/core';
 import {TaskDatabaseModel, TaskDatabaseModels, TaskModelPublic} from "../models/task.model";
 import {ProjectModel} from "../models/project.model";
-import {ProjectService, ResponseMessage} from "../project.service";
+import {ProjectService, ResponseMessage} from "./project.service";
 import {Observable} from "rxjs";
+import {UserService} from "./user.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataProviderService {
-  constructor(private projectService: ProjectService) {
+  constructor(
+    private projectService: ProjectService,
+    private userService: UserService,
+  ) {
   }
 
   public getProjects(): Observable<ProjectModel[]> {
@@ -33,5 +37,9 @@ export class DataProviderService {
 
   updateProject(model: ProjectModel) {
     return this.projectService.updateProject(model);
+  }
+
+  public getUserStatus() {
+    return this.userService.getUsers();
   }
 }

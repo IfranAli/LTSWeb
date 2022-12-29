@@ -16,6 +16,7 @@ body {
   background: global.$layer-two-bg;
   box-shadow: style.$box-shadow;
   border-radius: 0;
+  padding: style.$dialog-padding;
 }
 
 .dialog-large {

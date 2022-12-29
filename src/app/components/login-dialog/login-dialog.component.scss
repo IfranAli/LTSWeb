@@ -4,6 +4,7 @@
 .login-dialog {
   box-shadow: style.$box-shadow;
   background: colors.$layer-two-bg;
+  padding: style.$dialog-padding;
 }
 
 :host {
@@ -14,4 +15,6 @@
   align-content: center;
   flex-direction: column;
   flex-wrap: nowrap;
+
+  background: colors.$background-overlay;
 }

@@ -9,6 +9,7 @@ import {logoutUser} from "./actions/user.actions";
 import {loadProjects} from "./actions/project.actions";
 import {loadTasks} from "./actions/task.actions";
 import {UserLoginResult, UserModel} from "./models/user.interface";
+import {UserService} from "./services/user.service";
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private dataProvider: DataProviderService,
+    private userService: UserService,
     private store: Store<AppState>,
   ) {
   }
@@ -66,6 +68,8 @@ export class AppComponent implements OnInit {
   }
 
   userLogout() {
-    console.log(document.cookie)
+    this.userService.logoutUser().subscribe(value => {
+      this.user = null;
+    })
   }
 }

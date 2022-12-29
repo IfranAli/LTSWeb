@@ -2,16 +2,16 @@
   <form [formGroup]="form">
     <mat-form-field appearance="standard">
       <mat-label>Username</mat-label>
-      <input matInput [formControl]="form.controls.username">
+      <input matInput [formControl]="form.controls.username" type="text">
     </mat-form-field>
 
     <mat-form-field appearance="standard">
       <mat-label>Password</mat-label>
-      <input matInput [formControl]="form.controls.password">
+      <input matInput [formControl]="form.controls.password" type="password">
     </mat-form-field>
-  </form>
 
-  <div>
-    <button mat-button (click)="loginUser()">Login</button>
-  </div>
+    <div>
+      <button mat-button (click)="loginUser()" type="submit">Login</button>
+    </div>
+  </form>
 </div>

@@ -24,4 +24,9 @@ export class UserService {
     const loginUrl = baseUrl + '/login';
     return this.http.post<UserDatabaseModel>(loginUrl, userLoginModel, httpHeaders);
   }
+
+  logoutUser() {
+    const logoutUrl = baseUrl + '/logout';
+    return this.http.post<UserDatabaseModel>(logoutUrl, null, httpHeaders);
+  }
 }

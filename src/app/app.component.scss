@@ -10,7 +10,7 @@ body {
 
   .toolbar {
     background: global.$toolbar-bg;
-    border-width: style.$border-width;
+    border-width: style.$border-width-large;
     border-style: style.$border-style-bottom;
     font-size: style.$font-large;
   }
@@ -26,7 +26,7 @@ body {
 
       width: 4rem;
       height: inherit;
-      border-width: style.$border-width;
+      border-width: style.$border-width-large;
       border-style: none solid none none;
       background: global.$toolbar-bg;
 

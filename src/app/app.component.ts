@@ -8,7 +8,7 @@ import {AppState} from "./reducers";
 import {logoutUser} from "./actions/user.actions";
 import {loadProjects} from "./actions/project.actions";
 import {loadTasks} from "./actions/task.actions";
-import {UserLoginResult, UserModel, UserModelInvalid} from "./models/user.interface";
+import {UserLoginResult, UserModel} from "./models/user.interface";
 
 @Component({
   selector: 'app-root',
@@ -49,16 +49,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.dataProvider.getUserStatus().subscribe({
-      next: value => {
-        // todo: use cookie to re-auth user.
-      },
+      next: value => this.onUserLogin(value.shift()!),
       error: (err: Response) => {
         if (err.status == 401) {
           this.store.dispatch(logoutUser())
         }
-      },
-      complete: () => {
-        console.log('done')
       },
     })
 
@@ -68,5 +63,9 @@ export class AppComponent implements OnInit {
   onUserLogin($event: UserLoginResult) {
     this.user = $event
     this.loadProjectsAndTasks();
+  }
+
+  userLogout() {
+    console.log(document.cookie)
   }
 }

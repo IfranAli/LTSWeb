@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
-import {TaskDatabaseModel, TaskDatabaseModels, TaskModelPublic} from "../models/task.model";
+import {TaskDatabaseModel, TaskModelPublic} from "../models/task.model";
 import {ProjectModel} from "../models/project.model";
-import {ProjectService, ResponseMessage} from "./project.service";
+import {ProjectService} from "./project.service";
 import {Observable} from "rxjs";
 import {UserService} from "./user.service";
+import {ResponseMessage} from "../constants/web-constants";
 
 @Injectable({
   providedIn: 'root'

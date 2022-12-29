@@ -3,13 +3,9 @@ import {HttpClient} from "@angular/common/http";
 import {ProjectDatabaseModel, ProjectModel} from "../models/project.model";
 import {TaskDatabaseModel, TaskModel, TaskModelPublic} from "../models/task.model";
 import {environment} from "../../environments/environment";
+import {ResponseMessage, httpHeaders} from "../constants/web-constants";
 
 const baseUrl = environment.backendURL;
-
-export interface ResponseMessage {
-  success: boolean,
-  message: string
-}
 
 @Injectable({
   providedIn: 'root'
@@ -22,36 +18,36 @@ export class ProjectService {
 
   getProjects() {
     const url = 'projects';
-    return this.http.get<ProjectModel[]>(baseUrl + url);
+    return this.http.get<ProjectModel[]>(baseUrl + url, httpHeaders);
   }
 
   getTasks() {
     const url = `tasks/`;
-    return this.http.get<TaskDatabaseModel[]>(baseUrl + url);
+    return this.http.get<TaskDatabaseModel[]>(baseUrl + url, httpHeaders);
   }
 
   getTasksByProjectID(projectID: number) {
     const url = `projects/${projectID}/tasks`;
-    return this.http.get<TaskDatabaseModel[]>(baseUrl + url);
+    return this.http.get<TaskDatabaseModel[]>(baseUrl + url, httpHeaders);
   }
 
   createTaskOnProject(task: Partial<TaskModelPublic>) {
     const url = `projects/${task.projectId}`;
-    return this.http.post<TaskDatabaseModel[]>(baseUrl + url, task);
+    return this.http.post<TaskDatabaseModel[]>(baseUrl + url, task, httpHeaders);
   }
 
   updateTask(task: Partial<TaskModel>) {
     const url = `tasks/${task.id}`;
-    return this.http.put<TaskDatabaseModel[]>(baseUrl + url, task);
+    return this.http.put<TaskDatabaseModel[]>(baseUrl + url, task, httpHeaders);
   }
 
   deleteTask(taskId: number) {
     const url = `tasks/${taskId}`;
-    return this.http.delete<ResponseMessage>(baseUrl + url);
+    return this.http.delete<ResponseMessage>(baseUrl + url, httpHeaders);
   }
 
   updateProject(model: ProjectModel) {
     const url = `projects/${model.id}`;
-    return this.http.put<ProjectDatabaseModel[]>(baseUrl + url, model);
+    return this.http.put<ProjectDatabaseModel[]>(baseUrl + url, model, httpHeaders);
   }
 }

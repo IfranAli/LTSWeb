@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {TaskDatabaseModel} from "../models/task.model";
 import {UserDatabaseModel, UserLoginModel} from "../models/user.interface";
+import {httpHeaders} from "../constants/web-constants";
 
 const baseUrl = environment.backendURL + 'user'
 
@@ -17,11 +17,11 @@ export class UserService {
   }
 
   getUsers() {
-    return this.http.get<UserDatabaseModel[]>(baseUrl);
+    return this.http.get<UserDatabaseModel[]>(baseUrl, httpHeaders);
   }
 
   loginUser(userLoginModel: UserLoginModel) {
     const loginUrl = baseUrl + '/login';
-    return this.http.post<UserDatabaseModel>(loginUrl, userLoginModel);
+    return this.http.post<UserDatabaseModel>(loginUrl, userLoginModel, httpHeaders);
   }
 }

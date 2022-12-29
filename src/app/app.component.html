@@ -12,17 +12,8 @@
   <mat-sidenav-container>
     <mat-sidenav #sideNav mode="side">
       <mat-nav-list>
-        <button mat-icon-button>
-          <mat-icon color="secondary">settings</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon color="secondary">settings</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon color="secondary">settings</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon color="secondary">settings</mat-icon>
+        <button (click)="userLogout()" mat-icon-button>
+          <mat-icon color="secondary">logout</mat-icon>
         </button>
       </mat-nav-list>
     </mat-sidenav>

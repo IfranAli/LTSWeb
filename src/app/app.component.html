@@ -7,33 +7,33 @@
     <span>LTSWeb</span>
     <span class="example-spacer"></span>
     <mat-icon>code</mat-icon>
+
+    <div class="toolbar-buttons">
+      <div>
+        <button mat-icon-button routerLink="/projects" routerLinkActive="active">
+          <mat-icon color="secondary">library_books</mat-icon>
+        </button>
+
+        <button mat-icon-button routerLink="/finance" routerLinkActive="active">
+          <mat-icon color="secondary">account_balance</mat-icon>
+        </button>
+      </div>
+
+      <button (click)="userLogout()" mat-icon-button>
+        <mat-icon color="secondary">logout</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
 
   <mat-sidenav-container>
     <mat-sidenav #sideNav mode="side">
       <mat-nav-list>
-        <button (click)="userLogout()" mat-icon-button>
-          <mat-icon color="secondary">logout</mat-icon>
-        </button>
+
       </mat-nav-list>
     </mat-sidenav>
 
-    <mat-sidenav-content class="box">
-      <app-login-dialog *ngIf="!user" (onUserLogin)="onUserLogin($event)"></app-login-dialog>
-
-      <ng-container cdkDropListGroup
-                    class="projects-drop-group"
-                    *ngIf="user"
-      >
-
-        <div *ngFor="let project of projects">
-          <app-project-list
-            [project]="project"
-          ></app-project-list>
-        </div>
-
-      </ng-container>
-
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

@@ -30,6 +30,9 @@ import {EditProjectDialogComponent} from './components/edit-project-dialog/edit-
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {MatSelectModule} from "@angular/material/select";
 import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
+import { AppRoutingModule } from './app-routing.module';
+import {FinanceAppComponent} from "./finance/finance-app/finance-app.component";
+import { ProjectsComponent } from './components/projects/projects.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +46,7 @@ import {LoginDialogComponent} from "./components/login-dialog/login-dialog.compo
     EditTaskDialogComponent,
     EditProjectDialogComponent,
     LoginDialogComponent,
+    ProjectsComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +70,7 @@ import {LoginDialogComponent} from "./components/login-dialog/login-dialog.compo
     CdkMenuModule,
     MatSelectModule,
     TaskComponent,
+    AppRoutingModule,
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

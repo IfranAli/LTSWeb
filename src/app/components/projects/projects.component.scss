@@ -1,0 +1,8 @@
+@use "src/styles/global/colors" as global;
+@use "src/styles/global/style" as style;
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+}
+

@@ -1,0 +1,16 @@
+<app-login-dialog *ngIf="!user" (onUserLogin)="onUserLogin($event)"></app-login-dialog>
+
+<div class="box">
+  <ng-container cdkDropListGroup
+                class="projects-drop-group"
+                *ngIf="user"
+  >
+
+    <div *ngFor="let project of projects">
+      <app-project-list
+        [project]="project"
+      ></app-project-list>
+    </div>
+
+  </ng-container>
+</div>

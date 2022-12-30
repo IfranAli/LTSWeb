@@ -10,6 +10,19 @@ body {
   margin: 0;
   padding: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  $grid-size: 50px;
+  $dash-length: 5px;
+  $dash-width: 1px;
+  $dash-color: global.$layer-three-bg;
+  $background: global.$layer-two-bg;
+
+  background-color: $background;
+  background-size: $dash-length*2 $dash-length*2, $grid-size $grid-size;
+  background-image: linear-gradient(to bottom, transparent $dash-length, $background $dash-length),
+  linear-gradient(to right, $dash-color $dash-width, transparent $dash-width),
+  linear-gradient(to right, transparent $dash-length, $background $dash-length),
+  linear-gradient(to bottom, $dash-color $dash-width, transparent $dash-width);
 }
 
 .dialog-style .mat-dialog-container {

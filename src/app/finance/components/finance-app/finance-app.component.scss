@@ -1,0 +1,21 @@
+@use "src/styles/global/colors" as global;
+@use "src/styles/global/style" as style;
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.finances-container {
+  display: flex;
+  flex-direction: column;
+  padding: style.$dialog-padding;
+
+  table {
+    width: auto;
+    box-shadow: style.$box-shadow;
+
+    th {
+      background: #A8D6D6;
+    }
+  }
+}

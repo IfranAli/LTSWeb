@@ -6,3 +6,9 @@
   flex-wrap: wrap;
 }
 
+@media screen and (max-width: 780px) {
+  .box {
+    flex-direction: row;
+    justify-content: center;
+  }
+}

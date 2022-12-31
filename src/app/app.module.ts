@@ -25,13 +25,12 @@ import {HttpClientModule} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {reducers} from "./reducers";
 import {EditTaskDialogComponent} from './components/edit-task-dialog/edit-task-dialog.component';
-import {MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MatDialogModule} from "@angular/material/dialog";
 import {EditProjectDialogComponent} from './components/edit-project-dialog/edit-project-dialog.component';
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {MatSelectModule} from "@angular/material/select";
 import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
 import { AppRoutingModule } from './app-routing.module';
-import {FinanceAppComponent} from "./finance/finance-app/finance-app.component";
 import { ProjectsComponent } from './components/projects/projects.component';
 
 @NgModule({

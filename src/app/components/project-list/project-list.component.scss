@@ -5,6 +5,11 @@
   margin: 1rem;
 }
 
+@media screen and (max-width: 780px) {
+  .project-list{
+    margin: 1rem 0;
+  }
+}
 
 .card-content-block {
   padding: 0 0.5rem 0 1rem;

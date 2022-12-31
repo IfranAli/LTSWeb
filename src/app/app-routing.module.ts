@@ -1,7 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {FinanceAppComponent} from "./finance/finance-app/finance-app.component";
+import {FinanceAppComponent} from "./finance/components/finance-app/finance-app.component";
 import {ProjectsComponent} from "./components/projects/projects.component";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {MatTableModule} from "@angular/material/table";
 
 const routes: Routes = [
   {path: 'finance', component: FinanceAppComponent},
@@ -10,7 +12,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [FinanceAppComponent],
-  imports: [RouterModule.forRoot(routes)],
+    imports: [RouterModule.forRoot(routes), NgIf, NgForOf, MatTableModule, DatePipe],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

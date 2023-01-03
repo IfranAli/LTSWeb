@@ -1,7 +1,12 @@
 <div class="finances-container">
   <h1>Finances</h1>
 
-  <ng-container *ngIf="finances">
+
+  <div class='finance' *ngIf="finances">
+    <div class="toolbar">
+      <button mat-button (click)="openDialogAddFinance()">Add</button>
+    </div>
+
     <table mat-table [dataSource]="finances" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> name</th>
@@ -32,5 +37,5 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-  </ng-container>
+  </div>
 </div>

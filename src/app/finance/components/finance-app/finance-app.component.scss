@@ -10,12 +10,14 @@
   flex-direction: column;
   padding: style.$dialog-padding;
 
-  table {
-    width: auto;
-    box-shadow: style.$box-shadow;
+  .finance {
+    table {
+      width: 100%;
+      box-shadow: style.$box-shadow;
 
-    th {
-      background: #A8D6D6;
+      th {
+        background: #A8D6D6;
+      }
     }
   }
 }

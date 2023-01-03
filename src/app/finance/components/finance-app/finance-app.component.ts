@@ -1,8 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FinanceService} from "../../services/finance.service";
-import {FinanceCategory, FinanceModel} from "../../models/finance.model";
+import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
-import {logoutUser} from "../../../actions/user.actions";
+import {MatDialog} from "@angular/material/dialog";
+import {AddFinanceDialogComponent} from "../add-finance-dialog/add-finance-dialog.component";
+
+export interface financeDialogData {
+  categories: Map<number, string>;
+}
 
 @Component({
   selector: 'app-finance-app',
@@ -25,6 +30,7 @@ export class FinanceAppComponent implements OnInit {
   constructor(
     private financeService: FinanceService,
     private router: Router,
+    private dialog: MatDialog,
   ) {
   }
 
@@ -44,4 +50,25 @@ export class FinanceAppComponent implements OnInit {
     })
   }
 
+  openDialogAddFinance() {
+    const dialogRef = this.dialog.open(AddFinanceDialogComponent, {
+      data: {categories: this.categoryLookup},
+      panelClass: ['dialog-style', 'dialog-small'],
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.table(result);
+        // const model: ProjectModel = {
+        //   ...result
+        // }
+
+        // this.dataProvider.updateProject(model).subscribe(value => {
+        //   this.store.dispatch(updateProject({
+        //     ...model
+        //   }));
+        // })
+      }
+    });
+  }
 }

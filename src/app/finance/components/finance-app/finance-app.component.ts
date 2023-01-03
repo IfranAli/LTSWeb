@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FinanceService} from "../../services/finance.service";
 import {FinanceCategory, FinanceModel} from "../../models/finance.model";
+import {Router} from "@angular/router";
+import {logoutUser} from "../../../actions/user.actions";
 
 @Component({
   selector: 'app-finance-app',
@@ -21,7 +23,8 @@ export class FinanceAppComponent implements OnInit {
   categoryLookup = new Map<number, string>;
 
   constructor(
-    private financeService: FinanceService
+    private financeService: FinanceService,
+    private router: Router,
   ) {
   }
 
@@ -31,13 +34,13 @@ export class FinanceAppComponent implements OnInit {
         this.categoryLookup = value.reduce((acc, c) => {
           return acc.set(c.id, c.type)
         }, new Map<number, string>)
-      },
-      error: err => console.error(err),
-    })
 
-    this.financeService.getFinances().subscribe({
-      next: value => this.finances = value,
-      error: err => console.error(err),
+        this.financeService.getFinances().subscribe({
+          next: value => this.finances = value,
+          error: err => console.error(err),
+        })
+      },
+      error: err => this.router.navigate([''])
     })
   }
 

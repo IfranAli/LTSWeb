@@ -5,6 +5,7 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers";
 import {loginUser} from "../../actions/user.actions";
 import {UserLoginModel, UserLoginResult} from "../../models/user.interface";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-dialog',
@@ -22,6 +23,7 @@ export class LoginDialogComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private userService: UserService,
+    private router: Router,
   ) {
   }
 
@@ -41,9 +43,10 @@ export class LoginDialogComponent implements OnInit {
     }
 
     // todo: store cookie
-    this.userService.loginUser(loginModel).subscribe(value => {
+    this.userService.loginUser(loginModel).subscribe(async value => {
       this.store.dispatch(loginUser(value));
       this.onUserLogin.emit(value);
+      await this.router.navigate(['projects']);
     })
   }
 }

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserModel} from "./models/user.interface";
 import {UserService} from "./services/user.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private userService: UserService,
+    private router: Router,
   ) {
   }
 
@@ -20,8 +22,9 @@ export class AppComponent implements OnInit {
   }
 
   userLogout() {
-    this.userService.logoutUser().subscribe(value => {
+    this.userService.logoutUser().subscribe(async value => {
       this.user = null;
+      await this.router.navigate(['']);
     })
   }
 }

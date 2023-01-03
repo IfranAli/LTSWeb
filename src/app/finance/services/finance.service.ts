@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {FinanceDatabaseModel, FinanceModel} from "../models/finance.model";
+import {FinanceCategory, FinanceDatabaseModel, FinanceModel} from "../models/finance.model";
 import {httpHeaders, ResponseMessage} from "../../constants/web-constants";
 
 const baseUrl = environment.backendURL;
@@ -18,6 +18,11 @@ export class FinanceService {
 
   createFinance(model: FinanceModel) {
     return this.http.put<FinanceDatabaseModel>(financesUrl, model, httpHeaders);
+  }
+
+  getFinanceCategories() {
+    const url = financesUrl.concat('/', 'category');
+    return this.http.get<FinanceCategory[]>(url, httpHeaders);
   }
 
   getFinances() {

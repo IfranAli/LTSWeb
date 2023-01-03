@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FinanceService} from "../../services/finance.service";
-import {FinanceModel} from "../../models/finance.model";
+import {FinanceCategory, FinanceModel} from "../../models/finance.model";
 
 @Component({
   selector: 'app-finance-app',
@@ -18,15 +18,7 @@ export class FinanceAppComponent implements OnInit {
     "categoryType",
   ];
 
-  categoryLookup = [
-    'Unknown',
-    'Medication',
-    'Work',
-    'House',
-    'Food',
-    'Cost of Living',
-    'Tea and Coffee',
-  ]
+  categoryLookup = new Map<number, string>;
 
   constructor(
     private financeService: FinanceService
@@ -34,12 +26,19 @@ export class FinanceAppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.financeService.getFinances().subscribe({
+    this.financeService.getFinanceCategories().subscribe({
       next: value => {
-        this.finances = value;
+        this.categoryLookup = value.reduce((acc, c) => {
+          return acc.set(c.id, c.type)
+        }, new Map<number, string>)
       },
-      error: err => console.error(err)
-    });
+      error: err => console.error(err),
+    })
+
+    this.financeService.getFinances().subscribe({
+      next: value => this.finances = value,
+      error: err => console.error(err),
+    })
   }
 
 }

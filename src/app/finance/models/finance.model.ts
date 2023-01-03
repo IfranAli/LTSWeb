@@ -9,6 +9,10 @@ export interface FinanceDatabaseModel {
   categoryType: number,
 }
 
+export interface FinanceCategory extends IdentityInterface {
+  type: string,
+}
+
 export interface FinanceModel extends IdentityInterface, FinanceDatabaseModel {
 }
 

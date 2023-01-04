@@ -145,19 +145,5 @@ export class ProjectListComponent implements OnInit {
       data: {project: this.project},
       panelClass: ['dialog-style', 'dialog-small'],
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        const model: ProjectModel = {
-          ...result
-        }
-
-        this.dataProvider.updateProject(model).subscribe(value => {
-          this.store.dispatch(updateProject({
-            ...model
-          }));
-        })
-      }
-    });
   }
 }

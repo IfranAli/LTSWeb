@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ProjectModel} from "../../models/project.model";
+import {createProjectModel, ProjectDatabaseModel, ProjectModel} from "../../models/project.model";
 import {UserLoginResult, UserModel} from "../../models/user.interface";
 import {DataProviderService} from "../../services/data-provider.service";
 import {UserService} from "../../services/user.service";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers";
-import {loadProjects} from "../../actions/project.actions";
+import {createProject, loadProjects} from "../../actions/project.actions";
 import * as fromProjects from "../../reducers/projects.reducer";
 import {loadTasks} from "../../actions/task.actions";
 import {createTaskModel} from "../../models/task.model";
@@ -64,4 +64,14 @@ export class ProjectsComponent implements OnInit {
     this.loadProjectsAndTasks();
   }
 
+  addProject() {
+    const model: Omit<ProjectDatabaseModel, 'id'> = {
+      ...createProjectModel({
+        title: 'New Project',
+      })
+    }
+
+    this.dataProvider.projectService.createProject(model)
+      .subscribe(res => this.store.dispatch(createProject(res.shift()!)))
+  }
 }

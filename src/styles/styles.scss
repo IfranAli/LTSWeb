@@ -39,3 +39,8 @@ body {
 .dialog-small {
   width: style.$dialog-small;
 }
+
+.btn-style {
+  box-shadow: style.$box-shadow;
+  border-radius: 0 !important;
+}

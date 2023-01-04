@@ -3,4 +3,11 @@ form {
   flex-wrap: wrap;
   flex-direction: column;
   align-content: stretch;
+
+}
+
+.actions {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }

@@ -2,6 +2,10 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {generateCode, ProjectModel} from "../../models/project.model";
 import {FormControl, FormGroup} from "@angular/forms";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../reducers";
+import {DataProviderService} from "../../services/data-provider.service";
+import {deleteProject, updateProject} from "../../actions/project.actions";
 
 @Component({
   selector: 'app-edit-project-dialog',
@@ -18,6 +22,8 @@ export class EditProjectDialogComponent implements OnInit {
   });
 
   constructor(
+    private store: Store<AppState>,
+    private dataProvider: DataProviderService,
     public dialogRef: MatDialogRef<EditProjectDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { project: ProjectModel },
   ) {
@@ -54,4 +60,26 @@ export class EditProjectDialogComponent implements OnInit {
     }
   }
 
+  deleteProject() {
+    const id = this.model.id;
+    this.dataProvider.projectService.deleteProject(id)
+      .subscribe(_ => {
+        this.dialogRef.close()
+        this.store.dispatch(deleteProject({id: id}))
+      });
+  }
+
+  saveProject() {
+    const model = this.getDialogData();
+
+    if (!model) {
+      return;
+    }
+
+    this.dataProvider.updateProject(model)
+      .subscribe(_ => {
+        this.store.dispatch(updateProject(model));
+        this.dialogRef.close();
+      })
+  }
 }

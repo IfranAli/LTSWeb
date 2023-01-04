@@ -36,7 +36,7 @@ export const projectsReducer = createReducer(
       id: payload.id,
     }, state);
   }),
-  on(deleteProject, (state) => {
-    return state;
+  on(deleteProject, (state, payload) => {
+    return projectAdapter.removeOne(payload.id, state)
   }),
 );

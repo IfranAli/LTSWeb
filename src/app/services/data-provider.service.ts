@@ -11,8 +11,8 @@ import {ResponseMessage} from "../constants/web-constants";
 })
 export class DataProviderService {
   constructor(
-    private projectService: ProjectService,
-    private userService: UserService,
+    public projectService: ProjectService,
+    public userService: UserService,
   ) {
   }
 

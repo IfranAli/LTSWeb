@@ -1,15 +1,22 @@
-$box-shadow: 4px 4px #000000 !important;
-//$box-shadow: 2px 2px 2px #a2a2a2!important;
+//$box-shadow: 4px 4px #000000 !important;
+$box-shadow: 4px 4px 10px #000000 !important;
 $task-width: 350px;
 $task-height: 80px;
 $font-family: monospace;
 $font-large: 1rem;
+
+$border-color-dark: #2c2c2c;
+$border-color-darker: #1f2023;
 $border-width-large: 4px;
 $border-width-medium: 2px;
 $border-width-small: 1px;
 $border-style-bottom: none none solid none;
 
+$border-radius-0: 0;
+$border-radius-1: 5px;
+$border-radius-2: 10px;
+
 $dialog-large: 50rem;
 $dialog-small: 25rem;
 
-$dialog-padding: 16px;
+$dialog-padding: 0;

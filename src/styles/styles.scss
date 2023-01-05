@@ -1,5 +1,16 @@
-@use "src/styles/global/colors" as global;
+@use "src/styles/global/colors" as colors;
 @use "src/styles/global/style" as style;
+
+@use '@angular/material' as mat;
+
+@import "@angular/material/theming";
+
+@include mat.core();
+$primary: mat.define-palette(mat.$indigo-palette, 500);
+$accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$warn: mat.define-palette(mat.$red-palette);
+$theme: mat.define-dark-theme($primary, $accent, $warn);
+@include mat.all-component-themes($theme);
 
 html, body {
   height: 100%;
@@ -11,11 +22,11 @@ body {
   padding: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 
-  $grid-size: 50px;
+  $grid-size: 100px;
   $dash-length: 5px;
   $dash-width: 1px;
-  $dash-color: global.$layer-three-bg;
-  $background: global.$layer-two-bg;
+  $dash-color: colors.$layer-three-bg;
+  $background: colors.$layer-two-bg;
 
   background-color: $background;
   background-size: $dash-length*2 $dash-length*2, $grid-size $grid-size;
@@ -26,10 +37,30 @@ body {
 }
 
 .dialog-style .mat-dialog-container {
-  background: global.$layer-two-bg;
+  background: colors.$layer-two-bg;
   box-shadow: style.$box-shadow;
-  border-radius: 0;
+  border-radius: style.$border-radius-2;
   padding: style.$dialog-padding;
+
+  .dialog-content {
+    padding: 1rem;
+    color: colors.$color-text-light;
+
+    label {
+      color: colors.$primary-accent;
+    }
+
+    .mat-select-value {
+      color: colors.$color-text-light;
+    }
+  }
+}
+
+.mat-dialog-actions {
+  padding: 1rem;
+  background: colors.$primary-accent;
+  margin-bottom: 0 !important;
+  min-height: auto !important;
 }
 
 .dialog-large {
@@ -42,5 +73,5 @@ body {
 
 .btn-style {
   box-shadow: style.$box-shadow;
-  border-radius: 0 !important;
+  border-radius: style.$border-radius-2 !important;
 }

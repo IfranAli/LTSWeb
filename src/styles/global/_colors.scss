@@ -4,12 +4,22 @@ $color-progress: #2556b3;
 $color-done: #0fab3a;
 $notice-me: #e600ff;
 
+$primary-accent: #A8D6D6;
 $background-overlay: #00000032;
-$toolbar-bg: #A8D6D6;
+$toolbar-bg: $primary-accent;
 $btn-bg: #ffffff8c;
+
+$color-text-title: rgba(0, 0, 0, 0.80);
+$color-text-sub-title: rgba(0, 0, 0, 0.50);
+
 $color-text-light: #ffffff;
 $color-text-dark: #1F2023FF;
 
 $app-bg-main: #d2d2d2;
-$layer-three-bg: #e4e4e4;
-$layer-two-bg: #FFFFFF;
+$layer-three-bg: #2b2d30;
+$layer-two-bg: #1f2023;
+
+$color-blue: #5992ff;
+$color-yellow: #ffdd3d;
+$color-red: #e86767;
+$color-green: #58dc66;

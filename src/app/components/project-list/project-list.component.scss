@@ -16,12 +16,13 @@
 }
 
 mat-card {
-  color: global.$color-text-dark;
   box-shadow: style.$box-shadow;
-  border-radius: 0;
-  padding: 0.8rem 0 1rem 0;
+  border-radius: style.$border-radius-2;
+  padding: 0.8rem 0 0 0;
+  margin: 0;
 
   mat-card-title {
+    color: global.$color-text-title;
     margin: 0;
     display: flex;
     flex-direction: row;
@@ -40,11 +41,13 @@ mat-card {
   }
 
   mat-card-subtitle {
+    color: global.$color-text-sub-title;
+    font-weight: bold;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    color: global.$color-text-dark;
-    margin: 0.5rem 0 0.8rem;
+    margin-bottom: 8px;
+    margin-right: 8px;
 
     .code {
       font-weight: bold;
@@ -55,7 +58,7 @@ mat-card {
 }
 
 .list {
-  color: global.$color-text-dark;
+  color: global.$color-text-light;
   background: global.$layer-two-bg;
   overflow: hidden;
   display: flex;
@@ -63,10 +66,13 @@ mat-card {
   width: style.$task-width;
   min-width: style.$task-width;
   min-height: style.$task-height;
+
   border-top: solid;
+  border-color: style.$border-color-dark;
 }
 
 .list-item {
+  border-color: style.$border-color-dark;
   border-style: none none solid none;
   padding: 0.8rem 0.3rem;
 }

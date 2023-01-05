@@ -1,4 +1,4 @@
-@use "src/styles/global/colors";
+@use "src/styles/global/colors" as colors;
 @use "src/styles/global/style" as style;
 
 .project-task-item.TASK_ARCHIVED input[type="text"] {
@@ -37,7 +37,7 @@ mat-form-field {
 
 .example-menu .example-menu-item {
   width: 100%;
-  border-radius: 0;
+  border-radius: style.$border-radius-2;
   text-align: left;
 }
 
@@ -82,26 +82,23 @@ mat-form-field {
   font-weight: 500;
   white-space: nowrap;
   padding: 0 0.2rem;
-  border-radius: 0px;
+  border-radius: style.$border-radius-1;
+  color: colors.$color-text-title;
 
   &.todo {
-    background: #5992ff;
-    color: white;
+    background: colors.$color-blue;
   }
 
   &.in-progress {
-    background: #ffdd3d;
-    color: white;
+    background: colors.$color-yellow;
   }
 
   &.blocked {
-    background: #e86767;
-    color: white;
+    background: colors.$color-red;
   }
 
   &.done {
-    background: #58dc66;
-    color: white;
+    background: colors.$color-green;
   }
 }
 

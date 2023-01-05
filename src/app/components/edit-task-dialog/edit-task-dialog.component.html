@@ -1,40 +1,42 @@
-<form [formGroup]="taskForm">
-  <mat-form-field appearance="standard">
-    <mat-label>Name</mat-label>
-    <input matInput [formControl]="taskForm.controls.name">
-  </mat-form-field>
+<div class="dialog-content">
+  <form [formGroup]="taskForm">
+    <mat-form-field appearance="standard">
+      <mat-label>Name</mat-label>
+      <input matInput [formControl]="taskForm.controls.name">
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>State</mat-label>
-    <mat-select [formControl]="taskForm.controls.state">
-      <mat-option [value]="0">Todo</mat-option>
-      <mat-option [value]="1">In progress</mat-option>
-      <mat-option [value]="2">Blocked</mat-option>
-      <mat-option [value]="3">Done</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>State</mat-label>
+      <mat-select [formControl]="taskForm.controls.state">
+        <mat-option [value]="0">Todo</mat-option>
+        <mat-option [value]="1">In progress</mat-option>
+        <mat-option [value]="2">Blocked</mat-option>
+        <mat-option [value]="3">Done</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="standard">
-    <mat-label>Content</mat-label>
-    <input matInput [formControl]="taskForm.controls.content">
-  </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>Content</mat-label>
+      <input matInput [formControl]="taskForm.controls.content">
+    </mat-form-field>
 
-  <mat-form-field appearance="standard">
-    <mat-label>Project ID</mat-label>
-    <input matInput [formControl]="taskForm.controls.projectId">
-  </mat-form-field>
+    <mat-form-field appearance="standard">
+      <mat-label>Project ID</mat-label>
+      <input matInput [formControl]="taskForm.controls.projectId">
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Priority</mat-label>
-    <mat-select [formControl]="taskForm.controls.priority">
-      <mat-option [value]="0">Lowest</mat-option>
-      <mat-option [value]="1">Medium</mat-option>
-      <mat-option [value]="2">High</mat-option>
-      <mat-option [value]="3">Highest</mat-option>
-    </mat-select>
-  </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Priority</mat-label>
+      <mat-select [formControl]="taskForm.controls.priority">
+        <mat-option [value]="0">Lowest</mat-option>
+        <mat-option [value]="1">Medium</mat-option>
+        <mat-option [value]="2">High</mat-option>
+        <mat-option [value]="3">Highest</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-</form>
+  </form>
+</div>
 
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>

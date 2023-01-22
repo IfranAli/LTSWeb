@@ -1,4 +1,4 @@
-@use "src/styles/global/colors" as global;
+@use "src/styles/global/colors" as colors;
 @use "src/styles/global/style" as style;
 
 body {
@@ -14,10 +14,11 @@ body {
   height: 100vh;
 
   .toolbar {
-    background: global.$toolbar-bg;
-    border-width: style.$border-width-large;
-    border-style: style.$border-style-bottom;
+    color: colors.$color-text-dark;
+    background: colors.$toolbar-bg;
     font-size: style.$font-large;
+    box-shadow: style.$box-shadow;
+    height: auto;
 
     .toolbar-buttons {
       flex: 1 1 auto;
@@ -45,7 +46,7 @@ body {
       height: inherit;
       border-width: style.$border-width-large;
       border-style: none solid none none;
-      background: global.$toolbar-bg;
+      background: colors.$toolbar-bg;
 
       button {
         width: inherit;

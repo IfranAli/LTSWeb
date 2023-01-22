@@ -54,6 +54,10 @@ mat-card {
     }
   }
 
+  mat-card-actions {
+    color: global.$color-text-title;
+  }
+
   background: global.$app-bg-main;
 }
 

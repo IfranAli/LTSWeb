@@ -1,0 +1,30 @@
+<div class="calendar-container">
+
+  <div class="months"
+       *ngFor="let month of calendarData"
+  >
+
+    <div class="box-month">
+      <h2>{{ month.name }} {{ year }}</h2>
+
+      <!-- Header -->
+      <div class="month-row">
+        <div class="box-header"
+             *ngFor="let day of weekdays">
+          {{ day }}
+        </div>
+      </div>
+
+      <div class="month-row month-week"
+           *ngFor="let week of month.weeks">
+
+        <div class="box-day"
+             *ngFor="let day of week">
+          {{ day.day }}
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

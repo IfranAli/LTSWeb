@@ -1,0 +1,36 @@
+@use "src/styles/global/colors" as global;
+@use "src/styles/global/style" as style;
+
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  padding: style.$dialog-padding;
+  margin: style.$margin-global-0;
+
+  .month-row {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+  .box-header {
+    width: 50px;
+    font-weight: bold;
+    padding: 6px;
+  }
+
+  .box-month {
+    .box-day {
+      height: 50px;
+      width: 50px;
+
+      background: whitesmoke;
+      color: black;
+      font-weight: bold;
+      border-style: solid;
+      border-width: 2px;
+      padding: 4px;
+      border-color: cornflowerblue;
+    }
+  }
+}

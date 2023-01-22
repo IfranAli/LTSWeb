@@ -8,11 +8,13 @@ import {LoginDialogComponent} from "./components/login-dialog/login-dialog.compo
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatInputModule} from "@angular/material/input";
+import {CalendarComponent} from "./calendar/components/calendar/calendar.component";
 
 const routes: Routes = [
   {path: '', component: LoginDialogComponent},
   {path: 'finance', component: FinanceAppComponent},
   {path: 'projects', component: ProjectsComponent},
+  {path: 'calendar', component: CalendarComponent},
 ];
 
 @NgModule({

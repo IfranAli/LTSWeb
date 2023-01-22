@@ -2,7 +2,7 @@
 @use "src/styles/global/style" as style;
 
 .project-list {
-  margin: 1rem;
+  margin: style.$margin-global-0;
 }
 
 @media screen and (max-width: 780px) {

@@ -41,6 +41,7 @@ body {
   box-shadow: style.$box-shadow;
   border-radius: style.$border-radius-2;
   padding: style.$dialog-padding;
+  color: colors.$color-text-dark;
 
   .dialog-content {
     padding: 1rem;
@@ -74,4 +75,10 @@ body {
 .btn-style {
   box-shadow: style.$box-shadow;
   border-radius: style.$border-radius-2 !important;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
 }

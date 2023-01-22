@@ -38,7 +38,10 @@
   </form>
 </div>
 
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="getDialogData()">Save</button>
+<div mat-dialog-actions class="actions">
+  <div>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+  </div>
+
+  <button mat-button color="primary" [mat-dialog-close]="getDialogData()">Save</button>
 </div>

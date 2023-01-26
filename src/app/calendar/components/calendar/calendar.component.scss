@@ -2,6 +2,12 @@
 @use "src/styles/global/style" as style;
 @use "src/styles/global/card";
 
+$border-color: #404040;
+$day-disabled: #5d5d5d;
+$day-background: #282828;
+$day-background-darker: #1f1f1f;
+$day-font-light: #8a8a8a;
+
 mat-card {
   background: global.$primary-accent;
 
@@ -15,7 +21,7 @@ mat-card {
   flex-direction: column;
   padding: style.$dialog-padding;
   margin: style.$margin-global-0;
-  max-width: min-content;
+  //max-width: min-content;
 
   .month-row {
     display: flex;
@@ -26,6 +32,14 @@ mat-card {
     color: global.$color-text-sub-title;
   }
 
+  .month-week {
+    :first-child {
+      border-width: 1px !important;
+      border-left: solid !important;
+      border-color: $border-color !important;
+    }
+  }
+
   .box-header {
     width: 100px;
     font-weight: bold;
@@ -34,26 +48,27 @@ mat-card {
 
   .box-month {
     .box-day {
-      height: 100px;
-      width: 100px;
+      height: 100%;
+      min-height: 100px;
+      width: 100%;
 
-      background: #1f1f1f;
-      color: #8a8a8a;
+      background: $day-background-darker;
+      color: $day-font-light;
       font-weight: bold;
-      border-style: solid none none none;
+      border-style: solid solid none none;
       border-width: 1px;
       padding: 4px;
-      border-color: #404040;
+      border-color: $border-color;
 
     }
 
     .disable {
-      background: #282828;
-      color: #5d5d5d;
+      background: $day-background;
+      color: $day-disabled;
     }
 
     .today {
-      color: #e86767;
+      color: global.$color-red;
     }
   }
 }

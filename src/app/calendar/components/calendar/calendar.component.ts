@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CALENDAR_MONTHS, ICalendar, IDay, IMonth, IWeek, WEEK_DAYS} from "../../models/calendar.model";
+import {CALENDAR_MONTHS, ICalendar, IDay, IMonth, IWeek, Months, WEEK_DAYS} from "../../models/calendar.model";
 import {buildCalendar, buildCalendarMonth, calcDateDiffInDays, segmentArray} from "../../models/calendar.util";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
@@ -17,7 +17,8 @@ export class CalendarComponent implements OnInit {
   public month: IMonth = {name: '', weeks: []};
 
   currentDate = new Date();
-  year = this.currentDate.getFullYear();
+  calendarDate = new Date();
+  year = this.calendarDate.getFullYear();
   weekdays = WEEK_DAYS.map(value => value.substring(0, 3));
 
   constructor() {
@@ -28,16 +29,52 @@ export class CalendarComponent implements OnInit {
   }
 
   generateCalendar(): void {
-    this.month = buildCalendarMonth(this.currentDate.getMonth(), this.year);
+    this.month = buildCalendarMonth(this.calendarDate.getMonth(), this.calendarDate.getFullYear());
+    this.year = this.calendarDate.getFullYear();
   }
 
   forward() {
-    this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+    let m = this.calendarDate.getMonth();
+    let y = this.calendarDate.getFullYear();
+
+    if (m == Months.December) {
+      y++;
+      m = Months.January;
+    } else {
+      m++;
+    }
+
+    this.calendarDate.setFullYear(y, m);
     this.generateCalendar();
   }
 
   back() {
-    this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+    let m = this.calendarDate.getMonth();
+    let y = this.calendarDate.getFullYear();
+
+    if (m == Months.January) {
+      y = y - 1;
+      m = Months.December;
+    } else {
+      m = m - 1;
+    }
+
+    this.calendarDate.setFullYear(y, m);
     this.generateCalendar();
   }
+
+  isToday(day: number) {
+    const sameYear = this.year == this.currentDate.getFullYear();
+
+    if (sameYear) {
+      const sameMonth = this.calendarDate.getMonth() == this.currentDate.getMonth();
+
+      if (sameMonth) {
+        return sameYear && (this.currentDate.getDate() == day);
+      }
+    }
+
+    return false;
+  }
+
 }

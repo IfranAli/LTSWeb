@@ -7,15 +7,15 @@
 
         <div class="box-month">
           <mat-card-title>
-              <button mat-icon-button (click)="back()">
-                <mat-icon color="secondary">arrow_back</mat-icon>
-              </button>
+            <button mat-icon-button (click)="back()">
+              <mat-icon color="secondary">arrow_back</mat-icon>
+            </button>
 
-              <span>{{ month.name }} {{ year }}</span>
+            <span>{{ month.name }} {{ year }}</span>
 
-              <button mat-icon-button (click)="forward()">
-                <mat-icon color="secondary">arrow_forward</mat-icon>
-              </button>
+            <button mat-icon-button (click)="forward()">
+              <mat-icon color="secondary">arrow_forward</mat-icon>
+            </button>
           </mat-card-title>
 
           <!-- Header -->
@@ -31,7 +31,10 @@
 
             <div class="box-day"
                  *ngFor="let day of week.days"
-                 [ngClass]="day.currentMonth ? '' : 'disable'"
+                 [ngClass]="[
+                   day.currentMonth ? '' : 'disable',
+                   isToday(day.day) ? 'today' : '',
+                 ]"
             >
               {{ day.day }}
             </div>

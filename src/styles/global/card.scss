@@ -1,0 +1,48 @@
+@use "src/styles/global/colors" as global;
+@use "src/styles/global/style" as style;
+
+mat-card {
+  box-shadow: style.$box-shadow;
+  border-radius: style.$border-radius-2;
+  padding: 0.8rem 0 0 0;
+  margin: 0;
+
+  mat-card-title {
+    color: global.$color-text-title;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    button {
+      height: 2rem;
+    }
+
+    mat-icon {
+      vertical-align: baseline;
+    }
+  }
+
+  mat-card-subtitle {
+    color: global.$color-text-sub-title;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    margin-right: 8px;
+
+    .code {
+      font-weight: bold;
+    }
+  }
+
+  mat-card-actions {
+    color: global.$color-text-title;
+  }
+
+  background: global.$app-bg-main;
+}

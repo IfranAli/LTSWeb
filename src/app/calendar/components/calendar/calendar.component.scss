@@ -1,36 +1,55 @@
 @use "src/styles/global/colors" as global;
 @use "src/styles/global/style" as style;
+@use "src/styles/global/card";
+
+mat-card {
+  background: global.$primary-accent;
+
+  mat-card-title {
+    padding-bottom: 4px;
+  }
+}
 
 .calendar-container {
   display: flex;
   flex-direction: column;
   padding: style.$dialog-padding;
   margin: style.$margin-global-0;
+  max-width: min-content;
 
   .month-row {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     flex-direction: row;
+    justify-content: space-between;
+
+    color: global.$color-text-sub-title;
   }
 
   .box-header {
-    width: 50px;
+    width: 100px;
     font-weight: bold;
-    padding: 6px;
+    text-align: center;
   }
 
   .box-month {
     .box-day {
-      height: 50px;
-      width: 50px;
+      height: 100px;
+      width: 100px;
 
-      background: whitesmoke;
-      color: black;
+      background: #1f1f1f;
+      color: #8a8a8a;
       font-weight: bold;
-      border-style: solid;
-      border-width: 2px;
+      border-style: solid none none none;
+      border-width: 1px;
       padding: 4px;
-      border-color: cornflowerblue;
+      border-color: #404040;
+
+    }
+
+    .disable {
+      background: #282828;
+      color: #5d5d5d;
     }
   }
 }

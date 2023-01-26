@@ -33,7 +33,7 @@
                  *ngFor="let day of week.days"
                  [ngClass]="[
                    day.currentMonth ? '' : 'disable',
-                   isToday(day.day) ? 'today' : '',
+                   day.currentMonth && isToday(day.day) ? 'today' : '',
                  ]"
             >
               {{ day.day }}

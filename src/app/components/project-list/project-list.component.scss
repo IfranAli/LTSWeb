@@ -61,6 +61,22 @@
 
   mat-card {
     box-shadow: none !important;
+
+    mat-card-subtitle {
+      margin: 0;
+    }
+
+    .mat-card-title {
+      font-size: 14px;
+
+      .mat-icon-button {
+        height: auto;
+      }
+    }
+
+    .mat-card-actions {
+
+    }
   }
 
   .list {

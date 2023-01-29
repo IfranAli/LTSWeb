@@ -7,6 +7,7 @@ export interface ProjectModelPublic {
   description: string;
   colour: string;
   code: string;
+  enabled: boolean;
 }
 
 export interface ProjectDatabaseModel extends ProjectModelPublic, IdentityInterface {
@@ -20,8 +21,14 @@ export interface ProjectDatabaseModels {
   entities: ProjectModel[];
 }
 
-const defaultProject: ProjectModel = {
-  tasks: [], id: 0, title: '', description: '', colour: '#A0A0D0', code: ''
+export const defaultProject: ProjectModel = {
+  tasks: [],
+  id: 0,
+  title: '',
+  description: '',
+  colour: '#A0A0D0',
+  code: '',
+  enabled: true,
 }
 
 export const projectAdapter = createEntityAdapter<ProjectModel>();
@@ -31,6 +38,7 @@ export class Project implements ProjectModel {
   title: string = '';
   description: string = '';
   code: string = '';
+  enabled: boolean = true;
   colour: string = '#D2D2D2';
   public tasks: TaskModel[] = [];
 
@@ -57,6 +65,7 @@ export function createProjectModel(
     description: model.description ?? defaultVar.description,
     colour: model.colour ?? defaultVar.colour,
     code: model.code ?? defaultVar.code,
+    enabled: model.enabled ?? defaultVar.enabled,
     tasks: [],
   }
 }

@@ -7,9 +7,6 @@
 }
 
 .project-task-item {
-  margin-left: 1rem;
-  margin-right: 0.5rem;
-
   display: flex;
   flex-wrap: nowrap;
   align-items: baseline;
@@ -62,7 +59,7 @@ mat-form-field {
   .align-left {
     display: flex;
     align-items: flex-start;
-    //padding-left: 1rem;
+    padding: 0 4px;
   }
 
   .stretch {

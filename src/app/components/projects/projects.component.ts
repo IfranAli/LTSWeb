@@ -8,9 +8,10 @@ import {AppState} from "../../reducers";
 import {createProject, loadProjects} from "../../actions/project.actions";
 import * as fromProjects from "../../reducers/projects.reducer";
 import {loadTasks} from "../../actions/task.actions";
-import {createTaskModel} from "../../models/task.model";
+import {createTaskModel, TaskModel} from "../../models/task.model";
 import {logoutUser} from "../../actions/user.actions";
 import {Router} from "@angular/router";
+import {TaskState} from "../../constants/constants";
 
 @Component({
   selector: 'app-projects',
@@ -20,6 +21,7 @@ import {Router} from "@angular/router";
 export class ProjectsComponent implements OnInit {
   projects: ProjectModel[] = [];
   user: UserModel | null = null;
+  showInactiveProjects = false;
 
   constructor(
     private dataProvider: DataProviderService,
@@ -29,12 +31,22 @@ export class ProjectsComponent implements OnInit {
   ) {
   }
 
+  projectsSort = function (a: ProjectModel, b: ProjectModel): number {
+    return (a.enabled === b.enabled) ? 0 : (a.enabled ? -1 : 1);
+  }
+
   loadProjectsAndTasks() {
     this.dataProvider.getProjects().subscribe((projects) => {
       this.store.dispatch(loadProjects({entities: projects}))
 
       this.store.select(fromProjects.selectEntities).subscribe(value => {
-        this.projects = Object.values(value) as ProjectModel[];
+        const projects = Object.values(value) as ProjectModel[];
+
+        if (this.showInactiveProjects) {
+          this.projects = projects.sort(this.projectsSort);
+        } else {
+          this.projects = projects.filter(project => project.enabled);
+        }
       });
     })
 

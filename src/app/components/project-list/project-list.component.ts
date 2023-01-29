@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {createTaskModel, TaskDatabaseModel, TaskModel,} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
-import {ProjectModel} from "../../models/project.model";
+import {defaultProject, ProjectModel} from "../../models/project.model";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers";
 
@@ -21,9 +21,7 @@ import {TaskState} from "../../constants/constants";
   styleUrls: ['./project-list.component.scss'],
 })
 export class ProjectListComponent implements OnInit {
-  @Input() project: ProjectModel = {
-    tasks: [], id: 0, title: '', description: '', colour: '#A0A0D0', code: ''
-  };
+  @Input() project: ProjectModel = defaultProject
 
   @Output() onProjectChanged = new EventEmitter<Event>();
   @Output() onAddTaskToProject = new EventEmitter<Partial<TaskModel>>();

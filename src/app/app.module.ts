@@ -32,6 +32,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
 import { AppRoutingModule } from './app-routing.module';
 import { ProjectsComponent } from './components/projects/projects.component';
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ProjectsComponent } from './components/projects/projects.component';
     MatSelectModule,
     TaskComponent,
     AppRoutingModule,
+    MatNativeDateModule,
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

@@ -6,19 +6,28 @@ import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {financeDialogData} from "../finance-app/finance-app.component";
-import {FinanceModel} from "../../models/finance.model";
+import {createFinanceModel, FinanceModel} from "../../models/finance.model";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+
+const dateToString = function (date: Date): string {
+  const y = date.getFullYear();
+  const m = (date.getMonth() + 1).toString().padStart(2, '0');
+  const d = date.getDate().toString().padStart(2, '0');
+
+  return y + '/' + m + '/' + d;
+}
 
 @Component({
   selector: 'app-add-finance-dialog',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule],
+  imports: [CommonModule, MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatDatepickerModule],
   templateUrl: './add-finance-dialog.component.html',
   styleUrls: ['./add-finance-dialog.component.scss']
 })
 export class AddFinanceDialogComponent implements OnInit {
   form = new FormGroup({
     'name': new FormControl<string>(''),
-    'date': new FormControl<string>(this.getCurrentDate()),
+    'date': new FormControl<Date>(new Date()),
     'amount': new FormControl<number>(0),
     'categoryType': new FormControl<number>(0),
   });
@@ -32,10 +41,17 @@ export class AddFinanceDialogComponent implements OnInit {
   }
 
   addFinance() {
-    const form = this.form.getRawValue() as Partial<FinanceModel>;
+    const date = this.form.controls.date.getRawValue() ?? null;
 
-    console.log(form)
-    return form;
+    const financeModel = createFinanceModel({
+      name: this.form.controls.name.getRawValue() ?? '',
+      date: date ? dateToString(date) : '',
+      amount: this.form.controls.amount.getRawValue() ?? 0,
+      categoryType: this.form.controls.categoryType.getRawValue() ?? 0,
+    })
+
+    console.log(financeModel)
+    return financeModel;
   }
 
   private getCurrentDate(): string {

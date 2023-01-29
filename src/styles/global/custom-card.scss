@@ -1,0 +1,45 @@
+@use "src/styles/global/colors" as global;
+@use "src/styles/global/style" as style;
+
+.custom-card {
+  background: global.$primary-accent;
+  box-shadow: style.$box-shadow;
+  border-radius: style.$border-radius-2;
+  padding-top: 12px;
+  color: global.$color-text-dark;
+
+  .title {
+    font-size: 24px;
+    text-align: center;
+    font-weight: 500;
+
+    &.small {
+      font-size: 16px;
+    }
+
+    &.no-header {
+      padding-bottom: 6px;
+    }
+  }
+
+  .custom-card-content {
+    background: global.$layer-two-bg;
+    color: global.$color-text-light;
+
+    &.padding {
+      padding: 0.8rem 0.6rem;
+    }
+  }
+
+  .custom-card-actions {
+    .footer {
+
+    }
+  }
+}
+
+@media screen and (max-width: 844px) {
+  mat-card-actions {
+    margin: 0;
+  }
+}

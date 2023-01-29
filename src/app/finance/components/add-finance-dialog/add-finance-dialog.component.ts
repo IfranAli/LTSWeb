@@ -13,7 +13,7 @@ import {FinanceModel} from "../../models/finance.model";
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule],
   templateUrl: './add-finance-dialog.component.html',
-  styleUrls: ['./add-finance-dialog.component.css']
+  styleUrls: ['./add-finance-dialog.component.scss']
 })
 export class AddFinanceDialogComponent implements OnInit {
   form = new FormGroup({

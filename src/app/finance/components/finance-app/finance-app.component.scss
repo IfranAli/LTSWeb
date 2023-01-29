@@ -1,36 +1,12 @@
 @use "src/styles/global/colors" as global;
 @use "src/styles/global/style" as style;
-@use "src/styles/global/card";
+@use "src/styles/global/custom-card";
 
 $border-color: #404040;
 $day-disabled: #5d5d5d;
 $day-background: #282828;
 $day-background-darker: #1f1f1f;
 $day-font-light: #8a8a8a;
-
-.custom-card {
-  background: global.$primary-accent;
-  box-shadow: style.$box-shadow;
-  border-radius: style.$border-radius-2;
-  padding-top: 12px;
-  color: global.$color-text-dark;
-
-  .title {
-    font-size: 24px;
-    text-align: center;
-    font-weight: 500;
-  }
-
-  .custom-card-content {
-
-  }
-
-  .custom-card-actions {
-    .footer {
-
-    }
-  }
-}
 
 .nowrap {
   white-space: nowrap;

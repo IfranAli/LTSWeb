@@ -6,12 +6,6 @@
   margin: style.$margin-global-0;
 }
 
-@media screen and (max-width: 780px) {
-  .project-list{
-    margin: 1rem 0;
-  }
-}
-
 .card-content-block {
   padding: 0 0.5rem 0 1rem;
 }
@@ -22,9 +16,8 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  width: style.$task-width;
   min-width: style.$task-width;
-  min-height: style.$task-height;
+  max-width: style.$task-width;
 
   border-top: solid;
   border-color: style.$border-color-dark;
@@ -33,7 +26,7 @@
 .list-item {
   border-color: style.$border-color-dark;
   border-style: none none solid none;
-  padding: 0.8rem 0.3rem;
+  padding: 0.3rem 0;
 }
 
 .cdk-drag-preview {
@@ -59,4 +52,23 @@
 
 .list.cdk-drop-list-dragging .project-task-item:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+@media screen and (max-width: 844px) {
+  .project-list{
+    margin: 1rem 0;
+  }
+
+  mat-card {
+    box-shadow: none !important;
+  }
+
+  .list {
+    min-width: inherit;
+    max-width: style.$task-width;
+
+    .list-item {
+      padding: 0;
+    }
+  }
 }

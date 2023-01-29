@@ -46,3 +46,9 @@ mat-card {
 
   background: global.$app-bg-main;
 }
+
+@media screen and (max-width: 844px) {
+  mat-card-actions {
+    margin: 0;
+  }
+}

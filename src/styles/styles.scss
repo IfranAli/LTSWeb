@@ -36,8 +36,14 @@ body {
   linear-gradient(to bottom, $dash-color $dash-width, transparent $dash-width);
 }
 
+@media screen and (max-width: 844px) {
+  body {
+    background: colors.$layer-two-bg;
+  }
+}
+
 .dialog-style .mat-dialog-container {
-  background: colors.$layer-two-bg;
+  background: colors.$app-bg-main;
   box-shadow: style.$box-shadow;
   border-radius: style.$border-radius-2;
   padding: style.$dialog-padding;

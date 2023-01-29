@@ -1,5 +1,36 @@
 @use "src/styles/global/colors" as global;
 @use "src/styles/global/style" as style;
+@use "src/styles/global/card";
+
+$border-color: #404040;
+$day-disabled: #5d5d5d;
+$day-background: #282828;
+$day-background-darker: #1f1f1f;
+$day-font-light: #8a8a8a;
+
+.custom-card {
+  background: global.$primary-accent;
+  box-shadow: style.$box-shadow;
+  border-radius: style.$border-radius-2;
+  padding-top: 12px;
+  color: global.$color-text-dark;
+
+  .title {
+    font-size: 24px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .custom-card-content {
+
+  }
+
+  .custom-card-actions {
+    .footer {
+
+    }
+  }
+}
 
 .nowrap {
   white-space: nowrap;
@@ -14,13 +45,26 @@
   .finance {
     table {
       width: 100%;
-      box-shadow: style.$box-shadow;
+      box-shadow: none;
 
       th {
         background: global.$primary-accent;
-        color: global.$color-text-dark;
+        color: global.$color-text-sub-title;
         font-size: style.$font-large;
       }
+
+      tr {
+        background: $day-background-darker;
+        color: $day-font-light;
+        height: 1.8rem;
+        font-size: style.$font-large;
+        font-weight: normal;
+
+        td {
+          color: inherit;
+        }
+      }
+
     }
   }
 }

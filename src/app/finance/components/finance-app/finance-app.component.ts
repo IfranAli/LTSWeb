@@ -58,7 +58,7 @@ export class FinanceAppComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.table(result);
+        console.log(result);
         // const model: ProjectModel = {
         //   ...result
         // }

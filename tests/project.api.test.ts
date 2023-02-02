@@ -1,7 +1,8 @@
-import {ProjectService} from "../src/app/services/project.service";
+// import {ProjectService} from "../src/app/services/project.service";
 import {TestBed} from "@angular/core/testing";
 import {HttpClient} from "@angular/common/http";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {ProjectService} from "../src/app/services/project.service";
 
 // todo: tests don't work
 describe('Project API endpoint tests', () => {

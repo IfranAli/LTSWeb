@@ -22,5 +22,5 @@ export const bulkImportTextToFinanceModel =
             date: date ?? '',
           })
         }
-      ).filter(model => model.name.length > 0 && model.amount >= 0);
+      ).filter(model => model.name.length > 0 && model.amount != 0);
   }

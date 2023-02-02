@@ -11,14 +11,14 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatTabsModule} from "@angular/material/tabs";
 import {bulkImportTextToFinanceModel, dateToString} from "../../util/finance.util";
 
-enum Tabs {
+export enum Tabs {
   AddFinance = 0,
   BulkImport = 1,
 }
 
 export interface IDialogData {
   action: Tabs,
-  data: FinanceModel[] | FinanceModel,
+  data: FinanceModel[],
 }
 
 @Component({
@@ -67,7 +67,7 @@ export class AddFinanceDialogComponent implements OnInit {
 
       const result: IDialogData = {
         action: tab,
-        data: financeModel
+        data: [financeModel]
       }
       this.dialogRef.close(result)
     }

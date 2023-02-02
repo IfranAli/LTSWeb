@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CALENDAR_MONTHS, ICalendar, IDay, IMonth, IWeek, Months, WEEK_DAYS} from "../../models/calendar.model";
-import {buildCalendar, buildCalendarMonth, calcDateDiffInDays, segmentArray} from "../../models/calendar.util";
+import {IMonth, Months, WEEK_DAYS} from "../../models/calendar.model";
+import {buildCalendarMonth} from "../../models/calendar.util";
 import {MatCardModule} from "@angular/material/card";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";

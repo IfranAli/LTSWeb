@@ -17,7 +17,7 @@ export class FinanceService {
   }
 
   createFinance(model: FinanceModel) {
-    return this.http.put<FinanceDatabaseModel>(financesUrl, model, httpHeaders);
+    return this.http.post<FinanceDatabaseModel>(financesUrl, model, httpHeaders);
   }
 
   getFinanceCategories() {

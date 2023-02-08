@@ -9,6 +9,7 @@
     "watch": "ng build --watch --configuration development",
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/ltsweb/stats.json",
     "test": "jest",
+    "depcheck": "npx depcheck",
     "docs:json": "compodoc -p ./tsconfig.json -e json -d ."
   },
   "private": true,

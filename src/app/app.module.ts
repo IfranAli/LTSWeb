@@ -2,9 +2,6 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppComponent} from './app.component';
-import ButtonComponent from "../stories/button.component";
-import PageComponent from "../stories/page.component";
-import HeaderComponent from "../stories/header.component";
 import {TaskComponent} from './components/task/task.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatIconModule} from "@angular/material/icon";
@@ -29,19 +26,15 @@ import {EditProjectDialogComponent} from './components/edit-project-dialog/edit-
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {MatSelectModule} from "@angular/material/select";
 import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
-import { AppRoutingModule } from './app-routing.module';
-import { ProjectsComponent } from './components/projects/projects.component';
+import {AppRoutingModule} from './app-routing.module';
+import {ProjectsComponent} from './components/projects/projects.component';
 import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ButtonComponent,
-    PageComponent,
-    HeaderComponent,
     TaskEditViewComponent,
     ProjectListComponent,
-    ButtonComponent,
     EditTaskDialogComponent,
     EditProjectDialogComponent,
     LoginDialogComponent,

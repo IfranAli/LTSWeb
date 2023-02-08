@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {FinanceAppComponent} from "./components/finance-app/finance-app.component";
 
 const routes: Routes = [
-  { path: '', component: FinanceAppComponent}
+  {path: '', component: FinanceAppComponent}
 ];
 
 
@@ -18,4 +18,5 @@ const routes: Routes = [
     [RouterModule]
   ]
 })
-export class FinanceRoutingModule { }
+export class FinanceRoutingModule {
+}

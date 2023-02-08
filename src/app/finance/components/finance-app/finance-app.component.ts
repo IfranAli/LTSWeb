@@ -3,7 +3,7 @@ import {FinanceService, IFinanceSummary} from "../../services/finance.service";
 import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
+import {AddFinanceDialogComponent, IDialogData} from "../add-finance-dialog/add-finance-dialog.component";
 
 export interface financeDialogData {
   categories: Map<number, string>;

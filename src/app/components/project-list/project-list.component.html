@@ -1,27 +1,27 @@
 <div *ngIf="project" class="project-list example-container">
-  <mat-card
+  <div
+    class="custom-card"
     [style.background]="projectColour"
   >
-    <div class="card-content-block">
-      <mat-card-title>
-        {{project.title}}
 
-        <button mat-icon-button (click)="openDialog()">
-          <mat-icon color="secondary">settings</mat-icon>
-        </button>
-      </mat-card-title>
-
-      <mat-card-subtitle>
-        <span>{{project.description}}</span>
-        <span class="code">
-          <span *ngIf="!project.enabled">inactive</span>
-          {{project.code}}
-        </span>
-      </mat-card-subtitle>
+    <div class="title space-between">
+      <span>{{project.title}}</span>
+      <button mat-icon-button (click)="openDialog()">
+        <mat-icon color="secondary">settings</mat-icon>
+      </button>
     </div>
 
+    <div class="title small space-between">
+      <span>{{project.description}}</span>
+      <span class="code">
+          <span *ngIf="!project.enabled">inactive</span>
+        {{project.code}}
+        </span>
+    </div>
+
+
     <div
-      class="list"
+      class="list custom-card-content"
       id="{{project.id}}"
       cdkDropList
       [cdkDropListData]="project.tasks"
@@ -42,10 +42,10 @@
       </div>
     </div>
 
-    <mat-card-actions align="end" class="card-content-block">
+    <div class="custom-card-actions footer">
       <button mat-icon-button>
         <mat-icon (click)="addTaskToProject()">add</mat-icon>
       </button>
-    </mat-card-actions>
-  </mat-card>
+    </div>
+  </div>
 </div>

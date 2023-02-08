@@ -3,9 +3,19 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {FinanceCategory, FinanceDatabaseModel, FinanceModel} from "../models/finance.model";
 import {httpHeaders, ResponseMessage} from "../../constants/web-constants";
+import {dateToString} from "../util/finance.util";
 
 const baseUrl = environment.backendURL;
 const financesUrl = baseUrl + 'finance';
+
+export interface IFinanceSummary {
+  total: string,
+  categoryName: string,
+  items: {
+    name: string,
+    value: number,
+  }[]
+}
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +33,19 @@ export class FinanceService {
   getFinanceCategories() {
     const url = financesUrl.concat('/', 'category');
     return this.http.get<FinanceCategory[]>(url, httpHeaders);
+  }
+
+  getFinanceSummary(accountId: number, from: Date, to: Date) {
+    const url = financesUrl.concat('/', 'summary', '/' + String(accountId));
+    return this.http.get<IFinanceSummary[]>(url, {
+      ...httpHeaders,
+      params: {
+        from: dateToString(from),
+        to: dateToString(to),
+        accountId: accountId,
+      }
+    });
+    // return this.http.get<IFinanceSummary[]>(url, httpHeaders);
   }
 
   getFinances() {

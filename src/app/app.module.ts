@@ -15,7 +15,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {TaskEditViewComponent} from './components/task-edit-view/task-edit-view.component';
 import {ProjectListComponent} from './components/project-list/project-list.component';
-import {MatCardModule} from "@angular/material/card";
 import {MatListModule} from "@angular/material/list";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MatSidenavModule} from "@angular/material/sidenav";
@@ -58,7 +57,6 @@ import {MatNativeDateModule} from "@angular/material/core";
     MatInputModule,
     FormsModule,
     MatCheckboxModule,
-    MatCardModule,
     MatListModule,
     MatGridListModule,
     MatSidenavModule,

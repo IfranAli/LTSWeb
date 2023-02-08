@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FinanceService} from "../../services/finance.service";
+import {FinanceService, IFinanceSummary} from "../../services/finance.service";
 import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
@@ -17,6 +17,7 @@ export interface financeDialogData {
   styleUrls: ['./finance-app.component.scss']
 })
 export class FinanceAppComponent implements OnInit {
+  summary: IFinanceSummary[] | null = null;
   finances: FinanceModel[] | null = null;
   displayedColumns: Array<keyof FinanceModel> = [
     "name",
@@ -44,6 +45,14 @@ export class FinanceAppComponent implements OnInit {
         this.financeService.getFinances().subscribe({
           next: value => this.finances = value,
           error: err => console.error(err),
+        })
+
+        const from = new Date('2021-01-01');
+        const to = new Date('2024-01-01');
+        this.financeService.getFinanceSummary(0, from, to).subscribe({
+          next: summary => {
+            this.summary = summary
+          },
         })
       },
       error: err => this.router.navigate([''])

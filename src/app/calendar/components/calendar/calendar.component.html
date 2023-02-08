@@ -1,49 +1,47 @@
 <div class="calendar-container">
 
-  <mat-card>
-    <div class="card-content-block">
+  <div class="custom-card">
 
-      <div class="months">
+    <div class="months">
 
-        <div class="box-month">
-          <mat-card-title>
-            <button mat-icon-button (click)="back()">
-              <mat-icon color="secondary">arrow_back</mat-icon>
-            </button>
+      <div class="box-month">
+        <div class="title space-between">
+          <button mat-icon-button (click)="back()">
+            <mat-icon color="secondary">arrow_back</mat-icon>
+          </button>
 
-            <span>{{ month.name }} {{ year }}</span>
+          <span>{{ month.name }} {{ year }}</span>
 
-            <button mat-icon-button (click)="forward()">
-              <mat-icon color="secondary">arrow_forward</mat-icon>
-            </button>
-          </mat-card-title>
+          <button mat-icon-button (click)="forward()">
+            <mat-icon color="secondary">arrow_forward</mat-icon>
+          </button>
+        </div>
 
-          <!-- Header -->
-          <div class="month-row">
-            <div class="box-header"
-                 *ngFor="let day of weekdays">
-              {{ day }}
-            </div>
+        <!-- Header -->
+        <div class="month-row">
+          <div class="box-header"
+               *ngFor="let day of weekdays">
+            {{ day }}
           </div>
+        </div>
 
-          <div class="month-row month-week"
-               *ngFor="let week of month.weeks">
+        <div class="month-row month-week"
+             *ngFor="let week of month.weeks">
 
-            <div class="box-day"
-                 *ngFor="let day of week.days"
-                 [ngClass]="[
+          <div class="box-day"
+               *ngFor="let day of week.days"
+               [ngClass]="[
                    day.currentMonth ? '' : 'disable',
                    day.currentMonth && isToday(day.day) ? 'today' : '',
                  ]"
-            >
-              {{ day.day }}
-            </div>
+          >
+            {{ day.day }}
           </div>
-
         </div>
 
       </div>
+
     </div>
-  </mat-card>
+  </div>
 
 </div>

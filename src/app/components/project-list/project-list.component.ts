@@ -12,7 +12,6 @@ import {createTask, updateTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
 import {EditProjectDialogComponent} from "../edit-project-dialog/edit-project-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import {updateProject} from "../../actions/project.actions";
 import {TaskState} from "../../constants/constants";
 
 @Component({
@@ -71,7 +70,7 @@ export class ProjectListComponent implements OnInit {
         .filter(value => value.projectId == this.project.id)
         .sort(ProjectListComponent.taskSortMethod)
 
-      if (filtered != []) {
+      if (filtered) {
         this.project = {
           ...this.project,
           tasks: filtered,

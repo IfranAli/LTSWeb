@@ -14,7 +14,7 @@ export const bulkImportTextToFinanceModel =
       .map(value => {
           const n = value.substring(0, value.indexOf(' ') ?? 0)
           const d = value.substring(n.length).trim();
-          const v = parseFloat(n);
+          const v = parseFloat(n) ?? 0;
 
           return createFinanceModel({
             name: d ?? '',
@@ -22,5 +22,5 @@ export const bulkImportTextToFinanceModel =
             date: date ?? '',
           })
         }
-      ).filter(model => model.name.length > 0 && model.amount != 0);
+      ).filter(model => model.name.length > 0 && (model.amount > 0 || model.amount < 0));
   }

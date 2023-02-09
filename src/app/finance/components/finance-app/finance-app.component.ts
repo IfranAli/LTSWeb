@@ -3,7 +3,7 @@ import {FinanceService, IFinanceSummary} from "../../services/finance.service";
 import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {AddFinanceDialogComponent, IDialogData} from "../add-finance-dialog/add-finance-dialog.component";
+import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
 
 export interface financeDialogData {
   categories: Map<number, string>;
@@ -66,21 +66,24 @@ export class FinanceAppComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: IDialogData) => {
-      if (!result) {
+      if (!result || (result.data.length == 0)) {
         return;
       }
 
-      // Need to refactor to use the Account object
-      result.data.forEach((model) => {
-        this.financeService.createFinance(model).subscribe(value => {
-          console.log(value);
+      if (result.action == Tabs.AddFinance) {
+        this.financeService.createFinance(result.data.shift()!).subscribe(value => {
+          this.finances = [...(this.finances ?? []), ...value];
         })
-        // this.dataProvider.updateProject(model).subscribe(value => {
-        //   this.store.dispatch(updateProject({
-        //     ...model
-        //   }));
-        // })
-      });
+
+        return;
+      }
+
+      if (result.action == Tabs.BulkImport) {
+        this.financeService.createFinanceMany(result.data).subscribe(value => {
+          this.finances = [...(this.finances ?? []), ...value.data];
+        })
+      }
+
     });
   }
 }

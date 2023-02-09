@@ -17,6 +17,11 @@ export interface IFinanceSummary {
   }[]
 }
 
+export interface IResult<T> {
+  data: T[],
+  errors: string[]
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,8 +31,17 @@ export class FinanceService {
   ) {
   }
 
+  createFinanceMany(models: FinanceModel[]) {
+    const model = models.map(model => {
+      const {id, ...noId} = model;
+      return noId;
+    })
+    return this.http.post<IResult<FinanceDatabaseModel>>(financesUrl, model, httpHeaders);
+  }
+
   createFinance(model: FinanceModel) {
-    return this.http.post<FinanceDatabaseModel>(financesUrl, model, httpHeaders);
+    const {id, ...postData} = model;
+    return this.http.post<FinanceDatabaseModel[]>(financesUrl, postData, httpHeaders);
   }
 
   getFinanceCategories() {

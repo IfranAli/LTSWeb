@@ -80,12 +80,18 @@ export class AddFinanceDialogComponent implements OnInit {
         const date = dateRaw ? dateToString(dateRaw) : '';
         const financeModels = bulkImportTextToFinanceModel(input, date);
 
-        if (financeModels.length) {
+        const expectedLength = input.split('\n').length;
+        const actualLength = financeModels.length
+
+        if (expectedLength == actualLength) {
           const result: IDialogData = {
             action: tab,
             data: financeModels
           }
+
           this.dialogRef.close(result)
+        } else {
+          console.error(`Parse error ${actualLength}/${expectedLength} lines parsed.`);
         }
       }
 

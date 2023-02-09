@@ -43,4 +43,26 @@ $day-font-light: #8a8a8a;
 
     }
   }
+
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    .category {
+      padding: 0.2rem 0.5rem 0 0.5rem;
+      margin: 1rem 1rem 1rem 0;
+
+      width: auto;
+      min-width: 100px;
+      display: block;
+      font-weight: bold;
+    }
+
+    .total {
+      text-align: right;
+      font-size: smaller;
+      display: block;
+    }
+  }
 }

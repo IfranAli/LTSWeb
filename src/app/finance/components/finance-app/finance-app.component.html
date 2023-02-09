@@ -1,19 +1,18 @@
 <div class="finances-container">
 
 
+  <h1>Summary</h1>
   <div class='summary' *ngIf="summary">
-    <h1>Summary</h1>
 
-    <div class="category" *ngFor="let cat of summary">
-      <h5>{{cat.categoryName}} : {{cat.total}}</h5>
+    <div class="category custom-card" *ngFor="let cat of summary">
+      <span class="name">{{cat.categoryName}}</span>
+      <span class="total">{{cat.total}}</span>
     </div>
   </div>
 
   <div class="custom-card">
 
-    <div class="title">
-      Finance
-    </div>
+    <div class="title">Finance</div>
 
     <div class='finance custom-card-content' *ngIf="finances">
 

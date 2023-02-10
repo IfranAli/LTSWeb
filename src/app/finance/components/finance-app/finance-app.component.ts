@@ -4,6 +4,8 @@ import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
+import {getTotalDaysInMonth} from "../../../calendar/models/calendar.util";
+import {sortFinanceModels} from "../../util/finance.util";
 
 export interface financeDialogData {
   categories: Map<number, string>;
@@ -28,11 +30,21 @@ export class FinanceAppComponent implements OnInit {
 
   categoryLookup = new Map<number, string>;
 
+  dateFrom = new Date();
+  dateTo = new Date();
+
   constructor(
     private financeService: FinanceService,
     private router: Router,
     private dialog: MatDialog,
   ) {
+  }
+
+  processSummary = (summary: IFinanceSummary[]) => {
+    const allFinances: FinanceModel[] = summary.map(s => s.items).shift() ?? [];
+
+    this.summary = summary;
+    this.finances = allFinances.sort(sortFinanceModels);
   }
 
   ngOnInit(): void {
@@ -42,17 +54,10 @@ export class FinanceAppComponent implements OnInit {
           return acc.set(c.id, c.type)
         }, new Map<number, string>)
 
-        this.financeService.getFinances().subscribe({
-          next: value => this.finances = value,
-          error: err => console.error(err),
-        })
-
-        const from = new Date('2021-01-01');
-        const to = new Date('2024-01-01');
-        this.financeService.getFinanceSummary(0, from, to).subscribe({
-          next: summary => {
-            this.summary = summary
-          },
+        this.dateFrom.setDate(1);
+        this.dateTo.setDate(getTotalDaysInMonth(this.dateTo));
+        this.financeService.getFinanceSummary(0, this.dateFrom, this.dateTo).subscribe({
+          next: summary => this.processSummary(summary)
         })
       },
       error: err => this.router.navigate([''])

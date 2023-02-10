@@ -10,6 +10,7 @@ import {createFinanceModel, FinanceModel} from "../../models/finance.model";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatTabsModule} from "@angular/material/tabs";
 import {bulkImportTextToFinanceModel, dateToString} from "../../util/finance.util";
+import {parseDateIdentifier} from "../../../calendar/models/calendar.util";
 
 export enum Tabs {
   AddFinance = 0,
@@ -78,21 +79,39 @@ export class AddFinanceDialogComponent implements OnInit {
       if (input) {
         const dateRaw = this.bulkImportForm.controls.date.getRawValue() ?? '';
         const date = dateRaw ? dateToString(dateRaw) : '';
-        const financeModels = bulkImportTextToFinanceModel(input, date);
 
-        const expectedLength = input.split('\n').length;
-        const actualLength = financeModels.length
+        const financeModels = input.split('\n\n').map(m => {
+          const items = m.split('\n');
 
-        if (expectedLength == actualLength) {
-          const result: IDialogData = {
-            action: tab,
-            data: financeModels
+          if (items.length < 2) {
+            return null;
           }
 
-          this.dialogRef.close(result)
-        } else {
-          console.error(`Parse error ${actualLength}/${expectedLength} lines parsed.`);
+          const dateStr = parseDateIdentifier(items[0])
+
+          if (dateStr.length) {
+            const itemsSlice = items.slice(1);
+            const expectedLength = itemsSlice.length;
+            const processed = bulkImportTextToFinanceModel(itemsSlice.join('\n').trim(), dateStr);
+            const actualLength = processed.length
+
+            return (expectedLength == actualLength) ? processed : null;
+          }
+
+          const expectedLength = input.split('\n').length;
+          const processed = bulkImportTextToFinanceModel(input, dateToString(new Date()));
+          const actualLength = processed.length
+
+          return (expectedLength == actualLength) ? processed : null;
+        }).flatMap(v => v).filter(v => v!!) as FinanceModel[];
+
+
+        const result: IDialogData = {
+          action: tab,
+          data: financeModels
         }
+
+        this.dialogRef.close(result)
       }
 
     }

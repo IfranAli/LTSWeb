@@ -1,7 +1,16 @@
 import {CALENDAR_MONTHS, ICalendar, IDay, IMonth, IWeek, MONTHS_MAX_DAYS} from "./calendar.model";
+import {dateToString} from "../../finance/util/finance.util";
 
 const FEBRUARY = 1;
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+export const getTotalDaysInMonth = (date: Date): number => {
+  const calc = new Date(date);
+  calc.setDate(1);
+  calc.setMonth(calc.getMonth() + 1);
+  calc.setDate(calc.getDate() + -1);
+  return calc.getDate();
+}
 
 export const isLeapYear = function (year: number) {
   return (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
@@ -86,4 +95,69 @@ export const buildCalendar = function (year: number): ICalendar {
   );
 
   return calendar;
+}
+
+// todo: move into own file
+const isMonth = (str: string): string => CALENDAR_MONTHS.find(m => m.search(str) >= 0) ?? '';
+const isDay = (str: string): number => {
+  const day = parseFloat(str);
+  return Number.isSafeInteger(day) && (day >= 1 && day <= 31) ? day : 0;
+}
+const isYear = (str: string): number => {
+  const y = parseFloat(str);
+  return Number.isSafeInteger(y) && (y > 2000 && y < 3000) ? y : 0;
+}
+
+export interface IDateParsed {
+  d: number | null,
+  m: number | null,
+  y: number | null,
+}
+
+export const parseDateIdentifier = (str: string): string => {
+  const date = new Date();
+
+  const parsed = str.split(' ').reduce<IDateParsed>((p, c, idx) => {
+    if (idx > 3) {
+      return {d: p.d, m: p.m, y: p.y}
+    }
+
+    if (!p.d) {
+      const d = isDay(c);
+
+      if (d) {
+        return {d: d ?? p.d, m: p.m, y: p.y}
+      }
+    }
+
+    if (!p.m) {
+      const monthText = isMonth(c);
+      const m = (monthText.length) ? CALENDAR_MONTHS.indexOf(monthText) : -1;
+
+      if (m >= 0) {
+        return {d: p.d, m: m, y: p.y}
+      }
+    }
+
+    if (!p.y) {
+      const y = isYear(c);
+      return {d: p.d, m: p.m, y: (y > 0) ? y : p.y}
+    }
+
+    return {d: p.d, m: p.m, y: p.y}
+  }, {d: null, m: null, y: null});
+
+  if (parsed.d === null && parsed.m === null && parsed.y === null) {
+    return '';
+  }
+
+  const d = (parsed.d != null) ? parsed.d : date.getDate();
+  const m = (parsed.m != null) ? parsed.m : date.getMonth();
+  const y = (parsed.y != null) ? parsed.y : date.getFullYear();
+
+  date.setMonth(m)
+  date.setDate(d)
+  date.setFullYear(y)
+
+  return dateToString(date);
 }

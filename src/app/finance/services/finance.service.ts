@@ -11,10 +11,7 @@ const financesUrl = baseUrl + 'finance';
 export interface IFinanceSummary {
   total: string,
   categoryName: string,
-  items: {
-    name: string,
-    value: number,
-  }[]
+  items: FinanceModel[]
 }
 
 export interface IResult<T> {

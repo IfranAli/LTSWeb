@@ -12,6 +12,7 @@ export interface FinanceDatabaseModel {
 
 export interface FinanceCategory extends IdentityInterface {
   type: string,
+  colour: string,
 }
 
 export interface FinanceModel extends IdentityInterface, FinanceDatabaseModel {

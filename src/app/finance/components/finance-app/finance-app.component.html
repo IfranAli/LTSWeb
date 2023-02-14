@@ -1,11 +1,19 @@
 <div class="finances-container">
 
   <h1>Summary</h1>
-  <div class='summary' *ngIf="summary">
+  <div class='summary' *ngIf="summaries">
 
-    <div class="category custom-card" *ngFor="let cat of summary">
-      <span class="name">{{cat.categoryName}}</span>
-      <span class="total">{{cat.total}}</span>
+    <div
+      class="category"
+      *ngFor="let categorySummary of summaries"
+      [style.width]="categorySummary.percentage"
+      [style.background]="categorySummary.colour"
+    >
+      <span class="name">{{categorySummary.categoryName}}</span>
+      <div>
+        <span style="float: right">{{categorySummary.total}}</span>
+        <span style="float: left">{{categorySummary.percentage}}</span>
+      </div>
     </div>
   </div>
 

@@ -11,6 +11,13 @@ export interface financeDialogData {
   categories: Map<number, string>;
 }
 
+interface ViewModelProps {
+  percentage: string,
+  colour: string,
+}
+
+type ViewModel = IFinanceSummary & ViewModelProps
+
 @Component({
   selector: 'app-finance-app',
   // standalone: true,
@@ -19,10 +26,11 @@ export interface financeDialogData {
   styleUrls: ['./finance-app.component.scss']
 })
 export class FinanceAppComponent implements OnInit {
-  summary: IFinanceSummary[] | null = null;
+  summaries: ViewModel[] | null = null;
   finances: FinanceModel[] | null = null;
 
   categoryLookup = new Map<number, string>;
+  categoryColourLookup = new Map<string, string>;
 
   dateFrom = new Date();
   dateTo = new Date();
@@ -37,7 +45,24 @@ export class FinanceAppComponent implements OnInit {
   processSummary = (summary: IFinanceSummary[]) => {
     const allFinances: FinanceModel[] = summary.map(s => s.items).flat();
 
-    this.summary = summary;
+    const grandTotal = summary.reduce<number>((p, c) => {
+      return p + parseFloat(c.total);
+    }, 0);
+
+    this.summaries = summary.map(d => {
+      const v = parseFloat(d.total);
+      const p = (v / grandTotal) * 100;
+      const c = this.categoryColourLookup.get(d.categoryName) ?? '';
+
+      return {
+        categoryName: d.categoryName,
+        colour: c.length ? c : '#A8D6D6',
+        total: d.total,
+        items: d.items,
+        percentage: p.toFixed(0).concat('%'),
+      }
+    });
+
     this.finances = allFinances.sort(sortFinanceModels);
   }
 
@@ -47,6 +72,9 @@ export class FinanceAppComponent implements OnInit {
         this.categoryLookup = value.reduce((acc, c) => {
           return acc.set(c.id, c.type)
         }, new Map<number, string>)
+        this.categoryColourLookup = value.reduce((acc, c) => {
+          return acc.set(c.type, c.colour ?? '#A8D6D6')
+        }, new Map<string, string>)
 
         this.dateFrom.setDate(1);
         this.dateTo.setDate(getTotalDaysInMonth(this.dateTo));

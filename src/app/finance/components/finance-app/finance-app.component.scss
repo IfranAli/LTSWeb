@@ -21,9 +21,9 @@ $day-font-light: #8a8a8a;
   .custom-table {
 
     div {
-      text-align: center;
       display: flex;
       align-items: center;
+      text-align: left;
 
       span {
         padding: style.$padding-1;
@@ -49,9 +49,6 @@ $day-font-light: #8a8a8a;
           background: #ffffff06;
         }
 
-        span:first-child {
-          text-align: left;
-        }
       }
     }
   }

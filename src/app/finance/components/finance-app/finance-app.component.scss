@@ -18,29 +18,41 @@ $day-font-light: #8a8a8a;
   padding: style.$dialog-padding;
   margin: style.$margin-global-0;
 
-  .finance {
-    table {
-      width: 100%;
-      box-shadow: none;
+  .custom-table {
 
-      th {
+    div {
+      text-align: center;
+      display: flex;
+      align-items: center;
+
+      span {
+        padding: style.$padding-1;
+        width: 100%;
+      }
+
+      &.header {
         background: global.$primary-accent;
+        font-weight: bold;
         color: global.$color-text-sub-title;
         font-size: style.$font-large;
       }
 
-      tr {
+      &.row {
         background: $day-background-darker;
+        background: inherit;
         color: $day-font-light;
-        height: 1.8rem;
         font-size: style.$font-large;
         font-weight: normal;
+        border-bottom: solid 1px #ffffff1f;
 
-        td {
-          color: inherit;
+        span:nth-child(even) {
+          background: #ffffff06;
+        }
+
+        span:first-child {
+          text-align: left;
         }
       }
-
     }
   }
 

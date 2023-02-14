@@ -21,12 +21,6 @@ export interface financeDialogData {
 export class FinanceAppComponent implements OnInit {
   summary: IFinanceSummary[] | null = null;
   finances: FinanceModel[] | null = null;
-  displayedColumns: Array<keyof FinanceModel> = [
-    "name",
-    "date",
-    "amount",
-    "categoryType",
-  ];
 
   categoryLookup = new Map<number, string>;
 
@@ -41,7 +35,7 @@ export class FinanceAppComponent implements OnInit {
   }
 
   processSummary = (summary: IFinanceSummary[]) => {
-    const allFinances: FinanceModel[] = summary.map(s => s.items).shift() ?? [];
+    const allFinances: FinanceModel[] = summary.map(s => s.items).flat();
 
     this.summary = summary;
     this.finances = allFinances.sort(sortFinanceModels);

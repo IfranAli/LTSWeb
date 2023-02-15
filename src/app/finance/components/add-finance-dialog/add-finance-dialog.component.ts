@@ -10,7 +10,7 @@ import {createFinanceModel, FinanceModel} from "../../models/finance.model";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatTabsModule} from "@angular/material/tabs";
 import {bulkImportTextToFinanceModel, dateToString} from "../../util/finance.util";
-import {parseDateIdentifier} from "../../../calendar/models/calendar.util";
+import {parseDateIdentifierAsString} from "../../../calendar/models/calendar.util";
 
 export enum Tabs {
   AddFinance = 0,
@@ -87,7 +87,7 @@ export class AddFinanceDialogComponent implements OnInit {
             return null;
           }
 
-          const dateStr = parseDateIdentifier(items[0])
+          const dateStr = parseDateIdentifierAsString(items[0])
 
           if (dateStr.length) {
             const itemsSlice = items.slice(1);

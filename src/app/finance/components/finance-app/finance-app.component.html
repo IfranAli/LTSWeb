@@ -18,8 +18,7 @@
   </div>
 
   <div class="custom-card">
-
-    <div class="title">Finance</div>
+    <div class="title small no-header">Finance</div>
 
     <div class='custom-table custom-card-content' *ngIf="finances">
       <div class="header">
@@ -41,6 +40,24 @@
     <div class="custom-card-actions">
       <button mat-button (click)="openDialogAddFinance()">Add</button>
     </div>
-
   </div>
+
+  <br/>
+
+  <div class="custom-card">
+    <div class="title small no-header">Week breakdown</div>
+
+    <div class='custom-table custom-card-content' *ngIf="weekSummaries">
+      <div class="header">
+        <span>name</span>
+        <span>total</span>
+      </div>
+
+      <div class="row" *ngFor="let summary of weekSummaries">
+        <span>{{summary.categoryName}}</span>
+        <span>{{summary.total}}</span>
+      </div>
+    </div>
+  </div>
+
 </div>

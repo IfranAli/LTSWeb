@@ -4,7 +4,7 @@ import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
-import {getTotalDaysInMonth} from "../../../calendar/models/calendar.util";
+import {getTotalDaysInMonth, parseDateFormattedStr, parseDateIdentifier} from "../../../calendar/models/calendar.util";
 import {sortFinanceModels} from "../../util/finance.util";
 
 export interface financeDialogData {
@@ -18,6 +18,27 @@ interface ViewModelProps {
 
 type ViewModel = IFinanceSummary & ViewModelProps
 
+const generateWeekSummaries = (date: Date, financeModels: FinanceModel[]): IFinanceSummary[] => {
+  const dateStart = new Date(date.getFullYear(), date.getMonth(), 1)
+  const dayStart = (dateStart.getDay() == 0 ? 6 : dateStart.getDay());
+  const numRows = (42 - (dayStart)) % 7
+
+  return financeModels.reduce((p, c) => {
+    const day = parseDateFormattedStr(c.date)?.d ?? 0;
+    const week = Math.floor((dayStart + day) / 7)
+
+    p[week] = [...p[week], c]
+    return p
+  }, Array.from(new Array(numRows)).fill([]))
+    .reduce<IFinanceSummary[]>((previousValue, currentValue: FinanceModel[], currentIndex) =>
+      [...previousValue, {
+        categoryName: `Week ${currentIndex + 1}`,
+        total: currentValue.reduce((p, c) => p + c.amount, 0).toFixed(2),
+        items: currentValue
+      }], []
+    )
+}
+
 @Component({
   selector: 'app-finance-app',
   // standalone: true,
@@ -28,6 +49,7 @@ type ViewModel = IFinanceSummary & ViewModelProps
 export class FinanceAppComponent implements OnInit {
   summaries: ViewModel[] | null = null;
   finances: FinanceModel[] | null = null;
+  weekSummaries: IFinanceSummary[] | null = null;
 
   categoryLookup = new Map<number, string>;
   categoryColourLookup = new Map<string, string>;
@@ -43,7 +65,8 @@ export class FinanceAppComponent implements OnInit {
   }
 
   processSummary = (summary: IFinanceSummary[]) => {
-    const allFinances: FinanceModel[] = summary.map(s => s.items).flat();
+    const allFinances: FinanceModel[] = summary
+      .map(s => s.items).flat().sort(sortFinanceModels);
 
     const grandTotal = summary.reduce<number>((p, c) => {
       return p + parseFloat(c.total);
@@ -63,7 +86,8 @@ export class FinanceAppComponent implements OnInit {
       }
     });
 
-    this.finances = allFinances.sort(sortFinanceModels);
+    this.weekSummaries = generateWeekSummaries(this.dateFrom, allFinances)
+    this.finances = allFinances;
   }
 
   ngOnInit(): void {

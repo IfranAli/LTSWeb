@@ -1,5 +1,5 @@
 import {bulkImportTextToFinanceModel, dateToString} from "../util/finance.util";
-import {parseDateIdentifier} from "../../calendar/models/calendar.util";
+import {parseDateIdentifierAsString} from "../../calendar/models/calendar.util";
 
 const input =
   '-10 Broccoli\n' +
@@ -34,7 +34,7 @@ describe('Finance Tests', () => {
         return null;
       }
 
-      const dateStr = parseDateIdentifier(items[0])
+      const dateStr = parseDateIdentifierAsString(items[0])
 
       if (dateStr.length) {
         const itemsSlice = items.slice(1).join('\n').trim();

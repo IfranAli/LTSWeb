@@ -114,10 +114,25 @@ export interface IDateParsed {
   y: number | null,
 }
 
-export const parseDateIdentifier = (str: string): string => {
+export const parseDateFormattedStr = (dateStr: string): IDateParsed => {
+  const split = dateStr.split('/')
+
+  return {
+    d: parseInt(split[2] ?? 0),
+    m: parseInt(split[1] ?? 0),
+    y: parseInt(split[0] ?? 0),
+  }
+}
+
+export const parseDateIdentifierAsString = (str: string): string => {
+  const result = parseDateIdentifier(str);
+  return result ? dateToString(result) : '';
+}
+
+export const parseDateIdentifier = (str: string, separator: string = ' '): Date | null => {
   const date = new Date();
 
-  const parsed = str.split(' ').reduce<IDateParsed>((p, c, idx) => {
+  const parsed = str.split(separator).reduce<IDateParsed>((p, c, idx) => {
     if (idx > 3) {
       return {d: p.d, m: p.m, y: p.y}
     }
@@ -148,7 +163,7 @@ export const parseDateIdentifier = (str: string): string => {
   }, {d: null, m: null, y: null});
 
   if (parsed.d === null && parsed.m === null && parsed.y === null) {
-    return '';
+    return null;
   }
 
   const d = (parsed.d != null) ? parsed.d : date.getDate();
@@ -159,5 +174,5 @@ export const parseDateIdentifier = (str: string): string => {
   date.setDate(d)
   date.setFullYear(y)
 
-  return dateToString(date);
+  return date;
 }

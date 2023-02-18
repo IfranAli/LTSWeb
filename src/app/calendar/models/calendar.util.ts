@@ -1,4 +1,4 @@
-import {CALENDAR_MONTHS, ICalendar, IDay, IMonth, IWeek, MONTHS_MAX_DAYS} from "./calendar.model";
+import {CALENDAR_MONTHS, ICalendar, IDay, IMonth, IWeek, Months, MONTHS_MAX_DAYS} from "./calendar.model";
 import {dateToString} from "../../finance/util/finance.util";
 
 const FEBRUARY = 1;
@@ -173,6 +173,38 @@ export const parseDateIdentifier = (str: string, separator: string = ' '): Date 
   date.setMonth(m)
   date.setDate(d)
   date.setFullYear(y)
+
+  return date;
+}
+
+export const incrementDateByMonth = (date: Date): Date => {
+  let m = date.getMonth();
+  let y = date.getFullYear();
+
+  if (m == Months.December) {
+    y++;
+    m = Months.January;
+  } else {
+    m++;
+  }
+
+  date.setFullYear(y, m);
+
+  return date;
+}
+
+export const decrementDateByMonth = (date: Date): Date => {
+  let m = date.getMonth();
+  let y = date.getFullYear();
+
+  if (m == Months.January) {
+    y = y - 1;
+    m = Months.December;
+  } else {
+    m = m - 1;
+  }
+
+  date.setFullYear(y, m);
 
   return date;
 }

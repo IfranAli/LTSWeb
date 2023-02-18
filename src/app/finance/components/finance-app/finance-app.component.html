@@ -20,7 +20,17 @@
   <div class="cards">
 
     <div class="custom-card all-finances">
-      <div class="title subtitle no-header">Summary</div>
+      <div class="title space-between no-header">
+        <button mat-icon-button (click)="back()">
+          <mat-icon color="secondary">arrow_back</mat-icon>
+        </button>
+
+        <span>{{ title}}</span>
+
+        <button mat-icon-button (click)="forward()">
+          <mat-icon color="secondary">arrow_forward</mat-icon>
+        </button>
+      </div>
 
       <div class='custom-card-content' *ngIf="weekSummaries">
 

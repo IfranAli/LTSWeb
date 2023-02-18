@@ -4,8 +4,13 @@ import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
-import {getTotalDaysInMonth, parseDateFormattedStr, parseDateIdentifier} from "../../../calendar/models/calendar.util";
+import {
+  decrementDateByMonth,
+  getTotalDaysInMonth, incrementDateByMonth,
+  parseDateFormattedStr,
+} from "../../../calendar/models/calendar.util";
 import {sortFinanceModels} from "../../util/finance.util";
+import {CALENDAR_MONTHS} from "../../../calendar/models/calendar.model";
 
 export interface financeDialogData {
   categories: Map<number, string>;
@@ -26,6 +31,10 @@ const generateWeekSummaries = (date: Date, financeModels: FinanceModel[]): IFina
   return financeModels.reduce((p, c) => {
     const day = parseDateFormattedStr(c.date)?.d ?? 0;
     const week = Math.floor((dayStart + day) / 7)
+
+    if (!p[week]) {
+      p[week] = []
+    }
 
     p[week] = [...p[week], c]
     return p
@@ -50,6 +59,7 @@ export class FinanceAppComponent implements OnInit {
   summaries: ViewModel[] | null = null;
   finances: FinanceModel[] | null = null;
   weekSummaries: IFinanceSummary[] | null = null;
+  title = '';
 
   categoryLookup = new Map<number, string>;
   categoryColourLookup = new Map<string, string>;
@@ -87,10 +97,9 @@ export class FinanceAppComponent implements OnInit {
     });
 
     this.weekSummaries = generateWeekSummaries(this.dateFrom, allFinances)
-    this.finances = allFinances;
   }
 
-  ngOnInit(): void {
+  getData = () => {
     this.financeService.getFinanceCategories().subscribe({
       next: value => {
         this.categoryLookup = value.reduce((acc, c) => {
@@ -101,13 +110,23 @@ export class FinanceAppComponent implements OnInit {
         }, new Map<string, string>)
 
         this.dateFrom.setDate(1);
+        this.dateTo = new Date(this.dateFrom);
         this.dateTo.setDate(getTotalDaysInMonth(this.dateTo));
+
+        const monthName = CALENDAR_MONTHS[this.dateFrom.getMonth()];
+        const year = this.dateFrom.getFullYear().toString();
+        this.title = monthName + ' ' + year;
+
         this.financeService.getFinanceSummary(0, this.dateFrom, this.dateTo).subscribe({
           next: summary => this.processSummary(summary)
         })
       },
       error: err => this.router.navigate([''])
     })
+  }
+
+  ngOnInit(): void {
+    this.getData();
   }
 
   openDialogAddFinance() {
@@ -122,19 +141,34 @@ export class FinanceAppComponent implements OnInit {
       }
 
       if (result.action == Tabs.AddFinance) {
-        this.financeService.createFinance(result.data.shift()!).subscribe(value => {
-          this.finances = [...(this.finances ?? []), ...value];
-        })
+        // todo: add to model or refresh from db.
+        // this.financeService.createFinance(result.data.shift()!).subscribe(value => {
+        //   this.finances = [...(this.finances ?? []), ...value];
+        // })
 
         return;
       }
 
       if (result.action == Tabs.BulkImport) {
-        this.financeService.createFinanceMany(result.data).subscribe(value => {
-          this.finances = [...(this.finances ?? []), ...value.data];
-        })
+        // this.financeService.createFinanceMany(result.data).subscribe(value => {
+        //   this.finances = [...(this.finances ?? []), ...value.data];
+        // })
       }
 
     });
+  }
+
+  back() {
+    this.weekSummaries = null;
+    this.dateFrom = decrementDateByMonth(this.dateFrom);
+
+    this.getData();
+  }
+
+  forward() {
+    this.weekSummaries = null;
+    this.dateFrom = incrementDateByMonth(this.dateFrom);
+
+    this.getData();
   }
 }

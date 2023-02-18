@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {IMonth, Months, WEEK_DAYS} from "../../models/calendar.model";
-import {buildCalendarMonth} from "../../models/calendar.util";
+import {buildCalendarMonth, decrementDateByMonth, incrementDateByMonth} from "../../models/calendar.util";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 
@@ -33,32 +33,12 @@ export class CalendarComponent implements OnInit {
   }
 
   forward() {
-    let m = this.calendarDate.getMonth();
-    let y = this.calendarDate.getFullYear();
-
-    if (m == Months.December) {
-      y++;
-      m = Months.January;
-    } else {
-      m++;
-    }
-
-    this.calendarDate.setFullYear(y, m);
+    this.calendarDate = incrementDateByMonth(this.calendarDate);
     this.generateCalendar();
   }
 
   back() {
-    let m = this.calendarDate.getMonth();
-    let y = this.calendarDate.getFullYear();
-
-    if (m == Months.January) {
-      y = y - 1;
-      m = Months.December;
-    } else {
-      m = m - 1;
-    }
-
-    this.calendarDate.setFullYear(y, m);
+    this.calendarDate = decrementDateByMonth(this.currentDate);
     this.generateCalendar();
   }
 

@@ -63,6 +63,10 @@ $day-font-light: #8a8a8a;
     display: flex;
     justify-content: center;
 
+    .date-switcher {
+      background: #1f2023;
+    }
+
     .week-summary {
       height: fit-content;
       min-width: 20%;

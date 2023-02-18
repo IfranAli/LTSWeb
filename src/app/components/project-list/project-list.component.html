@@ -1,14 +1,12 @@
 <div *ngIf="project" class="project-list example-container">
   <div
     class="custom-card"
-    [style.background]="projectColour"
   >
+<!--    [style.background]="projectColour"-->
 
     <div class="title space-between">
       <span>{{project.title}}</span>
-      <button mat-icon-button (click)="openDialog()">
-        <mat-icon color="secondary">settings</mat-icon>
-      </button>
+      <mat-icon color="secondary" (click)="openDialog()">settings</mat-icon>
     </div>
 
     <div class="title small space-between">
@@ -33,6 +31,10 @@
         cdkDrag
         [cdkDragData]="task"
       >
+        <span class="drag-handle" cdkDragHandle>
+          <mat-icon class="priority high" color="secondary">drag_indicator</mat-icon>
+        </span>
+
         <app-task [task]="task"
                   (onPinTask)="onTaskPinned($event)"
                   (onTaskDeleted)="onTaskDeleted($event)"

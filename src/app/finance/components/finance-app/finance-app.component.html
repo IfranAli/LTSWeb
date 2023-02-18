@@ -1,6 +1,5 @@
 <div class="finances-container">
 
-  <h1>Summary</h1>
   <div class='summary' *ngIf="summaries">
 
     <div
@@ -15,49 +14,52 @@
         <span style="float: left">{{categorySummary.percentage}}</span>
       </div>
     </div>
+
   </div>
 
-  <div class="custom-card">
-    <div class="title small no-header">Finance</div>
+  <div class="cards">
 
-    <div class='custom-table custom-card-content' *ngIf="finances">
-      <div class="header">
-        <span>name</span>
-        <span>date</span>
-        <span>amount</span>
-        <span>categoryType</span>
+    <div class="custom-card all-finances">
+      <div class="title subtitle no-header">Finance</div>
+
+      <div class='custom-table custom-card-content' *ngIf="finances">
+        <div class="header">
+          <span>name</span>
+          <span>date</span>
+          <span>amount</span>
+          <span>categoryType</span>
+        </div>
+
+        <div class="row" *ngFor="let finance of finances">
+          <span>{{finance.name}}</span>
+          <span>{{finance.date}}</span>
+          <span>{{finance.amount}}</span>
+          <span>{{categoryLookup.get(finance.categoryType)}}</span>
+        </div>
+
       </div>
 
-      <div class="row" *ngFor="let finance of finances">
-        <span>{{finance.name}}</span>
-        <span>{{finance.date}}</span>
-        <span>{{finance.amount}}</span>
-        <span>{{categoryLookup.get(finance.categoryType)}}</span>
-      </div>
-
-    </div>
-
-    <div class="custom-card-actions">
-      <button mat-button (click)="openDialogAddFinance()">Add</button>
-    </div>
-  </div>
-
-  <br/>
-
-  <div class="custom-card">
-    <div class="title small no-header">Week breakdown</div>
-
-    <div class='custom-table custom-card-content' *ngIf="weekSummaries">
-      <div class="header">
-        <span>name</span>
-        <span>total</span>
-      </div>
-
-      <div class="row" *ngFor="let summary of weekSummaries">
-        <span>{{summary.categoryName}}</span>
-        <span>{{summary.total}}</span>
+      <div class="custom-card-actions">
+        <button mat-button (click)="openDialogAddFinance()">Add</button>
       </div>
     </div>
+
+    <div class="custom-card week-summary">
+      <div class="title subtitle no-header">Week breakdown</div>
+
+      <div class='custom-table custom-card-content' *ngIf="weekSummaries">
+
+        <div class="row" *ngFor="let summary of weekSummaries">
+          <span>{{summary.categoryName}}</span>
+          <span>{{summary.total}}</span>
+        </div>
+      </div>
+
+      <div class="custom-card-actions">
+        <br/>
+      </div>
+    </div>
+
   </div>
 
 </div>

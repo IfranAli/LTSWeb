@@ -22,11 +22,11 @@ body {
   padding: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 
-  $grid-size: 100px;
+  $grid-size: 80px;
   $dash-length: 5px;
   $dash-width: 1px;
-  $dash-color: colors.$layer-three-bg;
-  $background: colors.$layer-two-bg;
+  $dash-color: colors.$app-bg-main-dash;
+  $background: colors.$app-bg-main;
 
   background-color: $background;
   background-size: $dash-length*2 $dash-length*2, $grid-size $grid-size;
@@ -36,9 +36,14 @@ body {
   linear-gradient(to bottom, $dash-color $dash-width, transparent $dash-width);
 }
 
+// todo: move mode colors to new file.
+h1 {
+  color: #1f2023;
+}
+
 @media screen and (max-width: 844px) {
   body {
-    background: colors.$layer-two-bg;
+    //background: colors.$layer-two-bg;
   }
 }
 

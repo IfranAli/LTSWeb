@@ -22,7 +22,6 @@ $day-font-light: #8a8a8a;
 
     div {
       display: flex;
-      align-items: center;
       text-align: left;
 
       span {
@@ -34,14 +33,12 @@ $day-font-light: #8a8a8a;
         background: global.$primary-accent;
         font-weight: bold;
         color: global.$color-text-sub-title;
-        font-size: style.$font-large;
       }
 
       &.row {
         background: $day-background-darker;
         background: inherit;
         color: $day-font-light;
-        font-size: style.$font-large;
         font-weight: normal;
         border-bottom: solid 1px #ffffff1f;
 
@@ -53,15 +50,34 @@ $day-font-light: #8a8a8a;
     }
   }
 
+  .cards {
+    display: flex;
+    //flex-direction: column;
+    //flex-wrap: wrap;
+    //align-content: flex-start;
+    justify-content: center;
+
+    .week-summary {
+      height: fit-content;
+      min-width: 20%;
+      margin: 1rem;
+    }
+
+    .all-finances {
+      min-width: 50%;
+      margin: 1rem;
+    }
+  }
+
   .summary {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
     margin: 1rem 0 1rem 0;
     border-radius: style.$border-radius-2;
+    border: 1px solid black;
 
     .category {
-      border-right: solid 1px #1f2023;
       padding: 0.2rem 0.5rem 0 0.5rem;
       min-width: 10%;
       display: block;
@@ -80,6 +96,38 @@ $day-font-light: #8a8a8a;
       text-align: right;
       font-size: smaller;
       display: block;
+    }
+  }
+}
+
+@media screen and (max-width: 844px) {
+
+  .finances-container {
+    padding: 0;
+    margin: 0;
+  }
+
+  .cards {
+    flex-direction: column;
+
+    .week-summary {
+      margin: 0 !important;
+    }
+    .all-finances{
+      margin: 0 !important;
+    }
+  }
+
+  .summary {
+    font-size: smaller;
+
+    div {
+      min-width: unset !important;
+
+      span:first-child {
+        float: unset !important;
+        display: block;
+      }
     }
   }
 }

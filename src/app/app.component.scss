@@ -16,8 +16,10 @@ body {
   .toolbar {
     color: colors.$color-text-dark;
     background: colors.$toolbar-bg;
+    border-bottom: solid;
+    border-width: 1px;
     font-size: style.$font-large;
-    box-shadow: style.$box-shadow;
+    //box-shadow: style.$box-shadow;
     height: auto;
 
     .toolbar-buttons {

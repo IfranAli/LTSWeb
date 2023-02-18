@@ -48,13 +48,19 @@ $day-font-light: #8a8a8a;
 
       }
     }
+
+    .table-header-week {
+      background: #ffffff20;
+      font-weight: 400;
+
+      span:last-child {
+        text-align: right;
+      }
+    }
   }
 
   .cards {
     display: flex;
-    //flex-direction: column;
-    //flex-wrap: wrap;
-    //align-content: flex-start;
     justify-content: center;
 
     .week-summary {

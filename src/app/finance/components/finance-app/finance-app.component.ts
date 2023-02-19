@@ -6,7 +6,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
 import {
   decrementDateByMonth,
-  getTotalDaysInMonth, incrementDateByMonth,
+  getTotalDaysInMonth,
+  incrementDateByMonth,
   parseDateFormattedStr,
 } from "../../../calendar/models/calendar.util";
 import {sortFinanceModels} from "../../util/finance.util";
@@ -16,14 +17,26 @@ export interface financeDialogData {
   categories: Map<number, string>;
 }
 
-interface ViewModelProps {
+
+interface WithFinanceViewModels {
+  items: FinanceViewModel[]
+}
+
+interface IFinanceSummaryExtraProps {
   percentage: string,
   colour: string,
 }
 
-type ViewModel = IFinanceSummary & ViewModelProps
+interface FinanceModelExtraProps {
+  categoryColour: string;
+  categoryLabel: string;
+}
 
-const generateWeekSummaries = (date: Date, financeModels: FinanceModel[]): IFinanceSummary[] => {
+type SummaryGraph = IFinanceSummary & IFinanceSummaryExtraProps & WithFinanceViewModels
+type FinanceData = IFinanceSummary & WithFinanceViewModels
+type FinanceViewModel = FinanceModel & FinanceModelExtraProps
+
+const getFinancesByWeek = (date: Date, financeModels: FinanceModel[]): FinanceModel[][] => {
   const dateStart = new Date(date.getFullYear(), date.getMonth(), 1)
   const dayStart = (dateStart.getDay() == 0 ? 6 : dateStart.getDay());
   const numRows = (42 - (dayStart)) % 7
@@ -38,14 +51,7 @@ const generateWeekSummaries = (date: Date, financeModels: FinanceModel[]): IFina
 
     p[week] = [...p[week], c]
     return p
-  }, Array.from(new Array(numRows)).fill([]))
-    .reduce<IFinanceSummary[]>((previousValue, currentValue: FinanceModel[], currentIndex) =>
-      [...previousValue, {
-        categoryName: `Week ${currentIndex + 1}`,
-        total: currentValue.reduce((p, c) => p + c.amount, 0).toFixed(2),
-        items: currentValue
-      }], []
-    )
+  }, Array.from(new Array(numRows)).fill([]));
 }
 
 @Component({
@@ -56,9 +62,8 @@ const generateWeekSummaries = (date: Date, financeModels: FinanceModel[]): IFina
   styleUrls: ['./finance-app.component.scss']
 })
 export class FinanceAppComponent implements OnInit {
-  summaries: ViewModel[] | null = null;
-  finances: FinanceModel[] | null = null;
-  weekSummaries: IFinanceSummary[] | null = null;
+  summaries: SummaryGraph[] | null = null;
+  fianceData: FinanceData[] | null = null;
   title = '';
 
   categoryLookup = new Map<number, string>;
@@ -82,21 +87,42 @@ export class FinanceAppComponent implements OnInit {
       return p + parseFloat(c.total);
     }, 0);
 
-    this.summaries = summary.map(d => {
+    this.summaries = summary.map((d): SummaryGraph => {
       const v = parseFloat(d.total);
       const p = (v / grandTotal) * 100;
-      const c = this.categoryColourLookup.get(d.categoryName) ?? '';
+      const categoryName = d.categoryName ?? '';
+      const c = this.categoryColourLookup.get(categoryName) ?? '#A8D6D6';
 
       return {
         categoryName: d.categoryName,
-        colour: c.length ? c : '#A8D6D6',
+        colour: c,
         total: d.total,
-        items: d.items,
+        items: d.items.map(p => {
+          return {...p, categoryColour: c, categoryLabel: categoryName}
+        }),
         percentage: p.toFixed(0).concat('%'),
       }
     });
 
-    this.weekSummaries = generateWeekSummaries(this.dateFrom, allFinances)
+    const financeModelToViewModel = (fm: FinanceModel): FinanceViewModel => {
+      const category = this.categoryLookup.get(fm.categoryType) ?? '';
+      const colour = this.categoryColourLookup.get(category) ?? '';
+
+      return {
+        ...fm,
+        categoryLabel: category,
+        categoryColour: colour,
+      }
+    }
+
+    const financesByWeeks: FinanceModel[][] = getFinancesByWeek(this.dateFrom, allFinances)
+    this.fianceData = financesByWeeks.reduce<FinanceData[]>((p, c, idx) =>
+        [...p, {
+          categoryName: `Week ${idx + 1}`,
+          total: c.reduce((p, c) => p + c.amount, 0).toFixed(2),
+          items: c.map(financeModelToViewModel),
+        }],
+      []);
   }
 
   getData = () => {
@@ -159,14 +185,14 @@ export class FinanceAppComponent implements OnInit {
   }
 
   back() {
-    this.weekSummaries = null;
+    this.fianceData = null;
     this.dateFrom = decrementDateByMonth(this.dateFrom);
 
     this.getData();
   }
 
   forward() {
-    this.weekSummaries = null;
+    this.fianceData = null;
     this.dateFrom = incrementDateByMonth(this.dateFrom);
 
     this.getData();

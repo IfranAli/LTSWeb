@@ -22,6 +22,12 @@ $day-font-light: #8a8a8a;
   white-space: nowrap;
 }
 
+.custom-table {
+  div {
+    grid-template-columns: 30% 25% 15% 30% !important;
+  }
+}
+
 .finances-container {
   display: flex;
   flex-direction: column;
@@ -30,12 +36,19 @@ $day-font-light: #8a8a8a;
 
   .custom-table {
     div {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(4, 25%);
+      grid-auto-rows: minmax(2rem, auto);
+      align-items: center;
+
+      &:hover {
+        background: red;
+      }
+
       text-align: left;
 
       span {
         padding: style.$padding-1;
-        //width: 100%;
       }
 
       &.header {
@@ -65,22 +78,24 @@ $day-font-light: #8a8a8a;
     span:first-child {
       width: 100%;
     }
+
+    span:last-child {
+      grid-column-start: 4;
+      text-align: right;
+    }
   }
 
   .column-name {
-    width: 30%;
   }
 
   .column-date {
-    width: 30%;
   }
 
   .column-amount {
-    width: 10%;
   }
 
   .column-category {
-    width: 30%;
+    text-align: right;
   }
 
   .cards {

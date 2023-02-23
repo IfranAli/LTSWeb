@@ -7,10 +7,6 @@
 }
 
 .project-task-item {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: baseline;
-  justify-content: flex-start;
 
   button {
     width: auto;
@@ -55,6 +51,19 @@ mat-form-field {
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+
+  .content {
+    width: 100%;
+
+    div:first-child {
+    }
+
+    div:last-child {
+      font-size: small;
+      color: #6e757f;
+    }
+  }
 
   .align-left {
     display: flex;

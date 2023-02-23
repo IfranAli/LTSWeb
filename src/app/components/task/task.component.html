@@ -1,10 +1,10 @@
 <div class="project-task-item {{ task.state }}">
 
   <div class="task-controls">
-<!--    <mat-checkbox-->
-<!--      [checked]="task.state == 3"-->
-<!--      (change)="onTaskToggle($event.checked)">-->
-<!--    </mat-checkbox>-->
+    <!--    <mat-checkbox-->
+    <!--      [checked]="task.state == 3"-->
+    <!--      (change)="onTaskToggle($event.checked)">-->
+    <!--    </mat-checkbox>-->
 
     <div class="align-left">
       <ng-container [ngSwitch]="task.priority">
@@ -15,19 +15,9 @@
       </ng-container>
     </div>
 
-    <div class="stretch">
-      <!--      <mat-form-field class="example-form-field" appearance="standard">-->
-      <!--        <input-->
-      <!--          matInput-->
-      <!--          type="text"-->
-      <!--          [formGroup]="formGroup"-->
-      <!--          [formControl]="formGroup.controls.name"-->
-      <!--          id="title-{{ task.id }}"-->
-      <!--          name="title-{{ task.id }}"-->
-      <!--          placeholder="Input title"-->
-      <!--        >-->
-      <!--      </mat-form-field>-->
-      <span>{{ task.name }}</span>
+    <div class="content">
+      <div>{{ task.name }}</div>
+      <div>{{ task.content}}</div>
     </div>
 
     <ng-container [ngSwitch]="task.state">

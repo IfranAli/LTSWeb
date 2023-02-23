@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
   min-width: style.$task-width;
-  max-width: style.$task-width;
+  //max-width: style.$task-width;
 
   border-top: solid;
   border-color: style.$border-color-dark;
@@ -26,6 +26,7 @@
 .list-item {
   border-color: global.$color-text-dark;
   border-style: none none solid none;
+  border-width: 1px;
   padding: 0.3rem 0;
 
   display: flex;
@@ -72,7 +73,6 @@
 
   .list {
     min-width: inherit;
-    max-width: style.$task-width;
 
     .list-item {
       padding: 0;

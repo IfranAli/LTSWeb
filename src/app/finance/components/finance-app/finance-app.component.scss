@@ -119,18 +119,27 @@ $day-font-light: #8a8a8a;
   }
 
   .summary {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    margin: 1rem 0 1rem 0;
-    border-radius: style.$border-radius-2;
-    border: 1px solid black;
+    align-self: center;
+    width: 100%;
+
+    .container {
+      display: flex;
+      flex-wrap: nowrap;
+      flex-direction: row;
+      margin: 1rem 0 1rem 0;
+      border-radius: style.$border-radius-2;
+      border: 1px solid black;
+    }
 
     .category {
       padding: 0.2rem 0.5rem 0 0.5rem;
       min-width: 10%;
       display: block;
       font-weight: bold;
+
+      .name {
+        white-space: nowrap;
+      }
 
       &:first-child {
         border-radius: 10px 0 0 10px;
@@ -179,4 +188,20 @@ $day-font-light: #8a8a8a;
       }
     }
   }
+}
+
+@keyframes spring {
+  0% {
+    width: 20%;
+  }
+  20% {
+    display: none;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.summary {
+  animation: 1s ease-out 0s 1 spring;
 }

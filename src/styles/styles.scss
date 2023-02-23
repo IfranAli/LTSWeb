@@ -29,11 +29,11 @@ body {
   $background: colors.$app-bg-main;
 
   background-color: $background;
-  background-size: $dash-length*2 $dash-length*2, $grid-size $grid-size;
-  background-image: linear-gradient(to bottom, transparent $dash-length, $background $dash-length),
-  linear-gradient(to right, $dash-color $dash-width, transparent $dash-width),
-  linear-gradient(to right, transparent $dash-length, $background $dash-length),
-  linear-gradient(to bottom, $dash-color $dash-width, transparent $dash-width);
+  //background-size: $dash-length*2 $dash-length*2, $grid-size $grid-size;
+  //background-image: linear-gradient(to bottom, transparent $dash-length, $background $dash-length),
+  //linear-gradient(to right, $dash-color $dash-width, transparent $dash-width),
+  //linear-gradient(to right, transparent $dash-length, $background $dash-length),
+  //linear-gradient(to bottom, $dash-color $dash-width, transparent $dash-width);
 }
 
 // todo: move mode colors to new file.

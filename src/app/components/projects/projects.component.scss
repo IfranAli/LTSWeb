@@ -2,13 +2,26 @@
 @use "src/styles/global/style" as style;
 
 .box {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   flex-wrap: wrap;
+}
+
+@media screen and (width > 1500px) {
+  .box {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (width > 1000px > 1800) {
+  .box {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media screen and (max-width: 844px) {
   .box {
-    display: block;
+    grid-template-columns: repeat(1, 1fr);
     flex-direction: row;
     justify-content: center;
   }

@@ -55,6 +55,7 @@ mat-form-field {
 
   .content {
     width: 100%;
+    padding-left: 0.5rem;
 
     div:first-child {
     }
@@ -132,5 +133,11 @@ mat-form-field {
 
   &.highest {
     color: #e86767;
+  }
+}
+
+@media screen and (max-width: 844px) {
+  .content {
+    padding-right: 0;
   }
 }

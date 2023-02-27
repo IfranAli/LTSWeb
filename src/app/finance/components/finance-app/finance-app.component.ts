@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FinanceService, IFinanceSummary} from "../../services/finance.service";
 import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
@@ -12,6 +12,7 @@ import {
 } from "../../../calendar/models/calendar.util";
 import {sortFinanceModels} from "../../util/finance.util";
 import {CALENDAR_MONTHS} from "../../../calendar/models/calendar.model";
+import {Subscription} from "rxjs";
 
 export interface financeDialogData {
   categories: Map<number, string>;
@@ -61,7 +62,11 @@ const getFinancesByWeek = (date: Date, financeModels: FinanceModel[]): FinanceMo
   templateUrl: './finance-app.component.html',
   styleUrls: ['./finance-app.component.scss']
 })
-export class FinanceAppComponent implements OnInit {
+export class FinanceAppComponent implements OnInit, OnDestroy {
+  $subscription: Subscription | undefined;
+  $subscription2: Subscription | undefined;
+  $subscription3: Subscription | undefined;
+
   summaries: SummaryGraph[] | null = null;
   fianceData: FinanceData[] | null = null;
   title = '';
@@ -126,7 +131,7 @@ export class FinanceAppComponent implements OnInit {
   }
 
   getData = () => {
-    this.financeService.getFinanceCategories().subscribe({
+    this.$subscription = this.financeService.getFinanceCategories().subscribe({
       next: value => {
         this.categoryLookup = value.reduce((acc, c) => {
           return acc.set(c.id, c.type)
@@ -143,7 +148,9 @@ export class FinanceAppComponent implements OnInit {
         const year = this.dateFrom.getFullYear().toString();
         this.title = monthName + ' ' + year;
 
-        this.financeService.getFinanceSummary(0, this.dateFrom, this.dateTo).subscribe({
+        this.$subscription2 = this.financeService.getFinanceSummary(
+          0, this.dateFrom, this.dateTo
+        ).subscribe({
           next: summary => this.processSummary(summary)
         })
       },
@@ -155,13 +162,19 @@ export class FinanceAppComponent implements OnInit {
     this.getData();
   }
 
+  ngOnDestroy() {
+    this.$subscription?.unsubscribe();
+    this.$subscription2?.unsubscribe();
+    this.$subscription3?.unsubscribe();
+  }
+
   openDialogAddFinance() {
     const dialogRef = this.dialog.open(AddFinanceDialogComponent, {
       data: {categories: this.categoryLookup},
       panelClass: ['dialog-style', 'dialog-small'],
     });
 
-    dialogRef.afterClosed().subscribe((result: IDialogData) => {
+    this.$subscription3 = dialogRef.afterClosed().subscribe((result: IDialogData) => {
       if (!result || (result.data.length == 0)) {
         return;
       }

@@ -7,13 +7,13 @@
   flex-wrap: wrap;
 }
 
-@media screen and (width > 1500px) {
+@media screen and (width > 2000px) {
   .box {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
-@media screen and (width > 1000px > 1800) {
+@media screen and (width > 1500px) {
   .box {
     grid-template-columns: repeat(3, 1fr);
   }

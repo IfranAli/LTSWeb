@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FinanceService, IFinanceSummary} from "../../services/finance.service";
-import {FinanceModel} from "../../models/finance.model";
+import {FinanceCategory, FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
@@ -12,7 +12,7 @@ import {
 } from "../../../calendar/models/calendar.util";
 import {sortFinanceModels} from "../../util/finance.util";
 import {CALENDAR_MONTHS} from "../../../calendar/models/calendar.model";
-import {Subscription} from "rxjs";
+import {combineLatestWith, map, Observable, of, Subscription} from "rxjs";
 
 export interface financeDialogData {
   categories: Map<number, string>;
@@ -65,7 +65,9 @@ const getFinancesByWeek = (date: Date, financeModels: FinanceModel[]): FinanceMo
 export class FinanceAppComponent implements OnInit, OnDestroy {
   $subscription: Subscription | undefined;
   $subscription2: Subscription | undefined;
-  $subscription3: Subscription | undefined;
+
+  categories$: Observable<FinanceCategory[]> = this.financeService.getFinanceCategories();
+  financeSummaries$: Observable<IFinanceSummary[]> = of([]);
 
   summaries: SummaryGraph[] | null = null;
   fianceData: FinanceData[] | null = null;
@@ -84,15 +86,35 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  processSummary = (summary: IFinanceSummary[]) => {
-    const allFinances: FinanceModel[] = summary
-      .map(s => s.items).flat().sort(sortFinanceModels);
+  buildData = () => {
+    return
+  }
 
+  ngOnInit(): void {
+    this.getData();
+  }
+
+  ngOnDestroy() {
+    this.$subscription?.unsubscribe();
+    this.$subscription2?.unsubscribe();
+  }
+
+  setupDates = () => {
+    this.dateFrom.setDate(1);
+    this.dateTo = new Date(this.dateFrom);
+    this.dateTo.setDate(getTotalDaysInMonth(this.dateTo));
+
+    const monthName = CALENDAR_MONTHS[this.dateFrom.getMonth()];
+    const year = this.dateFrom.getFullYear().toString();
+    this.title = monthName + ' ' + year;
+  };
+
+  processSummary = (summary: IFinanceSummary[]): SummaryGraph[] => {
     const grandTotal = summary.reduce<number>((p, c) => {
       return p + parseFloat(c.total);
     }, 0);
 
-    this.summaries = summary.map((d): SummaryGraph => {
+    return summary.map((d): SummaryGraph => {
       const v = parseFloat(d.total);
       const p = (v / grandTotal) * 100;
       const categoryName = d.categoryName ?? '';
@@ -109,63 +131,56 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
       }
     });
 
-    const financeModelToViewModel = (fm: FinanceModel): FinanceViewModel => {
-      const category = this.categoryLookup.get(fm.categoryType) ?? '';
-      const colour = this.categoryColourLookup.get(category) ?? '';
-
-      return {
-        ...fm,
-        categoryLabel: category,
-        categoryColour: colour,
-      }
-    }
-
-    const financesByWeeks: FinanceModel[][] = getFinancesByWeek(this.dateFrom, allFinances)
-    this.fianceData = financesByWeeks.reduce<FinanceData[]>((p, c, idx) =>
-        [...p, {
-          categoryName: `Week ${idx + 1}`,
-          total: c.reduce((p, c) => p + c.amount, 0).toFixed(2),
-          items: c.map(financeModelToViewModel),
-        }],
-      []);
   }
 
   getData = () => {
-    this.$subscription = this.financeService.getFinanceCategories().subscribe({
-      next: value => {
-        this.categoryLookup = value.reduce((acc, c) => {
+    this.setupDates();
+    this.financeSummaries$ = this.financeService.getFinanceSummary(0, this.dateFrom, this.dateTo);
+
+    if (this.$subscription != undefined) {
+      this.$subscription.unsubscribe();
+      this.$subscription = undefined;
+    }
+
+    this.$subscription = this.categories$.pipe(
+      combineLatestWith(this.financeSummaries$),
+      map(([categories, summaries]: [FinanceCategory[], IFinanceSummary[]]) => {
+        this.categoryLookup = categories.reduce((acc, c) => {
           return acc.set(c.id, c.type)
         }, new Map<number, string>)
-        this.categoryColourLookup = value.reduce((acc, c) => {
+
+        this.categoryColourLookup = categories.reduce((acc, c) => {
           return acc.set(c.type, c.colour ?? '#A8D6D6')
         }, new Map<string, string>)
 
-        this.dateFrom.setDate(1);
-        this.dateTo = new Date(this.dateFrom);
-        this.dateTo.setDate(getTotalDaysInMonth(this.dateTo));
+        // populate finance data.
+        const allFinances: FinanceModel[] = summaries
+          .map(s => s.items).flat().sort(sortFinanceModels);
+        const financesByWeeks: FinanceModel[][] = getFinancesByWeek(this.dateFrom, allFinances)
+        this.fianceData = financesByWeeks.reduce<FinanceData[]>((p, c, idx) =>
+            [...p, {
+              categoryName: `Week ${idx + 1}`,
+              total: c.reduce((p, c) => p + c.amount, 0).toFixed(2),
+              items: c.map(this.financeModelToViewModel),
+            }],
+          []);
 
-        const monthName = CALENDAR_MONTHS[this.dateFrom.getMonth()];
-        const year = this.dateFrom.getFullYear().toString();
-        this.title = monthName + ' ' + year;
-
-        this.$subscription2 = this.financeService.getFinanceSummary(
-          0, this.dateFrom, this.dateTo
-        ).subscribe({
-          next: summary => this.processSummary(summary)
-        })
-      },
+        this.summaries = this.processSummary(summaries);
+      })
+    ).subscribe({
       error: err => this.router.navigate([''])
-    })
+    });
   }
 
-  ngOnInit(): void {
-    this.getData();
-  }
+  financeModelToViewModel = (fm: FinanceModel): FinanceViewModel => {
+    const category = this.categoryLookup.get(fm.categoryType) ?? '';
+    const colour = this.categoryColourLookup.get(category) ?? '';
 
-  ngOnDestroy() {
-    this.$subscription?.unsubscribe();
-    this.$subscription2?.unsubscribe();
-    this.$subscription3?.unsubscribe();
+    return {
+      ...fm,
+      categoryLabel: category,
+      categoryColour: colour,
+    }
   }
 
   openDialogAddFinance() {
@@ -174,7 +189,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
       panelClass: ['dialog-style', 'dialog-small'],
     });
 
-    this.$subscription3 = dialogRef.afterClosed().subscribe((result: IDialogData) => {
+    this.$subscription2 = dialogRef.afterClosed().subscribe((result: IDialogData) => {
       if (!result || (result.data.length == 0)) {
         return;
       }

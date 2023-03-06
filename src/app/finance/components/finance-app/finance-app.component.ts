@@ -158,12 +158,12 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
           .map(s => s.items).flat().sort(sortFinanceModels);
         const financesByWeeks: FinanceModel[][] = getFinancesByWeek(this.dateFrom, allFinances)
         this.fianceData = financesByWeeks.reduce<FinanceData[]>((p, c, idx) =>
-            [...p, {
-              categoryName: `Week ${idx + 1}`,
-              total: c.reduce((p, c) => p + c.amount, 0).toFixed(2),
-              items: c.map(this.financeModelToViewModel),
-            }],
-          []);
+          [...p, {
+            categoryName: `Week ${idx + 1}`,
+            total: c.reduce((p, c) => p + c.amount, 0).toFixed(2),
+            items: c.map(this.financeModelToViewModel),
+          }], []
+        ).filter(value => value.items.length).reverse();
 
         this.summaries = this.processSummary(summaries);
       })
@@ -196,17 +196,19 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
       if (result.action == Tabs.AddFinance) {
         // todo: add to model or refresh from db.
-        // this.financeService.createFinance(result.data.shift()!).subscribe(value => {
-        //   this.finances = [...(this.finances ?? []), ...value];
-        // })
+        this.financeService.createFinance(result.data.shift()!).subscribe(value => {
+          console.log(value)
+          // this.finances = [...(this.finances ?? []), ...value];
+        })
 
         return;
       }
 
       if (result.action == Tabs.BulkImport) {
-        // this.financeService.createFinanceMany(result.data).subscribe(value => {
-        //   this.finances = [...(this.finances ?? []), ...value.data];
-        // })
+        this.financeService.createFinanceMany(result.data).subscribe(value => {
+          console.log(value)
+          // this.finances = [...(this.finances ?? []), ...value.data];
+        })
       }
 
     });

@@ -11,7 +11,7 @@ import {
   parseDateFormattedStr,
 } from "../../../calendar/models/calendar.util";
 import {sortFinanceModels} from "../../util/finance.util";
-import {CALENDAR_MONTHS} from "../../../calendar/models/calendar.model";
+import {CALENDAR_MONTHS, WeekDays} from "../../../calendar/models/calendar.model";
 import {combineLatestWith, map, Observable, of, Subscription} from "rxjs";
 
 export interface financeDialogData {
@@ -176,10 +176,21 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     const category = this.categoryLookup.get(fm.categoryType) ?? '';
     const colour = this.categoryColourLookup.get(category) ?? '';
 
+    const date = new Date(fm.date);
+    const weekday = WeekDays[date.getDay()].slice(0, 3);
+    const dayOfMonth = date.getDate();
+
+    const suffixes = ['st', 'nd', 'rd', 'th']
+    const daySuffix = [1, 2, 3].indexOf(dayOfMonth)
+    const suffix = (daySuffix > -1) ? suffixes[daySuffix] : suffixes[3];
+
+    const dateText = [dayOfMonth.toString().concat(suffix), weekday].join(' ')
+
     return {
       ...fm,
       categoryLabel: category,
       categoryColour: colour,
+      date: dateText,
     }
   }
 

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {FinanceAppComponent} from "./finance/components/finance-app/finance-app.component";
 import {ProjectsComponent} from "./components/projects/projects.component";
-import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, DatePipe, NgForOf, NgIf, NgTemplateOutlet} from "@angular/common";
 import {MatTableModule} from "@angular/material/table";
 import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
 import {MatIconModule} from "@angular/material/icon";
@@ -26,7 +26,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [FinanceAppComponent],
-  imports: [RouterModule.forRoot(routes), NgIf, NgForOf, MatTableModule, DatePipe, MatIconModule, MatButtonModule, MatInputModule],
+  imports: [RouterModule.forRoot(routes), NgIf, NgForOf, MatTableModule, DatePipe, MatIconModule, MatButtonModule, MatInputModule, AsyncPipe, NgTemplateOutlet],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

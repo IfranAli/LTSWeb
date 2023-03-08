@@ -149,6 +149,10 @@ $day-font-light: #8a8a8a;
       &:last-child {
         border-radius: 0 10px 10px 0;
       }
+
+      &:only-child {
+        border-radius: 10px 10px 10px 10px;
+      }
     }
 
     .total {

@@ -1,68 +1,90 @@
 <div class="finances-container">
-  <div class="summary" *ngIf="summaries">
-    <div class="container">
-      <div
-        class="category"
-        *ngFor="let categorySummary of summaries"
-        [style.width]="categorySummary.percentage"
-        [style.background]="categorySummary.colour"
-      >
-        <span class="name">{{ categorySummary.categoryName }}</span>
 
-        <div>
-          <span style="float: right">{{ categorySummary.total }}</span>
-          <span style="float: left">{{ categorySummary.percentage }}</span>
+  <ng-container *ngIf="summaries$ | async as summaries; else loading">
+    <div class="summary">
+      <div class="container">
+        <div
+          class="category"
+          *ngFor="let categorySummary of summaries"
+          [style.width]="categorySummary.percentage"
+          [style.background]="categorySummary.colour"
+        >
+          <span class="name">{{ categorySummary.categoryName }}</span>
+
+          <div>
+            <span style="float: right">{{ categorySummary.total }}</span>
+            <span style="float: left">{{ categorySummary.percentage }}</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="cards">
-    <div class="custom-card all-finances">
-      <div class="title space-between no-header">
-        <button mat-icon-button (click)="back()">
-          <mat-icon color="secondary">arrow_back</mat-icon>
-        </button>
+    <div class="cards">
+      <div class="custom-card all-finances">
+        <div class="title space-between no-header">
+          <button mat-icon-button (click)="back()">
+            <mat-icon color="secondary">arrow_back</mat-icon>
+          </button>
 
-        <span>{{ title }}</span>
+          <span>{{ title }}</span>
 
-        <button mat-icon-button (click)="forward()">
-          <mat-icon color="secondary">arrow_forward</mat-icon>
-        </button>
-      </div>
+          <button mat-icon-button (click)="forward()">
+            <mat-icon color="secondary">arrow_forward</mat-icon>
+          </button>
+        </div>
 
-      <div class="custom-card-content" *ngIf="fianceData">
-        <div *ngFor="let summary of fianceData; index as i">
-          <div class="custom-table">
-            <div class="header" *ngIf="i == 0">
-              <span>Name</span>
-              <span>Date</span>
-              <span>Amount</span>
-              <span>category</span>
-            </div>
+        <div class="custom-card-content" *ngIf="financeData$ | async as financeData else loading">
+<!--          <div *ngFor="let summary of fianceData; index as i">-->
+          <div *ngFor="let summary of financeData; index as i">
+            <div class="custom-table">
+              <div class="header" *ngIf="i == 0">
+                <span>Name</span>
+                <span>Date</span>
+                <span>Amount</span>
+                <span>category</span>
+              </div>
 
-            <div class="table-header-week">
-              <span>{{ summary.categoryName }}</span>
-              <span>{{ summary.total }}</span>
-            </div>
+              <div class="table-header-week">
+                <span>{{ summary.categoryName }}</span>
+                <span>{{ summary.total }}</span>
+              </div>
 
-            <div class="row" *ngFor="let finance of summary.items">
-              <span class="column-name">{{ finance.name }}</span>
-              <span class="column-date">{{ finance.date }}</span>
-              <span class="column-amount">{{ finance.amount }}</span>
-              <span class="column-category">
+              <div class="row" *ngFor="let finance of summary.items">
+                <span class="column-name">{{ finance.name }}</span>
+                <span class="column-date">{{ finance.date }}</span>
+                <span class="column-amount">{{ finance.amount }}</span>
+                <span class="column-category">
                 <span class="badge" [style.background]="finance.categoryColour">
                   {{ finance.categoryLabel}}
                 </span>
               </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="custom-card-actions">
-        <button mat-button (click)="openDialogAddFinance()">Add</button>
+        <div class="custom-card-actions">
+          <button mat-button (click)="openDialogAddFinance()">Add</button>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </div>
+
+<ng-template #loading>
+  <div class="summary">
+
+    <div class="container">
+      <div class="category" style="background: #8a8a8a; width: 100%">
+        <span class="name">Loading</span>
+
+        <div>
+          <span style="float: right">0.0</span>
+          <span style="float: left">Loading</span>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</ng-template>

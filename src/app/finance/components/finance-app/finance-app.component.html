@@ -9,12 +9,13 @@
           [style.width]="categorySummary.percentage"
           [style.background]="categorySummary.colour"
         >
-          <span class="name">{{ categorySummary.categoryName }}</span>
+          <br/>
+          <!--          <span class="name">{{ categorySummary.categoryName }}</span>-->
 
-          <div>
-            <span style="float: right">{{ categorySummary.total }}</span>
-            <span style="float: left">{{ categorySummary.percentage }}</span>
-          </div>
+          <!--          <div>-->
+          <!--            <span style="float: right">{{ categorySummary.total }}</span>-->
+          <!--            <span style="float: left">{{ categorySummary.percentage }}</span>-->
+          <!--          </div>-->
         </div>
       </div>
     </div>
@@ -34,31 +35,32 @@
         </div>
 
         <div class="custom-card-content" *ngIf="financeData$ | async as financeData else loading">
-<!--          <div *ngFor="let summary of fianceData; index as i">-->
-          <div *ngFor="let summary of financeData; index as i">
-            <div class="custom-table">
-              <div class="header" *ngIf="i == 0">
-                <span>Name</span>
-                <span>Date</span>
-                <span>Amount</span>
-                <span>category</span>
-              </div>
+          <div
+            class="finance-list"
+            *ngFor="let summary of financeData; index as i">
+            <div class="header">
+              <div>{{ summary.categoryName }}</div>
+              <div>{{ summary.total }}</div>
+            </div>
 
-              <div class="table-header-week">
-                <span>{{ summary.categoryName }}</span>
-                <span>{{ summary.total }}</span>
+            <div class="row" *ngFor="let finance of summary.items">
+              <div
+                class="amount"
+                [class.credit]="finance.isCredit"
+                [class.debit]="!finance.isCredit"
+              >
+                {{ finance.amountFormatted }}
               </div>
+              <div class="date">{{ finance.date }}</div>
 
-              <div class="row" *ngFor="let finance of summary.items">
-                <span class="column-name">{{ finance.name }}</span>
-                <span class="column-date">{{ finance.date }}</span>
-                <span class="column-amount">{{ finance.amount }}</span>
-                <span class="column-category">
-                <span class="badge" [style.background]="finance.categoryColour">
+              <div class="categoryBadge">
+                <div class="badge small" [style.background]="finance.categoryColour">
                   {{ finance.categoryLabel}}
-                </span>
-              </span>
+                </div>
               </div>
+
+              <span class="label">{{ finance.categoryLabel}}</span>
+
             </div>
           </div>
         </div>

@@ -14,7 +14,7 @@ import {sortFinanceModels} from "../../util/finance.util";
 import {CALENDAR_MONTHS, WeekDays} from "../../../calendar/models/calendar.model";
 import {
   BehaviorSubject,
-  combineLatestWith,
+  combineLatestWith, empty,
   Observable,
   of,
   shareReplay,
@@ -40,6 +40,8 @@ interface IFinanceSummaryExtraProps {
 interface FinanceModelExtraProps {
   categoryColour: string;
   categoryLabel: string;
+  amountFormatted: string;
+  isCredit: boolean;
 }
 
 type SummaryGraph = IFinanceSummary & IFinanceSummaryExtraProps & WithFinanceViewModels
@@ -165,12 +167,15 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
       const categoryName = d.categoryName ?? '';
       const c = this.categoryColourLookup.get(categoryName) ?? '#A8D6D6';
 
-      return {
+      return <IFinanceSummary & IFinanceSummaryExtraProps & WithFinanceViewModels>{
         categoryName: d.categoryName,
         colour: c,
         total: d.total,
         items: d.items.map(p => {
-          return {...p, categoryColour: c, categoryLabel: categoryName}
+          return {
+            ...p, categoryColour: c,
+            categoryLabel: categoryName,
+          }
         }),
         percentage: p.toFixed(0).concat('%'),
       }
@@ -190,13 +195,17 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     const daySuffix = [1, 2, 3].indexOf(dayOfMonth)
     const suffix = (daySuffix > -1) ? suffixes[daySuffix] : suffixes[3];
 
-    const dateText = [dayOfMonth.toString().concat(suffix), weekday].join(' ')
+    const dateText = [weekday, dayOfMonth.toString().concat(suffix)].join(' ')
+    // const dateText = [weekday, fm.date].join(' ')
+    const amount = fm.amount;
 
     return {
       ...fm,
       categoryLabel: category,
       categoryColour: colour,
       date: dateText,
+      isCredit: (amount > 0),
+      amountFormatted: '$'.concat(Math.abs(amount).toFixed(2))
     }
   }
 

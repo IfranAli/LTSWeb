@@ -132,12 +132,15 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
             const date = this.dateFrom$.value;
             const financesByWeeks: FinanceModel[][] = getFinancesByWeek(date, allFinances)
 
-            const result = financesByWeeks.reduce<FinanceData[]>((p, c, idx) =>
-              [...p, {
-                categoryName: `Week ${idx + 1}`,
-                total: c.reduce((p, c) => p + c.amount, 0).toFixed(2),
-                items: c.map(this.financeModelToViewModel),
-              }], []
+            const result = financesByWeeks.reduce<FinanceData[]>((p, c, idx) => {
+                const total = c.reduce((p, c) => p + c.amount, 0);
+
+                return [...p, {
+                  categoryName: `Week ${idx + 1}`,
+                  total: '$'.concat(Math.abs(total).toFixed(2)),
+                  items: c.map(this.financeModelToViewModel),
+                }]
+              }, []
             ).filter(value => value.items.length).reverse();
 
             this.financeData$ = of(result);

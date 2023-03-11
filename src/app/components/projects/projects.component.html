@@ -1,9 +1,13 @@
+<button mat-icon-button (click)="addProject()">
+  <mat-icon>add</mat-icon>
+  Add
+</button>
+
 <div class="box">
   <ng-container cdkDropListGroup
                 class="projects-drop-group"
                 *ngIf="user"
   >
-
     <div *ngFor="let project of projects">
       <app-project-list
         [project]="project"
@@ -12,10 +16,4 @@
 
   </ng-container>
 
-  <div class="project-actions">
-    <button mat-flat-button color="accent" class="btn-style" (click)="addProject()">
-      <mat-icon>add</mat-icon>
-      Add
-    </button>
-  </div>
 </div>

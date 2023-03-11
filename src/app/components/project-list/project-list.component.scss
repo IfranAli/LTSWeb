@@ -13,7 +13,7 @@
 
 .list {
   color: global.$color-text-light;
-  overflow: hidden;
+  //overflow: hidden;
   display: flex;
   flex-direction: column;
   min-width: style.$task-width;
@@ -68,7 +68,7 @@
 
 @media screen and (max-width: 844px) {
   .project-list{
-    margin: 1rem 0;
+    margin: 0;
   }
 
   .list {

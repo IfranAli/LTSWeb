@@ -48,36 +48,17 @@ mat-form-field {
 }
 
 .task-controls {
-  width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr 1fr;
   align-items: center;
-  justify-content: space-between;
+  padding: 0.4rem 0;
+
+  .priority-icon {
+    padding-left: 0.2rem;
+  }
 
   .content {
-    width: 100%;
-    padding-left: 0.5rem;
-
-    div:first-child {
-    }
-
-    div:last-child {
-      font-size: small;
-      color: #6e757f;
-    }
-  }
-
-  .align-left {
-    display: flex;
-    align-items: flex-start;
-    padding: 0 4px;
-  }
-
-  .stretch {
-    width: 100%
-  }
-
-  .align-left {
-    align-items: end;
+    padding: 10px;
   }
 }
 
@@ -138,6 +119,6 @@ mat-form-field {
 
 @media screen and (max-width: 844px) {
   .content {
-    padding-right: 0;
+    //padding-right: 0;
   }
 }

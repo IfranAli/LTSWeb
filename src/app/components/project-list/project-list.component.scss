@@ -4,7 +4,7 @@
 @use "src/styles/global/custom-card";
 
 .project-list {
-  margin: style.$margin-global-0;
+  margin: style.$margin-global-1;
 }
 
 .card-content-block {
@@ -19,25 +19,25 @@
   min-width: style.$task-width;
   //max-width: style.$task-width;
 
-  border-top: solid;
+  border-top: 1px solid;
   border-color: style.$border-color-dark;
-}
 
-.list-item {
-  border-color: global.$color-text-dark;
-  border-style: none none solid none;
-  border-width: 1px;
-  padding: 0.3rem 0;
+  .list-item {
+    border-color: global.$color-text-dark;
+    border-style: none none solid none;
+    border-width: 1px;
+    padding: 0.3rem 0;
 
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  align-content: center;
-  align-items: center;
-  justify-content: flex-start;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
 
-  app-task {
-    flex-grow: 1;
+    app-task {
+      flex-grow: 1;
+    }
   }
 }
 
@@ -64,6 +64,12 @@
 
 .list.cdk-drop-list-dragging .project-task-item:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.footer {
+  .icon-button {
+    color: unset;
+  }
 }
 
 @media screen and (max-width: 844px) {

@@ -23,11 +23,9 @@
       <div *ngSwitchCase="3" class="status-text done">Done</div>
     </ng-container>
 
-    <div>
-      <button mat-icon-button [cdkMenuTriggerFor]="menu">
-        <mat-icon color="secondary">more_vert</mat-icon>
-      </button>
-    </div>
+    <button class="icon-button" [cdkMenuTriggerFor]="menu">
+      <mat-icon color="secondary">more_vert</mat-icon>
+    </button>
   </div>
 </div>
 

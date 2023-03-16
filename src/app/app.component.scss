@@ -2,63 +2,99 @@
 @use "src/styles/global/style" as style;
 
 body {
+  color: #2f2f2f;
+  background: #1f2023;
+  margin: 0;
+  padding: 0;
 }
 
-.container {
-  width: 100%;
+nav {
 
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  align-content: stretch;
+}
+
+main {
+  margin-left: 5rem;
+}
+
+.navbar {
+  width: 5rem;
   height: 100vh;
+  position: fixed;
+  background: colors.$toolbar-bg;
 
-  .toolbar {
-    color: colors.$color-text-dark;
-    background: colors.$toolbar-bg;
-    border-bottom: solid;
-    border-width: 1px;
-    font-size: style.$font-large;
-    //box-shadow: style.$box-shadow;
-    height: auto;
+  .navbar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
 
-    .toolbar-buttons {
-      flex: 1 1 auto;
-      display: flex;
-      flex-direction: row;
-      flex-wrap: nowrap;
-      align-content: center;
-      align-items: center;
-      justify-content: space-between;
+    li {
       width: 100%;
-      margin-left: 0.8rem;
-    }
-  }
 
-  .mat-sidenav-container {
-    height: inherit;
+      .nav-item {
+        color: #1f1f1f;
+        height: 5rem;
 
-    .mat-nav-list {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
+        .title {
+          transition: color 200ms ease-in;
+          margin-left: 0;
+          font-weight: bold;
+          pointer-events: none;
+          height: 5rem;
+          line-height: 5rem;
+          position: relative;
+          top: -3rem;
+          color: colors.$transparent;
+        }
 
-      width: 4rem;
-      height: inherit;
-      border-width: style.$border-width-large;
-      border-style: none solid none none;
-      background: colors.$toolbar-bg;
+        &:hover {
+          .title {
+            display: block;
+            color: colors.$color-text-dark;
+          }
+        }
+      }
 
-      button {
-        width: inherit;
-        height: auto;
-        padding: 1rem 0 1rem;
+      &:last-child {
+        margin-top: auto;
       }
     }
   }
 }
 
-.mat-drawer-container {
-  background: none;
+/* Small screens */
+@media only screen and (max-width: 600px) {
+  .navbar {
+    bottom: 0;
+    width: 100vw;
+    height: auto;
+  }
+
+  .navbar-nav {
+    flex-direction: row !important;
+
+    li {
+
+      .nav-item {
+        height: 3rem !important;
+
+        .title {
+          display: none !important;
+        }
+
+      }
+
+      &:last-child {
+        margin-top: 0 !important;
+      }
+    }
+  }
+
+  main {
+    margin: 0;
+  }
 }

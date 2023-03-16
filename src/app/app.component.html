@@ -1,43 +1,47 @@
-<div class="container" role="main">
-  <mat-toolbar class="toolbar">
-    <button mat-icon-button (click)="sideNav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
+<nav class="navbar">
 
-    <span>LTSWeb</span>
-    <span class="example-spacer"></span>
-    <mat-icon>code</mat-icon>
+  <ul class="navbar-nav">
+    <li>
+      <div class="nav-item">
 
-    <div class="toolbar-buttons">
-      <div>
-        <button mat-icon-button routerLink="/projects" routerLinkActive="active">
+        <button class="icon-button" routerLink="/projects" routerLinkActive="active">
           <mat-icon color="secondary">library_books</mat-icon>
         </button>
 
-        <button mat-icon-button routerLink="/finance" routerLinkActive="active">
+        <div class="title">Projects</div>
+      </div>
+    </li>
+
+    <li>
+      <div class="nav-item">
+        <button class="icon-button" routerLink="/finance" routerLinkActive="active">
           <mat-icon color="secondary">account_balance</mat-icon>
         </button>
+        <div class="title">Finance</div>
+      </div>
+    </li>
 
-        <button mat-icon-button routerLink="/calendar" routerLinkActive="active">
+    <li>
+      <div class="nav-item">
+        <button class="icon-button" routerLink="/calendar" routerLinkActive="active">
           <mat-icon color="secondary">calendar_month</mat-icon>
         </button>
+        <div class="title">Calendar</div>
+      </div>
+    </li>
+
+    <li>
+      <div class="nav-item">
+        <button class="icon-button" (click)="userLogout()">
+          <mat-icon color="secondary">logout</mat-icon>
+        </button>
+        <div class="title">Logout</div>
       </div>
 
-      <button (click)="userLogout()" mat-icon-button>
-        <mat-icon color="secondary">logout</mat-icon>
-      </button>
-    </div>
-  </mat-toolbar>
+    </li>
+  </ul>
+</nav>
 
-  <mat-sidenav-container>
-    <mat-sidenav #sideNav mode="side">
-      <mat-nav-list>
-
-      </mat-nav-list>
-    </mat-sidenav>
-
-    <mat-sidenav-content>
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
-</div>
+<main>
+  <router-outlet></router-outlet>
+</main>

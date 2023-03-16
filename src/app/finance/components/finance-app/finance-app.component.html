@@ -6,16 +6,25 @@
         <div
           class="category"
           *ngFor="let categorySummary of summaries"
-          [style.width]="categorySummary.percentage"
-          [style.background]="categorySummary.colour"
         >
-          <br/>
-          <!--          <span class="name">{{ categorySummary.categoryName }}</span>-->
+          <span
+            [style.width]="categorySummary.percentage"
+            [style.background]="categorySummary.colour"
+            class="bar"
+          ><br/></span>
 
-          <!--          <div>-->
-          <!--            <span style="float: right">{{ categorySummary.total }}</span>-->
-          <!--            <span style="float: left">{{ categorySummary.percentage }}</span>-->
-          <!--          </div>-->
+          <span
+            class="label"
+            [ngStyle]="{
+              'margin-left' :((categorySummary.percentageRaw < 20) ? categorySummary.percentage: 0)
+            }"
+          >
+            <span class="name">
+              {{ categorySummary.categoryName }}
+              ({{ categorySummary.percentage }})
+            </span>
+          </span>
+          <span class="week-total">{{ categorySummary.total }}</span>
         </div>
       </div>
     </div>

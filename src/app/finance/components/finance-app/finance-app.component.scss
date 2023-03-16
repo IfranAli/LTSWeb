@@ -30,7 +30,7 @@ $day-font-light: #8a8a8a;
   display: flex;
   flex-direction: column;
   padding: style.$dialog-padding;
-  margin: style.$margin-global-0;
+  margin: style.$margin-global-1;
 
   .table-header-week {
     background: #ffffff20;
@@ -71,33 +71,48 @@ $day-font-light: #8a8a8a;
     width: 100%;
 
     .container {
-      display: flex;
-      flex-wrap: nowrap;
-      flex-direction: row;
-      margin: 1rem 0 1rem 0;
+      margin: 1rem;
       border-radius: style.$border-radius-2;
-      border: 1px solid black;
+
+      .category {
+
+        .bar {
+          display: inline-block;
+          width: fit-content;
+          z-index: -1;
+          border: 1px solid;
+          border-radius: style.$border-radius-1;
+          height: 1rem;
+        }
+
+        .label {
+          font-size: smaller;
+          z-index: 0;
+          grid-template-columns: 10fr 1fr;
+          display: grid;
+          width: 100%;
+          position: relative;
+          top: -1.4rem;
+          height: 0;
+          padding-left: 0.3rem;
+        }
+
+        .week-total {
+          float: right;
+          top: -1.4rem;
+          position: relative;
+        }
+
+        span {
+          font-weight: bold;
+          white-space: nowrap;
+        }
+      }
     }
 
     .category {
-      min-width: 10%;
-      display: block;
-      font-weight: bold;
-
       .name {
-        white-space: nowrap;
-      }
-
-      &:first-child {
-        border-radius: 10px 0 0 10px;
-      }
-
-      &:last-child {
-        border-radius: 0 10px 10px 0;
-      }
-
-      &:only-child {
-        border-radius: 10px 10px 10px 10px;
+        //white-space: nowrap;
       }
     }
 
@@ -128,16 +143,16 @@ $day-font-light: #8a8a8a;
   }
 
   .summary {
-    font-size: smaller;
-
-    div {
-      min-width: unset !important;
-
-      span:first-child {
-        float: unset !important;
-        display: block;
-      }
-    }
+    //font-size: smaller;
+    //
+    //div {
+    //  min-width: unset !important;
+    //
+    //  span:first-child {
+    //    float: unset !important;
+    //    display: block;
+    //  }
+    //}
   }
 }
 
@@ -171,6 +186,7 @@ $day-font-light: #8a8a8a;
 
 .finance-list {
   padding: 0.5rem 0.8rem;
+  color: global.$color-text-dark;
 
   .header {
     font-size: larger;
@@ -184,7 +200,7 @@ $day-font-light: #8a8a8a;
   }
 
   .row {
-    background: #212121;
+    background: global.$layer-two-bg;
     padding: 0.3rem 0.5rem;
     margin: 1rem 0;
     border-radius: 0.3rem;

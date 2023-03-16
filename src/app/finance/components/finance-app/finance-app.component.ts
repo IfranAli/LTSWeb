@@ -14,8 +14,7 @@ import {sortFinanceModels} from "../../util/finance.util";
 import {CALENDAR_MONTHS, WeekDays} from "../../../calendar/models/calendar.model";
 import {
   BehaviorSubject,
-  combineLatestWith, empty,
-  Observable,
+  combineLatestWith, Observable,
   of,
   shareReplay,
   Subscription,
@@ -34,6 +33,7 @@ interface WithFinanceViewModels {
 
 interface IFinanceSummaryExtraProps {
   percentage: string,
+  percentageRaw: number,
   colour: string,
 }
 
@@ -64,6 +64,10 @@ const getFinancesByWeek = (date: Date, financeModels: FinanceModel[]): FinanceMo
     p[week] = [...p[week], c]
     return p
   }, Array.from(new Array(numRows)).fill([]));
+}
+
+const formatCurrency = (number: number): string =>  {
+  return  '$'.concat(Math.abs(number).toFixed(2));
 }
 
 @Component({
@@ -137,7 +141,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
                 return [...p, {
                   categoryName: `Week ${idx + 1}`,
-                  total: '$'.concat(Math.abs(total).toFixed(2)),
+                  total: formatCurrency(total),
                   items: c.map(this.financeModelToViewModel),
                 }]
               }, []
@@ -173,7 +177,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
       return <IFinanceSummary & IFinanceSummaryExtraProps & WithFinanceViewModels>{
         categoryName: d.categoryName,
         colour: c,
-        total: d.total,
+        total: formatCurrency(parseFloat(d.total)),
         items: d.items.map(p => {
           return {
             ...p, categoryColour: c,
@@ -181,6 +185,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
           }
         }),
         percentage: p.toFixed(0).concat('%'),
+        percentageRaw: parseInt(p.toFixed(0))
       }
     });
 
@@ -208,7 +213,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
       categoryColour: colour,
       date: dateText,
       isCredit: (amount > 0),
-      amountFormatted: '$'.concat(Math.abs(amount).toFixed(2))
+      amountFormatted: formatCurrency(amount)
     }
   }
 

@@ -42,6 +42,8 @@ h1 {
   height: 100%;
   width: 100%;
   color: inherit;
+  display: flex;
+  align-items: center;
 }
 
 .dialog-style .mat-dialog-container {
@@ -78,6 +80,10 @@ h1 {
 
 .dialog-small {
   width: style.$dialog-small;
+  //maxWidth: 100vw;
+  //maxHeight: 100vh;
+  //height: 100%;
+  //width: 100%;
 }
 
 .btn-style {

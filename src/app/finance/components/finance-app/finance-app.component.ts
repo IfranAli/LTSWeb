@@ -219,6 +219,10 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
   openDialogAddFinance() {
     const dialogRef = this.dialog.open(AddFinanceDialogComponent, {
+      // maxWidth: '100vw',
+      // maxHeight: '100vh',
+      // height: '100%',
+      // width: '100%',
       data: {categories: this.categoryLookup},
       panelClass: ['dialog-style', 'dialog-small'],
     });

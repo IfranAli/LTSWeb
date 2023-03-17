@@ -7,14 +7,14 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers";
 import {deleteTask, updateTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {EditTaskDialogComponent} from "../edit-task-dialog/edit-task-dialog.component";
 import {TaskState} from "../../constants/constants";
-import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatLegacyCheckboxModule as MatCheckboxModule} from "@angular/material/legacy-checkbox";
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {BrowserModule} from "@angular/platform-browser";
 import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
+import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 
 @Component({
   standalone: true,

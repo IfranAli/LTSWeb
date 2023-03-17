@@ -11,7 +11,7 @@ import {Dictionary} from "@ngrx/entity";
 import {createTask, updateTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
 import {EditProjectDialogComponent} from "../edit-project-dialog/edit-project-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {TaskState} from "../../constants/constants";
 
 @Component({

@@ -1,14 +1,14 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatButtonModule} from "@angular/material/button";
-import {MatInputModule} from "@angular/material/input";
+import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
+import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {MatSelectModule} from "@angular/material/select";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MatLegacySelectModule as MatSelectModule} from "@angular/material/legacy-select";
+import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
 import {financeDialogData} from "../finance-app/finance-app.component";
 import {createFinanceModel, FinanceModel} from "../../models/finance.model";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {MatTabsModule} from "@angular/material/tabs";
+import {MatLegacyTabsModule as MatTabsModule} from "@angular/material/legacy-tabs";
 import {bulkImportTextToFinanceModel, dateToString} from "../../util/finance.util";
 import {parseDateIdentifierAsString} from "../../../calendar/models/calendar.util";
 

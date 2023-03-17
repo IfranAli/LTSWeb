@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {IMonth, Months, WEEK_DAYS} from "../../models/calendar.model";
 import {buildCalendarMonth, decrementDateByMonth, incrementDateByMonth} from "../../models/calendar.util";
 import {MatIconModule} from "@angular/material/icon";
-import {MatButtonModule} from "@angular/material/button";
+import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 
 @Component({
   selector: 'app-calendar',

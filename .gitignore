@@ -47,3 +47,4 @@ Thumbs.db
 /src/environments/environment.prod.ts
 !/stats.json
 /.vscode/
+!/package-lock.json

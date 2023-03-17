@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/co
 import {FinanceService, IFinanceSummary} from "../../services/finance.service";
 import {FinanceCategory, FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
-import {MatDialog} from "@angular/material/dialog";
+import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
 import {
   decrementDateByMonth,

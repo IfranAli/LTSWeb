@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
 import {FinanceService, IFinanceSummary} from "../../services/finance.service";
-import {FinanceCategory, FinanceModel} from "../../models/finance.model";
+import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
 import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
@@ -14,9 +14,8 @@ import {sortFinanceModels} from "../../util/finance.util";
 import {CALENDAR_MONTHS, WeekDays} from "../../../calendar/models/calendar.model";
 import {
   BehaviorSubject,
-  combineLatestWith, Observable,
+  Observable,
   of,
-  shareReplay,
   Subscription,
   switchMap,
   tap
@@ -26,29 +25,43 @@ export interface financeDialogData {
   categories: Map<number, string>;
 }
 
-
-interface WithFinanceViewModels {
+export interface FinanceData extends IFinanceSummary {
   items: FinanceViewModel[]
 }
 
-interface IFinanceSummaryExtraProps {
-  percentage: string,
-  percentageRaw: number,
-  colour: string,
-}
-
-interface FinanceModelExtraProps {
+export interface FinanceViewModel extends FinanceModel {
+  accountId: number,
+  name: string,
+  date: string,
+  dateFormatted: string,
+  amount: number,
+  categoryType: number,
   categoryColour: string;
   categoryLabel: string;
   amountFormatted: string;
   isCredit: boolean;
 }
 
-type SummaryGraph = IFinanceSummary & IFinanceSummaryExtraProps & WithFinanceViewModels
-type FinanceData = IFinanceSummary & WithFinanceViewModels
-type FinanceViewModel = FinanceModel & FinanceModelExtraProps
+export type FinanceSummary = {
+  percentage: string,
+  percentageRaw: number,
+  colour: string,
+  total: string,
+  categoryName: string,
+  items: FinanceViewModel[]
+}
 
-const getFinancesByWeek = (date: Date, financeModels: FinanceModel[]): FinanceModel[][] => {
+export type CategoryData = {
+  typeMap: Map<number, string>;
+  colorMap: Map<string, string>;
+}
+
+export type FinanceDataAll = {
+  category: CategoryData,
+  summaries: FinanceSummary[]
+};
+
+const getFinancesByWeek = (date: Date, financeModels: FinanceViewModel[]): FinanceViewModel[][] => {
   const dateStart = new Date(date.getFullYear(), date.getMonth(), 1)
   const dayStart = (dateStart.getDay() == 0 ? 6 : dateStart.getDay());
   const numRows = (42 - (dayStart)) % 7
@@ -66,8 +79,8 @@ const getFinancesByWeek = (date: Date, financeModels: FinanceModel[]): FinanceMo
   }, Array.from(new Array(numRows)).fill([]));
 }
 
-const formatCurrency = (number: number): string =>  {
-  return  '$'.concat(Math.abs(number).toFixed(2));
+export const formatCurrency = (number: number): string => {
+  return '$'.concat(Math.abs(number).toFixed(2));
 }
 
 @Component({
@@ -80,27 +93,13 @@ const formatCurrency = (number: number): string =>  {
 })
 export class FinanceAppComponent implements OnInit, OnDestroy {
   $subscription2: Subscription | undefined;
-
-  categoriesData$ = new BehaviorSubject<FinanceCategory[] | undefined>(undefined);
-  summaries$: Observable<SummaryGraph[]>;
+  // summaries$: Observable<SummaryGraph[]>;
+  summaries$: Observable<FinanceDataAll>;
   financeData$: Observable<FinanceData[]> = of([]);
   title = '';
   dateFrom$ = new BehaviorSubject<Date>(new Date());
   categoryLookup = new Map<number, string>;
   categoryColourLookup = new Map<string, string>;
-  categories$: Observable<FinanceCategory[]> = this.financeService.getFinanceCategories().pipe(
-    shareReplay(1),
-    tap(categories => {
-      this.categoriesData$.next(categories);
-      this.categoryLookup = categories.reduce((acc, c) => {
-        return acc.set(c.id, c.type)
-      }, new Map<number, string>)
-
-      this.categoryColourLookup = categories.reduce((acc, c) => {
-        return acc.set(c.type, c.colour ?? '#A8D6D6')
-      }, new Map<string, string>)
-    })
-  );
 
   constructor(
     private financeService: FinanceService,
@@ -123,31 +122,32 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
         this.title = monthName + ' ' + year;
 
         return this.financeService.getFinanceSummary(0, dateFrom, dateTo).pipe(
-          combineLatestWith(
-            this.categories$.pipe(
-              tap(value => console.log(value))
-            )
-          ),
-          switchMap(([summaries,]) => {
-            return of(this.processSummary(summaries));
+          tap((value) => {
+            this.categoryLookup = value.category.typeMap;
+            this.categoryColourLookup = value.category.colorMap;
           }),
-          tap((summaryGraph) => {
-            const allFinances = summaryGraph.map(s => s.items).flat().sort(sortFinanceModels)
+          tap((data: FinanceDataAll) => {
+            const summaryGraphs = data.summaries
+            const allFinances = summaryGraphs.map(s => s.items).flat().sort(sortFinanceModels)
             const date = this.dateFrom$.value;
             const financesByWeeks: FinanceModel[][] = getFinancesByWeek(date, allFinances)
 
-            const result = financesByWeeks.reduce<FinanceData[]>((p, c, idx) => {
-                const total = c.reduce((p, c) => p + c.amount, 0);
+            const summaries: FinanceData[] = financesByWeeks.reduce<FinanceData[]>((p, c, idx) => {
+                const weekTotal = c.reduce((p, c) => p + c.amount, 0);
+                const financeViewModels = c.map<FinanceViewModel>((fm) =>
+                  FinanceService.financeModelToViewModel(fm)
+                );
 
                 return [...p, {
                   categoryName: `Week ${idx + 1}`,
-                  total: formatCurrency(total),
-                  items: c.map(this.financeModelToViewModel),
+                  total: formatCurrency(weekTotal),
+                  items: financeViewModels
                 }]
               }, []
             ).filter(value => value.items.length).reverse();
 
-            this.financeData$ = of(result);
+            this.financeData$ = of(summaries);
+            return of(data)
           }),
         );
       })
@@ -161,60 +161,6 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
   forward() {
     this.dateFrom$.next(incrementDateByMonth(this.dateFrom$.value));
-  }
-
-  processSummary = (summary: IFinanceSummary[]): SummaryGraph[] => {
-    const grandTotal = summary.reduce<number>((p, c) => {
-      return p + parseFloat(c.total);
-    }, 0);
-
-    return summary.map((d): SummaryGraph => {
-      const v = parseFloat(d.total);
-      const p = (v / grandTotal) * 100;
-      const categoryName = d.categoryName ?? '';
-      const c = this.categoryColourLookup.get(categoryName) ?? '#A8D6D6';
-
-      return <IFinanceSummary & IFinanceSummaryExtraProps & WithFinanceViewModels>{
-        categoryName: d.categoryName,
-        colour: c,
-        total: formatCurrency(parseFloat(d.total)),
-        items: d.items.map(p => {
-          return {
-            ...p, categoryColour: c,
-            categoryLabel: categoryName,
-          }
-        }),
-        percentage: p.toFixed(0).concat('%'),
-        percentageRaw: parseInt(p.toFixed(0))
-      }
-    });
-
-  }
-
-  financeModelToViewModel = (fm: FinanceModel): FinanceViewModel => {
-    const category = this.categoryLookup.get(fm.categoryType) ?? '';
-    const colour = this.categoryColourLookup.get(category) ?? '';
-
-    const date = new Date(fm.date);
-    const weekday = WeekDays[date.getDay()].slice(0, 3);
-    const dayOfMonth = date.getDate();
-
-    const suffixes = ['st', 'nd', 'rd', 'th']
-    const daySuffix = [1, 2, 3].indexOf(dayOfMonth)
-    const suffix = (daySuffix > -1) ? suffixes[daySuffix] : suffixes[3];
-
-    const dateText = [weekday, dayOfMonth.toString().concat(suffix)].join(' ')
-    // const dateText = [weekday, fm.date].join(' ')
-    const amount = fm.amount;
-
-    return {
-      ...fm,
-      categoryLabel: category,
-      categoryColour: colour,
-      date: dateText,
-      isCredit: (amount > 0),
-      amountFormatted: formatCurrency(amount)
-    }
   }
 
   openDialogAddFinance() {

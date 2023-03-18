@@ -10,7 +10,7 @@
       <div class="container">
         <div
           class="category"
-          *ngFor="let categorySummary of summaries"
+          *ngFor="let categorySummary of summaries.summaries"
         >
           <span
             [style.width]="categorySummary.percentage"
@@ -63,9 +63,9 @@
                 [class.credit]="finance.isCredit"
                 [class.debit]="!finance.isCredit"
               >
-                {{ finance.amountFormatted }}
+                {{ finance.amountFormatted}}
               </div>
-              <div class="date">{{ finance.date }}</div>
+              <div class="date">{{ finance.dateFormatted }}</div>
 
               <span class="label">{{ finance.name }}</span>
 

@@ -14,11 +14,12 @@ nav {
 
 main {
   margin-left: 5rem;
+  height: inherit;
 }
 
 .navbar {
-  width: 5rem;
-  height: 100vh;
+  width: style.$navbar-width-desktop;
+  height: inherit;
   position: fixed;
   background: colors.$toolbar-bg;
 
@@ -37,7 +38,7 @@ main {
 
       .nav-item {
         color: #1f1f1f;
-        height: 5rem;
+        height: style.$navbar-width-desktop;
 
         .icon-button {
           display: block;
@@ -82,14 +83,12 @@ main {
     flex-direction: row !important;
 
     li {
-
       .nav-item {
-        height: 3rem !important;
+        height: style.$navbar-width-mobile !important;
 
         .title {
           display: none !important;
         }
-
       }
 
       &:last-child {

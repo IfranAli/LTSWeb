@@ -15,7 +15,7 @@ import {deleteProject, updateProject} from "../../actions/project.actions";
   templateUrl: './edit-project-dialog.component.html',
   styleUrls: [
     '../../../styles/global/custom-form.scss',
-    // './edit-project-dialog.component.scss'
+    './edit-project-dialog.component.scss'
   ]
 })
 export class EditProjectDialogComponent implements OnInit {

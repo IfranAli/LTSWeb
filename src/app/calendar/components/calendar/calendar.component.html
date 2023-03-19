@@ -1,32 +1,28 @@
 <div class="calendar-container">
 
-  <div class="custom-card">
+  <div class="custom-card no-border">
+    <div class="box-month">
+      <div class="title space-between">
+        <button class="icon-button" (click)="back()">
+          <mat-icon color="secondary">arrow_back</mat-icon>
+        </button>
 
-    <div class="months">
+        <span>{{ month.name }} {{ year }}</span>
 
-      <div class="box-month">
-        <div class="title space-between">
-          <button class="icon-button" (click)="back()">
-            <mat-icon color="secondary">arrow_back</mat-icon>
-          </button>
+        <button class="icon-button right" (click)="forward()">
+          <mat-icon color="secondary">arrow_forward</mat-icon>
+        </button>
+      </div>
 
-          <span>{{ month.name }} {{ year }}</span>
+      <!-- Header -->
+      <div class="calendar-grid">
 
-          <button class="icon-button right" (click)="forward()">
-            <mat-icon color="secondary">arrow_forward</mat-icon>
-          </button>
+        <div class="box-header" *ngFor="let day of weekdays">
+          {{ day }}
         </div>
 
-        <!-- Header -->
-        <div class="month-row">
-          <div class="box-header"
-               *ngFor="let day of weekdays">
-            {{ day }}
-          </div>
-        </div>
-
-        <div class="month-row month-week"
-             *ngFor="let week of month.weeks">
+        <ng-container
+          *ngFor="let week of month.weeks">
 
           <div class="box-day"
                *ngFor="let day of week.days"
@@ -37,11 +33,10 @@
           >
             {{ day.day }}
           </div>
-        </div>
+        </ng-container>
 
       </div>
 
     </div>
   </div>
-
 </div>

@@ -1,5 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef
+} from "@angular/material/legacy-dialog";
 import {createTaskModel, TaskModel} from "../../models/task.model";
 import {FormControl, FormGroup} from "@angular/forms";
 import {Priority, TaskState} from "../../constants/constants";
@@ -7,7 +10,10 @@ import {Priority, TaskState} from "../../constants/constants";
 @Component({
   selector: 'app-edit-task-dialog',
   templateUrl: './edit-task-dialog.component.html',
-  styleUrls: ['./edit-task-dialog.component.scss']
+  styleUrls: [
+    '../../../styles/global/custom-form.scss',
+    './edit-task-dialog.component.scss'
+  ]
 })
 export class EditTaskDialogComponent implements OnInit {
   task: TaskModel;

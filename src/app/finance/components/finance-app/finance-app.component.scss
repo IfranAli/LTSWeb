@@ -30,7 +30,6 @@ $day-font-light: #8a8a8a;
   display: flex;
   flex-direction: column;
   padding: style.$dialog-padding;
-  margin: style.$margin-global-1;
 
   .table-header-week {
     background: #ffffff20;
@@ -67,6 +66,8 @@ $day-font-light: #8a8a8a;
     }
 
     .all-finances {
+      background: unset;
+      border: unset;
       min-width: 50%;
       margin: 1rem;
     }

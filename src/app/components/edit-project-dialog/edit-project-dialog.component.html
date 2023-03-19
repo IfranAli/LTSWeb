@@ -1,16 +1,16 @@
-<div class="custom-form dialog-content">
+<div class="custom-form">
   <form [formGroup]="form">
 
-    Title:
+    <label>Title</label>
     <input matInput [formControl]="form.controls.title">
 
-    Project Code:
+    <label>Project Code</label>
     <input matInput [formControl]="form.controls.code">
 
-    Content:
+    <label>Content</label>
     <input matInput [formControl]="form.controls.content">
 
-    Color:
+    <label>Color</label>
     <input matInput [formControl]="form.controls.colour">
   </form>
 

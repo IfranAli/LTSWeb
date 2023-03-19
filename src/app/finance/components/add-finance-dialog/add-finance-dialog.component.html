@@ -1,20 +1,20 @@
-<div class="custom-form dialog-content">
+<div class="custom-form">
 
   <div>
     <mat-tab-group [(selectedIndex)]="selectedTab">
       <mat-tab label="Add">
         <form [formGroup]="addFinanceForm">
           <label>Name</label>
-          <input matInput [formControl]="addFinanceForm.controls.name" type="text">
+          <input [formControl]="addFinanceForm.controls.name" type="text">
 
-          <input matInput [matDatepicker]="picker" [formControl]="addFinanceForm.controls.date">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <input [matDatepicker]="picker" [formControl]="addFinanceForm.controls.date">
+          <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
 
           <label>Amount</label>
           <input [formControl]="addFinanceForm.controls.amount">
 
-          Category
+          <label>Category</label>
           <select [formControl]="addFinanceForm.controls.categoryType">
             <option [value]="category.key" *ngFor="let category of data.categories | keyvalue">
               {{ category.value }}
@@ -27,14 +27,12 @@
       <mat-tab label="Import">
         <form [formGroup]="bulkImportForm">
           <label>Input</label>
-          <textarea matInput [formControl]="bulkImportForm.controls.input" type="text" style="min-height: 200px">
-            </textarea>
+          <textarea [formControl]="bulkImportForm.controls.input" type="text" style="min-height: 200px">
+          </textarea>
 
-          <mat-form-field appearance="standard">
-            <input matInput [matDatepicker]="pickerBulk" [formControl]="bulkImportForm.controls.date">
-            <mat-datepicker-toggle matSuffix [for]="pickerBulk"></mat-datepicker-toggle>
+            <input [matDatepicker]="pickerBulk" [formControl]="bulkImportForm.controls.date">
+            <mat-datepicker-toggle [for]="pickerBulk"></mat-datepicker-toggle>
             <mat-datepicker #pickerBulk></mat-datepicker>
-          </mat-form-field>
         </form>
       </mat-tab>
     </mat-tab-group>

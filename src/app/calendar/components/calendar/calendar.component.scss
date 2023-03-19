@@ -9,6 +9,12 @@ $day-background: #282828;
 $day-background-darker: #1f1f1f;
 $day-font-light: #8a8a8a;
 
+
+:host {
+  height: inherit;
+  display: block;
+}
+
 mat-card {
   background: global.$primary-accent;
 
@@ -18,49 +24,56 @@ mat-card {
 }
 
 .calendar-container {
+  height: inherit;
   display: flex;
   flex-direction: column;
   padding: style.$dialog-padding;
   margin: style.$margin-global-0;
-  //max-width: min-content;
-
-  .month-row {
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    justify-content: space-between;
-
-    color: global.$color-text-sub-title;
-  }
-
-  .month-week {
-    :first-child {
-      border-width: 1px !important;
-      border-left: solid !important;
-      border-color: $border-color !important;
-    }
-  }
 
   .box-header {
-    width: 100px;
     font-weight: bold;
     text-align: center;
   }
 
   .box-month {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: space-between;
+
+    .title {
+      flex-grow: 0;
+    }
+
+    .calendar-grid {
+      flex-grow: 1;
+      overflow-y: clip;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: 0fr;
+    }
+
+    .box-header {
+      height: 2rem;
+    }
+
     .box-day {
       height: 100%;
-      min-height: 100px;
-      width: 100%;
 
       background: $day-background-darker;
       color: $day-font-light;
       font-weight: bold;
-      border-style: solid solid none none;
+      border-style: solid none;
       border-width: 1px;
       padding: 4px;
       border-color: $border-color;
 
+      &:hover {
+        border-color: #ff4081;
+        color: #ff4081;
+      }
     }
 
     .disable {
@@ -70,6 +83,17 @@ mat-card {
 
     .today {
       color: global.$color-red;
+    }
+  }
+}
+
+@media screen and (max-width: 844px) {
+  .calendar-container {
+
+    .box-month {
+
+      .calendar-grid {
+      }
     }
   }
 }

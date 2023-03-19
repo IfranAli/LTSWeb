@@ -1,9 +1,9 @@
-<div class="dialog-content">
+<div class="custom-form">
   <form [formGroup]="taskForm">
-    Name
+    <label>Name</label>
     <input [formControl]="taskForm.controls.name">
 
-    State
+    <label>State</label>
     <select [formControl]="taskForm.controls.state">
       <option [value]="0">Todo</option>
       <option [value]="1">In progress</option>
@@ -11,13 +11,14 @@
       <option [value]="3">Done</option>
     </select>
 
-    Content:
+
+    <label>Content</label>
     <input [formControl]="taskForm.controls.content">
 
-    Project ID:
+    <label>Project ID</label>
     <input [formControl]="taskForm.controls.projectId">
 
-    Priority
+    <label>Priority</label>
     <select [formControl]="taskForm.controls.priority">
       <option [value]="0">Lowest</option>
       <option [value]="1">Medium</option>
@@ -26,12 +27,13 @@
     </select>
 
   </form>
-</div>
 
-<div class="actions">
-  <div>
-    <button (click)="onNoClick()">Cancel</button>
+  <div class="actions">
+    <div>
+      <button (click)="onNoClick()">Cancel</button>
+    </div>
+
+    <button [mat-dialog-close]="getDialogData()">Save</button>
   </div>
-
-  <button [mat-dialog-close]="getDialogData()">Save</button>
 </div>
+

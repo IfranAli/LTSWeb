@@ -2,6 +2,9 @@
 @use "src/styles/global/style" as style;
 
 .custom-form {
+  color: global.$color-text-dark;
+  //padding: style.$padding-1;
+  padding: 1rem;
 
   form {
     display: flex;

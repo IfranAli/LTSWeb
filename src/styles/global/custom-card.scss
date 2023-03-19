@@ -14,9 +14,8 @@
     text-align: center;
 
     &.space-between {
-      padding: 0 10px 0 10px;
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-auto-flow: column;
       align-items: center;
     }
 

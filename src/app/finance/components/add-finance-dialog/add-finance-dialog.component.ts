@@ -27,7 +27,10 @@ export interface IDialogData {
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatDatepickerModule, MatTabsModule],
   templateUrl: './add-finance-dialog.component.html',
-  styleUrls: ['./add-finance-dialog.component.scss']
+  styleUrls: [
+    '../../../../styles/global/custom-form.scss'
+    // './add-finance-dialog.component.scss'
+  ]
 })
 export class AddFinanceDialogComponent implements OnInit {
   selectedTab = Tabs.AddFinance;
@@ -45,7 +48,7 @@ export class AddFinanceDialogComponent implements OnInit {
   });
 
   constructor(
-    private dialogRef: MatDialogRef<AddFinanceDialogComponent>,
+    public dialogRef: MatDialogRef<AddFinanceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: financeDialogData,
   ) {
   }

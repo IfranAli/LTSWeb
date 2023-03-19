@@ -1,0 +1,13 @@
+.icon-button {
+  background: transparent;
+  border: 0;
+  height: 100%;
+  width: 100%;
+  color: inherit;
+  display: flex;
+  align-items: center;
+
+  &.right {
+    place-content: flex-end;
+  }
+}

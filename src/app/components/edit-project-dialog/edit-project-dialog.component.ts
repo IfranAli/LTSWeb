@@ -1,7 +1,10 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {generateCode, ProjectModel} from "../../models/project.model";
 import {FormControl, FormGroup} from "@angular/forms";
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef
+} from "@angular/material/legacy-dialog";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers";
 import {DataProviderService} from "../../services/data-provider.service";
@@ -10,7 +13,10 @@ import {deleteProject, updateProject} from "../../actions/project.actions";
 @Component({
   selector: 'app-edit-project-dialog',
   templateUrl: './edit-project-dialog.component.html',
-  styleUrls: ['./edit-project-dialog.component.scss']
+  styleUrls: [
+    '../../../styles/global/custom-form.scss',
+    // './edit-project-dialog.component.scss'
+  ]
 })
 export class EditProjectDialogComponent implements OnInit {
   model: ProjectModel;

@@ -1,6 +1,8 @@
 @use "src/styles/global/colors" as colors;
 @use "src/styles/global/style" as style;
 
+@use "global/icon-button";
+
 html, body {
   height: 100%;
   overflow-x: hidden;
@@ -34,16 +36,15 @@ h1 {
   body {
     //background: colors.$layer-two-bg;
   }
-}
 
-.icon-button {
-  background: transparent;
-  border: 0;
-  height: 100%;
-  width: 100%;
-  color: inherit;
-  display: flex;
-  align-items: center;
+  .dialog-style .mat-dialog-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    padding: style.$dialog-padding;
+  }
 }
 
 .dialog-style .mat-dialog-container {
@@ -67,23 +68,12 @@ h1 {
   }
 }
 
-.mat-dialog-actions {
-  padding: 1rem;
-  background: colors.$primary-accent;
-  margin-bottom: 0 !important;
-  min-height: auto !important;
-}
-
 .dialog-large {
   width: style.$dialog-large;
 }
 
 .dialog-small {
   width: style.$dialog-small;
-  //maxWidth: 100vw;
-  //maxHeight: 100vh;
-  //height: 100%;
-  //width: 100%;
 }
 
 .btn-style {

@@ -50,6 +50,12 @@ $day-font-light: #8a8a8a;
     display: flex;
     justify-content: center;
 
+    .title {
+      .icon-button:last-child {
+        //place-content: flex-end;
+      }
+    }
+
     .date-switcher {
       background: #1f2023;
     }

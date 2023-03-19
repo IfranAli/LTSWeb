@@ -1,47 +1,37 @@
 <div class="dialog-content">
   <form [formGroup]="taskForm">
-    <mat-form-field appearance="standard">
-      <mat-label>Name</mat-label>
-      <input matInput [formControl]="taskForm.controls.name">
-    </mat-form-field>
+    Name
+    <input [formControl]="taskForm.controls.name">
 
-    <mat-form-field appearance="fill">
-      <mat-label>State</mat-label>
-      <mat-select [formControl]="taskForm.controls.state">
-        <mat-option [value]="0">Todo</mat-option>
-        <mat-option [value]="1">In progress</mat-option>
-        <mat-option [value]="2">Blocked</mat-option>
-        <mat-option [value]="3">Done</mat-option>
-      </mat-select>
-    </mat-form-field>
+    State
+    <select [formControl]="taskForm.controls.state">
+      <option [value]="0">Todo</option>
+      <option [value]="1">In progress</option>
+      <option [value]="2">Blocked</option>
+      <option [value]="3">Done</option>
+    </select>
 
-    <mat-form-field appearance="standard">
-      <mat-label>Content</mat-label>
-      <input matInput [formControl]="taskForm.controls.content">
-    </mat-form-field>
+    Content:
+    <input [formControl]="taskForm.controls.content">
 
-    <mat-form-field appearance="standard">
-      <mat-label>Project ID</mat-label>
-      <input matInput [formControl]="taskForm.controls.projectId">
-    </mat-form-field>
+    Project ID:
+    <input [formControl]="taskForm.controls.projectId">
 
-    <mat-form-field appearance="fill">
-      <mat-label>Priority</mat-label>
-      <mat-select [formControl]="taskForm.controls.priority">
-        <mat-option [value]="0">Lowest</mat-option>
-        <mat-option [value]="1">Medium</mat-option>
-        <mat-option [value]="2">High</mat-option>
-        <mat-option [value]="3">Highest</mat-option>
-      </mat-select>
-    </mat-form-field>
+    Priority
+    <select [formControl]="taskForm.controls.priority">
+      <option [value]="0">Lowest</option>
+      <option [value]="1">Medium</option>
+      <option [value]="2">High</option>
+      <option [value]="3">Highest</option>
+    </select>
 
   </form>
 </div>
 
-<div mat-dialog-actions class="actions">
+<div class="actions">
   <div>
-    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button (click)="onNoClick()">Cancel</button>
   </div>
 
-  <button mat-button color="primary" [mat-dialog-close]="getDialogData()">Save</button>
+  <button [mat-dialog-close]="getDialogData()">Save</button>
 </div>

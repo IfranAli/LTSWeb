@@ -1,46 +1,34 @@
-<div class="custom-card">
+<div class="custom-form dialog-content">
 
-  <div class="title subtitle no-header">Add Finance</div>
-
-  <div class="custom-card-content padding">
+  <div>
     <mat-tab-group [(selectedIndex)]="selectedTab">
       <mat-tab label="Add">
         <form [formGroup]="addFinanceForm">
-          <mat-form-field appearance="standard">
-            <mat-label>Name</mat-label>
-            <input matInput [formControl]="addFinanceForm.controls.name" type="text">
-          </mat-form-field>
+          <label>Name</label>
+          <input matInput [formControl]="addFinanceForm.controls.name" type="text">
 
-          <mat-form-field appearance="standard">
-            <input matInput [matDatepicker]="picker" [formControl]="addFinanceForm.controls.date">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+          <input matInput [matDatepicker]="picker" [formControl]="addFinanceForm.controls.date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
 
-          <mat-form-field appearance="standard">
-            <mat-label>Amount</mat-label>
-            <input matInput [formControl]="addFinanceForm.controls.amount">
-          </mat-form-field>
+          <label>Amount</label>
+          <input [formControl]="addFinanceForm.controls.amount">
 
-          <mat-form-field appearance="fill">
-            <mat-label>Category</mat-label>
-            <mat-select [formControl]="addFinanceForm.controls.categoryType">
-              <mat-option [value]="category.key" *ngFor="let category of data.categories | keyvalue">
-                {{ category.value }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          Category
+          <select [formControl]="addFinanceForm.controls.categoryType">
+            <option [value]="category.key" *ngFor="let category of data.categories | keyvalue">
+              {{ category.value }}
+            </option>
+          </select>
 
         </form>
       </mat-tab>
 
       <mat-tab label="Import">
         <form [formGroup]="bulkImportForm">
-          <mat-form-field appearance="standard">
-            <mat-label>Input</mat-label>
-            <textarea matInput [formControl]="bulkImportForm.controls.input" type="text" style="min-height: 200px">
+          <label>Input</label>
+          <textarea matInput [formControl]="bulkImportForm.controls.input" type="text" style="min-height: 200px">
             </textarea>
-          </mat-form-field>
 
           <mat-form-field appearance="standard">
             <input matInput [matDatepicker]="pickerBulk" [formControl]="bulkImportForm.controls.date">
@@ -52,7 +40,8 @@
     </mat-tab-group>
   </div>
 
-  <div class="custom-card-actions">
-    <button mat-button (click)="addFinance()">Add</button>
+  <div class="actions">
+    <button (click)="this.dialogRef.close()">Cancel</button>
+    <button (click)="addFinance()">Add</button>
   </div>
 </div>

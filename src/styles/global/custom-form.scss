@@ -1,0 +1,28 @@
+@use "src/styles/global/colors" as global;
+@use "src/styles/global/style" as style;
+
+.custom-form {
+
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: stretch;
+  }
+}
+
+@media screen and (max-width: 844px) {
+  .custom-form {
+    height: calc(100% - 1rem * 2);
+
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+
+    form {
+    }
+
+  }
+}

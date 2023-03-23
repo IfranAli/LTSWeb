@@ -42,6 +42,10 @@ main {
 
         .icon-button {
           display: block;
+
+          mat-icon {
+            color: #d2d2d2;
+          }
         }
 
         .title {

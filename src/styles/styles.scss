@@ -93,4 +93,22 @@ h1 {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
+
+  div {
+    display: flex;
+    gap: 1rem;
+    flex-direction: row;
+  }
+}
+
+.amount {
+  font-family: "Hack Nerd Font Mono", ui-monospace;
+
+  &.debit {
+    color: #bb2c2c;
+  }
+
+  &.credit {
+    color: #2cbb3f;
+  }
 }

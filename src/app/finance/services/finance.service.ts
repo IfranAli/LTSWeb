@@ -58,24 +58,6 @@ export class FinanceService {
   ) {
   }
 
-  createFinanceMany(models: FinanceModel[]) {
-    const model = models.map(model => {
-      const {id, ...noId} = model;
-      return noId;
-    })
-    return this.http.post<IResult<FinanceDatabaseModel>>(financesUrl, model, httpHeaders);
-  }
-
-  createFinance(model: FinanceModel) {
-    const {id, ...postData} = model;
-    return this.http.post<FinanceDatabaseModel[]>(financesUrl, postData, httpHeaders);
-  }
-
-  getFinanceCategories() {
-    const url = financesUrl.concat('/', 'category');
-    return this.http.get<FinanceCategory[]>(url, httpHeaders);
-  }
-
   static financeModelToViewModel = (fm: FinanceModel, data?: CategoryData): FinanceViewModel => {
     const category = data?.typeMap.get(fm.categoryType) ?? '';
     const colour = data?.colorMap.get(category) ?? '';
@@ -100,6 +82,24 @@ export class FinanceService {
       amountFormatted: formatCurrency(amount),
       ...fm
     }
+  }
+
+  createFinanceMany(models: FinanceModel[]) {
+    const model = models.map(model => {
+      const {id, ...noId} = model;
+      return noId;
+    })
+    return this.http.post<IResult<FinanceDatabaseModel>>(financesUrl, model, httpHeaders);
+  }
+
+  createFinance(model: FinanceModel) {
+    const {id, ...postData} = model;
+    return this.http.post<FinanceDatabaseModel[]>(financesUrl, postData, httpHeaders);
+  }
+
+  getFinanceCategories() {
+    const url = financesUrl.concat('/', 'category');
+    return this.http.get<FinanceCategory[]>(url, httpHeaders);
   }
 
   getFinanceSummary(accountId: number, from: Date, to: Date): Observable<FinanceDataAll> {
@@ -164,12 +164,9 @@ export class FinanceService {
     return this.http.get<FinanceModel[]>(financesUrl, httpHeaders);
   }
 
-  updateFinance(model
-                  :
-                  FinanceModel
-  ) {
+  updateFinance(model: FinanceModel) {
     const url = financesUrl.concat('/', String(model.id));
-    return this.http.put<FinanceDatabaseModel[]>(baseUrl + url, model, httpHeaders);
+    return this.http.put<FinanceDatabaseModel[]>(url, model, httpHeaders);
   }
 
   deleteFinance(id

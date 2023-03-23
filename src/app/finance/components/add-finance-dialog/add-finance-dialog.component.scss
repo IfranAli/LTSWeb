@@ -1,1 +1,7 @@
-@use "src/styles/global/custom-card";
+
+
+.hideHeader {
+  ::ng-deep .mat-tab-header{
+    display: none;
+  }
+}

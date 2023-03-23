@@ -4,8 +4,10 @@ import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy
 import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
 import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {MatLegacySelectModule as MatSelectModule} from "@angular/material/legacy-select";
-import {MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef} from "@angular/material/legacy-dialog";
-import {financeDialogData} from "../finance-app/finance-app.component";
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef
+} from "@angular/material/legacy-dialog";
 import {createFinanceModel, FinanceModel} from "../../models/finance.model";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatLegacyTabsModule as MatTabsModule} from "@angular/material/legacy-tabs";
@@ -17,9 +19,20 @@ export enum Tabs {
   BulkImport = 1,
 }
 
-export interface IDialogData {
-  action: Tabs,
+export enum Actions {
+  BulkImport = 'Bulk Import',
+  Add = 'Add Finance',
+  Edit = 'Edit Finance',
+}
+
+export interface IDialogResult {
+  action: Actions,
   data: FinanceModel[],
+}
+
+export interface financeDialogData {
+  categories: Map<number, string>;
+  financeModel?: FinanceModel;
 }
 
 @Component({
@@ -28,12 +41,13 @@ export interface IDialogData {
   imports: [CommonModule, MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatDatepickerModule, MatTabsModule],
   templateUrl: './add-finance-dialog.component.html',
   styleUrls: [
-    '../../../../styles/global/custom-form.scss'
-    // './add-finance-dialog.component.scss'
+    '../../../../styles/global/custom-form.scss',
+    './add-finance-dialog.component.scss'
   ]
 })
 export class AddFinanceDialogComponent implements OnInit {
   selectedTab = Tabs.AddFinance;
+  dialogAction = Actions.Add;
 
   addFinanceForm = new FormGroup({
     'name': new FormControl<string>(''),
@@ -51,73 +65,113 @@ export class AddFinanceDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<AddFinanceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: financeDialogData,
   ) {
+
+    if (data.financeModel) {
+      this.dialogAction = Actions.Edit
+
+      this.addFinanceForm.setValue({
+        date: new Date(data.financeModel.date),
+        amount: data.financeModel.amount ?? 0,
+        name: data.financeModel.name,
+        categoryType: data.financeModel.categoryType
+      })
+
+    }
   }
 
   ngOnInit(): void {
   }
 
   addFinance(): void {
-    const tab = this.selectedTab;
-
-    if (tab == Tabs.AddFinance) {
-      const date = this.addFinanceForm.controls.date.getRawValue() ?? null;
-
-      const financeModel = createFinanceModel({
-        name: this.addFinanceForm.controls.name.getRawValue() ?? '',
-        date: date ? dateToString(date) : '',
-        amount: this.addFinanceForm.controls.amount.getRawValue() ?? 0,
-        categoryType: this.addFinanceForm.controls.categoryType.getRawValue() ?? 0,
-      })
-
-      const result: IDialogData = {
-        action: tab,
-        data: [financeModel]
-      }
-      this.dialogRef.close(result)
+    if (this.selectedTab == Tabs.BulkImport) {
+      this.dialogAction = Actions.BulkImport;
     }
 
-    if (this.selectedTab == Tabs.BulkImport) {
-      const input = this.bulkImportForm.controls.input.getRawValue();
+    switch (this.dialogAction) {
+      case Actions.Add:
+        const result: IDialogResult = {
+          action: Actions.Add,
+          data: [this.getFinanceModelFromInput()]
+        }
+        this.dialogRef.close(result)
+        break;
 
-      if (input) {
-        const dateRaw = this.bulkImportForm.controls.date.getRawValue() ?? '';
-        const date = dateRaw ? dateToString(dateRaw) : '';
+      case Actions.BulkImport:
+        const input = this.bulkImportForm.controls.input.getRawValue();
 
-        const financeModels = input.split('\n\n').map(m => {
-          const items = m.split('\n');
+        if (input) {
+          const dateRaw = this.bulkImportForm.controls.date.getRawValue() ?? '';
+          const date = dateRaw ? dateToString(dateRaw) : '';
 
-          if (items.length < 2) {
-            return null;
-          }
+          const financeModels = input.split('\n\n').map(m => {
+            const items = m.split('\n');
 
-          const dateStr = parseDateIdentifierAsString(items[0])
+            if (items.length < 2) {
+              return null;
+            }
 
-          if (dateStr.length) {
-            const itemsSlice = items.slice(1);
-            const expectedLength = itemsSlice.length;
-            const processed = bulkImportTextToFinanceModel(itemsSlice.join('\n').trim(), dateStr);
+            const dateStr = parseDateIdentifierAsString(items[0])
+
+            if (dateStr.length) {
+              const itemsSlice = items.slice(1);
+              const expectedLength = itemsSlice.length;
+              const processed = bulkImportTextToFinanceModel(itemsSlice.join('\n').trim(), dateStr);
+              const actualLength = processed.length
+
+              return (expectedLength == actualLength) ? processed : null;
+            }
+
+            const expectedLength = input.split('\n').length;
+            const processed = bulkImportTextToFinanceModel(input, dateToString(new Date()));
             const actualLength = processed.length
 
             return (expectedLength == actualLength) ? processed : null;
+          }).flatMap(v => v).filter(v => v!!) as FinanceModel[];
+
+          const result: IDialogResult = {
+            action: Actions.BulkImport,
+            data: financeModels
           }
 
-          const expectedLength = input.split('\n').length;
-          const processed = bulkImportTextToFinanceModel(input, dateToString(new Date()));
-          const actualLength = processed.length
-
-          return (expectedLength == actualLength) ? processed : null;
-        }).flatMap(v => v).filter(v => v!!) as FinanceModel[];
-
-
-        const result: IDialogData = {
-          action: tab,
-          data: financeModels
+          this.dialogRef.close(result)
         }
+        break;
 
-        this.dialogRef.close(result)
-      }
-
+      case Actions.Edit:
+        this.dialogRef.close(this.getEditData())
+        break;
     }
+
+    if (this.selectedTab == Tabs.BulkImport) {
+    }
+
+  }
+
+  getFinanceModelFromInput = () => {
+    const date = this.addFinanceForm.controls.date.getRawValue() ?? null;
+
+    return createFinanceModel({
+      name: this.addFinanceForm.controls.name.getRawValue() ?? '',
+      date: date ? dateToString(date) : '',
+      amount: this.addFinanceForm.controls.amount.getRawValue() ?? 0,
+      categoryType: this.addFinanceForm.controls.categoryType.getRawValue() ?? 0,
+    });
+  }
+
+  getEditData = (): IDialogResult => {
+    let p = this.addFinanceForm.getRawValue() as unknown as Partial<FinanceModel>;
+
+    const dateRaw = this.addFinanceForm.controls.date.getRawValue() ?? ''
+    if (p.date && dateRaw) {
+      p.date = dateToString(dateRaw);
+    }
+
+    const model = createFinanceModel(p, this.data.financeModel);
+
+    return {
+      action: Actions.Edit,
+      data: [model]
+    };
   }
 
   private getCurrentDate(): string {

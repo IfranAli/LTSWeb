@@ -1,6 +1,9 @@
 <div class="custom-form">
+  <div
+    [class.hideHeader]="dialogAction == 'Edit Finance'"
+  >
+    <h1> {{ dialogAction }}</h1>
 
-  <div>
     <mat-tab-group [(selectedIndex)]="selectedTab">
       <mat-tab label="Add">
         <form [formGroup]="addFinanceForm">
@@ -24,7 +27,9 @@
         </form>
       </mat-tab>
 
-      <mat-tab label="Import">
+      <mat-tab
+        *ngIf="dialogAction == 'Add Finance'"
+        label="Import">
         <form [formGroup]="bulkImportForm">
           <label>Input</label>
           <textarea [formControl]="bulkImportForm.controls.input" type="text" style="min-height: 200px">
@@ -40,6 +45,8 @@
 
   <div class="actions">
     <button (click)="this.dialogRef.close()">Cancel</button>
-    <button (click)="addFinance()">Add</button>
+    <button class='primary' (click)="addFinance()">
+      {{ dialogAction == 'Add Finance' ? 'Create' : 'Update' }}
+    </button>
   </div>
 </div>

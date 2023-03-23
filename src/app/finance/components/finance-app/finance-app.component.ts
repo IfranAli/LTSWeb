@@ -3,7 +3,12 @@ import {FinanceService, IFinanceSummary} from "../../services/finance.service";
 import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
 import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
-import {AddFinanceDialogComponent, IDialogData, Tabs} from "../add-finance-dialog/add-finance-dialog.component";
+import {
+  Actions,
+  AddFinanceDialogComponent,
+  financeDialogData,
+  IDialogResult
+} from "../add-finance-dialog/add-finance-dialog.component";
 import {
   decrementDateByMonth,
   getTotalDaysInMonth,
@@ -11,19 +16,8 @@ import {
   parseDateFormattedStr,
 } from "../../../calendar/models/calendar.util";
 import {sortFinanceModels} from "../../util/finance.util";
-import {CALENDAR_MONTHS, WeekDays} from "../../../calendar/models/calendar.model";
-import {
-  BehaviorSubject,
-  Observable,
-  of,
-  Subscription,
-  switchMap,
-  tap
-} from "rxjs";
-
-export interface financeDialogData {
-  categories: Map<number, string>;
-}
+import {CALENDAR_MONTHS} from "../../../calendar/models/calendar.model";
+import {BehaviorSubject, combineLatestWith, merge, Observable, of, scan, Subscription, switchMap, tap} from "rxjs";
 
 export interface FinanceData extends IFinanceSummary {
   items: FinanceViewModel[]
@@ -96,8 +90,10 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   // summaries$: Observable<SummaryGraph[]>;
   summaries$: Observable<FinanceDataAll>;
   financeData$: Observable<FinanceData[]> = of([]);
+  financeModels: FinanceModel[] = [];
   title = '';
   dateFrom$ = new BehaviorSubject<Date>(new Date());
+  refresh$ = new BehaviorSubject<boolean>(true);
   categoryLookup = new Map<number, string>;
   categoryColourLookup = new Map<string, string>;
 
@@ -117,41 +113,43 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
         const dateTo = new Date(dateFrom);
         dateTo.setDate(getTotalDaysInMonth(dateTo));
 
-        const monthName = CALENDAR_MONTHS[dateFrom.getMonth()];
-        const year = dateFrom.getFullYear().toString();
-        this.title = monthName + ' ' + year;
+          const monthName = CALENDAR_MONTHS[dateFrom.getMonth()];
+          const year = dateFrom.getFullYear().toString();
+          this.title = monthName + ' ' + year;
 
-        return this.financeService.getFinanceSummary(0, dateFrom, dateTo).pipe(
-          tap((value) => {
-            this.categoryLookup = value.category.typeMap;
-            this.categoryColourLookup = value.category.colorMap;
-          }),
-          tap((data: FinanceDataAll) => {
-            const summaryGraphs = data.summaries
-            const allFinances = summaryGraphs.map(s => s.items).flat().sort(sortFinanceModels)
-            const date = this.dateFrom$.value;
-            const financesByWeeks: FinanceModel[][] = getFinancesByWeek(date, allFinances)
+          return this.financeService.getFinanceSummary(0, dateFrom, dateTo).pipe(
+            tap((value) => {
+              this.categoryLookup = value.category.typeMap;
+              this.categoryColourLookup = value.category.colorMap;
+            }),
+            tap((data: FinanceDataAll) => {
+              const summaryGraphs = data.summaries
+              const allFinances = summaryGraphs.map(s => s.items).flat().sort(sortFinanceModels)
+              const date = this.dateFrom$.value;
+              const financesByWeeks: FinanceModel[][] = getFinancesByWeek(date, allFinances)
 
-            const summaries: FinanceData[] = financesByWeeks.reduce<FinanceData[]>((p, c, idx) => {
-                const weekTotal = c.reduce((p, c) => p + c.amount, 0);
-                const financeViewModels = c.map<FinanceViewModel>((fm) =>
-                  FinanceService.financeModelToViewModel(fm)
-                );
+              this.financeModels = allFinances;
 
-                return [...p, {
-                  categoryName: `Week ${idx + 1}`,
-                  total: formatCurrency(weekTotal),
-                  items: financeViewModels
-                }]
-              }, []
-            ).filter(value => value.items.length).reverse();
+              const summaries: FinanceData[] = financesByWeeks.reduce<FinanceData[]>((p, c, idx) => {
+                  const weekTotal = c.reduce((p, c) => p + c.amount, 0);
+                  const financeViewModels = c.map<FinanceViewModel>((fm) =>
+                    FinanceService.financeModelToViewModel(fm)
+                  );
 
-            this.financeData$ = of(summaries);
-            return of(data)
-          }),
-        );
-      })
-    )
+                  return [...p, {
+                    categoryName: `Week ${idx + 1}`,
+                    total: formatCurrency(weekTotal),
+                    items: financeViewModels
+                  }]
+                }, []
+              ).filter(value => value.items.length).reverse();
+
+              this.financeData$ = of(summaries);
+              return of(data)
+            }),
+          );
+        })
+      )
 
   }
 
@@ -163,42 +161,58 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     this.dateFrom$.next(incrementDateByMonth(this.dateFrom$.value));
   }
 
-  openDialogAddFinance() {
+  openDialogAddFinance(id?: number) {
+
+    let found = !id ? undefined : this.financeModels.find(value => value.id == id)
+
+    const data: financeDialogData = {
+      categories: this.categoryLookup,
+      financeModel: found,
+    }
+
     const dialogRef = this.dialog.open(AddFinanceDialogComponent, {
-      // maxWidth: '100vw',
-      // maxHeight: '100vh',
-      // height: '100%',
-      // width: '100%',
-      data: {categories: this.categoryLookup},
+      data: data,
       panelClass: ['dialog-style', 'dialog-small'],
     });
 
-    this.$subscription2 = dialogRef.afterClosed().subscribe((result: IDialogData) => {
+    this.$subscription2 = dialogRef.afterClosed().subscribe((result: IDialogResult) => {
       if (!result || (result.data.length == 0)) {
         return;
       }
 
-      if (result.action == Tabs.AddFinance) {
+      if (result.action == Actions.Add) {
         // todo: add to model or refresh from db.
         this.financeService.createFinance(result.data.shift()!).subscribe(value => {
-          console.log(value)
-          // this.finances = [...(this.finances ?? []), ...value];
+          this.refreshData()
         })
 
         return;
       }
 
-      if (result.action == Tabs.BulkImport) {
+      if (result.action == Actions.Edit) {
+        this.financeService.updateFinance(result.data.shift()!).subscribe(value => {
+          this.refreshData()
+        })
+
+        return;
+      }
+
+      if (result.action == Actions.BulkImport) {
         this.financeService.createFinanceMany(result.data).subscribe(value => {
-          console.log(value)
-          // this.finances = [...(this.finances ?? []), ...value.data];
+          this.refreshData()
         })
       }
 
     });
   }
 
+  refreshData = () => {
+    this.refresh$.next(true);
+  }
+
   ngOnDestroy(): void {
+    this.refresh$.complete()
+    this.dateFrom$.complete()
   }
 
   ngOnInit(): void {

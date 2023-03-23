@@ -7,7 +7,7 @@ $notice-me: #e600ff;
 $primary-accent: #C2C0C9FF;
 $background-overlay: #00000000;
 $transparent: rgba(0, 0, 0, 0);
-$toolbar-bg: $primary-accent;
+$toolbar-bg: #2b2b2b;
 $btn-bg: #ffffff8c;
 
 $color-text-title: rgba(0, 0, 0, 0.80);
@@ -25,3 +25,7 @@ $color-blue: #5992ff;
 $color-yellow: #ffdd3d;
 $color-red: #e86767;
 $color-green: #58dc66;
+
+$btn-primary: $color-blue;
+$btn-warn: $color-yellow;
+$btn-danger: $color-red;

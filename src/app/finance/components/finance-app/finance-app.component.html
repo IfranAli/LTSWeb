@@ -29,7 +29,7 @@
               ({{ categorySummary.percentage }})
             </span>
           </span>
-          <span class="week-total">{{ categorySummary.total }}</span>
+          <span class="week-total amount">{{ categorySummary.total }}</span>
         </div>
       </div>
     </div>
@@ -54,10 +54,12 @@
             *ngFor="let summary of financeData; index as i">
             <div class="header">
               <div>{{ summary.categoryName }}</div>
-              <div>{{ summary.total }}</div>
+              <div class="amount">{{ summary.total }}</div>
             </div>
 
-            <div class="row" *ngFor="let finance of summary.items">
+            <div class="row"
+                 (click)="openDialogAddFinance(finance.id)"
+                 *ngFor="let finance of summary.items">
               <div
                 class="amount"
                 [class.credit]="finance.isCredit"

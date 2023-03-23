@@ -1,8 +1,8 @@
-@use "src/styles/global/colors" as global;
+@use "src/styles/global/colors" as color;
 @use "src/styles/global/style" as style;
 
 .custom-form {
-  color: global.$color-text-dark;
+  color: color.$color-text-dark;
   //padding: style.$padding-1;
   padding: 1rem;
 
@@ -11,6 +11,31 @@
     flex-wrap: wrap;
     flex-direction: column;
     align-content: stretch;
+  }
+}
+
+select, button, input {
+  padding: 0.4rem;
+  border: 1px solid;
+  border-radius: 4px;
+
+  margin: 0.4rem 0;
+}
+
+button {
+  color: #000000a3;
+  font-weight: bold;
+
+  &.primary {
+    background: color.$btn-primary;
+  }
+
+  &.warn {
+    background: color.$btn-warn;
+  }
+
+  &.danger {
+    background: color.$btn-danger;
   }
 }
 

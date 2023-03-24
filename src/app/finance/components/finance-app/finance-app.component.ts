@@ -102,54 +102,58 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: MatDialog,
   ) {
+
     this.summaries$ = this.dateFrom$.pipe(
-      tap(dateFrom => {
+      combineLatestWith(this.refresh$),
+      tap((value) => {
+        const dateFrom = value[0];
         const monthName = CALENDAR_MONTHS[dateFrom.getMonth()];
         const year = dateFrom.getFullYear().toString();
         this.title = monthName + ' ' + year;
       }),
-      switchMap((dateFrom) => {
+      switchMap((value) => {
+        const dateFrom = value[0]
         dateFrom.setDate(1);
         const dateTo = new Date(dateFrom);
         dateTo.setDate(getTotalDaysInMonth(dateTo));
 
-          const monthName = CALENDAR_MONTHS[dateFrom.getMonth()];
-          const year = dateFrom.getFullYear().toString();
-          this.title = monthName + ' ' + year;
+        const monthName = CALENDAR_MONTHS[dateFrom.getMonth()];
+        const year = dateFrom.getFullYear().toString();
+        this.title = monthName + ' ' + year;
 
-          return this.financeService.getFinanceSummary(0, dateFrom, dateTo).pipe(
-            tap((value) => {
-              this.categoryLookup = value.category.typeMap;
-              this.categoryColourLookup = value.category.colorMap;
-            }),
-            tap((data: FinanceDataAll) => {
-              const summaryGraphs = data.summaries
-              const allFinances = summaryGraphs.map(s => s.items).flat().sort(sortFinanceModels)
-              const date = this.dateFrom$.value;
-              const financesByWeeks: FinanceModel[][] = getFinancesByWeek(date, allFinances)
+        return this.financeService.getFinanceSummary(0, dateFrom, dateTo).pipe(
+          tap((value) => {
+            this.categoryLookup = value.category.typeMap;
+            this.categoryColourLookup = value.category.colorMap;
+          }),
+          tap((data: FinanceDataAll) => {
+            const summaryGraphs = data.summaries
+            const allFinances = summaryGraphs.map(s => s.items).flat().sort(sortFinanceModels)
+            const date = this.dateFrom$.value;
+            const financesByWeeks: FinanceModel[][] = getFinancesByWeek(date, allFinances)
 
-              this.financeModels = allFinances;
+            this.financeModels = allFinances;
 
-              const summaries: FinanceData[] = financesByWeeks.reduce<FinanceData[]>((p, c, idx) => {
-                  const weekTotal = c.reduce((p, c) => p + c.amount, 0);
-                  const financeViewModels = c.map<FinanceViewModel>((fm) =>
-                    FinanceService.financeModelToViewModel(fm)
-                  );
+            const summaries: FinanceData[] = financesByWeeks.reduce<FinanceData[]>((p, c, idx) => {
+                const weekTotal = c.reduce((p, c) => p + c.amount, 0);
+                const financeViewModels = c.map<FinanceViewModel>((fm) =>
+                  FinanceService.financeModelToViewModel(fm)
+                );
 
-                  return [...p, {
-                    categoryName: `Week ${idx + 1}`,
-                    total: formatCurrency(weekTotal),
-                    items: financeViewModels
-                  }]
-                }, []
-              ).filter(value => value.items.length).reverse();
+                return [...p, {
+                  categoryName: `Week ${idx + 1}`,
+                  total: formatCurrency(weekTotal),
+                  items: financeViewModels
+                }]
+              }, []
+            ).filter(value => value.items.length).reverse();
 
-              this.financeData$ = of(summaries);
-              return of(data)
-            }),
-          );
-        })
-      )
+            this.financeData$ = of(summaries);
+            return of(data)
+          }),
+        );
+      })
+    )
 
   }
 

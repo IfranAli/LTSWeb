@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
 
   userLogout() {
     this.userService.logoutUser().subscribe(async value => {
+      localStorage.removeItem('token');
       this.user = null;
       await this.router.navigate(['']);
     })

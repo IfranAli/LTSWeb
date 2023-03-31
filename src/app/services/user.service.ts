@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {UserDatabaseModel, UserLoginModel} from "../models/user.interface";
-import {httpHeaders} from "../constants/web-constants";
+import {getHttpHeaders} from "../constants/web-constants";
 
 const baseUrl = environment.backendURL + 'user'
 
@@ -22,16 +22,16 @@ export class UserService {
   }
 
   getUsers() {
-    return this.http.get<UserDatabaseModel[]>(baseUrl, httpHeaders);
+    return this.http.get<UserDatabaseModel[]>(baseUrl, getHttpHeaders());
   }
 
   loginUser(userLoginModel: UserLoginModel) {
     const loginUrl = baseUrl + '/login';
-    return this.http.post<LoginResult>(loginUrl, userLoginModel, httpHeaders);
+    return this.http.post<LoginResult>(loginUrl, userLoginModel, getHttpHeaders());
   }
 
   logoutUser() {
     const logoutUrl = baseUrl + '/logout';
-    return this.http.post<UserDatabaseModel>(logoutUrl, null, httpHeaders);
+    return this.http.post<UserDatabaseModel>(logoutUrl, null, getHttpHeaders());
   }
 }

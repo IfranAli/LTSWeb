@@ -18,6 +18,7 @@ import {
 import {sortFinanceModels} from "../../util/finance.util";
 import {CALENDAR_MONTHS} from "../../../calendar/models/calendar.model";
 import {BehaviorSubject, combineLatestWith, merge, Observable, of, scan, Subscription, switchMap, tap} from "rxjs";
+import {A} from "@angular/cdk/keycodes";
 
 export interface FinanceData extends IFinanceSummary {
   items: FinanceViewModel[]
@@ -203,6 +204,12 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
       if (result.action == Actions.BulkImport) {
         this.financeService.createFinanceMany(result.data).subscribe(value => {
+          this.refreshData()
+        })
+      }
+
+      if (result.action == Actions.Delete) {
+        this.financeService.deleteFinance(result.data.shift()!.id).subscribe(value => {
           this.refreshData()
         })
       }

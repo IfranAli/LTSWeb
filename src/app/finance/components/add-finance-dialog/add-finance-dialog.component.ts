@@ -23,6 +23,7 @@ export enum Actions {
   BulkImport = 'Bulk Import',
   Add = 'Add Finance',
   Edit = 'Edit Finance',
+  Delete = 'Delete',
 }
 
 export interface IDialogResult {
@@ -172,6 +173,13 @@ export class AddFinanceDialogComponent implements OnInit {
       action: Actions.Edit,
       data: [model]
     };
+  }
+
+  deleteFinance() {
+    this.dialogRef.close({
+      action: Actions.Delete,
+      data: [this.data.financeModel!!]
+    })
   }
 
   private getCurrentDate(): string {

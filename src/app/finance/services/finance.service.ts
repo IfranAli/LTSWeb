@@ -169,11 +169,8 @@ export class FinanceService {
     return this.http.put<FinanceDatabaseModel[]>(url, model, getHttpHeaders());
   }
 
-  deleteFinance(id
-                  :
-                  number
-  ) {
+  deleteFinance(id: number) {
     const url = financesUrl.concat('/', String(id));
-    return this.http.delete<ResponseMessage>(baseUrl + url, getHttpHeaders());
+    return this.http.delete<ResponseMessage>(url, getHttpHeaders());
   }
 }

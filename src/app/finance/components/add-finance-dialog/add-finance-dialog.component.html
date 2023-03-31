@@ -35,9 +35,9 @@
           <textarea [formControl]="bulkImportForm.controls.input" type="text" style="min-height: 200px">
           </textarea>
 
-            <input [matDatepicker]="pickerBulk" [formControl]="bulkImportForm.controls.date">
-            <mat-datepicker-toggle [for]="pickerBulk"></mat-datepicker-toggle>
-            <mat-datepicker #pickerBulk></mat-datepicker>
+          <input [matDatepicker]="pickerBulk" [formControl]="bulkImportForm.controls.date">
+          <mat-datepicker-toggle [for]="pickerBulk"></mat-datepicker-toggle>
+          <mat-datepicker #pickerBulk></mat-datepicker>
         </form>
       </mat-tab>
     </mat-tab-group>
@@ -45,8 +45,16 @@
 
   <div class="actions">
     <button (click)="this.dialogRef.close()">Cancel</button>
-    <button class='primary' (click)="addFinance()">
-      {{ dialogAction == 'Add Finance' ? 'Create' : 'Update' }}
-    </button>
+
+    <div>
+      <button
+        *ngIf="dialogAction == 'Edit Finance'"
+        class='danger' (click)="deleteFinance()">Delete
+      </button>
+
+      <button class='primary' (click)="addFinance()">
+        {{ dialogAction == 'Add Finance' ? 'Create' : 'Update' }}
+      </button>
+    </div>
   </div>
 </div>

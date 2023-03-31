@@ -59,7 +59,9 @@ export class ProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.dataProvider.getUserStatus().subscribe({
-      next: value => this.onUserLogin(value.shift()!),
+      next: (value) => {
+        return this.onUserLogin(value[0])
+      },
       error: (err: Response) => {
         if (err.status == 401) {
           this.router.navigate([''])

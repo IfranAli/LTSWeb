@@ -6,6 +6,11 @@ import {httpHeaders} from "../constants/web-constants";
 
 const baseUrl = environment.backendURL + 'user'
 
+export interface LoginResult {
+  user: UserDatabaseModel,
+  token: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +27,7 @@ export class UserService {
 
   loginUser(userLoginModel: UserLoginModel) {
     const loginUrl = baseUrl + '/login';
-    return this.http.post<UserDatabaseModel>(loginUrl, userLoginModel, httpHeaders);
+    return this.http.post<LoginResult>(loginUrl, userLoginModel, httpHeaders);
   }
 
   logoutUser() {

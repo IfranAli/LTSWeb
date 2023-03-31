@@ -1,21 +1,2 @@
 @use "src/styles/global/colors" as colors;
 @use "src/styles/global/style" as style;
-
-.login-dialog {
-  box-shadow: style.$box-shadow;
-  background: colors.$layer-two-bg;
-  padding: style.$dialog-padding;
-}
-
-:host {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  flex-direction: column;
-  flex-wrap: nowrap;
-
-  background: colors.$background-overlay;
-}

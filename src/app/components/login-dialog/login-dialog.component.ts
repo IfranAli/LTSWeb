@@ -10,7 +10,10 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-login-dialog',
   templateUrl: './login-dialog.component.html',
-  styleUrls: ['./login-dialog.component.scss']
+  styleUrls: [
+    './login-dialog.component.scss',
+    '../../../styles/global/custom-form.scss',
+  ]
 })
 export class LoginDialogComponent implements OnInit {
   @Output() onUserLogin = new EventEmitter<UserLoginResult>()
@@ -42,10 +45,18 @@ export class LoginDialogComponent implements OnInit {
       password: rawValues.password!
     }
 
-    // todo: store cookie
     this.userService.loginUser(loginModel).subscribe(async value => {
-      this.store.dispatch(loginUser(value));
-      this.onUserLogin.emit(value);
+      const {user, token} = value;
+
+      if (!token) {
+        console.error('No token received from server');
+        return;
+      }
+
+      localStorage.setItem('token', token);
+
+      this.store.dispatch(loginUser(user));
+      this.onUserLogin.emit(user);
       await this.router.navigate(['projects']);
     })
   }

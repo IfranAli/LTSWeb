@@ -1,17 +1,15 @@
-<div class="login-dialog">
+<div class="custom-form">
   <form [formGroup]="form">
-    <mat-form-field appearance="standard">
-      <mat-label>Username</mat-label>
+
+      <label>Username</label>
       <input matInput [formControl]="form.controls.username" type="text">
-    </mat-form-field>
 
-    <mat-form-field appearance="standard">
-      <mat-label>Password</mat-label>
+      <label>Password</label>
       <input matInput [formControl]="form.controls.password" type="password">
-    </mat-form-field>
 
-    <div>
-      <button mat-button (click)="loginUser()" type="submit">Login</button>
-    </div>
   </form>
+
+  <div class="actions">
+    <button class="primary" (click)="loginUser()" type="submit">Login</button>
+  </div>
 </div>

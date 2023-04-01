@@ -10,9 +10,14 @@
           <label>Name</label>
           <input [formControl]="addFinanceForm.controls.name" type="text">
 
-          <input [matDatepicker]="picker" [formControl]="addFinanceForm.controls.date">
-          <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
+          <label>Date</label>
+          <div class="right-icon">
+            <input [matDatepicker]="picker" [formControl]="addFinanceForm.controls.date">
+            <span>
+              <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </span>
+          </div>
 
           <label>Amount</label>
           <input [formControl]="addFinanceForm.controls.amount">
@@ -35,10 +40,21 @@
           <textarea [formControl]="bulkImportForm.controls.input" type="text" style="min-height: 200px">
           </textarea>
 
-          <input [matDatepicker]="pickerBulk" [formControl]="bulkImportForm.controls.date">
-          <mat-datepicker-toggle [for]="pickerBulk"></mat-datepicker-toggle>
-          <mat-datepicker #pickerBulk></mat-datepicker>
+          <label>Date</label>
+          <div class="right-icon">
+            <input [matDatepicker]="pickerBulk" [formControl]="bulkImportForm.controls.date">
+            <span>
+              <mat-datepicker-toggle [for]="pickerBulk"></mat-datepicker-toggle>
+              <mat-datepicker #pickerBulk></mat-datepicker>
+            </span>
+          </div>
         </form>
+
+        <div *ngFor="let v of test$ | async">
+          {{ v.date}}
+          {{ '$' + v.amount}}
+          {{ v.name }}
+        </div>
       </mat-tab>
     </mat-tab-group>
   </div>

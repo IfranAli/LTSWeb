@@ -11,32 +11,33 @@
   padding: 0 0.5rem 0 1rem;
 }
 
+.custom-card {
+  .title {
+    display: grid;
+    grid-auto-flow: row !important;
+    justify-content: unset !important;
+
+    div {
+      justify-content: space-between;
+      display: flex;
+    }
+  }
+}
+
 .list {
   color: global.$color-text-light;
-  //overflow: hidden;
-  display: flex;
-  flex-direction: column;
   min-width: style.$task-width;
-  //max-width: style.$task-width;
-
-  border-top: 1px solid;
-  border-color: style.$border-color-dark;
 
   .list-item {
-    border-color: global.$color-text-dark;
-    border-style: none none solid none;
-    border-width: 1px;
-    padding: 0.3rem 0;
+    padding: style.$padding-row;
 
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-    justify-content: flex-start;
+    .drag-handle {
+      width: 10px;
+      background: #8a8a8a;
+      flex-shrink: 0;
+    }
 
-    app-task {
-      flex-grow: 1;
+    .custom-row-item {
     }
   }
 }
@@ -46,8 +47,6 @@
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-placeholder {
@@ -73,7 +72,7 @@
 }
 
 @media screen and (max-width: 844px) {
-  .project-list{
+  .project-list {
     margin: 0;
   }
 
@@ -81,7 +80,11 @@
     min-width: inherit;
 
     .list-item {
-      padding: 0;
+
+      .custom-row-item {
+        border-radius: 0.3rem;
+        border-style: solid;
+      }
 
       .drag-handle {
         display: none;

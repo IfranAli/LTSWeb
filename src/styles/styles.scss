@@ -1,6 +1,7 @@
 @use "src/styles/global/colors" as colors;
 @use "src/styles/global/style" as style;
 
+@use "global/custom-form";
 @use "global/icon-button";
 
 html, body {
@@ -99,6 +100,37 @@ h1 {
     gap: 1rem;
     flex-direction: row;
   }
+}
+
+.custom-row {
+  display: flex;
+
+  .custom-row-item {
+    border-color: colors.$layer-two-bg;
+
+    &:only-child {
+      border-radius: 0.3rem;
+    }
+
+    &:first-child {
+      border-style: solid none solid solid;
+      border-radius: 0.3rem 0 0 0.3rem;
+    }
+
+    &:last-child {
+      border-style: solid solid solid none;
+      border-radius: 0 0.3rem 0.3rem 0;
+    }
+  }
+}
+
+.custom-row-item {
+  border: 1px solid colors.$layer-two-bg;
+  //padding: 0.3rem 0.5rem;
+  //margin: 1rem 0;
+  border-radius: 0.3rem;
+  //display: grid;
+  //grid-template-columns: 1fr 1fr;
 }
 
 .amount {

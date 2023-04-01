@@ -2,19 +2,21 @@
   <div
     class="custom-card"
   >
-<!--    [style.background]="projectColour"-->
+    <!--    [style.background]="projectColour"-->
 
-    <div class="title space-between">
-      <span>{{project.title}}</span>
-      <mat-icon color="secondary" (click)="openDialog()">settings</mat-icon>
-    </div>
+    <div class="title space-between no-header">
+      <div>
+        <span>{{project.title}}</span>
+        <mat-icon color="secondary" (click)="openDialog()">settings</mat-icon>
+      </div>
 
-    <div class="title small space-between">
-      <span>{{project.description}}</span>
-      <span class="code">
+      <div>
+        <span>{{project.description}}</span>
+        <span class="code">
           <span *ngIf="!project.enabled">inactive</span>
-        {{project.code}}
+          {{project.code}}
         </span>
+      </div>
     </div>
 
 
@@ -31,16 +33,24 @@
         cdkDrag
         [cdkDragData]="task"
       >
-        <span class="drag-handle" cdkDragHandle>
-          <mat-icon class="priority high" color="secondary">drag_indicator</mat-icon>
-        </span>
 
-        <app-task [task]="task"
-                  (onPinTask)="onTaskPinned($event)"
-                  (onTaskDeleted)="onTaskDeleted($event)"
-                  (onTaskChanged)="onTaskChanged($event)">
+        <div class="custom-row">
 
-        </app-task>
+          <div
+            class="custom-row-item drag-handle"
+            cdkDragHandle
+          ></div>
+
+          <div class="custom-row-item">
+            <app-task [task]="task"
+                      (onPinTask)="onTaskPinned($event)"
+                      (onTaskDeleted)="onTaskDeleted($event)"
+                      (onTaskChanged)="onTaskChanged($event)">
+
+            </app-task>
+          </div>
+        </div>
+
       </div>
     </div>
 

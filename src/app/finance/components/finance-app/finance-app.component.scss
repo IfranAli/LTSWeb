@@ -207,10 +207,8 @@ $day-font-light: #8a8a8a;
   }
 
   .row {
-    background: global.$layer-two-bg;
-    padding: 0.3rem 0.5rem;
+    padding: style.$padding-row;
     margin: 1rem 0;
-    border-radius: 0.3rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
 

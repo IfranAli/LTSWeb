@@ -13,6 +13,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatLegacyTabsModule as MatTabsModule} from "@angular/material/legacy-tabs";
 import {bulkImportTextToFinanceModel, dateToString} from "../../util/finance.util";
 import {parseDateIdentifierAsString} from "../../../calendar/models/calendar.util";
+import {filter, Observable, of, switchMap, tap} from "rxjs";
 
 export enum Tabs {
   AddFinance = 0,
@@ -36,13 +37,42 @@ export interface financeDialogData {
   financeModel?: FinanceModel;
 }
 
+const getFinanceModelsFromInputBulk = (input: string) => {
+  const result = input.split('\n\n').map(m => {
+    const items = m.split('\n');
+
+    if (items.length < 2) {
+      return null;
+    }
+
+    const dateStr = parseDateIdentifierAsString(items[0])
+
+    if (dateStr.length) {
+      const itemsSlice = items.slice(1);
+      const expectedLength = itemsSlice.length;
+      const processed = bulkImportTextToFinanceModel(itemsSlice.join('\n').trim(), dateStr);
+      const actualLength = processed.length
+
+      return (expectedLength == actualLength) ? processed : null;
+    }
+
+    const expectedLength = input.split('\n').length;
+    const processed = bulkImportTextToFinanceModel(input, dateToString(new Date()));
+    const actualLength = processed.length
+
+    return (expectedLength == actualLength) ? processed : null;
+  }).flatMap(v => v).filter(v => v!!) as FinanceModel[];
+
+  return result;
+}
+
 @Component({
   selector: 'app-add-finance-dialog',
   standalone: true,
   imports: [CommonModule, MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatDatepickerModule, MatTabsModule],
   templateUrl: './add-finance-dialog.component.html',
   styleUrls: [
-    '../../../../styles/global/custom-form.scss',
+    // '../../../../styles/global/custom-form.scss',
     './add-finance-dialog.component.scss'
   ]
 })
@@ -61,6 +91,16 @@ export class AddFinanceDialogComponent implements OnInit {
     'input': new FormControl<string>(''),
     'date': new FormControl<Date>(new Date()),
   });
+
+  test$: Observable<FinanceModel[]> = this.bulkImportForm.controls.input.valueChanges.pipe(
+    filter((value) => {
+      return (value != null)
+    }),
+    switchMap((value) => {
+      const test: FinanceModel[] = getFinanceModelsFromInputBulk(value as string);
+      return of(test)
+    })
+  );
 
   constructor(
     public dialogRef: MatDialogRef<AddFinanceDialogComponent>,
@@ -81,6 +121,11 @@ export class AddFinanceDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+  }
+
+  ngOnDestroy(): void {
+
   }
 
   addFinance(): void {
@@ -104,46 +149,21 @@ export class AddFinanceDialogComponent implements OnInit {
           const dateRaw = this.bulkImportForm.controls.date.getRawValue() ?? '';
           const date = dateRaw ? dateToString(dateRaw) : '';
 
-          const financeModels = input.split('\n\n').map(m => {
-            const items = m.split('\n');
-
-            if (items.length < 2) {
-              return null;
-            }
-
-            const dateStr = parseDateIdentifierAsString(items[0])
-
-            if (dateStr.length) {
-              const itemsSlice = items.slice(1);
-              const expectedLength = itemsSlice.length;
-              const processed = bulkImportTextToFinanceModel(itemsSlice.join('\n').trim(), dateStr);
-              const actualLength = processed.length
-
-              return (expectedLength == actualLength) ? processed : null;
-            }
-
-            const expectedLength = input.split('\n').length;
-            const processed = bulkImportTextToFinanceModel(input, dateToString(new Date()));
-            const actualLength = processed.length
-
-            return (expectedLength == actualLength) ? processed : null;
-          }).flatMap(v => v).filter(v => v!!) as FinanceModel[];
+          const financeModels = getFinanceModelsFromInputBulk(input);
 
           const result: IDialogResult = {
             action: Actions.BulkImport,
-            data: financeModels
+            // data: financeModels
+            data: []
           }
 
-          this.dialogRef.close(result)
+          // this.dialogRef.close(result)
         }
         break;
 
       case Actions.Edit:
         this.dialogRef.close(this.getEditData())
         break;
-    }
-
-    if (this.selectedTab == Tabs.BulkImport) {
     }
 
   }

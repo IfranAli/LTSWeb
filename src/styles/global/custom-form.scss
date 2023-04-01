@@ -15,11 +15,10 @@
 }
 
 select, button, input {
-  padding: 0.4rem;
   border: 1px solid;
   border-radius: 4px;
 
-  margin: 0.4rem 0;
+  padding: 0.4rem 0;
 }
 
 button {
@@ -37,6 +36,16 @@ button {
   &.danger {
     background: color.$btn-danger;
   }
+}
+
+.left-icon {
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+}
+
+.right-icon {
+  display: grid;
+  grid-template-columns: 10fr 1fr;
 }
 
 @media screen and (max-width: 844px) {

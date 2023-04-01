@@ -74,12 +74,15 @@ $day-font-light: #8a8a8a;
   }
 
   .summary {
+    background: global.$toolbar-bg;
     align-self: center;
     width: 100%;
 
     .container {
-      margin: 1rem;
-      border-radius: style.$border-radius-2;
+      margin: 1rem 0.4rem;
+      padding: 0.4rem;
+      border-radius: 4px;
+      color: white;
 
       .category {
 
@@ -87,8 +90,7 @@ $day-font-light: #8a8a8a;
           display: inline-block;
           width: fit-content;
           z-index: -1;
-          border: 1px solid;
-          border-radius: style.$border-radius-1;
+          border-radius: 4px;
           height: 1rem;
         }
 

@@ -17,8 +17,7 @@
 select, button, input {
   border: 1px solid;
   border-radius: 4px;
-
-  padding: 0.4rem 0;
+  padding: 0.6rem 0.4rem;
 }
 
 button {
@@ -45,6 +44,7 @@ button {
 
 .right-icon {
   display: grid;
+  align-items: center;
   grid-template-columns: 10fr 1fr;
 }
 

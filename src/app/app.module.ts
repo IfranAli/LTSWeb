@@ -20,7 +20,6 @@ import {StoreModule} from '@ngrx/store';
 import {HttpClientModule} from "@angular/common/http";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {reducers} from "./reducers";
-import {EditTaskDialogComponent} from './components/edit-task-dialog/edit-task-dialog.component';
 import {MatLegacyDialogModule as MatDialogModule} from "@angular/material/legacy-dialog";
 import {EditProjectDialogComponent} from './components/edit-project-dialog/edit-project-dialog.component';
 import {CdkMenuModule} from "@angular/cdk/menu";
@@ -35,7 +34,6 @@ import {MatNativeDateModule} from "@angular/material/core";
     AppComponent,
     TaskEditViewComponent,
     ProjectListComponent,
-    EditTaskDialogComponent,
     EditProjectDialogComponent,
     LoginDialogComponent,
     ProjectsComponent,

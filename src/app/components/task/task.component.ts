@@ -1,15 +1,14 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {createTaskModel, Task, TaskModel} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {FormControl, FormGroup} from "@angular/forms";
-import {debounceTime, distinctUntilChanged} from "rxjs";
+import {debounceTime, distinctUntilChanged, Subscription, tap} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers";
 import {deleteTask, updateTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
 import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {EditTaskDialogComponent} from "../edit-task-dialog/edit-task-dialog.component";
-import {TaskState} from "../../constants/constants";
 import {MatLegacyCheckboxModule as MatCheckboxModule} from "@angular/material/legacy-checkbox";
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {BrowserModule} from "@angular/platform-browser";
@@ -29,7 +28,7 @@ import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy
     MatButtonModule,
   ]
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent implements OnInit, OnDestroy {
   @Input() task: TaskModel = new Task();
 
   @Output() onPinTask = new EventEmitter<TaskPinnedEvent>();
@@ -38,9 +37,8 @@ export class TaskComponent implements OnInit {
 
   @Output() onTaskDeleted = new EventEmitter<TaskDeletedEvent>();
 
-  formGroup = new FormGroup({
-    'name': new FormControl<typeof Task.name>('')
-  })
+
+  $dialogSubscription: Subscription | undefined;
 
   constructor(
     private store: Store<AppState>,
@@ -50,23 +48,11 @@ export class TaskComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.formGroup.controls.name.setValue(this.task.name);
 
-    this.formGroup.valueChanges
-      .pipe(debounceTime(1000), distinctUntilChanged())
-      .subscribe(value => {
-
-        this.task = {
-          ...createTaskModel(this.task),
-          name: value.name ?? this.task.name,
-        }
-
-        this.updateTask();
-      })
   }
 
-  onTaskToggle(checked: boolean) {
-    // todo: update state with new task state.
+  ngOnDestroy(): void {
+    this.$dialogSubscription?.unsubscribe();
   }
 
   onDelete(id: number) {
@@ -89,7 +75,7 @@ export class TaskComponent implements OnInit {
       panelClass: ['dialog-style', 'dialog-small'],
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    this.$dialogSubscription = dialogRef.afterClosed().subscribe(result => {
       if (result) {
         const model: TaskModel = {
           ...result

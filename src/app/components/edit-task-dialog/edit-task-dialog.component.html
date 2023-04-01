@@ -16,7 +16,11 @@
     <input [formControl]="taskForm.controls.content">
 
     <label>Project ID</label>
-    <input [formControl]="taskForm.controls.projectId">
+    <select [formControl]="taskForm.controls.projectId">
+      <ng-container *ngFor="let project of projects$| async">
+        <option [value]="project[0]">{{project[1]}}</option>
+      </ng-container>
+    </select>
 
     <label>Priority</label>
     <select [formControl]="taskForm.controls.priority">
@@ -30,10 +34,17 @@
 
   <div class="actions">
     <div>
-      <button (click)="onNoClick()">Cancel</button>
+      <div>
+        <button (click)="onNoClick()">Cancel</button>
+      </div>
+      <button
+        class='danger' (click)="deleteTask()">Delete
+      </button>
     </div>
 
-    <button class="primary" [mat-dialog-close]="getDialogData()">Save</button>
+    <button class='primary' (click)="save()">
+      Save
+    </button>
   </div>
 </div>
 

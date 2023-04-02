@@ -17,7 +17,6 @@ app-root {
 body {
   margin: 0;
   padding: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 
   $grid-size: 80px;
   $dash-length: 5px;
@@ -126,11 +125,7 @@ h1 {
 
 .custom-row-item {
   border: 1px solid colors.$layer-two-bg;
-  //padding: 0.3rem 0.5rem;
-  //margin: 1rem 0;
   border-radius: 0.3rem;
-  //display: grid;
-  //grid-template-columns: 1fr 1fr;
 }
 
 .amount {
@@ -142,5 +137,20 @@ h1 {
 
   &.credit {
     color: #2cbb3f;
+  }
+}
+
+.navbar-items {
+  background-color: colors.$app-bg-dark;
+  display: flex;
+
+  .navbar-button {
+    border: unset;
+    color: colors.$color-text-light;
+
+    &:hover {
+      transition: 200ms ease-in;
+      color: colors.$color-red;
+    }
   }
 }

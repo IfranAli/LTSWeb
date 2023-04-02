@@ -1,9 +1,10 @@
 <div class="finances-container">
 
-  <button class="icon-button" (click)="openDialogAddFinance()">
-    <mat-icon>add</mat-icon>
-    Add expense
-  </button>
+  <div class="navbar-items">
+    <button class="navbar-button" (click)="openDialogAddFinance()">
+      Add expense
+    </button>
+  </div>
 
   <ng-container *ngIf="summaries$ | async as summaries; else loading">
     <div class="summary">

@@ -12,7 +12,6 @@ import {EditTaskDialogComponent} from "../edit-task-dialog/edit-task-dialog.comp
 import {MatLegacyCheckboxModule as MatCheckboxModule} from "@angular/material/legacy-checkbox";
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {BrowserModule} from "@angular/platform-browser";
-import {MatIconModule} from "@angular/material/icon";
 import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 
 @Component({
@@ -24,7 +23,6 @@ import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy
     BrowserModule,
     MatCheckboxModule,
     CdkMenuModule,
-    MatIconModule,
     MatButtonModule,
   ]
 })

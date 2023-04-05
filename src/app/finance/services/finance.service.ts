@@ -147,7 +147,10 @@ export class FinanceService {
             }
 
             return financeSummary
-          });
+          })
+            .sort((a, b) => {
+              return a.percentageRaw > b.percentageRaw ? -1 : 1;
+            });
 
           const data: FinanceDataAll = {
             category: categoryData,

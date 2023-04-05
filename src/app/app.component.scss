@@ -37,15 +37,11 @@ main {
       width: 100%;
 
       .nav-item {
-        color: #1f1f1f;
+        color: #d2d2d2;
         height: style.$navbar-width-desktop;
 
         .icon-button {
           display: block;
-
-          mat-icon {
-            color: #d2d2d2;
-          }
         }
 
         .title {

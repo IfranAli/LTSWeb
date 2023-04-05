@@ -8,6 +8,7 @@
   color: inherit;
   display: flex;
   align-items: center;
+  padding: unset;
 
   &.right {
     place-content: flex-end;
@@ -17,6 +18,12 @@
     transition: 200ms ease-in;
     color: colors.$color-red;
   }
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .navbar-button {

@@ -1,26 +1,6 @@
-@use "src/styles/global/colors" as global;
+@use "src/styles/global/colors" as colors;
 @use "src/styles/global/style" as style;
 @use "src/styles/global/custom-card";
-
-$border-color: #404040;
-$day-disabled: #5d5d5d;
-$day-background: #282828;
-$day-background-darker: #1f1f1f;
-$day-font-light: #8a8a8a;
-
-.badge {
-  color: global.$color-text-dark;
-  font-size: smaller;
-  font-weight: 500;
-  padding: 0.2rem 0.4rem 0.2rem 0.4rem !important;
-  border-radius: 4px;
-  border: 1px solid $day-background-darker;
-  white-space: nowrap;
-
-  &.small {
-    padding: 0 0.4rem 0 0.4rem !important
-  }
-}
 
 .nowrap {
   white-space: nowrap;
@@ -74,24 +54,31 @@ $day-font-light: #8a8a8a;
   }
 
   .summary {
-    background: global.$app-bg-dark;
+    background: colors.$app-bg-dark;
     align-self: center;
     width: 100%;
 
     .container {
-      margin: 1rem 0.4rem;
-      padding: 0.4rem;
       border-radius: 4px;
-      color: white;
+      padding: 0 0.4rem;
 
       .category {
+        margin: 0.3rem 0;
+        color: colors.$color-text-dark;
+        white-space: nowrap;
 
         .bar {
           display: inline-block;
           width: fit-content;
           z-index: -1;
-          border-radius: 4px;
           height: 1rem;
+
+          color: colors.$color-text-light;
+          font-size: smaller;
+          font-weight: 500;
+
+          padding: unset;
+          margin: unset;
         }
 
         .label {
@@ -101,35 +88,25 @@ $day-font-light: #8a8a8a;
           display: grid;
           width: 100%;
           position: relative;
-          top: -1.4rem;
+          top: -1.2rem;
           height: 0;
           padding-left: 0.3rem;
+
+          .name {
+            color: colors.$color-text-light;
+            white-space: nowrap;
+          }
         }
 
         .week-total {
           float: right;
-          top: -1.4rem;
+          top: -1.2rem;
           position: relative;
-        }
-
-        span {
-          font-weight: bold;
-          white-space: nowrap;
+          color: colors.$color-text-light;
         }
       }
     }
 
-    .category {
-      .name {
-        //white-space: nowrap;
-      }
-    }
-
-    .total {
-      text-align: right;
-      font-size: smaller;
-      display: block;
-    }
   }
 }
 
@@ -152,25 +129,12 @@ $day-font-light: #8a8a8a;
   }
 
   .summary {
-    //font-size: smaller;
-    //
-    //div {
-    //  min-width: unset !important;
-    //
-    //  span:first-child {
-    //    float: unset !important;
-    //    display: block;
-    //  }
-    //}
   }
 }
 
 @keyframes spring {
   0% {
-    width: 20%;
-  }
-  20% {
-    display: none;
+    width: 0;
   }
   100% {
     width: 100%;
@@ -178,24 +142,18 @@ $day-font-light: #8a8a8a;
 }
 
 .summary {
-  //animation: 1s ease-out 0s 1 spring;
-}
-
-.amount {
-  font-weight: bold;
-
-  //&.debit {
-  //  color: #bb2c2c;
-  //}
-  //
-  //&.credit {
-  //  color: #2cbb3f;
-  //}
+  .container {
+    .category {
+      .bar {
+        animation: 1s ease-out 0s 1 spring;
+      }
+    }
+  }
 }
 
 .finance-list {
   padding: 0.5rem 0.8rem;
-  color: global.$color-text-dark;
+  color: colors.$color-text-dark;
 
   .header {
     font-size: larger;
@@ -214,15 +172,9 @@ $day-font-light: #8a8a8a;
     display: grid;
     grid-template-columns: 1fr 1fr;
 
-
-    .amount {
-      font-size: larger;
-    }
-
     .date {
       text-align: right;
     }
-
 
     .label {
       //text-align: right;

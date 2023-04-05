@@ -153,11 +153,10 @@ export class AddFinanceDialogComponent implements OnInit {
 
           const result: IDialogResult = {
             action: Actions.BulkImport,
-            // data: financeModels
-            data: []
+            data: financeModels
           }
 
-          // this.dialogRef.close(result)
+          this.dialogRef.close(result)
         }
         break;
 

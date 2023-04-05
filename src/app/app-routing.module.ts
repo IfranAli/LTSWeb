@@ -5,7 +5,6 @@ import {ProjectsComponent} from "./components/projects/projects.component";
 import {AsyncPipe, DatePipe, NgClass, NgForOf, NgIf, NgStyle, NgTemplateOutlet} from "@angular/common";
 import {MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
 import {LoginDialogComponent} from "./components/login-dialog/login-dialog.component";
-import {MatIconModule} from "@angular/material/icon";
 import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
 
@@ -26,7 +25,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [FinanceAppComponent],
-    imports: [RouterModule.forRoot(routes), NgIf, NgForOf, MatTableModule, DatePipe, MatIconModule, MatButtonModule, MatInputModule, AsyncPipe, NgTemplateOutlet, NgClass, NgStyle],
+    imports: [RouterModule.forRoot(routes), NgIf, NgForOf, MatTableModule, DatePipe, MatButtonModule, MatInputModule, AsyncPipe, NgTemplateOutlet, NgClass, NgStyle],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

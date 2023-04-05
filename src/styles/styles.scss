@@ -1,8 +1,9 @@
 @use "src/styles/global/colors" as colors;
 @use "src/styles/global/style" as style;
 
-@use "global/custom-form";
-@use "global/icon-button";
+@use "src/styles/global/custom-form";
+@use "src/styles/global/icon-button";
+@use "src/styles/global/custom-badge";
 
 html, body {
   height: calc(100dvh);
@@ -105,7 +106,6 @@ h1 {
   display: flex;
 
   .custom-row-item {
-    border-color: colors.$layer-two-bg;
 
     &:only-child {
       border-radius: 0.3rem;
@@ -123,13 +123,27 @@ h1 {
   }
 }
 
+@keyframes anim-fade {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  100% {
+    height: 100%;
+    opacity: 100%;
+  }
+}
+
 .custom-row-item {
+  background-color: colors.$layer-three-bg;
   border: 1px solid colors.$layer-two-bg;
   border-radius: 0.3rem;
+  animation: 0.5s ease-out 0s 1 anim-fade;
 }
 
 .amount {
-  font-family: "Hack Nerd Font Mono", ui-monospace;
+  //font-family: "Hack Nerd Font Mono", ui-monospace;
+  font-weight: 600;
 
   &.debit {
     color: #bb2c2c;

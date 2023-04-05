@@ -2,13 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {IMonth, Months, WEEK_DAYS} from "../../models/calendar.model";
 import {buildCalendarMonth, decrementDateByMonth, incrementDateByMonth} from "../../models/calendar.util";
-import {MatIconModule} from "@angular/material/icon";
 import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule],
+  imports: [CommonModule, MatButtonModule],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })

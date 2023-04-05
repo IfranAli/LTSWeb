@@ -7,7 +7,7 @@
     <div class="title space-between no-header">
       <div>
         <span>{{project.title}}</span>
-        <mat-icon color="secondary" (click)="openDialog()">settings</mat-icon>
+        <span (click)="openDialog()" class="material-symbols-outlined">settings</span>
       </div>
 
       <div>
@@ -56,7 +56,9 @@
 
     <div class="custom-card-actions footer">
       <button class="icon-button">
-        <mat-icon (click)="addTaskToProject()">add</mat-icon>
+        <span class="material-symbols-outlined"
+              (click)="addTaskToProject()">add
+        </span>
       </button>
     </div>
   </div>

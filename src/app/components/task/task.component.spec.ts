@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TaskComponent } from './task.component';
 import {MatLegacyCheckboxModule as MatCheckboxModule} from "@angular/material/legacy-checkbox";
 import {MatLegacyFormFieldModule as MatFormFieldModule} from "@angular/material/legacy-form-field";
-import {MatIconModule} from "@angular/material/icon";
 import {FormsModule} from "@angular/forms";
 import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
@@ -20,7 +19,6 @@ describe('TaskComponent', () => {
         FormsModule,
         MatCheckboxModule,
         MatFormFieldModule,
-        MatIconModule,
         MatButtonModule,
         MatInputModule,
         BrowserAnimationsModule,

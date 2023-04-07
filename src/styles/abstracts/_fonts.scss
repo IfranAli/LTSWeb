@@ -1,0 +1,26 @@
+@use "src/styles/abstracts/colors" as colors;
+
+// Fonts setup
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,300&display=swap');
+
+// Variables
+$font-stack: 'Roboto', sans-serif;
+$font-mono: 'Roboto Condensed';
+$primary-color: colors.$app-bg-main;
+
+// Styles
+body {
+  font-family: $font-stack;
+  background-color: $primary-color;
+  font-weight: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-stack;
+  font-weight: normal;
+}
+
+.button {
+  font-family: $font-stack;
+  font-weight: bold;
+}

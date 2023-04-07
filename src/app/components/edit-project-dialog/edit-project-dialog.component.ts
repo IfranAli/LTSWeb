@@ -14,7 +14,6 @@ import {deleteProject, updateProject} from "../../actions/project.actions";
   selector: 'app-edit-project-dialog',
   templateUrl: './edit-project-dialog.component.html',
   styleUrls: [
-    '../../../styles/global/custom-form.scss',
     './edit-project-dialog.component.scss'
   ]
 })

@@ -25,6 +25,7 @@
 
           <span
             class="label"
+            [class.labelInsideBar]="categorySummary.percentageRaw >= 20"
             [ngStyle]="{
               'margin-left' :((categorySummary.percentageRaw < 20) ? categorySummary.percentage: 0)
             }"

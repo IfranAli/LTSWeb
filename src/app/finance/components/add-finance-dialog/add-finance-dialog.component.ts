@@ -72,7 +72,6 @@ const getFinanceModelsFromInputBulk = (input: string) => {
   imports: [CommonModule, MatButtonModule, MatInputModule, ReactiveFormsModule, MatSelectModule, MatDatepickerModule, MatTabsModule],
   templateUrl: './add-finance-dialog.component.html',
   styleUrls: [
-    // '../../../../styles/global/custom-form.scss',
     './add-finance-dialog.component.scss'
   ]
 })

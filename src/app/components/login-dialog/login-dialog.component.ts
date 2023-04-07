@@ -12,7 +12,6 @@ import {Router} from "@angular/router";
   templateUrl: './login-dialog.component.html',
   styleUrls: [
     './login-dialog.component.scss',
-    '../../../styles/global/custom-form.scss',
   ]
 })
 export class LoginDialogComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {FinanceService, IFinanceSummary} from "../../services/finance.service";
 import {FinanceModel} from "../../models/finance.model";
 import {Router} from "@angular/router";
@@ -17,7 +17,7 @@ import {
 } from "../../../calendar/models/calendar.util";
 import {sortFinanceModels} from "../../util/finance.util";
 import {CALENDAR_MONTHS} from "../../../calendar/models/calendar.model";
-import {BehaviorSubject, combineLatestWith, merge, Observable, of, scan, Subscription, switchMap, tap} from "rxjs";
+import {BehaviorSubject, combineLatestWith, Observable, of, Subscription, switchMap, tap} from "rxjs";
 
 export interface FinanceData extends IFinanceSummary {
   items: FinanceViewModel[]
@@ -83,7 +83,8 @@ export const formatCurrency = (number: number): string => {
   // imports: [CommonModule],
   templateUrl: './finance-app.component.html',
   styleUrls: ['./finance-app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class FinanceAppComponent implements OnInit, OnDestroy {
   $subscription2: Subscription | undefined;

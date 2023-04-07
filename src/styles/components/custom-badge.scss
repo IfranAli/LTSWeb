@@ -1,10 +1,13 @@
-@use "src/styles/global/colors" as colors;
-@use "src/styles/global/style" as style;
+@use "src/styles/abstracts/colors" as colors;
+@use "src/styles/abstracts/style" as style;
+@use "src/styles/abstracts/fonts" as fonts;
 
 .badge {
   color: colors.$color-text-light;
-  font-size: smaller;
-  font-weight: 500;
+  font-family: fonts.$font-mono;
+  color: rgba(black, 0.4);
+  font-size: 0.8rem;
+  font-weight: 600;
   padding: 0.2rem 0.4rem 0.2rem 0.4rem;
   border-radius: 4px;
   border: 1px solid colors.$day-background-darker;

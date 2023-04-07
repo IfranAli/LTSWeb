@@ -1,7 +1,6 @@
-@use "src/styles/global/colors" as global;
-@use "src/styles/global/style" as style;
-@use "src/styles/global/card";
-@use "src/styles/global/custom-card";
+@use "src/styles/abstracts/colors" as global;
+@use "src/styles/abstracts/style" as style;
+@use "src/styles/components/custom-card";
 
 $border-color: #404040;
 $day-disabled: #5d5d5d;

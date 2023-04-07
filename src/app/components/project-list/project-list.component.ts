@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {createTaskModel, TaskDatabaseModel, TaskModel,} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
 import {CdkDragDrop} from "@angular/cdk/drag-drop";
@@ -18,6 +18,7 @@ import {TaskState} from "../../constants/constants";
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProjectListComponent implements OnInit {
   @Input() project: ProjectModel = defaultProject

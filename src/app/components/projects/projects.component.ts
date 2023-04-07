@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {createProjectModel, ProjectDatabaseModel, ProjectModel} from "../../models/project.model";
 import {UserLoginResult, UserModel} from "../../models/user.interface";
 import {DataProviderService} from "../../services/data-provider.service";
@@ -15,7 +15,8 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss']
+  styleUrls: ['./projects.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ProjectsComponent implements OnInit {
   projects: ProjectModel[] = [];

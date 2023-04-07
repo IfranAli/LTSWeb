@@ -25,10 +25,7 @@ import {deleteTask} from "../../actions/task.actions";
     MatDialogModule,
     NgForOf
   ],
-  styleUrls: [
-    '../../../styles/global/custom-form.scss',
-    './edit-task-dialog.component.scss'
-  ]
+  styleUrls: ['./edit-task-dialog.component.scss']
 })
 export class EditTaskDialogComponent implements OnInit, OnDestroy {
   task: TaskModel;

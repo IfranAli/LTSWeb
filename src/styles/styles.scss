@@ -1,9 +1,10 @@
-@use "src/styles/global/colors" as colors;
-@use "src/styles/global/style" as style;
+@use "src/styles/abstracts/colors" as colors;
+@use "src/styles/abstracts/style" as style;
 
-@use "src/styles/global/custom-form";
-@use "src/styles/global/icon-button";
-@use "src/styles/global/custom-badge";
+@use "src/styles/abstracts/fonts";
+@use "src/styles/components/custom-form";
+@use "src/styles/components/icon-button";
+@use "src/styles/components/custom-badge";
 
 html, body {
   height: calc(100dvh);
@@ -18,22 +19,10 @@ app-root {
 body {
   margin: 0;
   padding: 0;
-
-  $grid-size: 80px;
-  $dash-length: 5px;
-  $dash-width: 1px;
-  $dash-color: colors.$app-bg-main-dash;
   $background: colors.$app-bg-main;
-
   background-color: $background;
-  //background-size: $dash-length*2 $dash-length*2, $grid-size $grid-size;
-  //background-image: linear-gradient(to bottom, transparent $dash-length, $background $dash-length),
-  //linear-gradient(to right, $dash-color $dash-width, transparent $dash-width),
-  //linear-gradient(to right, transparent $dash-length, $background $dash-length),
-  //linear-gradient(to bottom, $dash-color $dash-width, transparent $dash-width);
 }
 
-// todo: move mode colors to new file.
 h1 {
   color: #1f2023;
 }
@@ -41,7 +30,6 @@ h1 {
 @media screen and (max-width: 844px) {
 
   html, body {
-    //--navbar-mobile: style.$navbar-width-mobile;
     height: calc(100dvh - 3rem);
     background: colors.$app-bg-main;
   }
@@ -125,11 +113,11 @@ h1 {
 
 @keyframes anim-fade {
   0% {
-    height: 0;
+    //height: 0;
     opacity: 0;
   }
   100% {
-    height: 100%;
+    //height: 100%;
     opacity: 100%;
   }
 }
@@ -142,7 +130,6 @@ h1 {
 }
 
 .amount {
-  //font-family: "Hack Nerd Font Mono", ui-monospace;
   font-weight: 600;
 
   &.debit {

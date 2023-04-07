@@ -1,5 +1,4 @@
-@use "src/styles/global/colors" as color;
-@use "src/styles/global/style" as style;
+@use "src/styles/abstracts/colors" as color;
 
 .custom-form {
   color: color.$color-text-dark;

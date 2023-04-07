@@ -1,28 +1,47 @@
-@use "src/styles/global/colors" as colors;
-@use "src/styles/global/style" as style;
-@use "src/styles/global/card";
-@use "src/styles/global/custom-card";
+@use "src/styles/abstracts/colors" as colors;
+@use "src/styles/abstracts/style" as style;
 
 .project-list {
   margin: style.$margin-global-1;
+
+  .custom-card {
+    .title {
+      display: grid;
+      grid-auto-flow: row !important;
+      justify-content: unset !important;
+
+      div {
+        justify-content: space-between;
+        display: flex;
+      }
+    }
+  }
+
+  @media screen and (max-width: 844px) {
+    margin: 0;
+
+    .list {
+      min-width: inherit;
+
+      .list-item {
+
+        .custom-row-item {
+          border-radius: 0.3rem;
+          border-style: solid;
+        }
+
+        .drag-handle {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 .card-content-block {
   padding: 0 0.5rem 0 1rem;
 }
 
-.custom-card {
-  .title {
-    display: grid;
-    grid-auto-flow: row !important;
-    justify-content: unset !important;
-
-    div {
-      justify-content: space-between;
-      display: flex;
-    }
-  }
-}
 
 .list {
   color: colors.$color-text-light;
@@ -65,26 +84,4 @@
 
 .list.cdk-drop-list-dragging .project-task-item:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-@media screen and (max-width: 844px) {
-  .project-list {
-    margin: 0;
-  }
-
-  .list {
-    min-width: inherit;
-
-    .list-item {
-
-      .custom-row-item {
-        border-radius: 0.3rem;
-        border-style: solid;
-      }
-
-      .drag-handle {
-        display: none;
-      }
-    }
-  }
 }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {UserService} from "../../services/user.service";
 import {Store} from "@ngrx/store";
@@ -12,7 +12,8 @@ import {Router} from "@angular/router";
   templateUrl: './login-dialog.component.html',
   styleUrls: [
     './login-dialog.component.scss',
-  ]
+  ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LoginDialogComponent implements OnInit {
   @Output() onUserLogin = new EventEmitter<UserLoginResult>()
@@ -43,6 +44,8 @@ export class LoginDialogComponent implements OnInit {
       username: rawValues.username!,
       password: rawValues.password!
     }
+
+    localStorage.removeItem('token');
 
     this.userService.loginUser(loginModel).subscribe(async value => {
       const {user, token} = value;

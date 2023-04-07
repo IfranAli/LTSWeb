@@ -11,6 +11,13 @@ export interface LoginResult {
   token: string
 }
 
+export interface UserStatusResponse {
+  id: number,
+  token: string,
+  name: string,
+  accountId: number,
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +29,7 @@ export class UserService {
   }
 
   getUsers() {
-    return this.http.get<UserDatabaseModel[]>(baseUrl, getHttpHeaders());
+    return this.http.get<UserStatusResponse>(baseUrl, getHttpHeaders());
   }
 
   loginUser(userLoginModel: UserLoginModel) {

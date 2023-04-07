@@ -1,4 +1,16 @@
-<nav class="navbar">
+<ng-container *ngIf="$sub1 | async as x; else notLoggedIn">
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</ng-container>
+
+<ng-template #notLoggedIn>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</ng-template>
+
+<nav class="navbar" *ngIf="(user && user.id != 0)">
 
   <ul class="navbar-nav">
     <li>
@@ -41,7 +53,3 @@
     </li>
   </ul>
 </nav>
-
-<main>
-  <router-outlet></router-outlet>
-</main>

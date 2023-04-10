@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {createProjectModel, ProjectDatabaseModel, ProjectModel} from "../../models/project.model";
 import {UserModel} from "../../models/user.interface";
 import {DataProviderService} from "../../services/data-provider.service";
@@ -11,7 +11,7 @@ import {loadTasks} from "../../actions/task.actions";
 import {createTaskModel} from "../../models/task.model";
 import {Router} from "@angular/router";
 import * as fromUsers from '../../reducers/user.reducer';
-import {filter, of, switchMap, tap} from 'rxjs';
+import {BehaviorSubject, combineLatestWith, filter, of, switchMap, tap} from 'rxjs';
 
 @Component({
   selector: 'app-projects',
@@ -20,10 +20,12 @@ import {filter, of, switchMap, tap} from 'rxjs';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
   projects: ProjectModel[] = [];
   user: UserModel | null = null;
   showInactiveProjects = false;
+
+  refresh$ = new BehaviorSubject<boolean>(true);
 
   constructor(
     private dataProvider: DataProviderService,
@@ -37,21 +39,23 @@ export class ProjectsComponent implements OnInit {
     return (a.enabled === b.enabled) ? 0 : (a.enabled ? -1 : 1);
   }
 
-  projects$ = this.store.select(fromProjects.selectEntities).pipe(
-    filter((projects) => {
-      return Object.keys(projects).length != 0;
-    }),
-    switchMap((v) => {
-      const projects = Object.values(v) as ProjectModel[];
+  projects$ =
+    this.store.select(fromProjects.selectEntities).pipe(
+      combineLatestWith(this.refresh$),
+      filter(([projects, refresh]) => {
+        return Object.keys(projects).length != 0;
+      }),
+      switchMap(([v, refresh]) => {
+        const projects = Object.values(v) as ProjectModel[];
 
-      if (this.showInactiveProjects) {
-        return of(projects.sort(this.projectsSort));
-      } else {
+        if (this.showInactiveProjects) {
+          return of(projects.sort(this.projectsSort));
+        } else {
 
-        return of(projects.filter(project => project.enabled));
-      }
-    })
-  );
+          return of(projects.filter(project => project.enabled));
+        }
+      })
+    );
 
   loadProjectsAndTasks() {
     this.dataProvider.getProjects().subscribe((projects) => {
@@ -69,6 +73,10 @@ export class ProjectsComponent implements OnInit {
     this.loadProjectsAndTasks();
   }
 
+  ngOnDestroy() {
+    this.refresh$.complete();
+  }
+
   addProject() {
     const model: Omit<ProjectDatabaseModel, 'id'> = {
       ...createProjectModel({
@@ -76,7 +84,13 @@ export class ProjectsComponent implements OnInit {
       })
     }
 
-    this.dataProvider.projectService.createProject(model)
-      .subscribe(res => this.store.dispatch(createProject(res.shift()!)))
+    this.dataProvider.projectService.createProject(model).pipe(
+      tap((project) => this.refresh())
+    )
+      .subscribe(res => this.store.dispatch(createProject(res.shift()!)));
+  }
+
+  private refresh() {
+    this.refresh$.next(true);
   }
 }

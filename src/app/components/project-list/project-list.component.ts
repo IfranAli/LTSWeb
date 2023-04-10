@@ -13,6 +13,8 @@ import {DataProviderService} from "../../services/data-provider.service";
 import {EditProjectDialogComponent} from "../edit-project-dialog/edit-project-dialog.component";
 import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {TaskState} from "../../constants/constants";
+import {switchMap, tap} from 'rxjs/operators';
+import {of} from 'rxjs/internal/observable/of';
 
 @Component({
   selector: 'app-project-list',
@@ -27,6 +29,22 @@ export class ProjectListComponent implements OnInit {
   @Output() onAddTaskToProject = new EventEmitter<Partial<TaskModel>>();
 
   projectColour: string = '#d2d2d2';
+
+  $project$ = this.store.select(fromTask.selectEntities).pipe(
+    switchMap((tasks) => {
+        const taskArray: TaskModel[] = Object.values(tasks) as TaskModel[] ?? [];
+        const filtered = taskArray
+          .filter(value => value.projectId == this.project.id)
+          .sort(ProjectListComponent.taskSortMethod)
+
+        const result = this.project = {
+          ...this.project,
+          tasks: filtered,
+        }
+
+        return of(result);
+      }
+    ));
 
   constructor(
     private store: Store<AppState>,
@@ -48,7 +66,7 @@ export class ProjectListComponent implements OnInit {
       if (a.state == b.state) {
         return 0;
       } else {
-          return a.state > b.state ? -1 : 1
+        return a.state > b.state ? -1 : 1
       }
     }
 
@@ -65,19 +83,6 @@ export class ProjectListComponent implements OnInit {
       this.projectColour = randomColor;
     }
 
-    this.store.select(fromTask.selectEntities).subscribe((tasks: Dictionary<TaskModel>) => {
-      const taskArray: TaskModel[] = Object.values(tasks) as TaskModel[] ?? [];
-      const filtered = taskArray
-        .filter(value => value.projectId == this.project.id)
-        .sort(ProjectListComponent.taskSortMethod)
-
-      if (filtered) {
-        this.project = {
-          ...this.project,
-          tasks: filtered,
-        }
-      }
-    });
   }
 
   onTaskChanged(task: TaskUpdatedEvent) {

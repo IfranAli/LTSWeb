@@ -5,7 +5,11 @@
   <div class="task-controls">
 
     <div class="task-information">
-      <div class="task-title">{{ task.name }}</div>
+
+      <div class="task-title">
+        {{ task.name == '' ? 'New Task' : task.name }}
+      </div>
+
       <div class="task-content">{{ task.content}}</div>
     </div>
 

@@ -129,7 +129,7 @@ export class ProjectListComponent implements OnInit {
       projectId: this.project.id,
       content: '',
       state: TaskState.TODO,
-      name: 'New Task'
+      name: ''
     }
 
     this.dataProvider.addTask(task).subscribe((result) => {

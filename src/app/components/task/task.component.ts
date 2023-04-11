@@ -28,6 +28,7 @@ import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy
 })
 export class TaskComponent implements OnInit, OnDestroy {
   @Input() task: TaskModel = new Task();
+  @Input() projectCode: string = '';
 
   @Output() onPinTask = new EventEmitter<TaskPinnedEvent>();
 
@@ -37,12 +38,14 @@ export class TaskComponent implements OnInit, OnDestroy {
 
 
   $dialogSubscription: Subscription | undefined;
+  public label = '';
 
   constructor(
     private store: Store<AppState>,
     private dataProvider: DataProviderService,
     private dialog: MatDialog,
   ) {
+    this.label = this.projectCode;
   }
 
   ngOnInit(): void {

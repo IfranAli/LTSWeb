@@ -10,13 +10,17 @@
     </div>
 
     <div class="task-status">
-      <div class="priority-icon">
+      <div>
         <ng-container [ngSwitch]="task.priority">
           <span class="priority lowest material-symbols-outlined" *ngSwitchCase="0">keyboard_double_arrow_down</span>
           <span class="priority medium material-symbols-outlined" *ngSwitchCase="1">horizontal_rule</span>
           <span class="priority high material-symbols-outlined" *ngSwitchCase="2">keyboard_arrow_up</span>
           <span class="priority highest material-symbols-outlined" *ngSwitchCase="3">keyboard_double_arrow_up</span>
         </ng-container>
+      </div>
+
+      <div class="task-code">
+        {{projectCode}}-{{task.id}}
       </div>
 
       <ng-container [ngSwitch]="task.state">

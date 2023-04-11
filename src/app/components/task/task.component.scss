@@ -1,5 +1,6 @@
 @use "src/styles/abstracts/colors" as colors;
 @use "src/styles/abstracts/style" as style;
+@use "src/styles/abstracts/fonts" as fonts;
 
 .project-task-item.TASK_ARCHIVED input[type="text"] {
   color: colors.$color-archived;
@@ -64,8 +65,11 @@ mat-form-field {
   }
 
   .task-status {
+    gap: 0.4rem;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    font-family: fonts.$font-mono;
 
     .badge {
       margin-left: auto;
@@ -73,44 +77,68 @@ mat-form-field {
   }
 }
 
-
-.badge {
-  &.todo {
-    background: colors.$color-blue;
-  }
-
-  &.in-progress {
-    background: colors.$color-yellow;
-  }
-
-  &.blocked {
-    background: colors.$color-red;
-  }
-
-  &.done {
-    background: colors.$color-green;
-  }
-}
-
-.priority {
+@mixin task-badge() {
   height: min-content;
   background: colors.$app-bg-main-lighter;
   border-radius: 4px;
+}
 
-  &.lowest {
-    color: #5992ff;
+.task-status {
+  height: 1.2rem;
+  font-size: 1.2rem;
+
+  .task-code {
+    @include task-badge();
+    display: flex;
+    align-items: center;
+    height: inherit;
+    font-size: 0.7em;
+    font-weight: 100;
+    color: rgb(colors.$color-text-dark, 0.6);
   }
 
-  &.medium {
-    color: #cbae27;
+  .priority {
+    @include task-badge();
+    height: inherit;
+    background: colors.$app-bg-main-lighter;
+    border-radius: 4px;
+    font-size: inherit;
+
+    &.lowest {
+      color: #5992ff;
+    }
+
+    &.medium {
+      color: #cbae27;
+    }
+
+    &.high {
+      color: #ff773d;
+    }
+
+    &.highest {
+      color: #e86767;
+    }
   }
 
-  &.high {
-    color: #ff773d;
-  }
+  .badge {
+    //font-size: 0.7em;
 
-  &.highest {
-    color: #e86767;
+    &.todo {
+      background: colors.$color-blue;
+    }
+
+    &.in-progress {
+      background: colors.$color-yellow;
+    }
+
+    &.blocked {
+      background: colors.$color-red;
+    }
+
+    &.done {
+      background: colors.$color-green;
+    }
   }
 }
 

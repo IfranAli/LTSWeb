@@ -64,9 +64,8 @@
   }
 
   .custom-card-actions, .footer {
-    border-top: solid 1px #2b2b2b70;
     color: global.$color-text-dark;
-    padding: 0.4rem 0.4rem;
+    padding: 0 0.4rem 0.4rem;
   }
 
   &.no-border {

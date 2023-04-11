@@ -43,9 +43,11 @@
 
           <div class="custom-row-item">
             <app-task [task]="task"
+                      [projectCode]="project.code"
                       (onPinTask)="onTaskPinned($event)"
                       (onTaskDeleted)="onTaskDeleted($event)"
-                      (onTaskChanged)="onTaskChanged($event)">
+                      (onTaskChanged)="onTaskChanged($event)"
+            >
 
             </app-task>
           </div>

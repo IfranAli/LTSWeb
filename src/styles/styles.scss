@@ -6,6 +6,10 @@
 @use "src/styles/components/icon-button";
 @use "src/styles/components/custom-badge";
 
+.cdk-global-scrollblock{
+  position: unset;
+}
+
 html, body {
   height: calc(100dvh);
   overflow-x: hidden;

@@ -10,6 +10,12 @@
       grid-auto-flow: row !important;
       justify-content: unset !important;
 
+      .icon-button{
+        font-size: 1.4rem;
+        margin-bottom: 0.4rem;
+        color: rgb(colors.$color-text-light, .8);
+      }
+
       div {
         justify-content: space-between;
         display: flex;
@@ -21,7 +27,6 @@
     margin: 0;
 
     .list {
-      min-width: inherit;
 
       .list-item {
 
@@ -45,14 +50,16 @@
 
 .list {
   color: colors.$color-text-light;
-  min-width: style.$task-width;
+  display: grid;
+  justify-items: stretch;
+  gap: 0.4rem;
+  margin: 0.4rem;
 
   .list-item {
-    padding: style.$padding-row;
 
     .drag-handle {
       width: 10px;
-      background: #8a8a8a;
+      background: colors.$app-bg-main;
       flex-grow: 0 !important;
       flex: none;
     }

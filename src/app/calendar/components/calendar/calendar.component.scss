@@ -28,6 +28,7 @@ mat-card {
   flex-direction: column;
   padding: style.$dialog-padding;
   margin: style.$margin-global-0;
+  color: $day-font-light;
 
   .box-header {
     font-weight: bold;
@@ -55,14 +56,14 @@ mat-card {
     }
 
     .box-header {
-      height: 2rem;
+      background: global.$toolbar-bg;
+      font-weight: 400;
+      padding-bottom: 0.4rem;
     }
 
     .box-day {
       height: 100%;
-
       background: $day-background-darker;
-      color: $day-font-light;
       font-weight: bold;
       border-style: solid none;
       border-width: 1px;

@@ -49,19 +49,30 @@ mat-form-field {
 }
 
 .task-controls {
-  display: grid;
-  grid-template-columns: 1fr 10fr 1fr;
-  align-items: center;
-  padding: style.$padding-row;
+  padding: 0.8rem;
 
-  .priority-icon {
-    padding-left: 0.2rem;
+  .task-information {
+    margin-bottom: 0.4rem;
+
+    .task-title {
+      font-weight: 500;
+    }
+
+    .task-content {
+      font-size: 0.8rem;
+    }
   }
 
-  .content {
-    padding: 10px;
+  .task-status {
+    display: flex;
+    flex-direction: row;
+
+    .badge {
+      margin-left: auto;
+    }
   }
 }
+
 
 .badge {
   &.todo {
@@ -82,14 +93,16 @@ mat-form-field {
 }
 
 .priority {
-  font-weight: 700;
+  height: min-content;
+  background: colors.$app-bg-main-lighter;
+  border-radius: 4px;
 
   &.lowest {
     color: #5992ff;
   }
 
   &.medium {
-    color: #ffdd3d;
+    color: #cbae27;
   }
 
   &.high {
@@ -103,6 +116,5 @@ mat-form-field {
 
 @media screen and (max-width: 844px) {
   .content {
-    //padding-right: 0;
   }
 }

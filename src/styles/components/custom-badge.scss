@@ -3,9 +3,9 @@
 @use "src/styles/abstracts/fonts" as fonts;
 
 .badge {
-  color: colors.$color-text-light;
+  height: min-content;
+  color: rgb(white, 0.8);
   font-family: fonts.$font-mono;
-  color: rgba(black, 0.4);
   font-size: 0.8rem;
   font-weight: 600;
   padding: 0.2rem 0.4rem 0.2rem 0.4rem;
@@ -14,6 +14,10 @@
   white-space: nowrap;
 
   &.small {
-    padding: 0 0.4rem 0 0.4rem !important
+    //padding: 0 0.4rem 0 0.4rem
+  }
+
+  &.no-outline{
+    border: unset;
   }
 }

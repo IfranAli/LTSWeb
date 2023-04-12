@@ -51,6 +51,9 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.$subscription = this.dataProvider.getUserStatus().subscribe(value => {
         this.store.dispatch(loginUser({id: value.id, password: '', username: value.name}));
+      }, error => {
+        localStorage.removeItem(tokenName)
+        this.router.navigate([''])
       })
     }
   }

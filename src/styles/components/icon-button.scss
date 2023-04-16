@@ -1,6 +1,8 @@
 @use "src/styles/abstracts/colors" as colors;
 
 .icon-button {
+  user-select: none;
+  cursor: pointer;
   background: transparent;
   border: 0;
   height: inherit;

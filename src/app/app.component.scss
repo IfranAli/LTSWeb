@@ -8,12 +8,35 @@ body {
   padding: 0;
 }
 
-nav {
+@mixin nav-style() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: style.$border-radius-0;
+}
 
+$navbar-height: 3rem;
+
+.navbar {
+  top: 0;
+  height: $navbar-height;
+  width: 100dvw;
+  position: fixed;
+  z-index: 2;
+
+  display: flex;
+  align-items: center;
+
+  background-color: colors.$toolbar-bg;
+
+  .navbar-content {
+    padding: 0.4rem;
+    color: #d2d2d2;
+  }
 }
 
 main {
-  margin-left: 5rem;
+  margin-top: $navbar-height;
   height: inherit;
 
   @media only screen and (max-width: 600px) {
@@ -21,15 +44,33 @@ main {
   }
 }
 
-.navbar {
-  width: style.$navbar-width-desktop;
-  height: inherit;
+.sidebar {
+  margin-top: $navbar-height;
+  width: 0;
+  // width: style.$navbar-width-desktop;
+  height: calc(100% - $navbar-height);
   position: fixed;
   background: colors.$toolbar-bg;
   z-index: 1;
   top: 0;
+  transition: 0.5s;
 
-  .navbar-nav {
+  &.open {
+    width: style.$navbar-width-desktop;
+
+    .sidebar-items {
+      opacity: reset;
+    }
+  }
+
+  &.closed {
+    width: 0;
+    .sidebar-items {
+      opacity: 0;
+    }
+  }
+
+  .sidebar-items {
     list-style: none;
     padding: 0;
     margin: 0;
@@ -38,6 +79,7 @@ main {
     align-items: center;
     text-align: center;
     height: 100%;
+    transition: 0.5s;
 
     li {
       width: 100%;
@@ -77,27 +119,5 @@ main {
   }
 
   @media only screen and (max-width: 600px) {
-    bottom: 0;
-    width: 100vw;
-    height: auto;
-    top: unset;
-
-    .navbar-nav {
-      flex-direction: row !important;
-
-      li {
-        .nav-item {
-          height: style.$navbar-width-mobile !important;
-
-          .title {
-            display: none !important;
-          }
-        }
-
-        &:last-child {
-          margin-top: 0 !important;
-        }
-      }
-    }
   }
 }

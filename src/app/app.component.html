@@ -1,22 +1,24 @@
-<ng-container *ngIf="$sub1 | async as x; else notLoggedIn">
-  <main>
-    <router-outlet></router-outlet>
-  </main>
-</ng-container>
+<nav class="navbar">
+  <div class="navbar-content">
+    <span (click)="toggleSidebar()" class="navbar-item">
+      <span class="icon-button material-symbols-outlined">menu</span>
+    </span>
+  </div>
+</nav>
 
-<ng-template #notLoggedIn>
-  <main>
-    <router-outlet></router-outlet>
-  </main>
-</ng-template>
-
-<nav class="navbar" *ngIf="(user && user.id != 0)">
-
-  <ul class="navbar-nav">
+<div
+  class="sidebar"
+  *ngIf="user && user.id != 0"
+  [ngClass]="{ 'closed': !sidebarOpen, 'open': sidebarOpen }"
+>
+  <ul class="sidebar-items">
     <li>
       <div class="nav-item">
-
-        <button class="icon-button fill" routerLink="/projects" routerLinkActive="active">
+        <button
+          class="icon-button fill"
+          routerLink="/projects"
+          routerLinkActive="active"
+        >
           <span class="material-symbols-outlined">library_books</span>
         </button>
 
@@ -26,7 +28,11 @@
 
     <li>
       <div class="nav-item">
-        <button class="icon-button fill" routerLink="/finance" routerLinkActive="active">
+        <button
+          class="icon-button fill"
+          routerLink="/finance"
+          routerLinkActive="active"
+        >
           <span class="material-symbols-outlined">account_balance</span>
         </button>
         <div class="title">Finance</div>
@@ -35,7 +41,11 @@
 
     <li>
       <div class="nav-item">
-        <button class="icon-button fill" routerLink="/calendar" routerLinkActive="active">
+        <button
+          class="icon-button fill"
+          routerLink="/calendar"
+          routerLinkActive="active"
+        >
           <span class="material-symbols-outlined">calendar_month</span>
         </button>
         <div class="title">Calendar</div>
@@ -49,7 +59,18 @@
         </button>
         <div class="title">Logout</div>
       </div>
-
     </li>
   </ul>
-</nav>
+</div>
+
+<ng-container *ngIf="$sub1 | async as x; else notLoggedIn">
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</ng-container>
+
+<ng-template #notLoggedIn>
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+</ng-template>

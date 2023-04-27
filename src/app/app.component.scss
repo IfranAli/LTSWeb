@@ -16,6 +16,7 @@ body {
 }
 
 $navbar-height: 3rem;
+$navbar-width: 4rem;
 
 .navbar {
   top: 0;
@@ -38,6 +39,7 @@ $navbar-height: 3rem;
 main {
   margin-top: $navbar-height;
   height: inherit;
+  transition: 0.2s;
 
   @media only screen and (max-width: 600px) {
     margin-left: 0;
@@ -53,10 +55,10 @@ main {
   background: colors.$toolbar-bg;
   z-index: 1;
   top: 0;
-  transition: 0.5s;
+  transition: 0.2s;
 
   &.open {
-    width: style.$navbar-width-desktop;
+    width: $navbar-width;
 
     .sidebar-items {
       opacity: reset;
@@ -79,7 +81,6 @@ main {
     align-items: center;
     text-align: center;
     height: 100%;
-    transition: 0.5s;
 
     li {
       width: 100%;
@@ -97,11 +98,12 @@ main {
           margin-left: 0;
           font-weight: bold;
           pointer-events: none;
-          height: 5rem;
-          line-height: 5rem;
+          height: $navbar-height;
+          line-height: $navbar-width;
           position: relative;
           top: -3rem;
           color: colors.$transparent;
+          font-size: smaller;
         }
 
         &:hover {

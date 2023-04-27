@@ -64,7 +64,9 @@
 </div>
 
 <ng-container *ngIf="$sub1 | async as x; else notLoggedIn">
-  <main>
+  <main
+    [ngStyle]="{'margin-left': sidebarOpen ? '4rem' : 0}"
+  >
     <router-outlet></router-outlet>
   </main>
 </ng-container>

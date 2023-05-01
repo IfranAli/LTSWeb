@@ -11,7 +11,7 @@
 }
 
 html, body {
-  height: calc(100dvh);
+  // height: calc(100dvh);
   overflow-x: hidden;
 }
 
@@ -39,7 +39,6 @@ h1 {
 @media screen and (max-width: 844px) {
 
   html, body {
-    height: calc(100dvh - 3rem);
     background: colors.$app-bg-main;
   }
 
@@ -149,8 +148,14 @@ h1 {
 }
 
 .navbar-items {
-  background-color: colors.$app-bg-dark;
+  background-color: colors.$toolbar-bg;
+  height: 3rem;
   display: flex;
+  position: fixed;
+  width: 100dvw;
+  top: 0;
+  left: 0;
+  padding-left: 3rem;
 
   .navbar-button {
     border: unset;

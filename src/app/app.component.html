@@ -1,5 +1,7 @@
 <nav class="navbar">
-  <div class="navbar-content">
+  <div class="navbar-content"
+    *ngIf="user && user.id != 0"
+  >
     <span (click)="toggleSidebar()" class="navbar-item">
       <span class="icon-button material-symbols-outlined">menu</span>
     </span>
@@ -9,9 +11,9 @@
 <div
   class="sidebar"
   *ngIf="user && user.id != 0"
-  [ngClass]="{ 'closed': !sidebarOpen, 'open': sidebarOpen }"
+  [ngClass]="{ closed: !sidebarOpen, open: sidebarOpen }"
 >
-  <ul class="sidebar-items">
+  <ul class="sidebar-items" *ngIf="sidebarOpen">
     <li>
       <div class="nav-item">
         <button
@@ -64,9 +66,7 @@
 </div>
 
 <ng-container *ngIf="$sub1 | async as x; else notLoggedIn">
-  <main
-    [ngStyle]="{'margin-left': sidebarOpen ? '4rem' : 0}"
-  >
+  <main [ngStyle]="{ 'margin-left': sidebarOpen ? '4rem' : 0 }">
     <router-outlet></router-outlet>
   </main>
 </ng-container>

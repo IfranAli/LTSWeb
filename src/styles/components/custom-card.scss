@@ -1,87 +1,67 @@
-@use "src/styles/abstracts/colors" as global;
+.title {
+  font-weight: 100;
+  text-align: center;
+  padding: 0.8rem;
 
-.custom-card {
-  width: inherit;
-  height: inherit;
-
-  box-shadow: 0 0 6px 2px #8a8080;
-  $border-radius: 1rem;
-
-  background: #ffffff75;
-  border-radius: $border-radius;
-
-  .title {
-    font-weight: 100;
-    text-align: center;
-    background: global.$toolbar-bg;
-    color: global.$color-text-light;
-    padding: 0.8rem;
-    border-radius: $border-radius $border-radius 0 0;
-
-    .icon-button {
-      margin: unset;
-    }
-
-    .subtitle {
-      font-size: 0.8rem;
-      color: rgb(global.$color-text-light, .8);
-    }
-
-    &.space-between {
-      display: grid;
-      grid-auto-flow: column;
-      align-content: center;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    &.grid {
-      padding: 0 10px 0 10px;
-      align-items: center;
-      display: grid;
-      grid-template-columns: 1fr 10fr 1fr;
-      justify-items: stretch;
-    }
-
-    &.small {
-      font-size: small;
-    }
-
-    &.subtitle {
-      font-size: medium;
-    }
-
-    &.no-header {
-    }
+  .subtitle {
+    font-size: 0.8rem;
   }
 
-  .custom-card-content {
-    color: global.$color-text-dark;
-
-    &.padding {
-      padding: 0.8rem 0.6rem;
-    }
+  &.space-between {
+    display: grid;
+    grid-auto-flow: column;
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  .custom-card-actions, .footer {
-    color: global.$color-text-dark;
-    padding: 0 0.4rem 0.4rem;
-  }
+  //     &.grid {
+  //       padding: 0 10px 0 10px;
+  //       align-items: center;
+  //       display: grid;
+  //       grid-template-columns: 1fr 10fr 1fr;
+  //       justify-items: stretch;
+  //     }
 
-  &.no-border {
-    border-radius: unset;
-    margin: unset;
-    border: unset;
-  }
+  //     &.small {
+  //       font-size: small;
+  //     }
+
+  //     &.subtitle {
+  //       font-size: medium;
+  //     }
+
+  //     &.no-header {
+  //     }
 }
 
-@media screen and (max-width: 844px) {
-  .custom-card {
-    box-shadow: revert;
+//   .custom-card-content {
+//     // color: global.$color-text-dark;
 
-    .title {
-      border-radius: revert;
-    }
-  }
+//     &.padding {
+//       padding: 0.8rem 0.6rem;
+//     }
+//   }
 
-}
+//   .custom-card-actions, .footer {
+//     color: global.$color-text-dark;
+//     padding: 0 0.4rem 0.4rem;
+//   }
+
+//   &.no-border {
+//     border-radius: unset;
+//     margin: unset;
+//     border: unset;
+//   }
+// }
+
+// @media screen and (max-width: 844px) {
+//   .custom-card {
+//     box-shadow: revert;
+
+//     .title {
+//       border-radius: revert;
+//     }
+//   }
+
+// }

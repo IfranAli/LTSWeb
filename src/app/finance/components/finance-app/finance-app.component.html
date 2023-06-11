@@ -2,10 +2,12 @@
 
   <div class="navbar-items">
     <button class="navbar-button" (click)="openDialogAddFinance()">
-      <div class="button-container">
-        <span class="material-symbols-outlined">add</span>
-        <span>Add Expense</span>
-      </div>
+      <!-- <div class="button-container"> -->
+        <!-- <span class="material-symbols-outlined">add</span> -->
+        <!-- <span> -->
+          Add Expense
+        <!-- </span> -->
+      <!-- </div> -->
     </button>
   </div>
 
@@ -21,13 +23,17 @@
             [style.max-width]="categorySummary.percentage"
             [style.background]="categorySummary.colour"
             class="badge bar"
-          ><br/></span>
+            ><br
+          /></span>
 
           <span
             class="label"
             [class.labelInsideBar]="categorySummary.percentageRaw >= 20"
             [ngStyle]="{
-              'margin-left' :((categorySummary.percentageRaw < 20) ? categorySummary.percentage: 0)
+              'margin-left':
+                categorySummary.percentageRaw < 20
+                  ? categorySummary.percentage
+                  : 0
             }"
           >
             <span class="name">
@@ -41,52 +47,65 @@
     </div>
 
     <div class="cards">
-      <div class="custom-card all-finances">
+      <div class="custom-card">
         <div class="title space-between no-header">
-          <button class='icon-button' (click)="back()">
+          <button class="icon-button" (click)="back()">
             <span class="material-symbols-outlined">arrow_back_ios</span>
           </button>
 
-          <span>{{ title }}</span>
+          <h2>{{ title }}</h2>
 
-          <button class='icon-button right' (click)="forward()">
+          <button class="icon-button right" (click)="forward()">
             <span class="material-symbols-outlined">arrow_forward_ios</span>
           </button>
         </div>
 
-        <div class="custom-card-content" *ngIf="financeData$ | async as financeData else loading">
-          <div
+        <div
+          class="custom-card-content"
+          *ngIf="financeData$ | async as financeData; else loading"
+        >
+          <details
             class="finance-list"
-            *ngFor="let summary of financeData; index as i">
-            <div class="header">
-              <div>{{ summary.categoryName }}</div>
-              <div class="amount">{{ summary.total }}</div>
-            </div>
+            *ngFor="let summary of financeData; let idx = index"
+            [open]="idx == 0 ? true : false"
+          >
+            <summary>
+              <span>
+                {{ summary.categoryName }}
+              </span>
 
-            <div class="row custom-row-item"
-                 (click)="openDialogAddFinance(finance.id)"
-                 *ngFor="let finance of summary.items">
+              <span>
+                {{ summary.total }}
+              </span>
+            </summary>
+
+            <div
+              class="row custom-row-item"
+              (click)="openDialogAddFinance(finance.id)"
+              *ngFor="let finance of summary.items"
+            >
               <div
                 class="amount"
                 [class.credit]="finance.isCredit"
                 [class.debit]="!finance.isCredit"
               >
-                {{ finance.amountFormatted}}
+                {{ finance.amountFormatted }}
               </div>
               <div class="date">{{ finance.dateFormatted }}</div>
 
               <span class="label">{{ finance.name }}</span>
 
               <div class="categoryBadge">
-                <div class="badge no-outline small" [style.background]="finance.categoryColour">
-                  {{ finance.categoryLabel}}
+                <div
+                  class="badge no-outline small"
+                  [style.background]="finance.categoryColour"
+                >
+                  {{ finance.categoryLabel }}
                 </div>
               </div>
-
             </div>
-          </div>
+          </details>
         </div>
-
       </div>
     </div>
   </ng-container>
@@ -94,7 +113,6 @@
 
 <ng-template #loading>
   <div class="summary">
-
     <div class="container">
       <div class="category" style="background: #8a8a8a; width: 100%">
         <span class="name">Loading</span>
@@ -105,7 +123,5 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </ng-template>

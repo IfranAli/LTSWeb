@@ -2,17 +2,17 @@
 @use "src/styles/abstracts/style" as style;
 @use "src/styles/abstracts/fonts" as fonts;
 
-.project-task-item.TASK_ARCHIVED input[type="text"] {
-  color: colors.$color-archived;
-  text-decoration: line-through;
-}
+// .project-task-item.TASK_ARCHIVED input[type="text"] {
+//   color: colors.$color-archived;
+//   text-decoration: line-through;
+// }
 
 .project-task-item {
-  color: colors.$color-text-dark;
+  // color: colors.$color-text-dark;
 
-  button {
-    width: auto;
-  }
+  // button {
+  //   width: auto;
+  // }
 }
 
 mat-form-field {
@@ -70,7 +70,6 @@ mat-form-field {
     display: flex;
     flex-direction: row;
     align-items: center;
-    font-family: fonts.$font-mono;
 
     .badge {
       margin-left: auto;
@@ -143,7 +142,7 @@ mat-form-field {
   }
 }
 
-@media screen and (max-width: 844px) {
-  .content {
-  }
-}
+// @media screen and (max-width: 844px) {
+//   .content {
+//   }
+// }

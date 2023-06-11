@@ -17,7 +17,6 @@
   white-space: nowrap;
 }
 
-
 @mixin font-condensed {
   font-family: fonts.$font-mono;
   font-size: 0.8rem;
@@ -45,6 +44,15 @@
   }
 
   .cards {
+    .custom-card {
+      min-width: 50%;
+
+      .title > button {
+        width: fit-content;
+        margin-bottom: 0;
+      }
+    }
+
     display: flex;
     justify-content: center;
 
@@ -55,7 +63,7 @@
   }
 
   .summary {
-    background: colors.$app-bg-dark;
+    // background: colors.$app-bg-dark;
     align-self: center;
     width: 100%;
 
@@ -112,7 +120,6 @@
         }
       }
     }
-
   }
 
   @media screen and (max-width: 844px) {
@@ -135,7 +142,8 @@
 
 .finance-list {
   padding: 0.5rem 0.8rem;
-  color: colors.$color-text-dark;
+  // color: colors.$color-text-dark;
+  // background-color: aquamarine;
 
   .header {
     font-size: larger;
@@ -149,7 +157,6 @@
   }
 
   .row {
-    padding: style.$padding-row;
     margin: 1rem 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -163,8 +170,7 @@
 
       .badge {
         display: inline-block;
-        text-align: right;
-        width: min-content;
+        width: max-content;
       }
     }
   }

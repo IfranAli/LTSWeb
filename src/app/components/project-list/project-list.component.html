@@ -1,67 +1,56 @@
 <div *ngIf="$project$ | async" class="project-list example-container">
-  <div
-    class="custom-card"
-  >
-    <!--    [style.background]="projectColour"-->
-
-    <div class="title space-between no-header">
-      <div>
-        <span>{{project.title}}</span>
-        <span (click)="openDialog()" class="icon-button material-symbols-outlined">settings</span>
-      </div>
+  <article>
+    <header>
+      {{ project.title }}
+      <span (click)="openDialog()" class="icon-button material-symbols-outlined"
+        >settings</span
+      >
 
       <div class="subtitle">
-        <span>{{project.description}}</span>
+        <span>{{ project.description }}</span>
         <span class="code">
           <span *ngIf="!project.enabled">inactive</span>
-          {{project.code}}
+          {{ project.code }}
         </span>
       </div>
-    </div>
-
+    </header>
 
     <div
       class="list custom-card-content"
-      id="{{project.id}}"
+      id="{{ project.id }}"
       cdkDropList
       [cdkDropListData]="project.tasks"
-      (cdkDropListDropped)="drop($event)">
-
+      (cdkDropListDropped)="drop($event)"
+    >
       <div
         class="list-item"
         *ngFor="let task of project.tasks"
         cdkDrag
         [cdkDragData]="task"
       >
-
         <div class="custom-row">
-
-          <div
-            class="custom-row-item drag-handle"
-            cdkDragHandle
-          ></div>
+          <div class="custom-row-item drag-handle" cdkDragHandle></div>
 
           <div class="custom-row-item">
-            <app-task [task]="task"
-                      [projectCode]="project.code"
-                      (onPinTask)="onTaskPinned($event)"
-                      (onTaskDeleted)="onTaskDeleted($event)"
-                      (onTaskChanged)="onTaskChanged($event)"
+            <app-task
+              [task]="task"
+              [projectCode]="project.code"
+              (onPinTask)="onTaskPinned($event)"
+              (onTaskDeleted)="onTaskDeleted($event)"
+              (onTaskChanged)="onTaskChanged($event)"
             >
-
             </app-task>
           </div>
         </div>
-
       </div>
     </div>
 
-    <div class="custom-card-actions footer">
+    <footer>
       <button class="icon-button">
-        <span class="material-symbols-outlined"
-              (click)="addTaskToProject()">add
+        <span class="material-symbols-outlined" (click)="addTaskToProject()"
+          >add
         </span>
       </button>
-    </div>
-  </div>
+    </footer>
+  </article>
 </div>

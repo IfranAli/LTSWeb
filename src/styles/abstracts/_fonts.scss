@@ -7,26 +7,3 @@
 $font-stack: 'Roboto', sans-serif;
 $font-mono: 'Roboto Condensed';
 $primary-color: colors.$app-bg-main;
-
-// Styles
-body {
-  font-size: 1rem;
-  font-family: $font-stack;
-  background-color: $primary-color;
-  font-weight: normal;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: $font-stack;
-  font-weight: normal;
-}
-
-.button {
-  font-family: $font-stack;
-  font-weight: bold;
-}
-
-.mat-typography {
-  font: 1rem $font-stack;
-  letter-spacing: inherit;
-}

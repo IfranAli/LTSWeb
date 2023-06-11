@@ -2,7 +2,7 @@
 @use "src/styles/abstracts/style" as style;
 
 .project-list {
-  margin: style.$margin-global-1;
+  // margin: style.$margin-global-1;
 
   .custom-card {
     .title {
@@ -11,9 +11,9 @@
       justify-content: unset !important;
 
       .icon-button{
-        font-size: 1.4rem;
-        margin-bottom: 0.4rem;
-        color: rgb(colors.$color-text-light, .8);
+        // font-size: 1.4rem;
+        // margin-bottom: 0.4rem;
+        // color: rgb(colors.$color-text-light, .8);
       }
 
       div {
@@ -31,8 +31,8 @@
       .list-item {
 
         .custom-row-item {
-          border-radius: 0.3rem;
-          border-style: solid;
+          // border-radius: 0.3rem;
+          // border-style: solid;
         }
 
         .drag-handle {
@@ -49,7 +49,7 @@
 
 
 .list {
-  color: colors.$color-text-light;
+  // color: colors.$color-text-light;
   display: grid;
   justify-items: stretch;
   gap: 0.4rem;

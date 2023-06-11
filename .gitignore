@@ -48,3 +48,4 @@ Thumbs.db
 !/stats.json
 /.vscode/
 !/package-lock.json
+.vscode/launch.json

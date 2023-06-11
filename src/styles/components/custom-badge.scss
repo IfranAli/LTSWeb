@@ -1,11 +1,11 @@
-@use "src/styles/abstracts/colors" as colors;
-@use "src/styles/abstracts/style" as style;
-@use "src/styles/abstracts/fonts" as fonts;
+// @use "src/styles/abstracts/colors" as colors;
+// @use "src/styles/abstracts/style" as style;
+// @use "src/styles/abstracts/fonts" as fonts;
 
 .badge {
   height: min-content;
   color: rgb(white, 0.8);
-  font-family: fonts.$font-mono;
+  // font-family: fonts.$font-mono;
   font-size: 0.8rem;
   font-weight: 600;
   padding: 0.2rem 0.4rem 0.2rem 0.4rem;
@@ -13,11 +13,11 @@
   border: 1px solid colors.$day-background-darker;
   white-space: nowrap;
 
-  &.small {
-    //padding: 0 0.4rem 0 0.4rem
-  }
+//   &.small {
+//     //padding: 0 0.4rem 0 0.4rem
+//   }
 
-  &.no-outline{
-    border: unset;
-  }
-}
+//   &.no-outline{
+//     border: unset;
+//   }
+// }

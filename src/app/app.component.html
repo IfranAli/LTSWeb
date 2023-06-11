@@ -1,72 +1,37 @@
-<nav class="navbar">
-  <div class="navbar-content"
-    *ngIf="user && user.id != 0"
-  >
-    <span (click)="toggleSidebar()" class="navbar-item">
-      <span class="icon-button material-symbols-outlined">menu</span>
-    </span>
-  </div>
-</nav>
-
-<div
-  class="sidebar"
-  *ngIf="user && user.id != 0"
-  [ngClass]="{ closed: !sidebarOpen, open: sidebarOpen }"
->
-  <ul class="sidebar-items" *ngIf="sidebarOpen">
+<nav>
+  <ul>
+    <li><strong>LTSWeb</strong></li>
+  </ul>
+  <ul *ngIf="user && user.id != 0">
     <li>
-      <div class="nav-item">
-        <button
-          class="icon-button fill"
-          routerLink="/projects"
-          routerLinkActive="active"
-        >
-          <span class="material-symbols-outlined">library_books</span>
-        </button>
-
-        <div class="title">Projects</div>
-      </div>
+      <a href="/projects">
+        Project
+        <!-- <span class="material-symbols-outlined">library_books</span> -->
+      </a>
     </li>
-
     <li>
-      <div class="nav-item">
-        <button
-          class="icon-button fill"
-          routerLink="/finance"
-          routerLinkActive="active"
-        >
-          <span class="material-symbols-outlined">account_balance</span>
-        </button>
-        <div class="title">Finance</div>
-      </div>
+      <a href="/finance">
+        Finance
+        <!-- <span class="material-symbols-outlined">account_balance</span> -->
+      </a>
     </li>
-
     <li>
-      <div class="nav-item">
-        <button
-          class="icon-button fill"
-          routerLink="/calendar"
-          routerLinkActive="active"
-        >
-          <span class="material-symbols-outlined">calendar_month</span>
-        </button>
-        <div class="title">Calendar</div>
-      </div>
+      <a href="/calendar">
+        Calendar
+        <!-- <span class="material-symbols-outlined">calendar_month</span> -->
+      </a>
     </li>
-
     <li>
-      <div class="nav-item">
-        <button class="icon-button fill" (click)="userLogout()">
-          <span class="material-symbols-outlined">logout</span>
-        </button>
-        <div class="title">Logout</div>
-      </div>
+      <a href="/logout">
+        Logout
+        <!-- <span class="material-symbols-outlined">logout</span> -->
+      </a>
     </li>
   </ul>
-</div>
+</nav>
 
 <ng-container *ngIf="$sub1 | async as x; else notLoggedIn">
-  <main [ngStyle]="{ 'margin-left': sidebarOpen ? '4rem' : 0 }">
+  <main class="container-fluid">
     <router-outlet></router-outlet>
   </main>
 </ng-container>

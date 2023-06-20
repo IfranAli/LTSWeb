@@ -1,113 +1,109 @@
-<div class="finances-container">
-
-  <div class="navbar-items">
-    <button class="navbar-button" (click)="openDialogAddFinance()">
-      <!-- <div class="button-container"> -->
-        <!-- <span class="material-symbols-outlined">add</span> -->
-        <!-- <span> -->
-          Add Expense
-        <!-- </span> -->
-      <!-- </div> -->
-    </button>
+<div class="box">
+  <div class="ui-button" (click)="openDialogAddFinance()">
+    <span> Add Expense </span>
   </div>
+</div>
 
+<div class="box">
   <ng-container *ngIf="summaries$ | async as summaries; else loading">
-    <div class="summary">
-      <div class="container">
-        <div
-          class="category"
-          *ngFor="let categorySummary of summaries.summaries"
-        >
-          <span
-            [style.width]="categorySummary.percentage"
-            [style.max-width]="categorySummary.percentage"
-            [style.background]="categorySummary.colour"
-            class="badge bar"
-            ><br
-          /></span>
-
-          <span
-            class="label"
-            [class.labelInsideBar]="categorySummary.percentageRaw >= 20"
-            [ngStyle]="{
-              'margin-left':
-                categorySummary.percentageRaw < 20
-                  ? categorySummary.percentage
-                  : 0
-            }"
+    <article>
+      <div class="summary">
+        <div class="container">
+          <div
+            class="category"
+            *ngFor="let categorySummary of summaries.summaries"
           >
-            <span class="name">
-              {{ categorySummary.categoryName }}
-              ({{ categorySummary.percentage }})
+            <span
+              [style.width]="categorySummary.percentage"
+              [style.max-width]="categorySummary.percentage"
+              [style.background]="categorySummary.colour"
+              class="badge bar"
+              ><br
+            /></span>
+
+            <span
+              class="label font-code"
+              [class.labelInsideBar]="categorySummary.percentageRaw >= 20"
+              [ngStyle]="{
+                'margin-left':
+                  categorySummary.percentageRaw < 20
+                    ? categorySummary.percentage
+                    : 0
+              }"
+            >
+              <span class="name">
+                {{ categorySummary.categoryName }}
+                ({{ categorySummary.percentage }})
+              </span>
             </span>
-          </span>
-          <span class="week-total amount">{{ categorySummary.total }}</span>
+            <span class="week-total amount highlight">{{
+              categorySummary.total
+            }}</span>
+          </div>
         </div>
       </div>
-    </div>
+    </article>
 
-    <div class="cards">
-      <div class="custom-card">
-        <div class="title space-between no-header">
-          <button class="icon-button" (click)="back()">
-            <span class="material-symbols-outlined">arrow_back_ios</span>
-          </button>
+    <article class="cards">
+      <header class="title space-between no-header">
+        <button class="icon-button" (click)="back()">
+          <span class="material-symbols-outlined">arrow_back_ios</span>
+        </button>
 
-          <h2>{{ title }}</h2>
+        <h2>{{ title }}</h2>
 
-          <button class="icon-button right" (click)="forward()">
-            <span class="material-symbols-outlined">arrow_forward_ios</span>
-          </button>
-        </div>
+        <button class="icon-button right" (click)="forward()">
+          <span class="material-symbols-outlined">arrow_forward_ios</span>
+        </button>
+      </header>
 
-        <div
-          class="custom-card-content"
-          *ngIf="financeData$ | async as financeData; else loading"
+      <div
+        class="custom-card-content"
+        *ngIf="financeData$ | async as financeData; else loading"
+      >
+        <details
+          class="finance-list"
+          *ngFor="let summary of financeData; let idx = index"
+          [open]="idx == 0 ? true : false"
         >
-          <details
-            class="finance-list"
-            *ngFor="let summary of financeData; let idx = index"
-            [open]="idx == 0 ? true : false"
+          <summary>
+            <span>
+              {{ summary.categoryName }}
+            </span>
+
+            <span>
+              {{ summary.total }}
+            </span>
+          </summary>
+
+          <div
+            class="row custom-row-item"
+            (click)="openDialogAddFinance(finance.id)"
+            *ngFor="let finance of summary.items"
           >
-            <summary>
-              <span>
-                {{ summary.categoryName }}
-              </span>
-
-              <span>
-                {{ summary.total }}
-              </span>
-            </summary>
-
             <div
-              class="row custom-row-item"
-              (click)="openDialogAddFinance(finance.id)"
-              *ngFor="let finance of summary.items"
+              class="amount"
+              [class.credit]="finance.isCredit"
+              [class.debit]="!finance.isCredit"
             >
+              {{ finance.amountFormatted }}
+            </div>
+            <div class="date">{{ finance.dateFormatted }}</div>
+
+            <span class="label">{{ finance.name }}</span>
+
+            <div class="categoryBadge">
               <div
-                class="amount"
-                [class.credit]="finance.isCredit"
-                [class.debit]="!finance.isCredit"
+                class="badge no-outline small"
+                [style.background]="finance.categoryColour"
               >
-                {{ finance.amountFormatted }}
-              </div>
-              <div class="date">{{ finance.dateFormatted }}</div>
-
-              <span class="label">{{ finance.name }}</span>
-
-              <div class="categoryBadge">
-                <div
-                  class="badge no-outline small"
-                  [style.background]="finance.categoryColour"
-                >
-                  {{ finance.categoryLabel }}
-                </div>
+                {{ finance.categoryLabel }}
               </div>
             </div>
-          </details>
-        </div>
+          </div>
+        </details>
       </div>
-    </div>
+    </article>
   </ng-container>
 </div>
 

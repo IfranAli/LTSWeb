@@ -2,19 +2,6 @@
 @use "src/styles/abstracts/style" as style;
 @use "src/styles/abstracts/fonts" as fonts;
 
-// .project-task-item.TASK_ARCHIVED input[type="text"] {
-//   color: colors.$color-archived;
-//   text-decoration: line-through;
-// }
-
-.project-task-item {
-  // color: colors.$color-text-dark;
-
-  // button {
-  //   width: auto;
-  // }
-}
-
 mat-form-field {
   flex-grow: 1;
 }
@@ -77,32 +64,14 @@ mat-form-field {
   }
 }
 
-@mixin task-badge() {
-  height: min-content;
-  background: colors.$app-bg-main-lighter;
-  border-radius: 4px;
-}
 
 .task-status {
-  height: 1.2rem;
-  font-size: 1.2rem;
-
-  .task-code {
-    @include task-badge();
-    display: flex;
-    align-items: center;
-    height: inherit;
-    font-size: 0.7em;
-    font-weight: 100;
-    color: rgb(colors.$color-text-dark, 0.6);
-  }
+  border-radius: 4px;
 
   .priority {
-    @include task-badge();
-    height: inherit;
-    background: colors.$app-bg-main-lighter;
-    border-radius: 4px;
-    font-size: inherit;
+    // height: inherit;
+    // background: colors.$app-bg-main-lighter;
+    // font-size: inherit;
 
     &.lowest {
       color: #5992ff;
@@ -120,29 +89,5 @@ mat-form-field {
       color: #e86767;
     }
   }
-
-  .badge {
-    //font-size: 0.7em;
-
-    &.todo {
-      background: colors.$color-blue;
-    }
-
-    &.in-progress {
-      background: colors.$color-yellow;
-    }
-
-    &.blocked {
-      background: colors.$color-red;
-    }
-
-    &.done {
-      background: colors.$color-green;
-    }
-  }
 }
 
-// @media screen and (max-width: 844px) {
-//   .content {
-//   }
-// }

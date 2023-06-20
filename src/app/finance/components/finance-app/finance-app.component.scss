@@ -17,114 +17,58 @@
   white-space: nowrap;
 }
 
-@mixin font-condensed {
-  font-family: fonts.$font-mono;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: rgba(colors.$color-text-light, 0.8);
-}
+.summary {
+  .container {
+    .category {
+      margin: 0.3rem 0;
+      color: colors.$color-text-dark;
+      white-space: nowrap;
 
-.finances-container {
-  display: flex;
-  flex-direction: column;
-  padding: style.$dialog-padding;
-
-  .table-header-week {
-    background: #ffffff20;
-    font-weight: 400;
-
-    span:first-child {
-      width: 100%;
-    }
-
-    span:last-child {
-      grid-column-start: 4;
-      text-align: right;
-    }
-  }
-
-  .cards {
-    .custom-card {
-      min-width: 50%;
-
-      .title > button {
+      .bar {
+        animation: 1s ease-out 0s 1 spring;
+        display: inline-block;
         width: fit-content;
-        margin-bottom: 0;
+        z-index: -1;
+        height: 1rem;
+
+        color: colors.$color-text-light;
+        font-size: smaller;
+        font-weight: 500;
+
+        padding: unset;
+        margin: unset;
       }
-    }
 
-    display: flex;
-    justify-content: center;
+      .label {
+        z-index: 0;
+        grid-template-columns: 10fr 1fr;
+        display: grid;
+        width: 100%;
+        position: relative;
+        top: -1.1rem;
+        height: 0;
+        padding-left: 0.3rem;
 
-    .all-finances {
-      min-width: 50%;
-      margin: 1rem;
-    }
-  }
-
-  .summary {
-    // background: colors.$app-bg-dark;
-    align-self: center;
-    width: 100%;
-
-    .container {
-      border-radius: 4px;
-      padding: 0 0.4rem;
-
-      .category {
-        margin: 0.3rem 0;
-        color: colors.$color-text-dark;
-        white-space: nowrap;
-
-        .bar {
-          animation: 1s ease-out 0s 1 spring;
-          display: inline-block;
-          width: fit-content;
-          z-index: -1;
-          height: 1rem;
-
-          color: colors.$color-text-light;
-          font-size: smaller;
-          font-weight: 500;
-
-          padding: unset;
-          margin: unset;
+        .name {
+          white-space: nowrap;
         }
 
-        .label {
-          @include font-condensed;
-          z-index: 0;
-          grid-template-columns: 10fr 1fr;
-          display: grid;
-          width: 100%;
-          position: relative;
-          top: -1.1rem;
-          height: 0;
-          padding-left: 0.3rem;
-
-          .name {
-            white-space: nowrap;
-          }
-
-          &.labelInsideBar {
-            color: rgba(colors.$color-text-dark, 0.8);
-          }
+        &.labelInsideBar {
+          color: rgba(colors.$color-text-dark, 0.8);
         }
+      }
 
-        .week-total {
-          @include font-condensed;
-          float: right;
-          top: -1.2rem;
-          position: relative;
-          mix-blend-mode: difference;
-        }
+      .week-total {
+        float: right;
+        top: -1.2rem;
+        position: relative;
+        mix-blend-mode: difference;
       }
     }
   }
 
   @media screen and (max-width: 844px) {
     padding: 0;
-    margin: 0 0 5rem 0;
 
     .cards {
       flex-direction: column;
@@ -140,11 +84,15 @@
   }
 }
 
-.finance-list {
-  padding: 0.5rem 0.8rem;
-  // color: colors.$color-text-dark;
-  // background-color: aquamarine;
+.cards {
+  .custom-card {
+    .title {
+      width: 100%;
+    }
+  }
+}
 
+.finance-list {
   .header {
     font-size: larger;
     font-weight: bold;

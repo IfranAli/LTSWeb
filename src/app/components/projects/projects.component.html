@@ -1,16 +1,13 @@
-<div>
-  <a href="#" role="button" class="outline" (click)="addProject()">Add Project</a>
+<div class="box">
+  <div class="ui-button" (click)="addProject()">
+    <span> Add Project</span>
+  </div>
 </div>
 
 <div class="box">
-  <ng-container cdkDropListGroup
-                class="projects-drop-group"
-  >
-
+  <ng-container cdkDropListGroup class="projects-drop-group">
     <div *ngFor="let project of projects$ | async">
       <app-project-list [project]="project"></app-project-list>
     </div>
-
   </ng-container>
-
 </div>

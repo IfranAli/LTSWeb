@@ -1,36 +1,15 @@
-// @use "src/styles/abstracts/colors" as colors;
-// @use "src/styles/abstracts/style" as style;
+@use "./abstracts/colors" as colors;
 
-// @use "src/styles/abstracts/fonts";
-// @use "src/styles/components/custom-form";
-// @use "src/styles/components/icon-button";
-// @use "src/styles/components/custom-badge";
+// Simplified example
+body {
+  --primary: #f27d87;
+  --font-code: "Fira Code", monospace;
 
-// .cdk-global-scrollblock{
-//   position: unset;
-// }
-
-// html, body {
-//   // height: calc(100dvh);
-//   overflow-x: hidden;
-// }
-
-// app-root {
-//   height: inherit;
-//   display: block;
-// }
-
-// main {
-//   height: inherit;
-//   display: block;
-// }
-
-// body {
-//   margin: 0;
-//   padding: 0;
-//   $background: colors.$app-bg-main;
-//   background-color: $background;
-// }
+  --sz: 1rem;
+  --sz-s: 0.7rem;
+  --sz-m: 1.2rem;
+  --sz-l: 1.7rem;
+}
 
 .cdk-global-overlay-wrapper {
   backdrop-filter: blur(0.25rem);
@@ -38,27 +17,102 @@
   transition: 0.2s ease-in-out;
 }
 
-// .dialog-style {
-//   max-width: 100%;
-// }
+// Mixins
+@mixin font-style-code {
+  display: flex;
+  align-items: center;
+  height: inherit;
+  font-family: var(--font-code);
+  font-size: var(--sz-s);
+  // font-weight: 100;
+  color: var(--secondary);
+}
 
-// .mat-dialog-container {
-//   max-width: 100%;
-//   padding: 0 !important;
-// }
+@mixin button-style {
+  // background-color: #f27d87;
+  font-family: var(--font-code);
+  color: var(--primary);
+  font-size: smaller;
+  display: flex;
+  align-items: center;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--primary);
+  // box-shadow: 2px 2px var(--primary);
+  box-shadow: 3px 3px #8c4a50;
+
+  &:hover {
+    background-color: var(--primary);
+    cursor: pointer;
+
+    .highlight {
+      color: var(--secondary) !important;
+    }
+
+    span {
+      color: white;
+    }
+  }
+}
 
 footer {
   display: flex;
   gap: 1rem;
+  flex-flow: row-reverse;
 }
 
-footer > button {
-  display: inline-block;
+.ui-button {
+  @include button-style;
 }
 
+.secondary {
+  color: var(--secondary) !important;
+}
+
+.highlight {
+  color: var(--primary) !important;
+}
+
+// Font Styling
+.font-code {
+  @include font-style-code;
+}
+
+// Badge Styling
 .badge {
+  font-family: var(--font-code);
+  font-size: var(--sz-s);
   padding: 0 4px;
   border-radius: 4px;
   font-weight: 600;
-  color: #000000b0;
+  color: #0f090a;
+
+  &.todo {
+    color: colors.$color-blue;
+  }
+
+  &.in-progress {
+    color: colors.$color-yellow;
+  }
+
+  &.blocked {
+    color: colors.$color-red;
+  }
+
+  &.done {
+    color: colors.$color-green;
+  }
+}
+
+// UI Styling
+button-small {
+  background-color: darkblue !important;
+}
+
+.box {
+  margin: 0 var(--sz);
+}
+
+// Nav
+nav {
+  margin: 0 var(--sz);
 }

@@ -1,16 +1,24 @@
 <div *ngIf="$project$ | async" class="project-list example-container">
   <article>
     <header>
-      {{ project.title }}
-      <span (click)="openDialog()" class="icon-button material-symbols-outlined"
-        >settings</span
-      >
+      <div style="display: grid; grid-template-columns: 1fr 0.25fr">
+        <span>
+          {{ project.title }}
+        </span>
 
-      <div class="subtitle">
-        <span>{{ project.description }}</span>
-        <span class="code">
-          <span *ngIf="!project.enabled">inactive</span>
+        <span
+          class="font-code"
+          style="flex-flow: row-reverse; gap: 0.75rem"
+          (click)="openDialog()"
+        >
+          <span class="icon-button material-symbols-outlined highlight"
+            >settings</span
+          >
           {{ project.code }}
+        </span>
+
+        <span class="font-code">
+          {{ project.description }}
         </span>
       </div>
     </header>
@@ -46,11 +54,15 @@
     </div>
 
     <footer>
-      <button class="icon-button">
-        <span class="material-symbols-outlined" (click)="addTaskToProject()"
+      <div class="ui-button">
+        <span
+          class="material-symbols-outlined highlight"
+          (click)="addTaskToProject()"
           >add
         </span>
-      </button>
+
+        <span>Add Task</span>
+      </div>
     </footer>
   </article>
 </div>

@@ -50,10 +50,12 @@
           </div>
         </form>
 
-        <div *ngFor="let v of test$ | async">
-          {{ v.date}}
-          {{ '$' + v.amount}}
-          {{ v.name }}
+        <div class="parsed-display scrollable-div">
+          <div *ngFor="let v of test$ | async">
+            {{ v.date}}
+            {{ '$' + v.amount}}
+            {{ v.name }}
+          </div>
         </div>
       </mat-tab>
     </mat-tab-group>

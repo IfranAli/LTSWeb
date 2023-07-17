@@ -1,36 +1,42 @@
-import {Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {UserService} from "../../services/user.service";
-import {Store} from "@ngrx/store";
-import {AppState} from "../../reducers";
-import {loginUser} from "../../actions/user.actions";
-import {UserLoginModel, UserLoginResult} from "../../models/user.interface";
-import {Router} from "@angular/router";
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from "@angular/core";
+import { FormControl, FormGroup } from "@angular/forms";
+import { UserService } from "../../services/user.service";
+import { Store } from "@ngrx/store";
+import { AppState } from "../../reducers";
+import { loginUser } from "../../actions/user.actions";
+import { UserLoginModel, UserLoginResult } from "../../models/user.interface";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-login-dialog',
-  templateUrl: './login-dialog.component.html',
-  styleUrls: [
-    './login-dialog.component.scss',
-  ],
+  selector: "app-login-dialog",
+  templateUrl: "./login-dialog.component.html",
+  styleUrls: ["./login-dialog.component.scss"],
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginDialogComponent implements OnInit {
-  @Output() onUserLogin = new EventEmitter<UserLoginResult>()
+  @Output() onUserLogin = new EventEmitter<UserLoginResult>();
 
   form = new FormGroup({
-    'username': new FormControl<string>(''),
-    'password': new FormControl<string>(''),
+    username: new FormControl<string>(""),
+    password: new FormControl<string>(""),
   });
 
   constructor(
     private store: Store<AppState>,
     private userService: UserService,
-    private router: Router,
-  ) {
-  }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    if (localStorage.getItem("token")) {
+      this.router.navigate(["projects"]);
+    }
   }
 
   loginUser() {
@@ -42,24 +48,40 @@ export class LoginDialogComponent implements OnInit {
 
     const loginModel: UserLoginModel = {
       username: rawValues.username!,
-      password: rawValues.password!
-    }
+      password: rawValues.password!,
+    };
 
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
 
-    this.userService.loginUser(loginModel).subscribe(async value => {
-      const {user, token} = value;
-
-      if (!token) {
-        console.error('No token received from server');
+    this.userService.loginUser(loginModel).subscribe(async (value) => {
+      if (value.success == false) {
+        console.error("Login failed");
         return;
       }
 
-      localStorage.setItem('token', token);
+      const user = value?.data?.user;
+      const token = value?.data?.token;
 
-      this.store.dispatch(loginUser(user));
+      if (!user) {
+        console.error("No user received from server");
+        return;
+      }
+      if (!token) {
+        console.error("No token received from server");
+        return;
+      }
+
+      localStorage.setItem("token", token);
+
+      this.store.dispatch(
+        loginUser({
+          id: user.id,
+          password: "",
+          username: user.username,
+        })
+      );
       this.onUserLogin.emit(user);
-      await this.router.navigate(['projects']);
-    })
+      await this.router.navigate(["projects"]);
+    });
   }
 }

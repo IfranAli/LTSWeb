@@ -117,30 +117,34 @@ nav {
   margin: 0 var(--sz);
 }
 
-
 // Dialog
 .mat-dialog-container {
   padding: 0;
 }
 
 .scrollable-div {
-  height: 300px; /* Set the desired fixed height */
-  overflow: auto; /* Enable scrollbars when content overflows */
+  max-height: 200px;
+  overflow: auto;
 }
 
 .mat-tab-body-wrapper {
-    overflow: auto;
-    max-height: 70vh;
+  overflow: auto;
+}
+
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-bottom: 1.8rem;
 }
 
 .custom-form {
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
-  height: 100%;
+  flex-grow: 1;
 }
 
-[aria-selected='true'] {
+[aria-selected="true"] {
   color: var(--primary) !important;
   font-weight: bold;
 }

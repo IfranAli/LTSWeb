@@ -1,51 +1,46 @@
-<div class="navbar-items">
-  <button class="navbar-button">
-    <div class="button-container">
-      <span class="material-symbols-outlined">add</span>
+<div class="box">
+  <div class="navbar-items">
+    <div class="ui-button">
       <span>Add</span>
     </div>
-  </button>
-</div>
-
-<div class="calendar-container">
-
-  <div class="custom-card no-border">
-    <div class="box-month">
-      <div class="title space-between">
-        <button class="icon-button" (click)="back()">
-          <span class="material-symbols-outlined">arrow_back_ios</span>
-        </button>
-
-        <span>{{ month.name }} {{ year }}</span>
-
-        <button class="icon-button right" (click)="forward()">
-          <span class="material-symbols-outlined">arrow_forward_ios</span>
-        </button>
-      </div>
-
-      <!-- Header -->
-      <div class="calendar-grid">
-
-        <div class="box-header" *ngFor="let day of weekdays">
-          {{ day }}
-        </div>
-
-        <ng-container
-          *ngFor="let week of month.weeks">
-
-          <div class="box-day"
-               *ngFor="let day of week.days"
-               [ngClass]="[
-                   day.currentMonth ? '' : 'disable',
-                   day.currentMonth && isToday(day.day) ? 'today' : '',
-                 ]"
-          >
-            {{ day.day }}
-          </div>
-        </ng-container>
-
-      </div>
-
-    </div>
   </div>
+
+  <article>
+    <header class="title space-between no-header">
+      <button class="icon-button" (click)="back()">
+        <span class="material-symbols-outlined">arrow_back_ios</span>
+      </button>
+
+      <h2>{{ month.name }} {{ year }}</h2>
+
+      <button class="icon-button right" (click)="forward()">
+        <span class="material-symbols-outlined">arrow_forward_ios</span>
+      </button>
+    </header>
+    <div class="calendar-container">
+      <div class="custom-card no-border">
+        <div class="box-month">
+          <!-- Header -->
+          <div class="calendar-grid">
+            <div class="box-header" *ngFor="let day of weekdays">
+              {{ day }}
+            </div>
+
+            <ng-container *ngFor="let week of month.weeks">
+              <div
+                class="box-day"
+                *ngFor="let day of week.days"
+                [ngClass]="[
+                  day.currentMonth ? '' : 'disable',
+                  day.currentMonth && isToday(day.day) ? 'today' : ''
+                ]"
+              >
+                {{ day.day }}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
 </div>

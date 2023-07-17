@@ -7,8 +7,11 @@ import {getHttpHeaders} from "../constants/web-constants";
 const baseUrl = environment.backendURL + 'user'
 
 export interface LoginResult {
-  user: UserDatabaseModel,
-  token: string
+  success: boolean,
+  data?: {
+    user: UserDatabaseModel,
+    token: string
+  }
 }
 
 export interface UserStatusResponse {

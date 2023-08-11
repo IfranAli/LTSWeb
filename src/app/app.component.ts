@@ -50,7 +50,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    const tokenName = "token";
+    const tokenName = "Authorization";
     const token = localStorage.getItem(tokenName);
 
     if (!token) {
@@ -73,7 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   userLogout() {
     this.userService.logoutUser().subscribe(async (value) => {
-      localStorage.removeItem("token");
+      localStorage.removeItem("Authorization");
       this.user = null;
       await this.router.navigate([""]);
     });

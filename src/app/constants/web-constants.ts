@@ -4,7 +4,7 @@ export const getHttpHeaders = () => {
   return {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'token': localStorage.getItem('token') ?? '',
+      'Authorization': localStorage.getItem('Authorization') ?? '',
     }),
     withCredentials: true,
   }

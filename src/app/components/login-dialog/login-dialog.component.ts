@@ -34,7 +34,7 @@ export class LoginDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem("token")) {
+    if (localStorage.getItem("Authorization")) {
       this.router.navigate(["projects"]);
     }
   }
@@ -51,7 +51,7 @@ export class LoginDialogComponent implements OnInit {
       password: rawValues.password!,
     };
 
-    localStorage.removeItem("token");
+    localStorage.removeItem("Authorization");
 
     this.userService.loginUser(loginModel).subscribe(async (value) => {
       if (value.success == false) {
@@ -71,7 +71,7 @@ export class LoginDialogComponent implements OnInit {
         return;
       }
 
-      localStorage.setItem("token", token);
+      localStorage.setItem("Authorization", token);
 
       this.store.dispatch(
         loginUser({

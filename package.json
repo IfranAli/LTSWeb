@@ -33,7 +33,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.4",
-    "@angular/cli": "~15.2.4",
+    "@angular/cli": "^16.2.0",
     "@angular/compiler-cli": "^15.2.3",
     "@babel/core": "^7.19.6",
     "@babel/preset-env": "^7.19.4",

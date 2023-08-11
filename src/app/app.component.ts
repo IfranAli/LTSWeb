@@ -4,6 +4,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  ViewEncapsulation,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -19,8 +20,14 @@ import { UserService } from "./services/user.service";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  styleUrls: [
+    "./app.component.scss",
+    "../styles/styles.scss",
+    // todo: remove depenency on angular material (bugs out dialogs without it).
+    "../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = "LTSweb";

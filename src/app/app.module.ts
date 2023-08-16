@@ -27,6 +27,8 @@ import {LoginDialogComponent} from "./components/login-dialog/login-dialog.compo
 import {AppRoutingModule} from './app-routing.module';
 import {ProjectsComponent} from './components/projects/projects.component';
 import {MatNativeDateModule} from "@angular/material/core";
+import { AuthGuard } from './auth-guard.service';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,7 @@ import {MatNativeDateModule} from "@angular/material/core";
     AppRoutingModule,
     MatNativeDateModule,
   ],
-  providers: [HttpClientModule],
+  providers: [HttpClientModule, AuthGuard, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -6,7 +6,7 @@
 
 <div class="box">
   <ng-container cdkDropListGroup class="projects-drop-group">
-    <div *ngFor="let project of projects$ | async">
+    <div *ngFor="let project of projectsData$ | async">
       <app-project-list [project]="project"></app-project-list>
     </div>
   </ng-container>

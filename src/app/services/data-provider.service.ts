@@ -39,8 +39,4 @@ export class DataProviderService {
   updateProject(model: ProjectModel) {
     return this.projectService.updateProject(model);
   }
-
-  public getUserStatus() {
-    return this.userService.getUsers();
-  }
 }

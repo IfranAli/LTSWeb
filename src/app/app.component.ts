@@ -4,18 +4,37 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  signal,
   ViewEncapsulation,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { filter, Observable, of, Subscription, switchMap, tap } from "rxjs";
-import { loginUser } from "./actions/user.actions";
+import {
+  BehaviorSubject,
+  catchError,
+  combineLatest,
+  combineLatestWith,
+  filter,
+  forkJoin,
+  Observable,
+  of,
+  Subscription,
+  switchMap,
+  tap,
+} from "rxjs";
+import { loginUser, logoutUser } from "./actions/user.actions";
 import { UserModel } from "./models/user.interface";
 import { AppState } from "./reducers";
 import * as fromUsers from "./reducers/user.reducer";
 import { UserState } from "./reducers/user.reducer";
 import { DataProviderService } from "./services/data-provider.service";
-import { UserService } from "./services/user.service";
+import { UserService, UserStatusResponse } from "./services/user.service";
+import {
+  clearAuthorisationToken,
+  getAuthorisationToken,
+  LOGIN_PAGE_URL,
+} from "./constants/web-constants";
+import { AuthService } from "./services/auth.service";
 
 @Component({
   selector: "app-root",
@@ -28,66 +47,52 @@ import { UserService } from "./services/user.service";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
+  providers: [Location],
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent {
   title = "LTSweb";
   user: UserModel | null = null;
-  dataProvider: DataProviderService;
-  $subscription: Subscription | undefined;
   sidebarOpen = false;
+  authToken$ = new BehaviorSubject<string | null>(null);
 
-  $sub1: Observable<UserState> = this.store
-    .select<UserState>(fromUsers.selectUserState)
-    .pipe(
-      filter((user) => !!user.user && user.user.id != 0),
-      switchMap((user) => {
-        return of(user);
-      }),
-      tap((user) => {
-        this.user = user.user as UserModel;
-      })
-    );
+  getUserFromStore$ = this.store.select(fromUsers.selectUserState).pipe(
+    filter((user) => !!user.user && user.user.id != 0),
+    switchMap((user) => {
+      return of(user.user as UserModel);
+    })
+  );
+
+  fetchUserFromNetwork$ = this.authToken$.pipe(
+    filter((value) => value !== null),
+    switchMap((token) => {
+      return this.authService.isLoggedIn();
+    })
+  );
+
+  user$ = combineLatest([
+    this.getUserFromStore$,
+    this.fetchUserFromNetwork$,
+  ]).pipe(
+    catchError((error) => {
+      clearAuthorisationToken();
+      this.router.navigate([LOGIN_PAGE_URL]);
+      return of(null);
+    })
+  );
 
   constructor(
     private store: Store<AppState>,
     private userService: UserService,
-    private router: Router
-  ) {
-    this.dataProvider = inject(DataProviderService);
-  }
+    private router: Router,
+    private dataProvider: DataProviderService,
+    private authService: AuthService
+  ) {}
 
-  ngOnInit() {
-    const tokenName = "Authorization";
-    const token = localStorage.getItem(tokenName);
-
-    if (!token) {
-      this.userLogout();
-      this.store.dispatch(loginUser({ id: 0, password: "", username: "" }));
-    } else {
-      this.$subscription = this.dataProvider.getUserStatus().subscribe(
-        (value) => {
-          this.store.dispatch(
-            loginUser({ id: value.id, password: "", username: value.name })
-          );
-        },
-        (error) => {
-          localStorage.removeItem(tokenName);
-          this.router.navigate([""]);
-        }
-      );
-    }
-  }
-
-  userLogout() {
-    this.userService.logoutUser().subscribe(async (value) => {
-      localStorage.removeItem("Authorization");
-      this.user = null;
-      await this.router.navigate([""]);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.$subscription?.unsubscribe();
+  async userLogout() {
+    this.userService.logoutUser();
+    this.user = null;
+    clearAuthorisationToken();
+    return this.router.navigate([LOGIN_PAGE_URL]);
   }
 
   toggleSidebar() {

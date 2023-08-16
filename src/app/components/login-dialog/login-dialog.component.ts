@@ -10,8 +10,13 @@ import { UserService } from "../../services/user.service";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { loginUser } from "../../actions/user.actions";
-import { UserLoginModel, UserLoginResult } from "../../models/user.interface";
 import { Router } from "@angular/router";
+import {
+  clearAuthorisationToken,
+  getAuthorisationToken,
+  setAuthorisationToken,
+} from "src/app/constants/web-constants";
+import { AuthService } from "src/app/services/auth.service";
 
 @Component({
   selector: "app-login-dialog",
@@ -20,7 +25,7 @@ import { Router } from "@angular/router";
   encapsulation: ViewEncapsulation.None,
 })
 export class LoginDialogComponent implements OnInit {
-  @Output() onUserLogin = new EventEmitter<UserLoginResult>();
+  @Output() onUserLogin = new EventEmitter<any>();
 
   form = new FormGroup({
     username: new FormControl<string>(""),
@@ -30,11 +35,12 @@ export class LoginDialogComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private userService: UserService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    if (localStorage.getItem("Authorization")) {
+    if (getAuthorisationToken()) {
       this.router.navigate(["projects"]);
     }
   }
@@ -46,32 +52,14 @@ export class LoginDialogComponent implements OnInit {
       return;
     }
 
-    const loginModel: UserLoginModel = {
-      username: rawValues.username!,
-      password: rawValues.password!,
-    };
+    const username = rawValues.username!;
+    const password = rawValues.password!;
 
-    localStorage.removeItem("Authorization");
-
-    this.userService.loginUser(loginModel).subscribe(async (value) => {
-      if (value.success == false) {
-        console.error("Login failed");
-        return;
-      }
-
-      const user = value?.data?.user;
-      const token = value?.data?.token;
-
+    this.authService.login(username, password).subscribe((user) => {
       if (!user) {
-        console.error("No user received from server");
+        console.log("User not found");
         return;
       }
-      if (!token) {
-        console.error("No token received from server");
-        return;
-      }
-
-      localStorage.setItem("Authorization", token);
 
       this.store.dispatch(
         loginUser({
@@ -80,8 +68,9 @@ export class LoginDialogComponent implements OnInit {
           username: user.username,
         })
       );
+
       this.onUserLogin.emit(user);
-      await this.router.navigate(["projects"]);
+      return this.router.navigate(["projects"]);
     });
   }
 }

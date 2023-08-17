@@ -30,7 +30,7 @@
 </nav>
 
 <ng-container *ngIf="user$ | async as x; else notLoggedIn">
-  <main class="container-fluid">
+  <main>
     <router-outlet></router-outlet>
   </main>
 </ng-container>

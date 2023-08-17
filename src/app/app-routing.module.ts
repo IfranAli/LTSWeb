@@ -16,6 +16,7 @@ import { LoginDialogComponent } from "./components/login-dialog/login-dialog.com
 import { MatLegacyButtonModule as MatButtonModule } from "@angular/material/legacy-button";
 import { MatLegacyInputModule as MatInputModule } from "@angular/material/legacy-input";
 import { AuthGuard } from "./auth-guard.service";
+import { AddFinanceDialogComponent } from "./finance/components/add-finance-dialog/add-finance-dialog.component";
 
 const routes: Routes = [
   { path: "login", component: LoginDialogComponent },
@@ -37,21 +38,22 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [FinanceAppComponent],
-  imports: [
-    RouterModule.forRoot(routes),
-    NgIf,
-    NgForOf,
-    MatTableModule,
-    DatePipe,
-    MatButtonModule,
-    MatInputModule,
-    AsyncPipe,
-    NgTemplateOutlet,
-    NgClass,
-    NgStyle,
-  ],
-  exports: [RouterModule],
-  providers: [AuthGuard],
+    declarations: [FinanceAppComponent],
+    exports: [RouterModule],
+    providers: [AuthGuard],
+    imports: [
+        RouterModule.forRoot(routes),
+        NgIf,
+        NgForOf,
+        MatTableModule,
+        DatePipe,
+        MatButtonModule,
+        MatInputModule,
+        AsyncPipe,
+        NgTemplateOutlet,
+        NgClass,
+        NgStyle,
+        AddFinanceDialogComponent
+    ]
 })
 export class AppRoutingModule {}

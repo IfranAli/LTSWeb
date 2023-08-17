@@ -42,8 +42,6 @@ import { AuthService } from "./services/auth.service";
   styleUrls: [
     "./app.component.scss",
     "../styles/styles.scss",
-    // todo: remove depenency on angular material (bugs out dialogs without it).
-    "../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,

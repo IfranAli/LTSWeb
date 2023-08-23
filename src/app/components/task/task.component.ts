@@ -1,13 +1,11 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {createTaskModel, Task, TaskModel} from "../../models/task.model";
+import {Task, TaskModel} from "../../models/task.model";
 import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
-import {FormControl, FormGroup} from "@angular/forms";
-import {debounceTime, distinctUntilChanged, Subscription, tap} from "rxjs";
+import {Subscription} from "rxjs";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../reducers";
 import {deleteTask, updateTask} from "../../actions/task.actions";
 import {DataProviderService} from "../../services/data-provider.service";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
 import {EditTaskDialogComponent} from "../edit-task-dialog/edit-task-dialog.component";
 import {MatLegacyCheckboxModule as MatCheckboxModule} from "@angular/material/legacy-checkbox";
 import {CdkMenuModule} from "@angular/cdk/menu";
@@ -43,7 +41,6 @@ export class TaskComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store<AppState>,
     private dataProvider: DataProviderService,
-    private dialog: MatDialog,
   ) {
     this.label = this.projectCode;
   }
@@ -71,23 +68,23 @@ export class TaskComponent implements OnInit, OnDestroy {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(EditTaskDialogComponent, {
-      data: {task: this.task},
-      panelClass: ['dialog-style', 'dialog-small'],
-    });
+    // const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+    //   data: {task: this.task},
+    //   panelClass: ['dialog-style', 'dialog-small'],
+    // });
 
-    this.$dialogSubscription = dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        const model: TaskModel = {
-          ...result
-        }
+    // this.$dialogSubscription = dialogRef.afterClosed().subscribe(result => {
+    //   if (result) {
+    //     const model: TaskModel = {
+    //       ...result
+    //     }
 
-        this.dataProvider.updateTask(model).subscribe(value => {
-          this.store.dispatch(updateTask({
-            ...model
-          }));
-        })
-      }
-    });
+    //     this.dataProvider.updateTask(model).subscribe(value => {
+    //       this.store.dispatch(updateTask({
+    //         ...model
+    //       }));
+    //     })
+    //   }
+    // });
   }
 }

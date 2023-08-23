@@ -1,42 +1,43 @@
-<nav>
-  <ul>
-    <li><strong>LTSWeb</strong></li>
-  </ul>
-  <ul>
-    <li>
-      <a href="/projects">
-        <!-- Project -->
-        <span class="material-symbols-outlined">library_books</span>
-      </a>
-    </li>
-    <li>
-      <a href="/finance">
-        <!-- Finance -->
-        <span class="material-symbols-outlined">account_balance</span>
-      </a>
-    </li>
-    <li>
-      <a href="/calendar">
-        <!-- Calendar -->
-        <span class="material-symbols-outlined">calendar_month</span>
-      </a>
-    </li>
-    <li>
-      <div class="ui-button no-border" (click)="userLogout()">
-        <span class="material-symbols-outlined">logout</span>
-      </div>
-    </li>
-  </ul>
-</nav>
+<ng-container *ngIf="$user() as user; else notLoggedIn">
+  <nav>
+    <ul>
+      <li><strong>LTSWeb</strong></li>
+    </ul>
+    <ul>
+      <li>
+        <a href="/projects">
+          <!-- Project -->
+          <span class="material-symbols-outlined">library_books</span>
+        </a>
+      </li>
+      <li>
+        <a href="/finance">
+          <!-- Finance -->
+          <span class="material-symbols-outlined">account_balance</span>
+        </a>
+      </li>
+      <li>
+        <a href="/calendar">
+          <!-- Calendar -->
+          <span class="material-symbols-outlined">calendar_month</span>
+        </a>
+      </li>
+      <li>
+        <a (click)="userLogout()">
+          <span class="material-symbols-outlined">logout</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 
-<ng-container *ngIf="user$ | async as x; else notLoggedIn">
   <main>
     <router-outlet></router-outlet>
   </main>
 </ng-container>
 
 <ng-template #notLoggedIn>
-  <main>
+  <h1>Not logged in</h1>
+  <!-- <main class="container-fluid"> -->
     <router-outlet></router-outlet>
-  </main>
+  <!-- </main> -->
 </ng-template>

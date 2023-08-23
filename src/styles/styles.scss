@@ -5,16 +5,14 @@ body {
   --primary: #f27d87;
   --font-code: "Fira Code", monospace;
 
+  // picocss settings
+  --background-color: var(--pico-background-color);
+  --pico-primary: var(--primary);
+
   --sz: 1rem;
   --sz-s: 0.7rem;
   --sz-m: 1.2rem;
   --sz-l: 1.7rem;
-}
-
-.cdk-global-overlay-wrapper {
-  backdrop-filter: blur(0.25rem);
-  background: rgba(36, 51, 62, 0.8);
-  transition: 0.2s ease-in-out;
 }
 
 // Mixins
@@ -54,27 +52,18 @@ body {
   }
 }
 
-footer {
-  display: flex;
-  gap: 1rem;
-  flex-flow: row-reverse;
-}
+body > app-root > footer {
+  background: var(--background-color);
+  position: sticky;
 
-.ui-button {
-  @include button-style;
-
-  &.no-border {
-    border: none;
-    box-shadow: none;
+  .bottom-nav > nav > ul {
+    color: var(--primary);
+    display: flex;
+    align-content: center;
+    justify-content: space-evenly;
+    width: 100%;
+    margin: 0;
   }
-}
-
-.secondary {
-  color: var(--secondary) !important;
-}
-
-.highlight {
-  color: var(--primary) !important;
 }
 
 // Font Styling
@@ -118,8 +107,19 @@ button-small {
 }
 
 // Nav
-nav {
-  margin: 0 var(--sz);
+app-root > nav {
+  background-color: var(--background-color);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 1rem;
+
+  ul,
+  li {
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 // Dialog

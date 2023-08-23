@@ -61,14 +61,6 @@ export class LoginDialogComponent implements OnInit {
         return;
       }
 
-      this.store.dispatch(
-        loginUser({
-          id: user.id,
-          password: "",
-          username: user.username,
-        })
-      );
-
       this.onUserLogin.emit(user);
       return this.router.navigate(["projects"]);
     });

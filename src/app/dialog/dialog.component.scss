@@ -1,8 +1,31 @@
 .dialog {
-    overflow: hidden;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
 
   .dialog-container {
-    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    &.full-screen {
+      article {
+        margin: 0;
+        width: 100vw;
+        height: 100svh;
+        max-width: unset;
+        max-height: unset;
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    &.modal {
+      article {
+        max-height: 100svh;
+        min-width: 50svw;
+        min-height: 90svh;
+      }
+    }
     overflow-y: scroll;
   }
 }

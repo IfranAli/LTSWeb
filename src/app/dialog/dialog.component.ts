@@ -25,6 +25,7 @@ import { tap } from "rxjs/internal/operators/tap";
 })
 export class DialogComponent {
   @Input({ required: false }) isVisible = signal(false);
+  @Input({ required: false }) fullScreen = signal(true);
 
   // @ViewChild("dialogRef", { static: true })
   // dialog: ElementRef<HTMLDialogElement> | undefined;

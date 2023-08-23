@@ -11,13 +11,12 @@ export class AuthGuard implements CanActivate {
   canActivate(): Observable<boolean> {
     return this.authService.isLoggedIn().pipe(
       mergeMap((loggedIn) => {
-        if (!loggedIn) {
+        if (!loggedIn.success) {
           this.router.navigate(["/login"]);
           return of(false);
         } else {
-          const user = loggedIn as UserStatusResponse;
-          const isValid = !!user?.id && !!user?.token;
-          return of(isValid);
+          const user = loggedIn;
+          return of(user.success);
         }
       })
     );

@@ -1,57 +1,68 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import {createTaskModel, TaskDatabaseModel, TaskModel,} from "../../models/task.model";
-import {TaskDeletedEvent, TaskPinnedEvent, TaskUpdatedEvent} from "../../models/events.model";
-import {CdkDragDrop} from "@angular/cdk/drag-drop";
-import {defaultProject, ProjectModel} from "../../models/project.model";
-import {Store} from "@ngrx/store";
-import {AppState} from "../../reducers";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from "@angular/core";
+import {
+  createTaskModel,
+  TaskDatabaseModel,
+  TaskModel,
+} from "../../models/task.model";
+import {
+  TaskDeletedEvent,
+  TaskPinnedEvent,
+  TaskUpdatedEvent,
+} from "../../models/events.model";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { defaultProject, ProjectModel } from "../../models/project.model";
+import { Store } from "@ngrx/store";
+import { AppState } from "../../reducers";
 
-import * as fromTask from "../../reducers/tasks.reducer"
-import {Dictionary} from "@ngrx/entity";
-import {createTask, updateTask} from "../../actions/task.actions";
-import {DataProviderService} from "../../services/data-provider.service";
-import {EditProjectDialogComponent} from "../edit-project-dialog/edit-project-dialog.component";
-import {MatLegacyDialog as MatDialog} from "@angular/material/legacy-dialog";
-import {TaskState} from "../../constants/constants";
-import {switchMap, tap} from 'rxjs/operators';
-import {of} from 'rxjs/internal/observable/of';
+import * as fromTask from "../../reducers/tasks.reducer";
+import { createTask, updateTask } from "../../actions/task.actions";
+import { DataProviderService } from "../../services/data-provider.service";
+import { TaskState } from "../../constants/constants";
+import { switchMap } from "rxjs/operators";
+import { of } from "rxjs/internal/observable/of";
 
 @Component({
-  selector: 'app-project-list',
-  templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  selector: "app-project-list",
+  templateUrl: "./project-list.component.html",
+  styleUrls: ["./project-list.component.scss"],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ProjectListComponent implements OnInit {
-  @Input() project: ProjectModel = defaultProject
+  @Input() project: ProjectModel = defaultProject;
 
   @Output() onProjectChanged = new EventEmitter<Event>();
   @Output() onAddTaskToProject = new EventEmitter<Partial<TaskModel>>();
 
-  projectColour: string = '#d2d2d2';
+  projectColour: string = "#d2d2d2";
 
   $project$ = this.store.select(fromTask.selectEntities).pipe(
     switchMap((tasks) => {
-        const taskArray: TaskModel[] = Object.values(tasks) as TaskModel[] ?? [];
-        const filtered = taskArray
-          .filter(value => value.projectId == this.project.id)
-          .sort(ProjectListComponent.taskSortMethod)
+      const taskArray: TaskModel[] =
+        (Object.values(tasks) as TaskModel[]) ?? [];
+      const filtered = taskArray
+        .filter((value) => value.projectId == this.project.id)
+        .sort(ProjectListComponent.taskSortMethod);
 
-        const result = this.project = {
-          ...this.project,
-          tasks: filtered,
-        }
+      const result = (this.project = {
+        ...this.project,
+        tasks: filtered,
+      });
 
-        return of(result);
-      }
-    ));
+      return of(result);
+    })
+  );
 
   constructor(
     private store: Store<AppState>,
-    private dataProvider: DataProviderService,
-    private dialog: MatDialog,
-  ) {
-  }
+    private dataProvider: DataProviderService
+  ) {}
 
   private static taskSortMethod(a: TaskModel, b: TaskModel): number {
     // All done tasks go to the bottom of the list.
@@ -66,12 +77,12 @@ export class ProjectListComponent implements OnInit {
       if (a.state == b.state) {
         return 0;
       } else {
-        return a.state > b.state ? -1 : 1
+        return a.state > b.state ? -1 : 1;
       }
     }
 
     // Compare priority.
-    return a.priority > b.priority ? -1 : 1
+    return a.priority > b.priority ? -1 : 1;
   }
 
   ngOnInit(): void {
@@ -79,22 +90,21 @@ export class ProjectListComponent implements OnInit {
       this.projectColour = this.project.colour;
     } else {
       // todo: Make it not so random.
-      const randomColor = '#' + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6)
+      const randomColor =
+        "#" + (0x1000000 + Math.random() * 0xffffff).toString(16).substr(1, 6);
       this.projectColour = randomColor;
     }
-
   }
 
-  onTaskChanged(task: TaskUpdatedEvent) {
-  }
+  onTaskChanged(task: TaskUpdatedEvent) {}
 
   onTaskDeleted($event: TaskDeletedEvent) {
     if (!this.project) return;
     if (!(this.project.tasks.length > 0)) return;
 
-    let findIndex = this.project.tasks.findIndex(value => {
+    let findIndex = this.project.tasks.findIndex((value) => {
       return value.id == $event.taskID;
-    })
+    });
 
     if (findIndex && findIndex >= 0) {
       this.project.tasks.splice(findIndex, 1);
@@ -104,49 +114,53 @@ export class ProjectListComponent implements OnInit {
   drop($event: CdkDragDrop<TaskModel[], any>) {
     const item = $event.item.data as TaskModel;
     const destinationContainer = $event.container;
-    const containerID = destinationContainer.id.split('-').pop() ?? '';
+    const containerID = destinationContainer.id.split("-").pop() ?? "";
     const newProjectID = Number.parseInt(containerID) ?? item.id;
 
     let model = createTaskModel({
       ...item,
-      projectId: newProjectID
-    })
+      projectId: newProjectID,
+    });
 
-    this.dataProvider.updateTask(model).subscribe(value => {
+    this.dataProvider.updateTask(model).subscribe((value) => {
       const response: TaskDatabaseModel = value.shift()!;
-      this.store.dispatch(updateTask({
-        ...response
-      }));
-    })
+      this.store.dispatch(
+        updateTask({
+          ...response,
+        })
+      );
+    });
   }
 
-  onTaskPinned($event: TaskPinnedEvent) {
-  }
+  onTaskPinned($event: TaskPinnedEvent) {}
 
   addTaskToProject() {
     const task = {
       ...createTaskModel(),
       projectId: this.project.id,
-      content: '',
+      content: "",
       state: TaskState.TODO,
-      name: ''
-    }
+      name: "",
+    };
 
-    this.dataProvider.addTask(task).subscribe((result) => {
-      const responseTask: TaskDatabaseModel = result.shift()!;
+    this.dataProvider.addTask(task).subscribe(
+      (result) => {
+        const responseTask: TaskDatabaseModel = result.shift()!;
 
-      this.store.dispatch(createTask({
-        ...createTaskModel(responseTask),
-      }))
-    }, error => {
-
-    })
+        this.store.dispatch(
+          createTask({
+            ...createTaskModel(responseTask),
+          })
+        );
+      },
+      (error) => {}
+    );
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(EditProjectDialogComponent, {
-      data: {project: this.project},
-      panelClass: ['dialog-style', 'dialog-small'],
-    });
+    // const dialogRef = this.dialog.open(EditProjectDialogComponent, {
+    //   data: {project: this.project},
+    //   panelClass: ['dialog-style', 'dialog-small'],
+    // });
   }
 }

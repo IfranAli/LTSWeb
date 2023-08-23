@@ -1,7 +1,5 @@
 <div class="box">
-  <div class="ui-button" (click)="openDialogAddFinance()">
-    <span> Add Expense </span>
-  </div>
+  <button (click)="openDialogAddFinance()">Add Expense</button>
 </div>
 
 <div class="box">
@@ -44,23 +42,34 @@
       </div>
     </article>
 
-    <article class="cards">
-      <header class="title space-between no-header">
-        <button class="icon-button" (click)="back()">
-          <span class="material-symbols-outlined">arrow_back_ios</span>
-        </button>
+    <article>
+      <header>
+        <div class="finance-header">
+          <button
+            type="button"
+            class="secondary material-symbols-outlined"
+            (click)="back()"
+          >
+            arrow_back_ios
+          </button>
 
-        <h2>{{ title }}</h2>
+          <span>{{ title }}</span>
 
-        <button class="icon-button right" (click)="forward()">
-          <span class="material-symbols-outlined">arrow_forward_ios</span>
-        </button>
+          <button
+            type="button"
+            class="secondary material-symbols-outlined"
+            (click)="forward()"
+          >
+            arrow_forward_ios
+          </button>
+        </div>
       </header>
 
-      <div
-        class="custom-card-content"
-        *ngIf="financeData$ | async as financeData; else loading"
-      >
+      <div *ngIf="financeData$ | async as financeData; else loading">
+        <app-add-finance-dialog
+          [isVisible]="showEditDialog"
+        ></app-add-finance-dialog>
+
         <details
           class="finance-list"
           *ngFor="let summary of financeData; let idx = index"
@@ -77,8 +86,8 @@
           </summary>
 
           <div
-            class="row custom-row-item"
-            (click)="openDialogAddFinance(finance.id)"
+            class="grid"
+            (click)="toggleDialog(finance.id)"
             *ngFor="let finance of summary.items"
           >
             <div
@@ -88,19 +97,21 @@
             >
               {{ finance.amountFormatted }}
             </div>
+
             <div class="date">{{ finance.dateFormatted }}</div>
 
             <span class="label">{{ finance.name }}</span>
 
-            <div class="categoryBadge">
-              <div
+            <span class="categoryBadge">
+              <span
                 class="badge no-outline small"
                 [style.background]="finance.categoryColour"
               >
                 {{ finance.categoryLabel }}
-              </div>
-            </div>
+              </span>
+            </span>
           </div>
+
         </details>
       </div>
     </article>

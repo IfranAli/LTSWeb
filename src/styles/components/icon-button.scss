@@ -1,6 +1,9 @@
 @use "src/styles/abstracts/colors" as colors;
 
 .icon-button {
+  background-color: aquamarine !important;
+  touch-action: manipulation;
+  -webkit-user-select: none;
   user-select: none;
   cursor: pointer;
   background: transparent;

@@ -17,7 +17,12 @@ export interface LoginResponse {
 export interface LoginResult {
   success: boolean;
   data?: {
-    user: UserDatabaseModel;
+    user: {
+      id: number;
+      name: string;
+      accountId: number;
+      token: string;
+    };
     token: string;
   };
 }

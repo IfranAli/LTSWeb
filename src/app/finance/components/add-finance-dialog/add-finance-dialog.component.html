@@ -1,89 +1,104 @@
-<div class="dialog-container">
-  <div class="custom-form" [class.hideHeader]="dialogAction == 'Edit Finance'">
-    <h1>{{ dialogAction }}</h1>
+<app-dialog [isVisible]="isVisible">
+  <article>
+    <header>
+      <a class="close">
 
-    <mat-tab-group [(selectedIndex)]="selectedTab">
-      <mat-tab label="Add">
-        <form [formGroup]="addFinanceForm">
-          <label>Name</label>
-          <input [formControl]="addFinanceForm.controls.name" type="text" />
+      </a>
 
-          <label>Date</label>
-          <div class="right-icon">
-            <input
-              [matDatepicker]="picker"
-              [formControl]="addFinanceForm.controls.date"
-            />
-            <span>
-              <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </span>
-          </div>
+      <p>
+        <strong>{{ dialogAction }}</strong>
+      </p>
+    </header>
 
-          <label>Amount</label>
-          <input [formControl]="addFinanceForm.controls.amount" />
+    <div
+      class="custom-form"
+      [class.hideHeader]="dialogAction == 'Edit Finance'"
+    >
+      <div>
+        <div label="Add">
+          <form [formGroup]="addFinanceForm">
+            <label>Name</label>
+            <input [formControl]="addFinanceForm.controls.name" type="text" />
 
-          <label>Category</label>
-          <select [formControl]="addFinanceForm.controls.categoryType">
-            <option
-              [value]="category.key"
-              *ngFor="let category of data.categories | keyvalue"
-            >
-              {{ category.value }}
-            </option>
-          </select>
-        </form>
-      </mat-tab>
+            <label>Date</label>
+            <div class="right-icon">
+              <input
+                type="date"
+                [formControl]="addFinanceForm.controls.date"
+                class="form-control"
+              />
+              <span>
+                <!-- <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker> -->
+              </span>
+            </div>
 
-      <mat-tab *ngIf="dialogAction == 'Add Finance'" label="Import">
-        <form [formGroup]="bulkImportForm">
-          <label>Input</label>
-          <textarea
-            [formControl]="bulkImportForm.controls.input"
-            type="text"
-            style="min-height: 200px"
-          >
-          </textarea>
+            <label>Amount</label>
+            <input [formControl]="addFinanceForm.controls.amount" />
 
-          <label>Date</label>
-          <div class="right-icon">
-            <input
-              [matDatepicker]="pickerBulk"
-              [formControl]="bulkImportForm.controls.date"
-            />
-            <span>
-              <mat-datepicker-toggle [for]="pickerBulk"></mat-datepicker-toggle>
-              <mat-datepicker #pickerBulk></mat-datepicker>
-            </span>
-          </div>
-        </form>
-
-        <div class="parsed-display scrollable-div">
-          <div *ngFor="let v of test$ | async">
-            {{ v.date }}
-            {{ "$" + v.amount }}
-            {{ v.name }}
-          </div>
+            <label>Category</label>
+            <select [formControl]="addFinanceForm.controls.categoryType">
+              <option>
+                Test
+                <!-- [value]="category.key" -->
+                <!-- *ngFor="let category of categories | keyvalue" -->
+                <!-- {{ category.value }} -->
+              </option>
+            </select>
+          </form>
         </div>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
 
-  <div class="actions">
-    <button (click)="this.dialogRef.close()">Cancel</button>
+        <!-- <div *ngIf="dialogAction == 'Add Finance'" label="Import">
+          <form [formGroup]="bulkImportForm">
+            <label>Input</label>
+            <textarea
+              [formControl]="bulkImportForm.controls.input"
+              type="text"
+              style="min-height: 200px"
+            >
+            </textarea>
 
-    <div>
-      <button
-        *ngIf="dialogAction == 'Edit Finance'"
-        class="danger"
-        (click)="deleteFinance()"
-      >
-        Delete
-      </button>
+            <label>Date</label>
+            <div class="right-icon">
+              <input
+                type="date"
+                [formControl]="bulkImportForm.controls.date"
+                class="form-control"
+              />
+              <span>
+                <mat-datepicker-toggle [for]="pickerBulk"></mat-datepicker-toggle>
+                <mat-datepicker #pickerBulk></mat-datepicker>
+              </span>
+            </div>
+          </form>
 
-      <button class="primary" (click)="addFinance()">
-        {{ dialogAction == "Add Finance" ? "Create" : "Update" }}
-      </button>
+          <div class="parsed-display scrollable-div">
+            <div *ngFor="let v of test$ | async">
+              {{ v.date }}
+              {{ "$" + v.amount }}
+              {{ v.name }}
+            </div>
+          </div>
+        </div> -->
+      </div>
     </div>
-  </div>
-</div>
+
+    <footer class="actions">
+      <button (click)="closeDialog()">Cancel</button>
+
+      <div>
+        <button
+          *ngIf="dialogAction == 'Edit Finance'"
+          class="danger"
+          (click)="deleteFinance()"
+        >
+          Delete
+        </button>
+
+        <button class="primary" (click)="addFinance()">
+          {{ dialogAction == "Add Finance" ? "Create" : "Update" }}
+        </button>
+      </div>
+    </footer>
+  </article>
+</app-dialog>

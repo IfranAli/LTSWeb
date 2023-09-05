@@ -3,11 +3,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
+  OnInit,
+  Output,
   SimpleChange,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
+  effect,
   signal,
 } from "@angular/core";
 import { toObservable } from "@angular/core/rxjs-interop";
@@ -23,14 +27,27 @@ import { tap } from "rxjs/internal/operators/tap";
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class DialogComponent {
-  @Input({ required: false }) isVisible = signal(false);
-  @Input({ required: false }) fullScreen = signal(true);
+export class DialogComponent implements OnInit {
+  @Input({ required: false }) isVisible = false;
+  @Input({ required: false }) fullScreen = true;
+  @Output() onModalClose = new EventEmitter<boolean>();
 
   // @ViewChild("dialogRef", { static: true })
   // dialog: ElementRef<HTMLDialogElement> | undefined;
 
+  constructor() {
+    console.log("dialog component", this.isVisible);
+  }
+  ngOnInit(): void {
+    console.log("dialog component - OnInit", this.isVisible);
+  }
+
+  openDialog() {
+    // this.isVisible = true;
+  }
+
   closeDialog() {
-    this.isVisible.set(false);
+    this.onModalClose.emit(false);
+    this.isVisible = false;
   }
 }

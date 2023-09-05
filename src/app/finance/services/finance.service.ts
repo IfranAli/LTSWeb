@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import {
@@ -39,10 +39,17 @@ export interface IResult<T> {
   errors: string[];
 }
 
+export interface FinanceCategoryResult {
+  categoryTypesMap: Map<number, string>;
+  categoryColorMap: Map<string, string>;  
+}
+
 @Injectable({
   providedIn: "root",
 })
 export class FinanceService {
+  $categories = signal<FinanceCategoryResult | undefined>(undefined);
+
   private categories$ = this.getFinanceCategories().pipe(
     shareReplay(1),
     switchMap((categories: FinanceCategory[]) => {
@@ -54,12 +61,15 @@ export class FinanceService {
         return acc.set(c.type, c.colour ?? "#A8D6D6");
       }, new Map<string, string>());
 
-      const value = {
+      const value: FinanceCategoryResult = {
         categoryTypesMap,
         categoryColorMap,
       };
 
       return of(value);
+    }),
+    tap((value) => {
+      this.$categories.set(value);
     })
   );
 

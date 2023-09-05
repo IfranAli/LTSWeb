@@ -4,6 +4,7 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation,
+  effect,
   signal,
 } from "@angular/core";
 import {
@@ -24,12 +25,16 @@ import { CALENDAR_MONTHS } from "../../../calendar/models/calendar.model";
 import {
   BehaviorSubject,
   combineLatestWith,
+  filter,
+  merge,
+  mergeMap,
   Observable,
   of,
   Subscription,
   switchMap,
   tap,
 } from "rxjs";
+import { toObservable } from "@angular/core/rxjs-interop";
 
 export interface FinanceData extends IFinanceSummary {
   items: FinanceViewModel[];
@@ -114,9 +119,33 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   dialogAction: any;
   selectedFinance: any;
 
+  model: FinanceModel = {
+    id: 0,
+    accountId: 0,
+    name: "",
+    date: "",
+    amount: 0,
+    categoryType: 0,
+  };
   showEditDialog = signal(false);
+  // $$selected = toSi
+  $$selectedFinance = signal<FinanceModel | undefined>(undefined);
+  $selectedFinance = toObservable(this.$$selectedFinance).pipe(
+    filter((value) => !!value),
+    tap((value) => {
+      console.log(value);
+    }),
+    mergeMap((value) => {
+      return of(value);
+    })
+  );
+  // $selectedFinance = new Observable<FinanceModel>((subscriber) => {});
 
   constructor(private financeService: FinanceService, private router: Router) {
+    effect(() => {
+      const p = this.$$selectedFinance();
+      console.log("selected finance", p);
+    });
     this.summaries$ = this.dateFrom$.pipe(
       combineLatestWith(this.refresh$),
       tap((value) => {
@@ -190,16 +219,17 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   }
 
   closeDialog() {
+    this.$$selectedFinance.set(undefined);
     this.showEditDialog.set(false);
   }
 
   toggleDialog(financeId: number) {
     const shouldClose = this.showEditDialog();
 
-    if (shouldClose) {
-      this.showEditDialog.set(false);
-      return;
-    }
+    // if (shouldClose) {
+    //   this.showEditDialog.set(false);
+    //   return;
+    // }
 
     this.selectedFinance = this.financeModels.find(
       (value) => value.id == financeId
@@ -209,51 +239,44 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
       financeModel: this.selectedFinance,
     };
 
+    this.$$selectedFinance.set(this.selectedFinance);
+
     this.showEditDialog.set(true);
   }
 
   openDialogAddFinance(id?: number) {
     // this.showEditDialog.set(true);
-
     // const dialogRef = this.dialog.open(AddFinanceDialogComponent, {
     //   data: data,
     //   panelClass: ['dialog-style', 'dialog-small'],
     // });
-
     // this.$subscription2 = dialogRef.afterClosed().subscribe((result: IDialogResult) => {
     //   if (!result || (result.data.length == 0)) {
     //     return;
     //   }
-
     //   if (result.action == Actions.Add) {
     //     // todo: add to model or refresh from db.
     //     this.financeService.createFinance(result.data.shift()!).subscribe(value => {
     //       this.refreshData()
     //     })
-
     //     return;
     //   }
-
     //   if (result.action == Actions.Edit) {
     //     this.financeService.updateFinance(result.data.shift()!).subscribe(value => {
     //       this.refreshData()
     //     })
-
     //     return;
     //   }
-
     //   if (result.action == Actions.BulkImport) {
     //     this.financeService.createFinanceMany(result.data).subscribe(value => {
     //       this.refreshData()
     //     })
     //   }
-
     //   if (result.action == Actions.Delete) {
     //     this.financeService.deleteFinance(result.data.shift()!.id).subscribe(value => {
     //       this.refreshData()
     //     })
     //   }
-
     // });
   }
 

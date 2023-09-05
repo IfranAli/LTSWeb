@@ -1,11 +1,11 @@
 import {createFinanceModel, FinanceModel} from "../models/finance.model";
 
-export const dateToString = function (date: Date): string {
+export const dateToString = function (date: Date, seperator = '/'): string {
   const y = date.getFullYear();
   const m = (date.getMonth() + 1).toString().padStart(2, '0');
   const d = date.getDate().toString().padStart(2, '0');
 
-  return y + '/' + m + '/' + d;
+  return y + seperator + m + seperator + d;
 }
 
 export const bulkImportTextToFinanceModel = (inputText: string, date: string = ''): FinanceModel[] =>

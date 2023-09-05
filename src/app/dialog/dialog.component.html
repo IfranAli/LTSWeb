@@ -1,5 +1,11 @@
-<dialog #dialogRef class="dialog" *ngIf="isVisible()" open>
-  <div class="dialog-container" [class.full-screen]="fullScreen()">
+<dialog
+  #dialogRef
+  class="dialog"
+  [open]="isVisible"
+>
+  <!-- *ngIf="isVisible"
+  open -->
+  <div class="dialog-container" [class.full-screen]="fullScreen">
     <ng-content></ng-content>
   </div>
 </dialog>

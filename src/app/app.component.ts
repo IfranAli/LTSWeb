@@ -17,7 +17,6 @@ import {
 } from "rxjs";
 import { AppState } from "./reducers";
 import * as fromUsers from "./reducers/user.reducer";
-import { DataProviderService } from "./services/data-provider.service";
 import { UserService, UserStatusResponse } from "./services/user.service";
 import {
   clearAuthorisationToken,
@@ -122,7 +121,6 @@ export class AppComponent {
     private store: Store<AppState>,
     private userService: UserService,
     private router: Router,
-    private dataProvider: DataProviderService,
     private authService: AuthService
   ) {
     const token = getAuthorisationToken();

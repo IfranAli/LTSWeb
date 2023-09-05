@@ -4,8 +4,8 @@ import { FormControl, FormGroup } from "@angular/forms";
 
 import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
-import { DataProviderService } from "../../services/data-provider.service";
 import { deleteProject, updateProject } from "../../actions/project.actions";
+import { ProjectService } from "src/app/services/project.service";
 
 @Component({
   selector: "app-edit-project-dialog",
@@ -31,7 +31,7 @@ export class EditProjectDialogComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private dataProvider: DataProviderService
+    private projectService: ProjectService
   ) {
     // this.model = data.project;
     this.form.setValue({
@@ -67,7 +67,7 @@ export class EditProjectDialogComponent implements OnInit {
 
   deleteProject() {
     const id = this.model.id;
-    this.dataProvider.projectService.deleteProject(id).subscribe((_) => {
+    this.projectService.deleteProject(id).subscribe((_) => {
       // this.dialogRef.close();
       this.store.dispatch(deleteProject({ id: id }));
     });
@@ -80,7 +80,7 @@ export class EditProjectDialogComponent implements OnInit {
       return;
     }
 
-    this.dataProvider.updateProject(model).subscribe((_) => {
+    this.projectService.updateProject(model).subscribe((_) => {
       this.store.dispatch(updateProject(model));
       // this.dialogRef.close();
     });

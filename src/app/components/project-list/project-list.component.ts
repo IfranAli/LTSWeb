@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
   ViewEncapsulation,
+  signal,
 } from "@angular/core";
 import {
   createTaskModel,
@@ -23,10 +24,10 @@ import { AppState } from "../../reducers";
 
 import * as fromTask from "../../reducers/tasks.reducer";
 import { createTask, updateTask } from "../../actions/task.actions";
-import { DataProviderService } from "../../services/data-provider.service";
 import { TaskState } from "../../constants/constants";
 import { switchMap } from "rxjs/operators";
 import { of } from "rxjs/internal/observable/of";
+import { ProjectService } from "src/app/services/project.service";
 
 @Component({
   selector: "app-project-list",
@@ -42,26 +43,9 @@ export class ProjectListComponent implements OnInit {
 
   projectColour: string = "#d2d2d2";
 
-  $project$ = this.store.select(fromTask.selectEntities).pipe(
-    switchMap((tasks) => {
-      const taskArray: TaskModel[] =
-        (Object.values(tasks) as TaskModel[]) ?? [];
-      const filtered = taskArray
-        .filter((value) => value.projectId == this.project.id)
-        .sort(ProjectListComponent.taskSortMethod);
-
-      const result = (this.project = {
-        ...this.project,
-        tasks: filtered,
-      });
-
-      return of(result);
-    })
-  );
-
   constructor(
     private store: Store<AppState>,
-    private dataProvider: DataProviderService
+    private projectService: ProjectService
   ) {}
 
   private static taskSortMethod(a: TaskModel, b: TaskModel): number {
@@ -86,6 +70,8 @@ export class ProjectListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.project);
+
     if (this.project.colour != "") {
       this.projectColour = this.project.colour;
     } else {
@@ -122,7 +108,7 @@ export class ProjectListComponent implements OnInit {
       projectId: newProjectID,
     });
 
-    this.dataProvider.updateTask(model).subscribe((value) => {
+    this.projectService.updateTask(model).subscribe((value) => {
       const response: TaskDatabaseModel = value.shift()!;
       this.store.dispatch(
         updateTask({
@@ -143,7 +129,7 @@ export class ProjectListComponent implements OnInit {
       name: "",
     };
 
-    this.dataProvider.addTask(task).subscribe(
+    this.projectService.createTaskOnProject(task).subscribe(
       (result) => {
         const responseTask: TaskDatabaseModel = result.shift()!;
 

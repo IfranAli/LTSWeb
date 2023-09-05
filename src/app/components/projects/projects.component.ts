@@ -11,14 +11,13 @@ import {
   ProjectModel,
 } from "../../models/project.model";
 import { UserModel } from "../../models/user.interface";
-import { DataProviderService } from "../../services/data-provider.service";
 import { UserService } from "../../services/user.service";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { createProject, loadProjects } from "../../actions/project.actions";
 import * as fromProjects from "../../reducers/projects.reducer";
 import { loadTasks } from "../../actions/task.actions";
-import { createTaskModel } from "../../models/task.model";
+import { TaskModel, createTaskModel } from "../../models/task.model";
 import { Router } from "@angular/router";
 import * as fromUsers from "../../reducers/user.reducer";
 import {
@@ -28,10 +27,13 @@ import {
   combineLatestWith,
   concatMap,
   filter,
+  forkJoin,
+  map,
   of,
   switchMap,
   tap,
 } from "rxjs";
+import { ProjectService } from "src/app/services/project.service";
 
 @Component({
   selector: "app-projects",
@@ -48,10 +50,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
   refresh$ = new BehaviorSubject<boolean>(true);
 
   constructor(
-    private dataProvider: DataProviderService,
-    private userService: UserService,
+    private projectService: ProjectService,
     private store: Store<AppState>,
-    private router: Router
   ) {}
 
   projectsSort = function (a: ProjectModel, b: ProjectModel): number {
@@ -76,7 +76,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     })
   );
 
-  projectsFromEndpoint$ = this.dataProvider.projectService.getProjects().pipe(
+  projectsFromEndpoint$ = this.projectService.getProjects().pipe(
     switchMap((projects) => {
       return of(projects);
     }),
@@ -95,29 +95,18 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     })
   );
   projectsData$ = this.projectsFromEndpoint$.pipe(
-    concatMap((projects) => {
-      return of(projects);
-    }),
+    concatMap((projects) =>
+      forkJoin(
+        projects.map((project) => {
+          return this.projectService
+            .getTasksByProjectID(project.id)
+            .pipe(
+              map((tasks) => ({ ...project, tasks: tasks as TaskModel[] }))
+            );
+        })
+      )
+    )
   );
-
-  // projectsData$ = this.projectsFromEndpoint$.pipe(
-  //   switchMap((projects) => {
-  //     const projectIds = projects.map((project) => project.id);
-  //     return of(projects);
-  //   })
-  // );
-
-  loadProjectsAndTasks() {
-    // this.projectsData$.subscribe();
-    // this.dataProvider.getProjects().subscribe((projects) => {
-    //   this.dataProvider.getTasks().subscribe(dbTasks => {
-    //     this.store.dispatch(loadTasks({
-    //       entities: dbTasks.map(dbTask => createTaskModel(dbTask))
-    //     }))
-    //     this.store.dispatch(loadProjects({entities: projects}))
-    //   });
-    // })
-  }
 
   ngOnInit() {}
 
@@ -132,7 +121,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
       }),
     };
 
-    this.dataProvider.projectService
+    this.projectService
       .createProject(model)
       .pipe(tap((project) => this.refresh()))
       .subscribe((res) => this.store.dispatch(createProject(res.shift()!)));

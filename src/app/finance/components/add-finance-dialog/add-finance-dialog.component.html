@@ -1,9 +1,7 @@
 <app-dialog [isVisible]="isVisible">
   <article>
     <header>
-      <a class="close">
-
-      </a>
+      <a class="close"> </a>
 
       <p>
         <strong>{{ dialogAction }}</strong>
@@ -18,31 +16,33 @@
         <div label="Add">
           <form [formGroup]="addFinanceForm">
             <label>Name</label>
-            <input [formControl]="addFinanceForm.controls.name" type="text" />
+            <input
+              [formControl]="addFinanceForm.controls.name"
+              type="text"
+              title="name"
+            />
 
             <label>Date</label>
             <div class="right-icon">
               <input
                 type="date"
+                title="date"
                 [formControl]="addFinanceForm.controls.date"
                 class="form-control"
               />
-              <span>
-                <!-- <mat-datepicker-toggle [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker> -->
-              </span>
             </div>
 
             <label>Amount</label>
-            <input [formControl]="addFinanceForm.controls.amount" />
+            <input title="amount" [formControl]="addFinanceForm.controls.amount" />
 
             <label>Category</label>
-            <select [formControl]="addFinanceForm.controls.categoryType">
-              <option>
-                Test
-                <!-- [value]="category.key" -->
-                <!-- *ngFor="let category of categories | keyvalue" -->
-                <!-- {{ category.value }} -->
+            <select
+              title="category"
+              [formControl]="addFinanceForm.controls.categoryType"
+              *ngIf="categories()?.categoryTypesMap as types"
+            >
+              <option *ngFor="let type of types | keyvalue" [value]="type.key">
+                {{ type.value }}
               </option>
             </select>
           </form>

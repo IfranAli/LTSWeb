@@ -6,9 +6,9 @@ import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { of, Subscription, switchMap, tap } from "rxjs";
 import { ProjectModel } from "../../models/project.model";
-import { DataProviderService } from "../../services/data-provider.service";
 import { AsyncPipe, NgForOf } from "@angular/common";
 import { deleteTask } from "../../actions/task.actions";
+import { ProjectService } from "src/app/services/project.service";
 
 @Component({
   standalone: true,
@@ -29,23 +29,26 @@ export class EditTaskDialogComponent implements OnInit, OnDestroy {
 
   public Priority = Priority;
 
-  projects$ = this.store.select("projects").pipe(
-    switchMap((value) => {
-      const projects = Object.values(value.entities) as ProjectModel[];
-      const r = projects.map((value1) => {
-        return [value1.id, value1.title];
-      });
-
-      return of(r);
+  projects$ = this.projectService.getProjects().pipe(
+    tap((value) => {
+      console.log(value);
     })
   );
 
+  // this.store.select("projects").pipe(
+  //   switchMap((value) => {
+  //     const projects = Object.values(value.entities) as ProjectModel[];
+  //     const r = projects.map((value1) => {
+  //       return [value1.id, value1.title];
+  //     });
+
+  //     return of(r);
+  //   })
+  // );
+
   private subscription: Subscription | undefined;
 
-  constructor(
-    private store: Store<AppState>,
-    private dataProvider: DataProviderService
-  ) {
+  constructor(private projectService: ProjectService) {
     this.task = {
       name: "",
       content: "",
@@ -79,10 +82,10 @@ export class EditTaskDialogComponent implements OnInit, OnDestroy {
   }
 
   deleteTask() {
-    this.subscription = this.dataProvider
+    this.subscription = this.projectService
       .deleteTask(this.task.id)
       .subscribe((result) => {
-        this.store.dispatch(deleteTask({ id: this.task.id }));
+        // this.store.dispatch(deleteTask({ id: this.task.id }));
         // this.dialogRef.close();
       });
   }

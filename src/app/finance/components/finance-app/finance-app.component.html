@@ -67,7 +67,10 @@
 
       <div *ngIf="financeData$ | async as financeData; else loading">
         <app-add-finance-dialog
-          [isVisible]="showEditDialog"
+          *ngIf="$$selectedFinance() as selected"
+          [isVisible]="showEditDialog()"
+          [selected]="selected"
+          (onModalClose)="closeDialog()"
         ></app-add-finance-dialog>
 
         <details
@@ -111,7 +114,6 @@
               </span>
             </span>
           </div>
-
         </details>
       </div>
     </article>

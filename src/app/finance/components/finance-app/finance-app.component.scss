@@ -1,7 +1,4 @@
-@use "src/styles/components/custom-card";
 @use "src/styles/abstracts/constants" as style;
-@use "src/styles/abstracts/colors" as colors;
-@use "src/styles/abstracts/fonts" as fonts;
 
 .finance-header {
   display: flex;
@@ -28,44 +25,25 @@
 }
 
 article {
-  .summary {
+  .category {
     font-size: small;
-    color: colors.$color-text-dark;
+    white-space: nowrap;
 
-    .container {
-      padding: unset;
+    .summary-label {
+      display: flex;
+      justify-content: space-between;
 
-      .category {
-        white-space: nowrap;
-
-        .amount-bar {
-          animation: 1s ease-out 0s 1 spring;
-          height: 0.3rem;
-
-          padding: unset;
-          margin: unset;
-        }
-
-        .label {
-          width: 100%;
-
-          .name {
-            font-family: monospace;
-            white-space: nowrap;
-          }
-
-          &.labelInsideBar {
-            color: rgba(colors.$color-text-dark, 0.8);
-          }
-        }
-
-        .week-total {
-          float: right;
-          top: -1.2rem;
-          position: relative;
-          mix-blend-mode: difference;
-        }
+      label {
+        margin: 0;
       }
+    }
+
+    .amount-bar {
+      animation: 1s ease-out 0s 1 spring;
+      height: 0.3rem;
+
+      padding: unset;
+      margin: unset;
     }
   }
 }

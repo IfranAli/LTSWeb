@@ -1,46 +1,36 @@
-@use "src/styles/abstracts/colors" as colors;
 @use "src/styles/abstracts/constants" as style;
-@use "src/styles/abstracts/fonts" as fonts;
 
-.task-controls {
+.task {
   padding: 0.5rem 1rem;
-  // padding: 0.8rem;
+  border: dashed 1px;
+  border-radius: 8px;
+  margin: 0.5rem;
 
-  .task-information {
-    // margin-bottom: 0.4rem;
-
-    .task-title {
-      // font-weight: 500;
-    }
-
-    .task-content {
-      word-break: break-word;
-      // font-size: 0.8rem;
-    }
+  .title {
+    color: #7a7e85;
+    font-size: medium;
   }
 
-  .task-status {
-    // gap: 0.4rem;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    .badge {
-      margin-left: auto;
-    }
+  .content {
+    font-size: small;
+    display: block;
   }
 }
 
-
 .task-status {
-  font-size: small;
-  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .task-code {
+    font-size: small;
+  }
+
+  .badge {
+    margin-left: auto;
+  }
 
   .priority {
-    // height: inherit;
-    // background: colors.$app-bg-main-lighter;
-    // font-size: inherit;
-
     &.lowest {
       color: #5992ff;
     }
@@ -58,4 +48,3 @@
     }
   }
 }
-

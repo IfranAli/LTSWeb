@@ -70,8 +70,6 @@ export class ProjectListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.project);
-
     if (this.project.colour != "") {
       this.projectColour = this.project.colour;
     } else {

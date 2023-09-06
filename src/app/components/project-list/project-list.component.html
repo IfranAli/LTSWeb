@@ -1,26 +1,21 @@
 <div class="project-list example-container">
   <article>
     <header>
-      <div style="display: grid; grid-template-columns: 1fr 0.25fr">
-        <span>
-          {{ project.title }}
-        </span>
+      {{ project.title }}
 
-        <span
-          class="font-code"
-          style="flex-flow: row-reverse; gap: 0.75rem"
-          (click)="openDialog()"
+      <small
+        class="font-code"
+        (click)="openDialog()"
+      >
+        <span class="icon-button material-symbols-outlined highlight"
+          >settings</span
         >
-          <span class="icon-button material-symbols-outlined highlight"
-            >settings</span
-          >
-          {{ project.code }}
-        </span>
+        {{ project.code }}
+      </small>
 
-        <span class="font-code">
-          {{ project.description }}
-        </span>
-      </div>
+      <small>
+        {{ project.description }}
+      </small>
     </header>
 
     <div
@@ -54,7 +49,7 @@
     </div>
 
     <footer>
-      <div class="ui-button">
+      <div class="right-icon">
         <span
           class="material-symbols-outlined highlight"
           (click)="addTaskToProject()"

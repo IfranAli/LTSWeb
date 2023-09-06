@@ -1,5 +1,5 @@
 @use "src/styles/components/custom-card";
-@use "src/styles/abstracts/style" as style;
+@use "src/styles/abstracts/constants" as style;
 @use "src/styles/abstracts/colors" as colors;
 @use "src/styles/abstracts/fonts" as fonts;
 
@@ -27,70 +27,46 @@
   white-space: nowrap;
 }
 
-.summary {
-  .container {
-    .category {
-      margin: 0.3rem 0;
-      color: colors.$color-text-dark;
-      white-space: nowrap;
+article {
+  .summary {
+    font-size: small;
+    color: colors.$color-text-dark;
 
-      .bar {
-        animation: 1s ease-out 0s 1 spring;
-        display: inline-block;
-        width: fit-content;
-        z-index: -1;
-        height: 1rem;
+    .container {
+      padding: unset;
 
-        color: colors.$color-text-light;
-        font-size: smaller;
-        font-weight: 500;
+      .category {
+        white-space: nowrap;
 
-        padding: unset;
-        margin: unset;
-      }
+        .amount-bar {
+          animation: 1s ease-out 0s 1 spring;
+          height: 0.3rem;
 
-      .label {
-        z-index: 0;
-        grid-template-columns: 10fr 1fr;
-        display: grid;
-        width: 100%;
-        position: relative;
-        top: -1.1rem;
-        height: 0;
-        padding-left: 0.3rem;
-
-        .name {
-          white-space: nowrap;
+          padding: unset;
+          margin: unset;
         }
 
-        &.labelInsideBar {
-          color: rgba(colors.$color-text-dark, 0.8);
-        }
-      }
+        .label {
+          width: 100%;
 
-      .week-total {
-        float: right;
-        top: -1.2rem;
-        position: relative;
-        mix-blend-mode: difference;
+          .name {
+            font-family: monospace;
+            white-space: nowrap;
+          }
+
+          &.labelInsideBar {
+            color: rgba(colors.$color-text-dark, 0.8);
+          }
+        }
+
+        .week-total {
+          float: right;
+          top: -1.2rem;
+          position: relative;
+          mix-blend-mode: difference;
+        }
       }
     }
-  }
-
-  @media screen and (max-width: 844px) {
-    // padding: 0;
-
-    // .cards {
-    //   flex-direction: column;
-
-    //   .week-summary {
-    //     margin: 0 !important;
-    //   }
-
-    //   .all-finances {
-    //     margin: 0 !important;
-    //   }
-    // }
   }
 }
 
@@ -110,15 +86,6 @@
 
     .date {
       text-align: right;
-    }
-
-    .categoryBadge {
-      text-align: right;
-
-      .badge {
-        display: inline-block;
-        width: max-content;
-      }
     }
   }
 }

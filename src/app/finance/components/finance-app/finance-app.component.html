@@ -11,32 +11,23 @@
             class="category"
             *ngFor="let categorySummary of summaries.summaries"
           >
-            <span
+            <div class="summary-label">
+              <div class="name">
+                {{ categorySummary.categoryName }}
+                ({{ categorySummary.percentage }})
+              </div>
+
+              <div class="week-total amount highlight">
+                {{ categorySummary.total }}
+              </div>
+            </div>
+
+            <div
               [style.width]="categorySummary.percentage"
               [style.max-width]="categorySummary.percentage"
               [style.background]="categorySummary.colour"
-              class="badge bar"
-              ><br
-            /></span>
-
-            <span
-              class="label font-code"
-              [class.labelInsideBar]="categorySummary.percentageRaw >= 20"
-              [ngStyle]="{
-                'margin-left':
-                  categorySummary.percentageRaw < 20
-                    ? categorySummary.percentage
-                    : 0
-              }"
-            >
-              <span class="name">
-                {{ categorySummary.categoryName }}
-                ({{ categorySummary.percentage }})
-              </span>
-            </span>
-            <span class="week-total amount highlight">{{
-              categorySummary.total
-            }}</span>
+              class="amount-bar"
+            ></div>
           </div>
         </div>
       </div>
@@ -108,7 +99,7 @@
             <span class="categoryBadge">
               <span
                 class="badge no-outline small"
-                [style.background]="finance.categoryColour"
+                [style.color]="finance.categoryColour"
               >
                 {{ finance.categoryLabel }}
               </span>

@@ -19,7 +19,10 @@ import {
   parseDateIdentifierAsString,
 } from "../../../calendar/models/calendar.util";
 import { filter, Observable, of, switchMap, tap } from "rxjs";
-import { DialogComponent } from "src/app/dialog/dialog.component";
+import {
+  DialogBaseComponent,
+  DialogComponent,
+} from "src/app/dialog/dialog.component";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { deleteFinance } from "src/app/actions/finance.actions";
 import { FinanceService } from "../../services/finance.service";
@@ -46,45 +49,6 @@ export interface financeDialogData {
   financeModel?: FinanceModel;
 }
 
-const getFinanceModelsFromInputBulk = (input: string) => {
-  const result = input
-    .split("\n\n")
-    .map((m) => {
-      const items = m.split("\n");
-
-      if (items.length < 2) {
-        return null;
-      }
-
-      const dateStr = parseDateIdentifierAsString(items[0]);
-
-      if (dateStr.length) {
-        const itemsSlice = items.slice(1);
-        const expectedLength = itemsSlice.length;
-        const processed = bulkImportTextToFinanceModel(
-          itemsSlice.join("\n").trim(),
-          dateStr
-        );
-        const actualLength = processed.length;
-
-        return expectedLength == actualLength ? processed : null;
-      }
-
-      const expectedLength = input.split("\n").length;
-      const processed = bulkImportTextToFinanceModel(
-        input,
-        dateToString(new Date())
-      );
-      const actualLength = processed.length;
-
-      return expectedLength == actualLength ? processed : null;
-    })
-    .flatMap((v) => v)
-    .filter((v) => v!!) as FinanceModel[];
-
-  return result;
-};
-
 @Component({
   selector: "app-add-finance-dialog",
   standalone: true,
@@ -93,7 +57,7 @@ const getFinanceModelsFromInputBulk = (input: string) => {
   imports: [CommonModule, ReactiveFormsModule, DialogComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddFinanceDialogComponent extends DialogComponent {
+export class AddFinanceDialogComponent extends DialogBaseComponent {
   @Input({ required: true }) selected?: FinanceModel;
 
   selectedTab = Tabs.AddFinance;
@@ -110,33 +74,20 @@ export class AddFinanceDialogComponent extends DialogComponent {
     input: new FormControl<string>(""),
     date: new FormControl<Date>(new Date()),
   });
-  
+
   categories = this.financeService.$categories;
 
   constructor(private financeService: FinanceService) {
-    super()
+    super();
   }
 
-  test$: Observable<FinanceModel[]> =
-    this.bulkImportForm.controls.input.valueChanges.pipe(
-      filter((value) => {
-        return value != null;
-      }),
-      switchMap((value) => {
-        const test: FinanceModel[] = getFinanceModelsFromInputBulk(
-          value as string
-        );
-        return of(test);
-      })
-    );
-
-  override ngOnInit(): void {
+  ngOnInit(): void {
     const defaultDate = this.getCurrentDate("-");
 
     if (this.selected) {
       const dateRaw = this.selected.date ?? "";
       const parsed = parseDateIdentifier(dateRaw, "/");
-      const date: string = parsed ? dateToString(parsed, '-') : defaultDate;
+      const date: string = parsed ? dateToString(parsed, "-") : defaultDate;
 
       this.dialogAction = Actions.Edit;
       this.addFinanceForm.setValue({
@@ -145,6 +96,9 @@ export class AddFinanceDialogComponent extends DialogComponent {
         name: this.selected.name,
         categoryType: this.selected.categoryType,
       });
+
+      this.dialogAction =
+        (this.selected.id ?? 0) > 0 ? Actions.Edit : Actions.Add;
     }
   }
 

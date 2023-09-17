@@ -5,5 +5,8 @@ module.exports = {
   globalSetup: 'jest-preset-angular/global-setup',
   testPathIgnorePatterns: [
     "<rootDir>/src/test.ts",
-  ]
+  ],
+  roots: ['<rootDir>', './'],
+  modulePaths: ['<rootDir>'],
+  moduleDirectories: ['node_modules', 'src'],
 };

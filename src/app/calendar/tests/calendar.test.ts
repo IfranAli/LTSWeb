@@ -13,7 +13,7 @@ describe('Calendar Tests', () => {
     const january = buildCalendarMonth(januaryIndex, NON_LEAP_YEAR);
 
     expect(january.name).toBe(month);
-    expect(january.weeks.length).toBe(7);
+    expect(january.weeks.length).toBe(6);
     console.log(january)
   });
 

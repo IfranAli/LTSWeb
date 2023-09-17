@@ -1,39 +1,50 @@
-import {createFinanceModel, FinanceModel} from "../models/finance.model";
+import { createFinanceModel, FinanceModel } from "../models/finance.model";
 
-export const dateToString = function (date: Date, seperator = '/'): string {
+export const dateToString = function (date: Date, seperator = "/"): string {
   const y = date.getFullYear();
-  const m = (date.getMonth() + 1).toString().padStart(2, '0');
-  const d = date.getDate().toString().padStart(2, '0');
+  const m = (date.getMonth() + 1).toString().padStart(2, "0");
+  const d = date.getDate().toString().padStart(2, "0");
 
   return y + seperator + m + seperator + d;
-}
+};
 
-export const bulkImportTextToFinanceModel = (inputText: string, date: string = ''): FinanceModel[] =>
-  inputText.split('\n')
-    .map(value => {
-        const n = value.substring(0, value.indexOf(' ') ?? 0)
-        const d = value.substring(n.length).trim();
-        const v = parseFloat(n) ?? 0;
+const regExPatternTime: RegExp = /@(\d{2}):(\d{2})/g;
+export const bulkImportTextToFinanceModel = (
+  inputText: string,
+  date: string = ""
+): FinanceModel[] =>
+  inputText
+    .split("\n")
+    .map((value) => {
+      const items = value
+        .split(" ")
+        .map((v) => v.trim())
+        .filter((v) => v.length > 0);
+      const amount = parseFloat(items.at(0) ?? "");
+      const name = items.at(1) ?? "";
+      const time = items.find((v) => {
+        return regExPatternTime.test(v);
+      })?.slice(1) ?? "";
 
-        return createFinanceModel({
-          name: d ?? '',
-          amount: v ?? 0,
-          date: date ?? '',
-        })
-      }
-    ).filter(model => model.name.length > 0 && (model.amount > 0 || model.amount < 0)
-  );
+      return createFinanceModel({
+        name: name,
+        amount: amount,
+        date: date ?? "",
+        time: time,
+      });
+    })
+    .filter(
+      (model) => model.name.length > 0 && (model.amount > 0 || model.amount < 0)
+    );
 
 export const sortFinanceModels = (a: FinanceModel, b: FinanceModel) => {
   if (a.date == b.date) {
-
     if (a.amount == b.amount) {
-      return 0
+      return 0;
     } else {
-      return (a.amount < b.amount) ? -1 : 1;
+      return a.amount < b.amount ? -1 : 1;
     }
-
   } else {
-    return (new Date(a.date) > new Date(b.date)) ? -1 : 1;
+    return new Date(a.date) > new Date(b.date) ? -1 : 1;
   }
-}
+};

@@ -1,30 +1,38 @@
 @use "src/styles/abstracts/colors" as colors;
+@use "src/styles/abstracts/constants" as constants;
 
 .project-list {
-  padding: 0;
-  margin: 0;
-
   article {
-    header,
-    footer {
-      margin: inherit;
-      padding: 0.5rem;
-    }
-
     header {
+      display: flex;
+      justify-content: space-between;
+
       .font-code {
         flex-flow: row-reverse;
         gap: 0.75rem;
       }
-      display: grid;
-      grid-template-columns: 1fr 0.25fr;
-      
+
       hgroup {
+        h1 {
+          font-size: large;
+        }
         margin-bottom: unset;
       }
     }
 
-    padding: inherit;
-    margin: inherit;
+    .project-task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin: 1rem 0.5rem;
+    }
+  }
+}
+
+@media screen and (max-width: constants.$media-sm) {
+  .project-list > article {
+    footer {
+      padding-right: 1rem;
+    }
   }
 }

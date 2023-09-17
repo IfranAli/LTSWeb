@@ -1,9 +1,9 @@
 <div class="project-list example-container">
-  <article>
+  <article class="custom-article">
     <header>
       <hgroup>
-        <h5>{{ project.title }}</h5>
-        <small>{{ project.description }}</small>
+        <h1>{{ project.title }}</h1>
+        <h2>{{ project.description }}</h2>
       </hgroup>
 
       <small class="font-code" (click)="openDialog()">
@@ -19,6 +19,7 @@
       cdkDropList
       [cdkDropListData]="project.tasks"
       (cdkDropListDropped)="drop($event)"
+      class="project-task-list"
     >
       <div *ngFor="let task of project.tasks" cdkDrag [cdkDragData]="task">
         <app-task

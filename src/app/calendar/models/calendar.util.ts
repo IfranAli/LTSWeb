@@ -92,7 +92,7 @@ export const buildCalendarMonth = function (
       name: `Week ${index + 1}`,
       days: value,
     };
-  });
+  }).filter((value) => value.days.length > 0);
 
   return {
     name: CALENDAR_MONTHS[numberOfMonth],

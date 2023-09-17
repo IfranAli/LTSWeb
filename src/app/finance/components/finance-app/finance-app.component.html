@@ -1,104 +1,123 @@
 <div class="header-actions">
   <button (click)="openDialogAddFinance()">Add Expense</button>
+  <button (click)="openDialogImport()">Import</button>
 </div>
 
-<div class="box" *ngIf="summaries$ | async as summaries; else loading">
-  <article>
-    <div class="category" *ngFor="let categorySummary of summaries.summaries">
-      <div class="summary-label">
-        <label>
-          {{ categorySummary.categoryName }}
-          ({{ categorySummary.percentage }})
-        </label>
+<div
+  class="finance-container"
+  *ngIf="summaries$ | async as summaries; else loading"
+>
+  <article class="custom-article">
+    <header class="header-actions">
+      <button
+        type="button"
+        class="secondary material-symbols-outlined"
+        (click)="back()"
+      >
+        arrow_back_ios
+      </button>
 
-        <label class="week-total">
-          {{ categorySummary.total }}
-        </label>
-      </div>
+      <hgroup>
+        <h3>{{ title }}</h3>
+        <h2>Finance Summary</h2>
+      </hgroup>
 
-      <div
-        [style.width]="categorySummary.percentage"
-        [style.max-width]="categorySummary.percentage"
-        [style.background]="categorySummary.colour"
-        class="amount-bar"
-      ></div>
-    </div>
-  </article>
-
-  <article>
-    <header>
-      <div class="finance-header">
-        <button
-          type="button"
-          class="secondary material-symbols-outlined"
-          (click)="back()"
-        >
-          arrow_back_ios
-        </button>
-
-        <span>{{ title }}</span>
-
-        <button
-          type="button"
-          class="secondary material-symbols-outlined"
-          (click)="forward()"
-        >
-          arrow_forward_ios
-        </button>
-      </div>
+      <button
+        type="button"
+        class="secondary material-symbols-outlined"
+        (click)="forward()"
+      >
+        arrow_forward_ios
+      </button>
     </header>
 
-    <div *ngIf="financeData$ | async as financeData; else loading">
+    <ng-container *ngIf="financeData$ | async as financeData; else loading">
       <app-add-finance-dialog
         *ngIf="$$selectedFinance() as selected"
-        [isVisible]="showEditDialog()"
+        [openModal]="showEditDialog()"
         [selected]="selected"
         (onModalClose)="closeDialog()"
       ></app-add-finance-dialog>
 
-      <details
-        class="finance-list"
-        *ngFor="let summary of financeData; let idx = index"
-        [open]="idx == 0 ? true : false"
+      <app-import-finance-dialog
+        [isVisible]="showImportDialog()"
+        (onModalClose)="closeDialog()"
       >
-        <summary>
-          <span>
-            {{ summary.categoryName }}
-          </span>
+      </app-import-finance-dialog>
 
-          <span>
-            {{ summary.total }}
-          </span>
-        </summary>
-
+      <section class="summary">
         <div
-          class="grid"
-          (click)="toggleDialog(finance.id)"
-          *ngFor="let finance of summary.items"
+          class="category"
+          *ngFor="
+            let categorySummary of summaries.summaries;
+            trackBy: trackByFinanceSummary
+          "
         >
-          <div
-            class="amount"
-            [class.credit]="finance.isCredit"
-            [class.debit]="!finance.isCredit"
-          >
-            {{ finance.amountFormatted }}
+          <div class="summary-label">
+            <label>
+              {{ categorySummary.categoryName }}
+              ({{ categorySummary.percentage }})
+            </label>
+
+            <label class="week-total">
+              {{ categorySummary.total }}
+            </label>
           </div>
 
-          <div class="date">{{ finance.dateFormatted }}</div>
-
-          <span class="label">{{ finance.name }}</span>
-
-          <span class="categoryBadge">
-            <span
-              class="badge no-outline small"
-              [style.color]="finance.categoryColour"
-            >
-              {{ finance.categoryLabel }}
-            </span>
-          </span>
+          <div
+            [style.width]="categorySummary.percentage"
+            [style.max-width]="categorySummary.percentage"
+            [style.background]="categorySummary.colour"
+            class="amount-bar"
+          ></div>
         </div>
-      </details>
-    </div>
+      </section>
+
+      <section class="finances">
+        <details
+          class="finance-list"
+          *ngFor="let summary of financeData; let idx = index"
+          [open]="idx == 0 ? true : false"
+        >
+          <summary>
+            <span>
+              {{ summary.categoryName }}
+            </span>
+
+            <span>
+              {{ summary.total }}
+            </span>
+          </summary>
+
+          <div
+            class="grid"
+            (click)="openDialogAddFinance(finance.id)"
+            *ngFor="let finance of summary.items; trackByFinanceViewModel"
+          >
+            <div
+              class="amount"
+              [class.credit]="finance.isCredit"
+              [class.debit]="!finance.isCredit"
+            >
+              {{ finance.amountFormatted }}
+            </div>
+
+            <div class="date">{{ finance.dateFormatted }}</div>
+
+            <span class="label">{{ finance.name }}</span>
+
+            <span class="categoryBadge">
+              <span
+                class="badge no-outline small"
+                [style.color]="finance.categoryColour"
+              >
+                {{ finance.categoryLabel }}
+              </span>
+            </span>
+          </div>
+        </details>
+      </section>
+    </ng-container>
   </article>
 </div>
 

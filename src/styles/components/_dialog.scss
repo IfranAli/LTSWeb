@@ -1,0 +1,29 @@
+@use "../abstracts/colors" as colors;
+@use "../abstracts/constants" as constants;
+
+dialog {
+  padding: 0;
+
+  .custom-article {
+    box-shadow: none;
+    height: 100vh;
+  }
+
+  footer {
+    display: flex;
+    gap: var(--gap);
+    justify-content: flex-end;
+  }
+}
+
+@media screen and (max-width: constants.$media-sm) {
+  .dialog {
+    .custom-article {
+      border-radius: unset;
+      margin: unset;
+      box-shadow: unset;
+    }
+    // border: unset;
+    // margin: 0;
+  }
+}

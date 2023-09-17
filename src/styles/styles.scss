@@ -2,23 +2,25 @@
 @use "./abstracts/constants" as constants;
 @use "./pico-custom";
 
+@use "./components/article";
+@use "./components/dialog";
+
+:root {
+  font-family: var(--font-family);
+}
+
 body {
-  // --primary: #f27d87;
-  --font-code: "Fira Code", monospace;
   background: var(--pico-background-color);
 
   // @media variables
   --media-sm: constants.$media-sm;
   --media-md: constants.$media-md;
   --media-lg: constants.$media-lg;
-
-  // picocss settings
-  // --background-color: var(--pico-background-color);
-  // --pico-primary: var(--primary);
 }
 @media screen and (max-width: constants.$media-sm) {
   body {
-    // --background-color: red;
+    --gap: var(--gap-sm);
+    --container-margin: 0;
   }
 }
 @media screen and (min-width: constants.$media-md) {
@@ -35,7 +37,7 @@ body {
 main {
   @media screen and (min-width: constants.$media-md) {
     margin: auto;
-    padding: 0 5rem 5rem 5rem;
+    // padding: 0 5rem 5rem 5rem;
     margin-bottom: 5rem;
     max-width: 80%;
   }
@@ -95,12 +97,13 @@ body > app-root > footer {
 
 // Badge Styling
 .badge {
-  font-size: medium;
+  font-size: small;
   padding: 0 0.2rem;
   border-style: solid;
-  border-radius: 6px;
-  border-width: 2px;
+  border-radius: var(--border-radius);
+  border-width: 1px;
   font-family: monospace;
+  background-color: var(--bg3);
 
   &.todo {
     color: colors.$color-blue;
@@ -128,12 +131,14 @@ button-small {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 1rem;
+  margin: var(--gap);
 }
 
 // Nav
 app-root > nav {
-  background-color: var(--pico-background);
+  background: var(--pico-background-color);
+  border-bottom: solid 1px var(--border-color);
+  box-shadow: var(--box-shadow);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -146,27 +151,6 @@ app-root > nav {
     margin: 0;
     padding: 0;
   }
-}
-
-// Dialog
-.mat-dialog-container {
-  padding: 0;
-}
-
-.scrollable-div {
-  max-height: 200px;
-  overflow: auto;
-}
-
-.mat-tab-body-wrapper {
-  overflow: auto;
-}
-
-.dialog-container {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding-bottom: 1.8rem;
 }
 
 .custom-form {
@@ -182,6 +166,7 @@ app-root > nav {
 
 .right-icon {
   display: flex;
+  flex-direction: row-reverse;
 }
 .actions {
   display: flex;

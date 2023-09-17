@@ -1,41 +1,42 @@
-import {createEntityAdapter} from "@ngrx/entity";
-import {IdentityInterface} from "../../models/Identity.interface";
+import { createEntityAdapter } from "@ngrx/entity";
+import { IdentityInterface } from "../../models/Identity.interface";
 
 export interface FinanceDatabaseModel {
-  id: number,
-  accountId: number,
-  name: string,
-  date: string,
-  amount: number,
-  categoryType: number,
+  id: number;
+  accountId: number;
+  name: string;
+  date: string;
+  time: string;
+  amount: number;
+  categoryType: number;
 }
 
 export interface FinanceCategory extends IdentityInterface {
-  type: string,
-  colour: string,
+  type: string;
+  colour: string;
 }
 
-export interface FinanceModel extends IdentityInterface, FinanceDatabaseModel {
-}
+export interface FinanceModel extends IdentityInterface, FinanceDatabaseModel {}
 
 export const defaultFinance: FinanceModel = {
   id: -1,
   accountId: 0,
-  name: '',
-  date: '',
+  name: "",
+  date: "",
+  time: "",
   amount: 0,
   categoryType: 0,
-}
+};
 
 export function isValidFinance(finance: FinanceModel): boolean {
-  return finance.id >= 0
+  return finance.id >= 0;
 }
 
 export interface FinanceModelPublic {
-  name: string,
-  date: string,
-  amount: number,
-  categoryType: number,
+  name: string;
+  date: string;
+  amount: number;
+  categoryType: number;
 }
 
 export interface FinanceDatabaseModels {
@@ -53,8 +54,8 @@ export function createFinanceModel(
     accountId: model.accountId ?? defaultVar.accountId,
     name: model.name ?? defaultVar.name,
     date: model.date ?? defaultVar.date,
+    time: model.time ?? defaultVar.time,
     amount: model.amount ?? defaultVar.amount,
     categoryType: model.categoryType ?? defaultVar.categoryType,
-  }
+  };
 }
-

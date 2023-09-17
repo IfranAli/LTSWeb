@@ -1,13 +1,13 @@
-<app-dialog [isVisible]="isVisible">
-  <article>
-    <header>
-      <a class="close"> </a>
+<app-dialog
+  [isVisible]="openModal"
+  [fullScreen]="fullScreen"
+  (onModalClose)="onModalClose.emit(true)"
+>
+  <ng-container slot="header">
+    <strong>{{ dialogAction }}</strong>
+  </ng-container>
 
-      <p>
-        <strong>{{ dialogAction }}</strong>
-      </p>
-    </header>
-
+  <ng-container slot="content">
     <div
       class="custom-form"
       [class.hideHeader]="dialogAction == 'Edit Finance'"
@@ -33,7 +33,10 @@
             </div>
 
             <label>Amount</label>
-            <input title="amount" [formControl]="addFinanceForm.controls.amount" />
+            <input
+              title="amount"
+              [formControl]="addFinanceForm.controls.amount"
+            />
 
             <label>Category</label>
             <select
@@ -47,58 +50,23 @@
             </select>
           </form>
         </div>
-
-        <!-- <div *ngIf="dialogAction == 'Add Finance'" label="Import">
-          <form [formGroup]="bulkImportForm">
-            <label>Input</label>
-            <textarea
-              [formControl]="bulkImportForm.controls.input"
-              type="text"
-              style="min-height: 200px"
-            >
-            </textarea>
-
-            <label>Date</label>
-            <div class="right-icon">
-              <input
-                type="date"
-                [formControl]="bulkImportForm.controls.date"
-                class="form-control"
-              />
-              <span>
-                <mat-datepicker-toggle [for]="pickerBulk"></mat-datepicker-toggle>
-                <mat-datepicker #pickerBulk></mat-datepicker>
-              </span>
-            </div>
-          </form>
-
-          <div class="parsed-display scrollable-div">
-            <div *ngFor="let v of test$ | async">
-              {{ v.date }}
-              {{ "$" + v.amount }}
-              {{ v.name }}
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
+  </ng-container>
 
-    <footer class="actions">
-      <button (click)="closeDialog()">Cancel</button>
+  <ng-container slot="footer">
+    <div>
+      <button
+        *ngIf="dialogAction == 'Edit Finance'"
+        class="danger"
+        (click)="deleteFinance()"
+      >
+        Delete
+      </button>
 
-      <div>
-        <button
-          *ngIf="dialogAction == 'Edit Finance'"
-          class="danger"
-          (click)="deleteFinance()"
-        >
-          Delete
-        </button>
-
-        <button class="primary" (click)="addFinance()">
-          {{ dialogAction == "Add Finance" ? "Create" : "Update" }}
-        </button>
-      </div>
-    </footer>
-  </article>
+      <button class="primary" (click)="addFinance()">
+        {{ dialogAction == "Add Finance" ? "Create" : "Update" }}
+      </button>
+    </div>
+  </ng-container>
 </app-dialog>

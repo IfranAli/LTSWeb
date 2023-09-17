@@ -5,18 +5,14 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnInit,
+  OnChanges,
   Output,
-  SimpleChange,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
   effect,
   signal,
 } from "@angular/core";
-import { toObservable } from "@angular/core/rxjs-interop";
-import { Observable } from "rxjs";
-import { tap } from "rxjs/internal/operators/tap";
 
 @Component({
   selector: "app-dialog",
@@ -27,27 +23,60 @@ import { tap } from "rxjs/internal/operators/tap";
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class DialogComponent implements OnInit {
+export class DialogComponent implements OnChanges {
   @Input({ required: false }) isVisible = false;
-  @Input({ required: false }) fullScreen = true;
+  @Input({ required: false }) fullScreen = false;
   @Output() onModalClose = new EventEmitter<boolean>();
 
-  // @ViewChild("dialogRef", { static: true })
-  // dialog: ElementRef<HTMLDialogElement> | undefined;
+  @ViewChild("dialogRef", { static: true })
+  dialogElement?: ElementRef<HTMLDialogElement>;
+
+  $showDialog = signal(false);
+  $isClosing = signal(false);
+
+  private setHtmlDialog = (show: boolean) => {
+    const e = this.dialogElement?.nativeElement ?? null;
+
+    if (show) {
+      this.fullScreen ? e?.showModal() : e?.show();
+    } else {
+      e?.close();
+    }
+  };
+
+  closeDialog = () => {
+    this.$isClosing.set(true);
+
+    setTimeout(() => {
+      this.$isClosing.set(false);
+      this.$showDialog.set(false);
+      this.setHtmlDialog(false);
+      this.onModalClose.emit(true);
+    }, 500);
+  };
 
   constructor() {
-    console.log("dialog component", this.isVisible);
-  }
-  ngOnInit(): void {
-    console.log("dialog component - OnInit", this.isVisible);
-  }
-
-  openDialog() {
-    // this.isVisible = true;
+    effect(() => {
+      console.log("dialog", this.$showDialog());
+      if (this.$showDialog()) {
+        this.setHtmlDialog(true);
+      }
+    });
   }
 
-  closeDialog() {
-    this.onModalClose.emit(false);
-    this.isVisible = false;
+  ngOnChanges(changes: SimpleChanges): void {
+    const { isVisible } = changes;
+    this.$showDialog.set(isVisible.currentValue);
   }
+}
+
+@Component({
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: "",
+})
+export class DialogBaseComponent {
+  @Input({ required: false }) openModal = false;
+  @Input({ required: false }) fullScreen = true;
+  @Output() onModalClose = new EventEmitter<boolean>();
 }

@@ -1,50 +1,52 @@
 @use "src/styles/abstracts/constants" as style;
+@use "src/styles/abstracts/colors" as colors;
 
 .task {
-  padding: 0.5rem 1rem;
-  border: dashed 1px;
-  border-radius: 8px;
-  margin: 0.5rem;
-
-  .title {
-    color: #7a7e85;
-    font-size: medium;
-  }
-
-  .content {
-    font-size: small;
-    display: block;
-  }
-}
-
-.task-status {
+  padding: 1rem 0.5rem;
+  border-radius: var(--border-radius);
   display: flex;
   flex-direction: row;
   align-items: center;
 
-  .task-code {
+  background-color: var(--bg3);
+  border: solid 1px var(--border-color);
+
+  .title {
+    font-size: medium;
+  }
+
+  .content {
+    color: #7a7e85;
     font-size: small;
+    display: block;
   }
 
-  .badge {
+  .status-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-left: 0.5rem;
     margin-left: auto;
+
+    gap: 0.5rem;
+  }
+}
+
+.priority {
+  display: block;
+  &.lowest {
+    color: #5992ff;
   }
 
-  .priority {
-    &.lowest {
-      color: #5992ff;
-    }
+  &.medium {
+    color: #cbae27;
+  }
 
-    &.medium {
-      color: #cbae27;
-    }
+  &.high {
+    color: #ff773d;
+  }
 
-    &.high {
-      color: #ff773d;
-    }
-
-    &.highest {
-      color: #e86767;
-    }
+  &.highest {
+    color: #e86767;
   }
 }

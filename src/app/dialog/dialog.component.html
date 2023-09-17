@@ -1,11 +1,21 @@
-<dialog
-  #dialogRef
-  class="dialog"
-  [open]="isVisible"
->
-  <!-- *ngIf="isVisible"
-  open -->
-  <div class="dialog-container" [class.full-screen]="fullScreen">
-    <ng-content></ng-content>
-  </div>
+<dialog #dialogRef [attr.closing]="$isClosing() ? true : null">
+  <article
+    class="dialog-container custom-article"
+    [class.full-screen]="fullScreen"
+    *ngIf="$showDialog()"
+  >
+    <header>
+      <a class="close" (click)="closeDialog()"> </a>
+      <ng-content select="[slot=header]"></ng-content>
+    </header>
+
+    <section>
+      <ng-content select="[slot=content]"></ng-content>
+    </section>
+
+    <footer>
+      <button (click)="closeDialog()">close</button>
+      <ng-content select="[slot=footer]"></ng-content>
+    </footer>
+  </article>
 </dialog>

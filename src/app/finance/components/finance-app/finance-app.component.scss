@@ -1,14 +1,5 @@
 @use "src/styles/abstracts/constants" as style;
-
-.finance-header {
-  display: flex;
-  width: 100%;
-  margin: auto;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-}
+@use "src/styles/abstracts/colors" as colors;
 
 // Keyframes
 @keyframes spring {
@@ -24,46 +15,75 @@
   white-space: nowrap;
 }
 
-article {
-  .category {
-    font-size: small;
-    white-space: nowrap;
+.finance-container {
+  font-size: medium;
 
-    .summary-label {
-      display: flex;
-      justify-content: space-between;
+  section {
+    font-size: inherit;
+  }
 
-      label {
-        margin: 0;
+  .summary {
+    .category {
+      font-size: inherit;
+      white-space: nowrap;
+
+      .summary-label {
+        display: flex;
+        justify-content: space-between;
+
+        label {
+          margin: 0;
+        }
+      }
+
+      .amount-bar {
+        animation: 1s ease-out 0s 1 spring;
+        height: 0.3rem;
+
+        padding: unset;
+        margin: unset;
       }
     }
+  }
 
-    .amount-bar {
-      animation: 1s ease-out 0s 1 spring;
-      height: 0.3rem;
+  .finances {
+    summary {
+      padding: 0.5rem 1rem;
+      border: solid 1px var(--border-color);
+      background-color: var(--bg);
+    }
 
-      padding: unset;
+    .grid {
+      margin: var(--gap);
+
+      .amount {
+        font-weight: bold;
+      }
+
+      .date {
+        font-family: monospace;
+      }
+    }
+  }
+  @media screen and (max-width: 844px) {
+    font-size: small;
+
+    .finances {
       margin: unset;
-    }
-  }
-}
 
-.finance-list {
-  .grid {
-    @media screen and (max-width: 844px) {
-      grid-template-columns: 1fr 1fr;
-      grid-row-gap: 0;
-      margin: 0 0 1rem 0;
-    }
-  }
+      summary {
+        border-style: solid none solid none;
+      }
 
-  .row {
-    margin: 1rem 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+      .grid {
+        background-color: var(--bg2);
+        grid-template-columns: 1fr 1fr;
+        grid-row-gap: 0rem;
+        padding: 0.5rem 1rem;
 
-    .date {
-      text-align: right;
+        border: solid 1px var(--border-color);
+        border-radius: var(--border-radius);
+      }
     }
   }
 }

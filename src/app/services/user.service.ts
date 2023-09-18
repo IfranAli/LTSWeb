@@ -1,13 +1,12 @@
-import { Injectable, effect, signal } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
-import { UserDatabaseModel } from "../models/user.interface";
 import {
   clearAuthorisationToken,
   getHttpHeaders,
   setAuthorisationToken,
 } from "../constants/web-constants";
-import { Observable, of, tap } from "rxjs";
+import { tap } from "rxjs";
 
 const baseUrl = environment.backendURL + "user";
 

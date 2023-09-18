@@ -1,4 +1,4 @@
-<ng-container *ngIf="$user() as user; else notLoggedIn">
+<ng-container *ngIf="$user() as user">
   <nav>
     <ul>
       <li><strong>LTSWeb</strong></li>
@@ -34,9 +34,3 @@
     <router-outlet></router-outlet>
   </main>
 </ng-container>
-
-<ng-template #notLoggedIn>
-  <main class="contianer">
-    <router-outlet></router-outlet>
-  </main>
-</ng-template>

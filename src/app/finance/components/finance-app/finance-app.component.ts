@@ -135,13 +135,6 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   $$selectedFinance = signal<FinanceModel | undefined>(undefined);
 
   constructor(private financeService: FinanceService, private router: Router) {
-    effect(() => {
-      const p = this.$$selectedFinance();
-      console.log("selected finance", p);
-
-      console.log(this.showEditDialog());
-    });
-
     this.summaries$ = this.dateFrom$.pipe(
       combineLatestWith(this.refresh$),
       tap((value) => {

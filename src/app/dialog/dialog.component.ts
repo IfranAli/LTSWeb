@@ -57,7 +57,6 @@ export class DialogComponent implements OnChanges {
 
   constructor() {
     effect(() => {
-      console.log("dialog", this.$showDialog());
       if (this.$showDialog()) {
         this.setHtmlDialog(true);
       }

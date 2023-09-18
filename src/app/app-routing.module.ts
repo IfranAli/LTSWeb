@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { FinanceAppComponent } from "./finance/components/finance-app/finance-app.component";
 import { ProjectsComponent } from "./components/projects/projects.component";
 import {
   AsyncPipe,
@@ -11,15 +10,14 @@ import {
   NgStyle,
   NgTemplateOutlet,
 } from "@angular/common";
-import { MatLegacyTableModule as MatTableModule } from "@angular/material/legacy-table";
 import { LoginDialogComponent } from "./components/login-dialog/login-dialog.component";
-import { MatLegacyButtonModule as MatButtonModule } from "@angular/material/legacy-button";
-import { MatLegacyInputModule as MatInputModule } from "@angular/material/legacy-input";
 import { AuthGuard } from "./auth-guard.service";
 import { ImportFinanceDialogComponent } from "./finance/components/import-finance-dialog/import-finance-dialog.component";
+import { LogoutComponent } from "./components/Logout/logout.component";
 
 const routes: Routes = [
   { path: "login", component: LoginDialogComponent },
+  { path: "logout", component: LogoutComponent},
   { path: "projects", component: ProjectsComponent, canActivate: [AuthGuard] },
   {
     path: "finance",
@@ -45,10 +43,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     NgIf,
     NgForOf,
-    MatTableModule,
     DatePipe,
-    MatButtonModule,
-    MatInputModule,
     AsyncPipe,
     NgTemplateOutlet,
     NgClass,

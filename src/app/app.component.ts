@@ -3,6 +3,9 @@ import {
   Component,
   ViewEncapsulation,
   WritableSignal,
+  computed,
+  effect,
+  signal,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -36,86 +39,8 @@ import { toSignal } from "@angular/core/rxjs-interop";
 })
 export class AppComponent {
   title = "LTSweb";
-  user: UserStatusResponse | null = null;
   sidebarOpen = false;
-  authToken$ = new BehaviorSubject<string | null>(null);
-
-  getUserFromStore$: Observable<UserStatusResponse> = this.store
-    .select(fromUsers.selectUserState)
-    .pipe(
-      switchMap((user) => {
-        const userModel: UserStatusResponse = {
-          id: user.user?.id ?? 0,
-          accountId: user.user?.accountId ?? 0,
-          name: user.user?.name ?? "",
-          token: user.user?.token ?? "",
-        };
-
-        return of(userModel);
-      })
-    );
-
-  fetchUserFromNetwork$: Observable<UserStatusResponse> = this.authToken$.pipe(
-    filter((token) => token !== null),
-    switchMap((token) => {
-      return this.authService.isLoggedIn().pipe(
-        switchMap((loginResult) => {
-          const user: UserStatusResponse = {
-            id: loginResult.data?.id ?? 0,
-            accountId: loginResult.data?.accountId ?? 0,
-            name: loginResult.data?.name ?? "",
-            token: loginResult.data?.token ?? "",
-          };
-
-          return of(user);
-        })
-      );
-    })
-  );
-
-  // to
-  // $user = toSignal(
-  //   this.fetchUserFromNetwork$.pipe(
-  //     switchMap((user) => {
-  //       console.log(user);
-  //       const userModel: UserStatusResponse = {
-  //         id: user.id ?? 0,
-  //         accountId: user.accountId ?? 0,
-  //         name: user.name ?? "",
-  //         token: user.token ?? "",
-  //       };
-  //       return of(userModel);
-  //     }),
-  //     catchError((error) => {
-  //       console.log(error);
-  //       return of(null);
-  //     })
-  //   )
-  // );
-
-  $user = toSignal(
-    this.getUserFromStore$.pipe(
-      switchMap((userFromStore) => {
-        if (userFromStore.id === 0) {
-          return this.fetchUserFromNetwork$;
-        }
-
-        const user: UserStatusResponse = {
-          id: userFromStore.id ?? 0,
-          accountId: userFromStore.accountId ?? 0,
-          name: userFromStore.name ?? "",
-          token: userFromStore.token ?? getAuthorisationToken() ?? "",
-        };
-        console.log(user);
-        return of(user);
-      })
-      // catchError((error) => {
-      // clearAuthorisationToken();
-      // this.router.navigate([LOGIN_PAGE_URL]);
-      // return of(null);
-      // }),
-    )
-  );
+  $user = this.userService.$userData;
 
   constructor(
     private store: Store<AppState>,
@@ -124,14 +49,6 @@ export class AppComponent {
     private authService: AuthService
   ) {
     const token = getAuthorisationToken();
-    this.authToken$.next(token);
-  }
-
-  async userLogout() {
-    this.userService.logoutUser();
-    this.user = null;
-    clearAuthorisationToken();
-    return this.router.navigate([LOGIN_PAGE_URL]);
   }
 
   toggleSidebar() {

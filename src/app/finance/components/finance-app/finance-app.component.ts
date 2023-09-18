@@ -8,10 +8,11 @@ import {
   signal,
 } from "@angular/core";
 import {
+  FinanceCategoryResult,
   FinanceService,
   IFinanceSummary,
 } from "../../services/finance.service";
-import { FinanceModel } from "../../models/finance.model";
+import { FinanceModel, defaultFinance } from "../../models/finance.model";
 import { Router } from "@angular/router";
 import {
   AddFinanceDialogComponent,
@@ -70,7 +71,7 @@ export type CategoryData = {
 };
 
 export type FinanceDataAll = {
-  category: CategoryData;
+  category: FinanceCategoryResult;
   summaries: FinanceSummary[];
 };
 
@@ -128,27 +129,10 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   // todo: Actually read this value from service.
   accountId = 0;
 
-  model: FinanceModel = {
-    id: 0,
-    accountId: 0,
-    name: "",
-    date: "",
-    amount: 0,
-    categoryType: 0,
-  };
+  model: FinanceModel = defaultFinance;
   showEditDialog = signal(false);
   showImportDialog = signal(false);
   $$selectedFinance = signal<FinanceModel | undefined>(undefined);
-  // $selectedFinance = toObservable(this.$$selectedFinance).pipe(
-  //   filter((value) => !!value),
-  //   tap((value) => {
-  //     console.log(value);
-  //   }),
-  //   mergeMap((value) => {
-  //     return of(value);
-  //   })
-  // );
-  // $selectedFinance = new Observable<FinanceModel>((subscriber) => {});
 
   constructor(private financeService: FinanceService, private router: Router) {
     effect(() => {
@@ -177,11 +161,11 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
         this.title = monthName + " " + year;
 
         return this.financeService
-          .getFinanceSummary(this.accountId, dateFrom, dateTo)
+          .getFinanceSummaryForDateRange(this.accountId, dateFrom, dateTo)
           .pipe(
             tap((value) => {
-              this.categoryLookup = value.category.typeMap;
-              this.categoryColourLookup = value.category.colorMap;
+              this.categoryLookup = value.category.categoryTypesMap;
+              this.categoryColourLookup = value.category.categoryColorMap;
             }),
             tap((data: FinanceDataAll) => {
               const summaryGraphs = data.summaries;

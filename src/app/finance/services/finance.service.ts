@@ -1,4 +1,4 @@
-import { Injectable, signal } from "@angular/core";
+import { Injectable, computed, effect, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
 import {
@@ -24,6 +24,10 @@ import {
   tap,
 } from "rxjs";
 import { WeekDays } from "../../calendar/models/calendar.model";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { UserService } from "src/app/services/user.service";
+import { compileClassMetadata } from "@angular/compiler";
+import { incrementDateByMonth } from "src/app/calendar/models/calendar.util";
 
 const baseUrl = environment.backendURL;
 const financesUrl = baseUrl + "finance";
@@ -41,46 +45,50 @@ export interface IResult<T> {
 
 export interface FinanceCategoryResult {
   categoryTypesMap: Map<number, string>;
-  categoryColorMap: Map<string, string>;  
+  categoryColorMap: Map<string, string>;
 }
 
 @Injectable({
   providedIn: "root",
 })
 export class FinanceService {
-  $categories = signal<FinanceCategoryResult | undefined>(undefined);
+  private $apiCategories = toSignal(this.getFinanceCategories());
 
-  private categories$ = this.getFinanceCategories().pipe(
-    shareReplay(1),
-    switchMap((categories: FinanceCategory[]) => {
-      const categoryTypesMap = categories.reduce((acc, c) => {
-        return acc.set(c.id, c.type);
-      }, new Map<number, string>());
+  private $categoryMaps = computed(() => {
+    const categories = this.$apiCategories() ?? [];
 
-      const categoryColorMap = categories.reduce((acc, c) => {
-        return acc.set(c.type, c.colour ?? "#A8D6D6");
-      }, new Map<string, string>());
+    const categoryTypesMap = categories.reduce((acc, c) => {
+      return acc.set(c.id, c.type);
+    }, new Map<number, string>());
 
-      const value: FinanceCategoryResult = {
-        categoryTypesMap,
-        categoryColorMap,
-      };
+    const categoryColorMap = categories.reduce((acc, c) => {
+      return acc.set(c.type, c.colour ?? "#A8D6D6");
+    }, new Map<string, string>());
 
-      return of(value);
-    }),
-    tap((value) => {
-      this.$categories.set(value);
-    })
-  );
+    const value: FinanceCategoryResult = {
+      categoryTypesMap,
+      categoryColorMap,
+    };
 
-  constructor(private http: HttpClient) {}
+    return value;
+  });
+
+  // Public signals.
+  $categories = computed(() => this.$categoryMaps());
+
+  constructor(private http: HttpClient, private userService: UserService) {
+    effect(() => {
+      // const v = this.$categoryMaps();
+      // console.log(v);
+    });
+  }
 
   static financeModelToViewModel = (
     fm: FinanceModel,
-    data?: CategoryData
+    data?: FinanceCategoryResult
   ): FinanceViewModel => {
-    const category = data?.typeMap.get(fm.categoryType) ?? "";
-    const colour = data?.colorMap.get(category) ?? "";
+    const category = data?.categoryTypesMap.get(fm.categoryType) ?? "";
+    const colour = data?.categoryColorMap.get(category) ?? "";
 
     const date = new Date(fm.date);
     const weekday = WeekDays[date.getDay()].slice(0, 3);
@@ -104,6 +112,49 @@ export class FinanceService {
     };
   };
 
+  // #region Finance Summary
+  private processSummaries = (summaries: IFinanceSummary[]): FinanceDataAll => {
+    const categoryData = this.$categoryMaps();
+    const grandTotal = summaries.reduce<number>((p, c) => {
+      return p + parseFloat(c.total);
+    }, 0);
+
+    const summaryGraphs: FinanceSummary[] = summaries
+      .map((d): FinanceSummary => {
+        const v = parseFloat(d.total);
+        const p = (v / grandTotal) * 100;
+        const categoryName = d.categoryName ?? "";
+        const c = categoryData.categoryColorMap.get(categoryName) ?? "#A8D6D6";
+
+        const items: FinanceViewModel[] = d.items.map((i: FinanceModel) => {
+          return FinanceService.financeModelToViewModel(i, categoryData);
+        });
+
+        const financeSummary: FinanceSummary = {
+          categoryName: d.categoryName,
+          colour: c,
+          total: formatCurrency(parseFloat(d.total)),
+          items: items,
+          percentage: p.toFixed(0).concat("%"),
+          percentageRaw: parseInt(p.toFixed(0)),
+        };
+
+        return financeSummary;
+      })
+      .sort((a, b) => {
+        return a.percentageRaw > b.percentageRaw ? -1 : 1;
+      });
+
+    const data: FinanceDataAll = {
+      category: categoryData,
+      summaries: summaryGraphs,
+    };
+
+    return data;
+  };
+
+  // #endregion
+
   createFinanceMany(models: FinanceModel[]) {
     const model = models.map((model) => {
       const { id, ...noId } = model;
@@ -125,12 +176,16 @@ export class FinanceService {
     );
   }
 
-  getFinanceCategories() {
+  private getFinanceCategories() {
     const url = financesUrl.concat("/", "category");
     return this.http.get<FinanceCategory[]>(url, getHttpHeaders());
   }
 
-  getFinanceSummary(
+  private $accountId = this.userService.$userData()?.accountId ?? -1;
+  private $dateFrom = signal(new Date());
+  private $dateTo = computed(() => incrementDateByMonth(this.$dateFrom()));
+
+  getFinanceSummaryForDateRange(
     accountId: number,
     from: Date,
     to: Date
@@ -146,56 +201,8 @@ export class FinanceService {
     });
 
     return iFinanceSummary.pipe(
-      combineLatestWith(this.categories$),
-      switchMap((value) => {
-        const summaries = value[0];
-        const categoryData: CategoryData = {
-          colorMap: value[1]["categoryColorMap"],
-          typeMap: value[1]["categoryTypesMap"],
-        };
-
-        const grandTotal = summaries.reduce<number>((p, c) => {
-          return p + parseFloat(c.total);
-        }, 0);
-
-        const summaryGraphs: FinanceSummary[] = summaries
-          .map((d): FinanceSummary => {
-            const v = parseFloat(d.total);
-            const p = (v / grandTotal) * 100;
-            const categoryName = d.categoryName ?? "";
-            const c = categoryData.colorMap.get(categoryName) ?? "#A8D6D6";
-
-            const items: FinanceViewModel[] = d.items.map((i: FinanceModel) => {
-              return FinanceService.financeModelToViewModel(i, categoryData);
-            });
-
-            const financeSummary: FinanceSummary = {
-              categoryName: d.categoryName,
-              colour: c,
-              total: formatCurrency(parseFloat(d.total)),
-              items: items,
-              percentage: p.toFixed(0).concat("%"),
-              percentageRaw: parseInt(p.toFixed(0)),
-            };
-
-            return financeSummary;
-          })
-          .sort((a, b) => {
-            return a.percentageRaw > b.percentageRaw ? -1 : 1;
-          });
-
-        const data: FinanceDataAll = {
-          category: categoryData,
-          summaries: summaryGraphs,
-        };
-
-        return of(data);
-      })
+      switchMap((summaries) => of(this.processSummaries(summaries)))
     );
-  }
-
-  getFinances() {
-    return this.http.get<FinanceModel[]>(financesUrl, getHttpHeaders());
   }
 
   updateFinance(model: FinanceModel) {

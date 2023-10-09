@@ -91,7 +91,7 @@ export class UserService {
     return null;
   }
 
-  private removeUserDataFromLocalStorage() {
+  removeUserDataFromLocalStorage() {
     localStorage.removeItem(this.USER_DATA_KEY);
     clearAuthorisationToken();
   }

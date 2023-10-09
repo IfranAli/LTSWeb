@@ -1,13 +1,22 @@
 import { UserService } from "./user.service";
 import {
+  LOGIN_PAGE_URL,
   clearAuthorisationToken,
 } from "../constants/web-constants";
-import { of, switchMap, tap } from "rxjs";
+import { Observable, catchError, of, switchMap, tap, throwError } from "rxjs";
 import { Injectable } from "@angular/core";
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+} from "@angular/common/http";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   isLoggedIn(): boolean {
     return this.userService.userIsLoggedIn();

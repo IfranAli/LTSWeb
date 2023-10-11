@@ -1,5 +1,5 @@
 <dialog #dialogRef [attr.closing]="$isClosing() ? true : null">
-  <article
+  <div
     class="dialog-container custom-article"
     [class.full-screen]="fullScreen"
     *ngIf="$showDialog()"
@@ -15,7 +15,10 @@
 
     <footer>
       <button (click)="closeDialog()">close</button>
-      <ng-content select="[slot=footer]"></ng-content>
+
+      <div class="actions">
+        <ng-content select="[slot=footer]"></ng-content>
+      </div>
     </footer>
-  </article>
+  </div>
 </dialog>

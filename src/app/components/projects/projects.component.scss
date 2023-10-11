@@ -6,13 +6,10 @@
   gap: 1rem;
 
   article {
-    // box-shadow: unset;
-    // background: unset;
-
     header {
       background: inherit;
       margin-bottom: 0;
-      padding-bottom: 1rem;
+      padding: 0.5rem;
 
       .font-code {
         align-items: flex-start;

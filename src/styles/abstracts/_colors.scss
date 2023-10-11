@@ -1,15 +1,17 @@
-$bg-light: #f8f9f9;
+$bg-light: #b7bcbc;
+$bg-light-1: #{lighten($bg-light, 5%)};
+$bg-light-2: #{lighten($bg-light, 10%)};
+$text-color-light: rgb(0, 0, 0, 0.6);
+$border-color-light: #{darken($bg-light, 10%)};
 
-$bg-light1: #{darken($bg-light, 1%)};
-$bg-light2: #{lighten($bg-light, 12%)};
-$bg-light3: #{lighten($bg-light, 13%)};
-$bg-light-d: #{darken($bg-light, 10%)};
+$bg-dark: #0d1116;
+$bg-dark-1: #{lighten($bg-dark, 5%)};
+$bg-dark-2: #{lighten($bg-dark, 10%)};
+$text-color-dark: rgb(255, 255, 255, 0.6);
+$border-color-dark: #{darken($bg-dark, 10%)};
 
-$bg-dark: #232327;
-$bg-dark1: #{lighten($bg-dark, 5%)};
-$bg-dark2: #{lighten($bg-dark, 10%)};
-$bg-dark3: #{lighten($bg-dark, 15%)};
-$bg-dark-d: #{darken($bg-dark, 3%)};
+$text-active: #ff6600;
+
 
 $color-blue: #658edc;
 $color-yellow: #ffdd3d;

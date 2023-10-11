@@ -1,16 +1,23 @@
+@use "./reset";
 @use "./abstracts/colors" as colors;
 @use "./abstracts/constants" as constants;
 @use "./pico-custom";
 
+@use "./components/nav";
+@use "./components/button";
 @use "./components/article";
 @use "./components/dialog";
 
+html {
+  background-color: var(--bg1);
+}
 :root {
   font-family: var(--font-family);
 }
 
 body {
-  background: var(--pico-background-color);
+  background-color: var(--bg);
+  color: var(--text-color);
 
   // @media variables
   --media-sm: constants.$media-sm;
@@ -20,7 +27,7 @@ body {
 @media screen and (max-width: constants.$media-sm) {
   body {
     --gap: var(--gap-sm);
-    --container-margin: 0;
+    --container-margin: var(--gap-sm);
   }
 }
 @media screen and (min-width: constants.$media-md) {
@@ -90,6 +97,41 @@ body > app-root > footer {
   }
 }
 
+// Misc
+article > section {
+  padding: var(--gap) 0;
+}
+
+.scrollable-div {
+  height: 30svh;
+  overflow-y: scroll;
+}
+
+// Form Elements
+input,
+select {
+  color: inherit;
+  padding: 4px 2px;
+  border-radius: 4px;
+  background-color: var(--bg2);
+  border: solid 1px var(--border-color);
+  outline: none;
+}
+
+input,
+select {
+  &:focus-visible {
+    border-color: var(--text-active);
+  }
+}
+
+// Form Styling
+.custom-form > form > section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
 // Font Styling
 .font-code {
   @include font-style-code;
@@ -103,54 +145,16 @@ body > app-root > footer {
   border-radius: var(--border-radius);
   border-width: 1px;
   font-family: monospace;
-  background-color: var(--bg3);
-
-  &.todo {
-    color: colors.$color-blue;
-  }
-
-  &.in-progress {
-    color: colors.$color-yellow;
-  }
-
-  &.blocked {
-    color: colors.$color-red;
-  }
-
-  &.done {
-    color: colors.$color-green;
-  }
+  white-space: nowrap;
 }
 
 // UI Styling
-button-small {
-  background-color: darkblue !important;
-}
 
 .header-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: var(--gap);
-}
-
-// Nav
-app-root > nav {
-  background: var(--pico-background-color);
-  border-bottom: solid 1px var(--border-color);
-  box-shadow: var(--box-shadow);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding: 1rem;
-
-  ul,
-  li {
-    color: inherit;
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
-  }
 }
 
 .custom-form {

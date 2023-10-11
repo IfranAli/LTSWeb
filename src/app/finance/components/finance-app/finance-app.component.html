@@ -36,12 +36,12 @@
         *ngIf="$$selectedFinance() as selected"
         [openModal]="showEditDialog()"
         [selected]="selected"
-        (onModalClose)="closeDialog()"
+        (onModalClose)="closeDialog($event)"
       ></app-add-finance-dialog>
 
       <app-import-finance-dialog
-        [isVisible]="showImportDialog()"
-        (onModalClose)="closeDialog()"
+        [openModal]="showImportDialog()"
+        (onModalClose)="closeDialog($event)"
       >
       </app-import-finance-dialog>
 
@@ -54,14 +54,14 @@
           "
         >
           <div class="summary-label">
-            <label>
+            <span>
               {{ categorySummary.categoryName }}
               ({{ categorySummary.percentage }})
-            </label>
+            </span>
 
-            <label class="week-total">
+            <span class="week-total">
               {{ categorySummary.total }}
-            </label>
+            </span>
           </div>
 
           <div
@@ -89,35 +89,39 @@
             </span>
           </summary>
 
-          <div
-            class="grid"
-            (click)="openDialogAddFinance(finance.id)"
-            *ngFor="let finance of summary.items; trackByFinanceViewModel"
-          >
+          <div class="summary-list">
             <div
-              class="amount"
-              [class.credit]="finance.isCredit"
-              [class.debit]="!finance.isCredit"
+              class="grid"
+              (click)="openDialogAddFinance(finance.id)"
+              *ngFor="let finance of summary.items; trackByFinanceViewModel"
             >
-              {{ finance.amountFormatted }}
-            </div>
-
-            <div class="date">{{ finance.dateFormatted }}</div>
-
-            <span class="label">{{ finance.name }}</span>
-
-            <span class="categoryBadge">
-              <span
-                class="badge no-outline small"
-                [style.color]="finance.categoryColour"
+              <div
+                class="amount"
+                [class.credit]="finance.isCredit"
+                [class.debit]="!finance.isCredit"
               >
-                {{ finance.categoryLabel }}
+                {{ finance.amountFormatted }}
+              </div>
+
+              <div class="date">{{ finance.dateFormatted }}</div>
+
+              <span class="label">{{ finance.name }}</span>
+
+              <span class="categoryBadge">
+                <span
+                  class="badge no-outline small"
+                  [style.color]="finance.categoryColour"
+                >
+                  {{ finance.categoryLabel }}
+                </span>
               </span>
-            </span>
+            </div>
           </div>
         </details>
       </section>
     </ng-container>
+
+    <footer></footer>
   </article>
 </div>
 

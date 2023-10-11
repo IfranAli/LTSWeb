@@ -1,34 +1,40 @@
-@use "src/styles/abstracts/constants" as style;
+@use "src/styles/abstracts/constants" as constants;
 @use "src/styles/abstracts/colors" as colors;
 
 .task {
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
   padding: 1rem 0.5rem;
+  gap: 0.5rem;
   border-radius: var(--border-radius);
-  display: flex;
-  flex-direction: row;
+  background-color: var(--bg2);
   align-items: center;
 
-  background-color: var(--bg3);
-  border: solid 1px var(--border-color);
-
-  .title {
-    font-size: medium;
-  }
-
   .content {
-    color: #7a7e85;
     font-size: small;
-    display: block;
+
+    .description {
+      color: #7a7e85;
+      display: block;
+    }
   }
 
-  .status-group {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-left: 0.5rem;
-    margin-left: auto;
+  .badge {
+    &.todo {
+      color: colors.$color-blue;
+    }
 
-    gap: 0.5rem;
+    &.in-progress {
+      color: colors.$color-yellow;
+    }
+
+    &.blocked {
+      color: colors.$color-red;
+    }
+
+    &.done {
+      color: colors.$color-green;
+    }
   }
 }
 

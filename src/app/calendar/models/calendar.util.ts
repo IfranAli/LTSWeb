@@ -1,16 +1,5 @@
-import {
-  CALENDAR_MONTHS,
-  ICalendar,
-  IDay,
-  IMonth,
-  IWeek,
-  Months,
-  MONTHS_MAX_DAYS,
-} from "./calendar.model";
+import { CALENDAR_MONTHS, IDay, Months, WeekDays } from "./calendar.model";
 import { dateToString } from "../../finance/util/finance.util";
-
-const FEBRUARY = 1;
-const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
 export const getTotalDaysInMonth = (date: Date): number => {
   const calc = new Date(date);
@@ -24,24 +13,100 @@ export const isLeapYear = function (year: number) {
   return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
 };
 
-export const calcDateDiffInDays = function (a: Date, b: Date) {
-  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-  return Math.abs(Math.floor((utc2 - utc1) / MS_PER_DAY));
+/**
+ * Returns the weekday as a string for a given weekday number.
+ * @param weekday
+ * @returns
+ */
+const weekdayToString = function (weekday: number): string {
+  if (weekday < 0 || weekday > 6) {
+    throw new Error("Invalid weekday");
+  }
+  return WeekDays[weekday];
 };
 
-export const getMaxDaysInMonth = function (
-  numberOfMonth: number,
-  is_leap_year: boolean
-): number {
-  const days =
-    numberOfMonth == FEBRUARY && is_leap_year
-      ? MONTHS_MAX_DAYS[numberOfMonth] + 1
-      : MONTHS_MAX_DAYS[numberOfMonth];
-
-  return days;
+/**
+ * Returns the month as a string for a given month number.
+ * @param month
+ * @returns
+ */
+export const monthToString = function (month: number): string {
+  if (month < 0 || month > 11) {
+    throw new Error("Invalid month");
+  }
+  return CALENDAR_MONTHS[month];
 };
+
+export interface ICalendarViewModel {
+  name: string;
+  year: number;
+  days: IDay[];
+}
+
+export function generateCalendarViewModel(year: number, monthIdx: number) {
+  const daysInMonth = generateDaysInMonth(year, monthIdx);
+
+  const daysForPrevMonth = daysInMonth[0].dayOfWeek;
+  let paddingStart: IDay[] = [];
+  let paddingEnd: IDay[] = [];
+
+  if (daysForPrevMonth > 0) {
+    const prevMonthIdx = monthIdx == 0 ? 11 : monthIdx - 1;
+    const prevMonth = generateDaysInMonth(year, prevMonthIdx);
+
+    paddingStart = prevMonth.slice(-daysForPrevMonth).map((d) => ({
+      ...d,
+      currentMonth: false,
+    }));
+  }
+
+  const daysForNextMonth = 6 - daysInMonth[daysInMonth.length - 1].dayOfWeek;
+  if (daysForNextMonth > 0) {
+    const nextMonthIdx = monthIdx == 11 ? 0 : monthIdx + 1;
+    const nextMonth = generateDaysInMonth(year, nextMonthIdx);
+
+    paddingEnd = nextMonth
+      .slice(0, daysForNextMonth)
+      .map((d) => ({ ...d, currentMonth: false }));
+  }
+
+  const result = {
+    name: monthToString(monthIdx),
+    year: year,
+    days: [...paddingStart, ...daysInMonth, ...paddingEnd],
+  };
+
+  return result;
+}
+
+export function generateDaysInMonth(year: number, month: Months): IDay[] {
+  const start = new Date(year, month, 1);
+  const end = new Date(year, month + 1, 0);
+
+  const monthStartDay = start.getDay();
+  const nDaysInMonth = end.getDate() - start.getDate() + 1;
+  const todaysDate = new Date();
+
+  return Array(nDaysInMonth)
+    .fill(0)
+    .map((_, i) => {
+      const date = i + 1;
+      const dayOfWeek = (monthStartDay + i) % 7;
+      const isToday =
+        year == todaysDate.getFullYear() &&
+        date == todaysDate.getDate() &&
+        month == todaysDate.getMonth();
+
+      const d: IDay = {
+        date: date,
+        dayOfWeek: dayOfWeek,
+        currentMonth: true,
+        ...(isToday ? { isToday: true } : {}),
+      };
+
+      return d;
+    });
+}
 
 export const segmentArray = function (
   arr: Array<any>,
@@ -56,61 +121,6 @@ export const segmentArray = function (
   }
 
   return accum;
-};
-
-export const buildCalendarMonth = function (
-  numberOfMonth: number,
-  year: number
-): IMonth {
-  let dateStart = new Date(year, numberOfMonth, 1);
-  let dateEnd = new Date(year, numberOfMonth + 1, 0);
-
-  const prefix = dateStart.getDay() == 0 ? 6 : dateStart.getDay();
-  const newDate = dateStart.getDate() - prefix;
-  dateStart.setDate(newDate);
-
-  let days: IDay[] = [];
-  let diff = calcDateDiffInDays(dateStart, dateEnd);
-
-  const suffix = 42 - diff;
-  dateEnd.setDate(dateEnd.getDate() + suffix);
-  diff += suffix;
-  const suffix2 = diff - suffix;
-
-  for (let i = 0; i < diff; ++i) {
-    const isCurrentMonth = i >= prefix && i <= suffix2;
-
-    days.push({
-      day: dateStart.getDate(),
-      currentMonth: isCurrentMonth,
-    });
-    dateStart.setDate(dateStart.getDate() + 1);
-  }
-
-  const weeks: IWeek[] = segmentArray(days, 7).map((value, index): IWeek => {
-    return {
-      name: `Week ${index + 1}`,
-      days: value,
-    };
-  }).filter((value) => value.days.length > 0);
-
-  return {
-    name: CALENDAR_MONTHS[numberOfMonth],
-    weeks: weeks,
-  };
-};
-
-export const buildCalendar = function (year: number): ICalendar {
-  const calendar: ICalendar = {
-    months: [],
-  };
-
-  // calendar.months.push(buildCalendarMonth(0, year))
-  CALENDAR_MONTHS.forEach((month, index) =>
-    calendar.months.push(buildCalendarMonth(index, year))
-  );
-
-  return calendar;
 };
 
 // todo: move into own file
@@ -166,7 +176,7 @@ export const parseDateIdentifier = (
   const month = parseInt(arr[1]);
   const year = parseInt(yearString);
 
-  return new Date( year, month - 1, day);
+  return new Date(year, month - 1, day);
 };
 
 export const incrementDateByMonth = (date: Date): Date => {

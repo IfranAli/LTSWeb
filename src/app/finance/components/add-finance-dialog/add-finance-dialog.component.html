@@ -1,7 +1,7 @@
 <app-dialog
   [isVisible]="openModal"
   [fullScreen]="fullScreen"
-  (onModalClose)="onModalClose.emit(true)"
+  (onModalClose)="onModalClose.emit(false)"
 >
   <ng-container slot="header">
     <strong>{{ dialogAction }}</strong>
@@ -12,34 +12,12 @@
       class="custom-form"
       [class.hideHeader]="dialogAction == 'Edit Finance'"
     >
-      <div>
-        <div label="Add">
-          <form [formGroup]="addFinanceForm">
-            <label>Name</label>
-            <input
-              [formControl]="addFinanceForm.controls.name"
-              type="text"
-              title="name"
-            />
-
-            <label>Date</label>
-            <div class="right-icon">
-              <input
-                type="date"
-                title="date"
-                [formControl]="addFinanceForm.controls.date"
-                class="form-control"
-              />
-            </div>
-
-            <label>Amount</label>
-            <input
-              title="amount"
-              [formControl]="addFinanceForm.controls.amount"
-            />
-
-            <label>Category</label>
+      <form [formGroup]="addFinanceForm">
+        <section>
+          <label>
+            Category
             <select
+              name="FinanceCategoryType"
               title="category"
               [formControl]="addFinanceForm.controls.categoryType"
               *ngIf="categories()?.categoryTypesMap as types"
@@ -48,25 +26,52 @@
                 {{ type.value }}
               </option>
             </select>
-          </form>
-        </div>
-      </div>
+          </label>
+
+          <label>
+            Name
+            <input
+              name="FinanceName"
+              [formControl]="addFinanceForm.controls.name"
+              type="text"
+              title="name"
+            />
+          </label>
+
+          <label>
+            Date
+            <input
+              type="date"
+              title="date"
+              [formControl]="addFinanceForm.controls.date"
+              class="form-control"
+            />
+          </label>
+
+          <label>
+            Amount
+            <input
+              name="financeAmount"
+              title="amount"
+              [formControl]="addFinanceForm.controls.amount"
+            />
+          </label>
+        </section>
+      </form>
     </div>
   </ng-container>
 
   <ng-container slot="footer">
-    <div>
-      <button
-        *ngIf="dialogAction == 'Edit Finance'"
-        class="danger"
-        (click)="deleteFinance()"
-      >
-        Delete
-      </button>
+    <button
+      *ngIf="dialogAction == 'Edit Finance'"
+      class="danger"
+      (click)="deleteFinance()"
+    >
+      Delete
+    </button>
 
-      <button class="primary" (click)="addFinance()">
-        {{ dialogAction == "Add Finance" ? "Create" : "Update" }}
-      </button>
-    </div>
+    <button class="primary" (click)="addFinance()">
+      {{ dialogAction == "Add Finance" ? "Create" : "Update" }}
+    </button>
   </ng-container>
 </app-dialog>

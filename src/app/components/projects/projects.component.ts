@@ -90,7 +90,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
         colour: "",
         code: "",
       };
-      console.log("err", err);
+      // console.log("err", err);
       return of([project]);
     })
   );

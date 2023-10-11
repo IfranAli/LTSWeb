@@ -22,6 +22,8 @@
 
 dialog[open] {
   animation: 0.5s slideDown;
+  background: transparent;
+  border: none;
 }
 
 dialog[closing] {

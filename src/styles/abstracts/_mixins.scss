@@ -1,0 +1,11 @@
+@use "../abstracts/colors" as colors;
+@use "../abstracts/constants" as constants;
+
+@mixin card-shape {
+//   border: constants.$boder-style;
+  margin: var(--container-margin);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+
+//   background-color: aquamarine;
+}

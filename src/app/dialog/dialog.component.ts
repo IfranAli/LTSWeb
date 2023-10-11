@@ -44,7 +44,7 @@ export class DialogComponent implements OnChanges {
     }
   };
 
-  closeDialog = () => {
+  public closeDialog = () => {
     this.$isClosing.set(true);
 
     setTimeout(() => {
@@ -78,4 +78,8 @@ export class DialogBaseComponent {
   @Input({ required: false }) openModal = false;
   @Input({ required: false }) fullScreen = true;
   @Output() onModalClose = new EventEmitter<boolean>();
+  
+  public closeDialog() {
+   this.openModal = false;; 
+  }
 }

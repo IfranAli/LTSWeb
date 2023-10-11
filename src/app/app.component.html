@@ -1,7 +1,7 @@
-<ng-container *ngIf="$user() as user">
+<ng-container *ngIf="$user() as user; else notLoggedIn">
   <nav>
     <ul>
-      <li><strong>LTSWeb</strong></li>
+      <li>LT.Scheduler</li>
     </ul>
     <ul>
       <li>
@@ -22,6 +22,8 @@
           <span class="material-symbols-outlined">calendar_month</span>
         </a>
       </li>
+    </ul>
+    <ul>
       <li>
         <a href="/logout">
           <span class="material-symbols-outlined">logout</span>
@@ -34,3 +36,9 @@
     <router-outlet></router-outlet>
   </main>
 </ng-container>
+
+<ng-template #notLoggedIn>
+  <main class="contianer">
+    <router-outlet></router-outlet>
+  </main>
+</ng-template>

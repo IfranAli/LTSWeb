@@ -2,11 +2,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  computed,
+  signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { DialogComponent } from "src/app/dialog/dialog.component";
+import {
+  DialogBaseComponent,
+  DialogComponent,
+} from "src/app/dialog/dialog.component";
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
-import { Observable, filter, switchMap, of } from "rxjs";
+import { Observable, filter, switchMap, of, tap } from "rxjs";
 import { FinanceModel } from "../../models/finance.model";
 import { parseDateIdentifierAsString } from "src/app/calendar/models/calendar.util";
 import {
@@ -22,16 +27,30 @@ import { parseDateInput } from "src/app/calendar/date-parser.util";
   templateUrl: "./import-finance-dialog.component.html",
   styleUrls: ["./import-finance-dialog.component.css"],
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule, ReactiveFormsModule, DialogComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DialogBaseComponent,
+    DialogComponent,
+  ],
 })
-export class ImportFinanceDialogComponent extends DialogComponent {
+export class ImportFinanceDialogComponent extends DialogBaseComponent {
+  $data = signal<FinanceModel[]>([]);
+  $importDataIsValid = computed(() => this.$data().length == 0);
+
+  addFinanceBulk() {
+    
+    // todo: add bulk import
+    // Time is actually in the data set. just not in the preview.
+    console.log(this.$data());
+  }
+
   bulkImportForm = new FormGroup({
     input: new FormControl<string>(""),
     date: new FormControl<Date>(new Date()),
   });
 
-  // todo: what?
   test$: Observable<FinanceModel[]> =
     this.bulkImportForm.controls.input.valueChanges.pipe(
       filter((value) => {
@@ -41,13 +60,16 @@ export class ImportFinanceDialogComponent extends DialogComponent {
         const test: FinanceModel[] = getFinanceModelsFromInputBulk(
           value as string
         );
-        console.log(test);
+
+        this.$data.set(test);
         return of(test);
       })
     );
 }
 
-export const getFinanceModelsFromInputBulk = (input: string): FinanceModel[] => {
+export const getFinanceModelsFromInputBulk = (
+  input: string
+): FinanceModel[] => {
   const ins = input
     .split("\n")
     .map((v) => {

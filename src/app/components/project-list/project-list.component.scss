@@ -12,11 +12,15 @@
         gap: 0.75rem;
       }
 
-      hgroup {
-        h1 {
-          font-size: large;
-        }
-        margin-bottom: unset;
+      .title {
+        font-weight: normal;
+        font-size: large;
+        display: block;
+      }
+      .description {
+        font-size: medium;
+        font-weight: lighter;
+        // font-weight: 100;
       }
     }
 

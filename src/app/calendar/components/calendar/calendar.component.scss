@@ -6,54 +6,52 @@
     background: unset;
   }
 
-  .box-month {
+  .calendar {
     font-size: small;
+    .header {
+      border-bottom: solid 1px var(--border-color);
+      display: flex;
+      flex-direction: row;
 
-    .calendar-grid {
-      .box-header {
-        border-bottom: solid 1px var(--border-color);
-        display: flex;
-        flex-direction: row;
-
-        div {
-          font-weight: bold;
-          padding: 0.3rem;
-          text-align: center;
-          flex-basis: 14.28%;
-        }
+      div {
+        font-weight: bold;
+        padding: 0.3rem;
+        text-align: center;
+        flex-basis: 14.28%;
       }
+    }
 
-      .week {
-        display: flex;
-        flex-direction: row;
-        background: var(--pico-background-color);
+    .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
 
-        border-bottom: solid 1px var(--border-color);
+      .box-day {
+        background-color: var(--bg1);
+        outline-style: solid;
+        outline-color: var(--border-color);
+        outline-width: 1px;
 
-        .box-day {
-          background-color: var(--bg1);
-          border-right: solid 1px var(--border-color);
+        &.disable {
+          background-color: var(--bg);
 
-          &.disable {
-            background-color: var(--bg);
-
-            span {
-              color: var(--bg2);
-            }
+          span {
+            color: var(--bg2);
           }
+        }
 
-          &.today > span {
-            color: var(--pico-primary);
-          }
+        &.today > span {
+          background-color: var(--text-active);
+          color: white;
+          padding: 2px;
+          border-radius: 4px;
+        }
 
-          flex-basis: 14.28%;
-          min-height: 10vh;
-          font-weight: bold;
-          padding: 0.3rem;
+        min-height: 10vh;
+        font-weight: bold;
+        padding: 0.3rem;
 
-          &:hover {
-            border: solid 1px var(--pico-primary);
-          }
+        &:hover {
+          background-color: var(--bg2);
         }
       }
     }

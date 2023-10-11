@@ -209,10 +209,14 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     this.dateFrom$.next(incrementDateByMonth(this.dateFrom$.value));
   }
 
-  closeDialog() {
+  closeDialog(value: boolean) {
     this.$$selectedFinance.set(undefined);
     this.showEditDialog.set(false);
     this.showImportDialog.set(false);
+
+    if (value) {
+      this.refreshData();
+    }
   }
 
   openDialogAddFinance(financeId?: number) {

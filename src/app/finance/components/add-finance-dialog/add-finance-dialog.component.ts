@@ -1,10 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   Inject,
   Input,
   OnInit,
   effect,
+  inject,
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -23,7 +25,7 @@ import {
   DialogBaseComponent,
   DialogComponent,
 } from "src/app/dialog/dialog.component";
-import { toSignal } from "@angular/core/rxjs-interop";
+import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
 import { deleteFinance } from "src/app/actions/finance.actions";
 import { FinanceService } from "../../services/finance.service";
 
@@ -76,6 +78,7 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
   });
 
   categories = this.financeService.$categories;
+  destroyRef = inject(DestroyRef);
 
   constructor(private financeService: FinanceService) {
     super();
@@ -102,20 +105,39 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
     }
   }
 
+  deleteFinance(): void {
+    const id = this.selected?.id ?? -1;
+    if (id > 0) {
+      this.financeService
+        .deleteFinance(id)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((value) => {
+          this.onModalClose.emit(true);
+        });
+    }
+  }
+
   addFinance(): void {
-    const p = this.getFinanceModelFromInput();
-    debugger;
-    // if (this.selectedTab == Tabs.BulkImport) {
-    //   this.dialogAction = Actions.BulkImport;
-    // }
-    // switch (this.dialogAction) {
-    //   case Actions.Add:
-    //     const result: IDialogResult = {
-    //       action: Actions.Add,
-    //       data: [this.getFinanceModelFromInput()],
-    //     };
-    //     this.dialogRef.close(result);
-    //     break;
+    const financeData = this.getFinanceModelFromInput();
+
+    if (financeData.id > 0) {
+      // const oldData = this.selected;
+      // todo check if data has changed
+
+      this.financeService
+        .updateFinance(financeData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((value) => {
+          this.onModalClose.emit(true);
+        });
+    } else {
+      this.financeService
+        .createFinance(financeData)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((value) => {
+          this.onModalClose.emit(true);
+        });
+    }
     //   case Actions.BulkImport:
     //     const input = this.bulkImportForm.controls.input.getRawValue();
     //     if (input) {
@@ -139,6 +161,7 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
     const date = this.addFinanceForm.controls.date.getRawValue() ?? "";
 
     return createFinanceModel({
+      id: this.selected?.id ?? -1,
       name: this.addFinanceForm.controls.name.getRawValue() ?? "",
       date: date,
       amount: this.addFinanceForm.controls.amount.getRawValue() ?? 0,
@@ -146,30 +169,6 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
         this.addFinanceForm.controls.categoryType.getRawValue() ?? 0,
     });
   };
-
-  getEditData = (): IDialogResult => {
-    // let p =
-    //   this.addFinanceForm.getRawValue() as unknown as Partial<FinanceModel>;
-
-    // const dateRaw = this.addFinanceForm.controls.date.getRawValue() ?? "";
-    // if (p.date && dateRaw) {
-    //   p.date = dateToString(dateRaw);
-    // }
-
-    // const model = createFinanceModel(p, this.data.financeModel);
-
-    return {
-      action: Actions.Edit,
-      data: [],
-    };
-  };
-
-  deleteFinance() {
-    // this.dialogRef.close({
-    //   action: Actions.Delete,
-    //   data: [this.data.financeModel!!],
-    // });
-  }
 
   private getCurrentDate(seperator = "-"): string {
     const date = new Date();

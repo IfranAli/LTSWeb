@@ -20,7 +20,7 @@ export enum Months {
   September,
   October,
   November,
-  December
+  December,
 }
 
 export const WEEK_DAYS = [
@@ -30,34 +30,43 @@ export const WEEK_DAYS = [
   "Wednesday",
   "Thursday",
   "Friday",
-  "Saturday"
+  "Saturday",
 ];
 
 export const CALENDAR_MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August',
-  'September', 'October', 'November', 'December'
-]
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
-export const MONTHS_MAX_DAYS = [
-  31, 28, 31, 30, 31, 30,
-  31, 31, 30, 31, 30, 31
-]
+export const MONTHS_MAX_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 export interface IDay {
-  day: number
-  currentMonth: boolean
+  date: number;
+  dayOfWeek: number;
+  currentMonth?: boolean;
+  isToday?: boolean;
 }
 
 export interface IWeek {
-  name: string,
-  days: IDay[],
+  name: string;
+  days: IDay[];
 }
 
 export interface IMonth {
-  name: string,
-  weeks: IWeek[],
+  name: string;
+  weeks: IWeek[];
 }
 
 export interface ICalendar {
-  months: IMonth[],
+  months: IMonth[];
 }

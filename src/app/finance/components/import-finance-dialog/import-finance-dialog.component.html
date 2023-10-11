@@ -1,51 +1,45 @@
-<app-dialog [isVisible]="isVisible">
-  <article>
-    <header>
-      <p>
-        <strong>Bulk Import</strong>
-      </p>
-    </header>
+<app-dialog [isVisible]="openModal" (onModalClose)="onModalClose.emit(false)">
+  <ng-container slot="header">
+    <strong>Bulk Import</strong>
+  </ng-container>
 
+  <ng-container slot="content">
     <div class="custom-form">
-      <div>
-        <form [formGroup]="bulkImportForm">
-          <label>Input</label>
+      <form [formGroup]="bulkImportForm">
+        <section>
+          <label>
+            <div>Input</div>
+            <textarea
+              name="InputData"
+              [formControl]="bulkImportForm.controls.input"
+              type="text"
+            >
+            </textarea>
+          </label>
 
-          <textarea
-            [formControl]="bulkImportForm.controls.input"
-            type="text"
-            style="min-height: 200px"
-          >
-          </textarea>
+          <label>
+            Date
+            <input
+              type="date"
+              title="date"
+              [formControl]="bulkImportForm.controls.date"
+              class="form-control"
+            />
+          </label>
+        </section>
+      </form>
 
-          <label>Date</label>
-          <div class="right-icon"></div>
-          <input
-            type="date"
-            title="date"
-            [formControl]="bulkImportForm.controls.date"
-            class="form-control"
-          />
-        </form>
-
-        <div class="parsed-display scrollable-div">
-          <div *ngFor="let v of test$ | async">
-            {{ v.date }}
-            {{ "$" + v.amount }}
-            {{ v.name }}
-          </div>
+      <div class="parsed-display scrollable-div">
+        <div *ngFor="let v of test$ | async">
+          {{ v.date }}
+          {{ "$" + v.amount }}
+          {{ v.name }}
         </div>
       </div>
     </div>
+  </ng-container>
 
-    <footer class="actions">
-      <button (click)="closeDialog()">Cancel</button>
-
-      <div>
-        <!-- <button class="primary" (click)="addFinance()"> -->
-        <!-- {{ dialogAction == "Add Finance" ? "Create" : "Update" }} -->
-        <!-- </button>  -->
-      </div>
-    </footer>
-  </article>
+  <ng-container slot="footer">
+    <button class="primary" (click)="addFinanceBulk()" [disabled]="$importDataIsValid()">Import</button>
+  </ng-container>
 </app-dialog>

@@ -1,5 +1,6 @@
-@use "src/styles/abstracts/constants" as style;
+@use "src/styles/abstracts/constants" as constants;
 @use "src/styles/abstracts/colors" as colors;
+@use "src/styles/abstracts/mixins" as mixins;
 
 // Keyframes
 @keyframes spring {
@@ -23,6 +24,10 @@
   }
 
   .summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+
     .category {
       font-size: inherit;
       white-space: nowrap;
@@ -47,14 +52,28 @@
   }
 
   .finances {
+    margin: unset;
+
     summary {
       padding: 0.5rem 1rem;
       border: solid 1px var(--border-color);
       background-color: var(--bg);
+      border-style: solid none solid none;
+    }
+
+    .summary-list {
     }
 
     .grid {
-      margin: var(--gap);
+      display: grid;  
+      // margin: var(--gap);
+      // min-width: 16rem;
+
+      @include mixins.card-shape;
+      grid-template-columns: 1fr 1fr;
+      padding: 0.5rem;
+      background-color: var(--bg2);
+      box-shadow: unset;
 
       .amount {
         font-weight: bold;
@@ -65,25 +84,7 @@
       }
     }
   }
-  @media screen and (max-width: 844px) {
+  @media screen and (max-width: constants.$media-sm) {
     font-size: small;
-
-    .finances {
-      margin: unset;
-
-      summary {
-        border-style: solid none solid none;
-      }
-
-      .grid {
-        background-color: var(--bg2);
-        grid-template-columns: 1fr 1fr;
-        grid-row-gap: 0rem;
-        padding: 0.5rem 1rem;
-
-        border: solid 1px var(--border-color);
-        border-radius: var(--border-radius);
-      }
-    }
   }
 }

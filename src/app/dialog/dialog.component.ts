@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  HostListener,
   Input,
   OnChanges,
   Output,
@@ -30,6 +31,13 @@ export class DialogComponent implements OnChanges {
 
   @ViewChild("dialogRef", { static: true })
   dialogElement?: ElementRef<HTMLDialogElement>;
+
+  @HostListener("window:keydown.esc", ["$event"])
+  handleKeyDown(event: KeyboardEvent) {
+    if (this.isVisible) {
+      this.closeDialog();
+    }
+  }
 
   $showDialog = signal(false);
   $isClosing = signal(false);

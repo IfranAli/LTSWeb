@@ -21,6 +21,8 @@ export class ProjectService {
 
   $refreshProjects = new BehaviorSubject<boolean>(true);
   $selectedTask = signal<TaskModel | null>(null);
+  
+  // todo: Store the whole project object.
   $selectedProjectId = signal<number>(-1);
   $selectedProject = computed(() => {
     const id = this.$selectedProjectId();

@@ -1,51 +1,49 @@
-<div class="custom-form">
-  <form [formGroup]="taskForm">
-    <label>Name</label>
-    <input [formControl]="taskForm.controls.name">
+<app-dialog
+  [isVisible]="openModal"
+  [fullScreen]="fullScreen"
+  (onModalClose)="onModalClose.emit(false)"
+>
+  <ng-container slot="header"> </ng-container>
 
-    <label>State</label>
-    <select [formControl]="taskForm.controls.state">
-      <option [value]="0">Todo</option>
-      <option [value]="1">In progress</option>
-      <option [value]="2">Blocked</option>
-      <option [value]="3">Done</option>
-    </select>
+  <ng-container slot="content">
+    <div class="custom-form">
+      <form [formGroup]="taskForm">
+        <section>
+          <label>Name</label>
+          <input [formControl]="taskForm.controls.name" />
 
+          <label>State</label>
+          <select [formControl]="taskForm.controls.state">
+            <option [value]="0">Todo</option>
+            <option [value]="1">In progress</option>
+            <option [value]="2">Blocked</option>
+            <option [value]="3">Done</option>
+          </select>
 
-    <label>Content</label>
-    <textarea [formControl]="taskForm.controls.content">
-    </textarea>
+          <label>Content</label>
+          <textarea [formControl]="taskForm.controls.content"> </textarea>
 
-    <label>Project ID</label>
-    <select [formControl]="taskForm.controls.projectId">
-      <ng-container *ngFor="let project of projects$| async">
-        <option [value]="project[0]">{{project[1]}}</option>
-      </ng-container>
-    </select>
+          <label>Project ID</label>
+          <select [formControl]="taskForm.controls.projectId">
+            <!-- <ng-container *ngFor="let project of projects$| async">
+            <option [value]="project[0]">{{project[1]}}</option>
+          </ng-container> -->
+          </select>
 
-    <label>Priority</label>
-    <select [formControl]="taskForm.controls.priority">
-      <option [value]="0">Lowest</option>
-      <option [value]="1">Medium</option>
-      <option [value]="2">High</option>
-      <option [value]="3">Highest</option>
-    </select>
-
-  </form>
-
-  <div class="actions">
-    <div>
-      <div>
-        <button (click)="onNoClick()">Cancel</button>
-      </div>
-      <button
-        class='danger' (click)="deleteTask()">Delete
-      </button>
+          <label>Priority</label>
+          <select [formControl]="taskForm.controls.priority">
+            <option [value]="0">Lowest</option>
+            <option [value]="1">Medium</option>
+            <option [value]="2">High</option>
+            <option [value]="3">Highest</option>
+          </select>
+        </section>
+      </form>
     </div>
+  </ng-container>
 
-    <button class='primary' (click)="save()">
-      Save
-    </button>
-  </div>
-</div>
-
+  <ng-container slot="footer">
+    <button class="danger" (click)="deleteTask()">Delete</button>
+    <button class="primary" (click)="save()">Save</button>
+  </ng-container>
+</app-dialog>

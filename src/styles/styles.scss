@@ -3,6 +3,7 @@
 @use "./abstracts/constants" as constants;
 @use "./pico-custom";
 
+@use "src/styles/abstracts/mixins" as mixins;
 @use "./components/nav";
 @use "./components/button";
 @use "./components/article";
@@ -97,6 +98,21 @@ body > app-root > footer {
   }
 }
 
+// component Box
+.list-item-action {
+  @include mixins.card-action;
+  box-shadow: unset;
+}
+
+// Utility
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: min-content;
+  gap: 0.5rem;
+}
+
 // Misc
 article > section {
   padding: var(--gap) 0;
@@ -141,11 +157,10 @@ select {
 .badge {
   font-size: small;
   padding: 0 0.2rem;
-  border-style: solid;
-  border-radius: var(--border-radius);
-  border-width: 1px;
-  font-family: monospace;
+  border-radius: 4px;
   white-space: nowrap;
+  font-weight: bold;
+  color: var(--text-color-dark);
 }
 
 // UI Styling

@@ -1,18 +1,23 @@
-import { Component, Inject, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { generateCode, ProjectModel } from "../../models/project.model";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
-import { Store } from "@ngrx/store";
-import { AppState } from "../../reducers";
-import { deleteProject, updateProject } from "../../actions/project.actions";
 import { ProjectService } from "src/app/services/project.service";
+import {
+  DialogBaseComponent,
+  DialogComponent,
+} from "src/app/dialog/dialog.component";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-edit-project-dialog",
   templateUrl: "./edit-project-dialog.component.html",
   styleUrls: ["./edit-project-dialog.component.scss"],
+  imports: [CommonModule, ReactiveFormsModule, DialogComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
-export class EditProjectDialogComponent implements OnInit {
+export class EditProjectDialogComponent extends DialogBaseComponent {
   model: ProjectModel = {
     tasks: [],
     title: "",
@@ -22,6 +27,7 @@ export class EditProjectDialogComponent implements OnInit {
     enabled: false,
     id: 0,
   };
+
   form = new FormGroup({
     title: new FormControl<string>(""),
     content: new FormControl<string>(""),
@@ -29,24 +35,17 @@ export class EditProjectDialogComponent implements OnInit {
     code: new FormControl<string>(""),
   });
 
-  constructor(
-    private store: Store<AppState>,
-    private projectService: ProjectService
-  ) {
-    // this.model = data.project;
+  constructor(private projectService: ProjectService) {
+    super();
+    const data = this.projectService.$selectedProject();
+
     this.form.setValue({
-      title: "", //this.model.title,
-      content: "", ////this.model.description,
-      colour: "", //this.model.colour,
-      code: "", //this.model.code,
+      title: data?.title ?? "",
+      content: data?.description ?? "",
+      colour: data?.colour ?? "",
+      code: data?.code ?? "",
     });
   }
-
-  onNoClick(): void {
-    // this.dialogRef.close();
-  }
-
-  ngOnInit(): void {}
 
   getDialogData(): ProjectModel {
     const title = this.form.controls.title.value ?? this.model.title;
@@ -67,10 +66,7 @@ export class EditProjectDialogComponent implements OnInit {
 
   deleteProject() {
     const id = this.model.id;
-    this.projectService.deleteProject(id).subscribe((_) => {
-      // this.dialogRef.close();
-      this.store.dispatch(deleteProject({ id: id }));
-    });
+    this.projectService.deleteProject(id).subscribe((_) => {});
   }
 
   saveProject() {
@@ -80,9 +76,6 @@ export class EditProjectDialogComponent implements OnInit {
       return;
     }
 
-    this.projectService.updateProject(model).subscribe((_) => {
-      this.store.dispatch(updateProject(model));
-      // this.dialogRef.close();
-    });
+    this.projectService.updateProject(model).subscribe((_) => {});
   }
 }

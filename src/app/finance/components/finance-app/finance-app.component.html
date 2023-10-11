@@ -36,12 +36,12 @@
         *ngIf="$$selectedFinance() as selected"
         [openModal]="showEditDialog()"
         [selected]="selected"
-        (onModalClose)="closeDialog($event)"
+        (onModalClose)="onCloseDialogEvent($event)"
       ></app-add-finance-dialog>
 
       <app-import-finance-dialog
         [openModal]="showImportDialog()"
-        (onModalClose)="closeDialog($event)"
+        (onModalClose)="onCloseDialogEvent($event)"
       >
       </app-import-finance-dialog>
 
@@ -110,7 +110,7 @@
               <span class="categoryBadge">
                 <span
                   class="badge no-outline small"
-                  [style.color]="finance.categoryColour"
+                  [style.backgroundColor]="finance.categoryColour"
                 >
                   {{ finance.categoryLabel }}
                 </span>

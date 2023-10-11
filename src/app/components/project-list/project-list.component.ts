@@ -1,11 +1,11 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
   OnInit,
   Output,
   ViewEncapsulation,
-  signal,
 } from "@angular/core";
 import {
   createTaskModel,
@@ -17,23 +17,22 @@ import {
   TaskPinnedEvent,
   TaskUpdatedEvent,
 } from "../../models/events.model";
-import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { CdkDragDrop, DragDropModule } from "@angular/cdk/drag-drop";
 import { defaultProject, ProjectModel } from "../../models/project.model";
-import { Store } from "@ngrx/store";
-import { AppState } from "../../reducers";
 
-import * as fromTask from "../../reducers/tasks.reducer";
-import { createTask, updateTask } from "../../actions/task.actions";
 import { TaskState } from "../../constants/constants";
-import { switchMap } from "rxjs/operators";
-import { of } from "rxjs/internal/observable/of";
 import { ProjectService } from "src/app/services/project.service";
+import { TaskComponent } from "../task/task.component";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-project-list",
   templateUrl: "./project-list.component.html",
   styleUrls: ["./project-list.component.scss"],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [CommonModule, DragDropModule, TaskComponent],
 })
 export class ProjectListComponent implements OnInit {
   @Input() project: ProjectModel = defaultProject;
@@ -43,10 +42,7 @@ export class ProjectListComponent implements OnInit {
 
   projectColour: string = "#d2d2d2";
 
-  constructor(
-    private store: Store<AppState>,
-    private projectService: ProjectService
-  ) {}
+  constructor(public projectService: ProjectService) {}
 
   private static taskSortMethod(a: TaskModel, b: TaskModel): number {
     // All done tasks go to the bottom of the list.
@@ -108,11 +104,11 @@ export class ProjectListComponent implements OnInit {
 
     this.projectService.updateTask(model).subscribe((value) => {
       const response: TaskDatabaseModel = value.shift()!;
-      this.store.dispatch(
-        updateTask({
-          ...response,
-        })
-      );
+      // // this.store.dispatch(
+      // //   updateTask({
+      // //     ...response,
+      // //   })
+      // );
     });
   }
 
@@ -131,20 +127,17 @@ export class ProjectListComponent implements OnInit {
       (result) => {
         const responseTask: TaskDatabaseModel = result.shift()!;
 
-        this.store.dispatch(
-          createTask({
-            ...createTaskModel(responseTask),
-          })
-        );
+        // this.store.dispatch(
+        //   createTask({
+        //     ...createTaskModel(responseTask),
+        //   })
+        // );
       },
       (error) => {}
     );
   }
 
-  openDialog() {
-    // const dialogRef = this.dialog.open(EditProjectDialogComponent, {
-    //   data: {project: this.project},
-    //   panelClass: ['dialog-style', 'dialog-small'],
-    // });
+  openDialog(projectId: number) {
+    this.projectService.$selectedProjectId.set(projectId);
   }
 }

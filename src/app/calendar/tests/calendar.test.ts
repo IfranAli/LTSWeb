@@ -10,7 +10,6 @@ describe("Calendar Tests", () => {
     const month = CALENDAR_MONTHS[januaryIndex];
     const january = generateDaysInMonth(NON_LEAP_YEAR, januaryIndex);
 
-    // debugger;
     // expect(january.name).toBe(month);
     // expect(january.weeks.length).toBe(6);
     console.log(january);

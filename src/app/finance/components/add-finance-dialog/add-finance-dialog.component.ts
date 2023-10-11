@@ -2,31 +2,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  Inject,
   Input,
-  OnInit,
-  effect,
   inject,
-  signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { createFinanceModel, FinanceModel } from "../../models/finance.model";
-import {
-  bulkImportTextToFinanceModel,
-  dateToString,
-} from "../../util/finance.util";
-import {
-  parseDateIdentifier,
-  parseDateIdentifierAsString,
-} from "../../../calendar/models/calendar.util";
-import { filter, Observable, of, switchMap, tap } from "rxjs";
+import { dateToString } from "../../util/finance.util";
+import { parseDateIdentifier } from "../../../calendar/models/calendar.util";
 import {
   DialogBaseComponent,
   DialogComponent,
 } from "src/app/dialog/dialog.component";
-import { takeUntilDestroyed, toSignal } from "@angular/core/rxjs-interop";
-import { deleteFinance } from "src/app/actions/finance.actions";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FinanceService } from "../../services/finance.service";
 
 export enum Tabs {

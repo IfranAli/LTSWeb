@@ -1,25 +1,38 @@
-<div class="custom-form">
-  <form [formGroup]="form">
+<app-dialog
+  [isVisible]="openModal"
+  [fullScreen]="fullScreen"
+  (onModalClose)="onModalClose.emit(false)"
+>
+  <ng-container slot="content">
+    <div class="custom-form">
+      <form [formGroup]="form">
+        <section>
+          <label>
+            Title
+            <input [formControl]="form.controls.title" />
+          </label>
 
-    <label>Title</label>
-    <input matInput [formControl]="form.controls.title">
+          <label>
+            Project Code
+            <input [formControl]="form.controls.code" />
+          </label>
 
-    <label>Project Code</label>
-    <input matInput [formControl]="form.controls.code">
+          <label>
+            Content
+            <input [formControl]="form.controls.content" />
+          </label>
 
-    <label>Content</label>
-    <input matInput [formControl]="form.controls.content">
-
-    <label>Color</label>
-    <input matInput [formControl]="form.controls.colour">
-  </form>
-
-  <div class="actions">
-    <div>
-      <button (click)="onNoClick()">Cancel</button>
-      <button class="danger" (click)="deleteProject()">Delete</button>
+          <label>
+            Color
+            <input [formControl]="form.controls.colour" />
+          </label>
+        </section>
+      </form>
     </div>
+  </ng-container>
 
+  <ng-container slot="footer">
+    <button class="danger" (click)="deleteProject()">Delete</button>
     <button class="primary" (click)="saveProject()">Save</button>
-  </div>
-</div>
+  </ng-container>
+</app-dialog>

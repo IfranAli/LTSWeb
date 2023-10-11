@@ -2,9 +2,22 @@
   <button class="" (click)="addProject()">Add Project</button>
 </div>
 
+<app-edit-project-dialog
+  *ngIf="$showEditProjectDialog() as show"
+  [openModal]="show"
+  (onModalClose)="onCloseDialogEvent($event)"
+>
+</app-edit-project-dialog>
+<app-edit-task-dialog
+  *ngIf="$showEditTaskDialog() as show"
+  [openModal]="show"
+  (onModalClose)="onCloseDialogEvent($event)"
+>
+</app-edit-task-dialog>
+
 <div class="box">
   <ng-container cdkDropListGroup class="projects-drop-group">
-    <div *ngFor="let project of projectsData$ | async">
+    <div *ngFor="let project of $projects()">
       <app-project-list [project]="project"></app-project-list>
     </div>
   </ng-container>

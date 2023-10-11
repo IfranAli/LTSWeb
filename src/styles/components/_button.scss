@@ -1,4 +1,7 @@
+@use "src/styles/abstracts/mixins" as mixins;
+
 article > header > button {
+  @include mixins.card-action;
   box-shadow: none;
 }
 
@@ -25,5 +28,16 @@ button {
     color: var(--text-disabled);
     background-color: var(--bg1);
     cursor: not-allowed;
+  }
+}
+
+.btn-flat {
+  box-shadow: none;
+  background: none;
+  margin: 0;
+  padding: 0;
+  
+  &:hover {
+    outline: none;
   }
 }

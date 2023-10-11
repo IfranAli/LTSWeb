@@ -44,13 +44,22 @@ dialog {
     overflow: visible;
     height: 40svh;
     width: 90svw;
+    animation: none;
 
     .dialog-container {
       margin: 0;
       height: 100%;
       width: 100%;
 
-      &.fullscreen {
+      &.full-screen {
+        margin: 0;
+        height: 100lvh;
+        width: 100lvw;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+
         border-radius: unset;
         margin: unset;
         box-shadow: none;

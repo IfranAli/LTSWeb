@@ -6,12 +6,18 @@
         <span class="description">{{ project.description }}</span>
       </hgroup>
 
-      <small class="font-code" (click)="openDialog()">
-        <span class="icon-button material-symbols-outlined highlight"
-          >settings</span
+      <div class="toolbar">        
+        <small>
+          {{ project.code }}
+        </small>
+        <button
+          name="Settings"
+          class="btn-flat"
+          (click)="openDialog(project.id)"
         >
-        {{ project.code }}
-      </small>
+          <span class="material-symbols-outlined highlight">settings</span>
+        </button>
+      </div>
     </header>
 
     <div

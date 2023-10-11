@@ -9,7 +9,6 @@
     header {
       background: inherit;
       margin-bottom: 0;
-      padding: 0.5rem;
 
       .font-code {
         align-items: flex-start;
@@ -40,5 +39,6 @@
 @media screen and (min-width: constants.$media-lg) {
   .box {
     grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
   }
 }

@@ -6,15 +6,9 @@ import {
   ViewEncapsulation,
 } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import { UserService } from "../../services/user.service";
-import { Store } from "@ngrx/store";
-import { AppState } from "../../reducers";
-import { loginUser } from "../../actions/user.actions";
 import { Router } from "@angular/router";
 import {
-  clearAuthorisationToken,
   getAuthorisationToken,
-  setAuthorisationToken,
 } from "src/app/constants/web-constants";
 import { AuthService } from "src/app/services/auth.service";
 
@@ -33,8 +27,6 @@ export class LoginDialogComponent implements OnInit {
   });
 
   constructor(
-    private store: Store<AppState>,
-    private userService: UserService,
     private authService: AuthService,
     private router: Router
   ) {}

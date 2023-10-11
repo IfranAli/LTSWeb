@@ -1,17 +1,16 @@
 $bg-light: #b7bcbc;
 $bg-light-1: #{lighten($bg-light, 5%)};
 $bg-light-2: #{lighten($bg-light, 10%)};
-$text-color-light: rgb(0, 0, 0, 0.6);
+$text-color-light: rgb(0, 0, 0, 1);
 $border-color-light: #{darken($bg-light, 10%)};
 
 $bg-dark: #0d1116;
 $bg-dark-1: #{lighten($bg-dark, 5%)};
 $bg-dark-2: #{lighten($bg-dark, 10%)};
-$text-color-dark: rgb(255, 255, 255, 0.6);
+$text-color-dark: rgb(210 204 196);
 $border-color-dark: #{darken($bg-dark, 10%)};
 
 $text-active: #ff6600;
-
 
 $color-blue: #658edc;
 $color-yellow: #ffdd3d;

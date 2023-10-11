@@ -78,8 +78,4 @@ export class DialogBaseComponent {
   @Input({ required: false }) openModal = false;
   @Input({ required: false }) fullScreen = true;
   @Output() onModalClose = new EventEmitter<boolean>();
-  
-  public closeDialog() {
-   this.openModal = false;; 
-  }
 }

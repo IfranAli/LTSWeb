@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Signal, computed, effect, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { ProjectDatabaseModel, ProjectModel } from "../models/project.model";
 import {
@@ -8,8 +8,8 @@ import {
 } from "../models/task.model";
 import { environment } from "../../environments/environment";
 import { getHttpHeaders, ResponseMessage } from "../constants/web-constants";
-import { switchMap, of, Observable, catchError } from "rxjs";
-// import {postcss} from "@angular-devkit/build-angular/src/webpack/plugins/postcss-cli-resources";
+import { Observable, concatMap, forkJoin, map } from "rxjs";
+import { toSignal } from "@angular/core/rxjs-interop";
 
 const baseUrl = environment.backendURL;
 
@@ -17,9 +17,48 @@ const baseUrl = environment.backendURL;
   providedIn: "root",
 })
 export class ProjectService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    effect(() => {
+      console.log(
+        "ProjectService: $selectedtask changed to",
+        this.$selectedTask()
+      );
+    });
+  }
 
-  getProjects() {
+  $selectedTask = signal<TaskModel | null>(null);
+  $selectedProjectId = signal<number>(-1);
+  $selectedProject = computed(() => {
+    const id = this.$selectedProjectId();
+
+    const project =
+      id > 0
+        ? this.$projectsWithTasks().find((project) => project.id === id)
+        : null;
+    return project;
+  });
+  $projectsWithTasks: Signal<ProjectModel[]> = computed(() => {
+    const projectsWithTasks = this.$projectsDataSignal();
+    return projectsWithTasks;
+  });
+
+  private projectsData$ = this.getProjects().pipe(
+    concatMap((projects) =>
+      forkJoin(
+        projects.map((project) => {
+          return this.getTasksByProjectID(project.id).pipe(
+            map((tasks) => ({ ...project, tasks: tasks as TaskModel[] }))
+          );
+        })
+      )
+    )
+  );
+
+  private $projectsDataSignal = toSignal(this.projectsData$, {
+    initialValue: [],
+  });
+
+  private getProjects(): Observable<ProjectModel[]> {
     const url = "projects";
     return this.http.get<ProjectModel[]>(baseUrl + url, getHttpHeaders());
   }

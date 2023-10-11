@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, DestroyRef } from "@angular/core";
 import { createTaskModel, TaskModel } from "../../models/task.model";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Priority, TaskState } from "../../constants/constants";
@@ -8,6 +8,7 @@ import {
   DialogBaseComponent,
   DialogComponent,
 } from "src/app/dialog/dialog.component";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   standalone: true,
@@ -34,7 +35,10 @@ export class EditTaskDialogComponent extends DialogBaseComponent {
 
   public Priority = Priority;
 
-  constructor(private projectService: ProjectService) {
+  constructor(
+    private destroyRef: DestroyRef,
+    private projectService: ProjectService
+  ) {
     super();
 
     const data = this.projectService.$selectedTask();
@@ -73,8 +77,24 @@ export class EditTaskDialogComponent extends DialogBaseComponent {
 
   save() {
     const data = this.getDialogData();
-    console.log(data)
-    debugger;
+
+    if (data.id > 0) {
+      this.projectService
+        .updateTask(data)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((value) => {
+          console.log(value);
+          this.onModalClose.emit(true);
+        });
+    } else {
+      this.projectService
+        .createTaskOnProject(data)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe((value) => {
+          this.onModalClose.emit(true);
+        });
+    }
+
     // this.dialogRef.close(data);
   }
 }

@@ -8,7 +8,7 @@ import {
 } from "../models/task.model";
 import { environment } from "../../environments/environment";
 import { getHttpHeaders, ResponseMessage } from "../constants/web-constants";
-import { Observable, concatMap, forkJoin, map } from "rxjs";
+import { BehaviorSubject, Observable, combineLatestWith, concatMap, forkJoin, map } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
 
 const baseUrl = environment.backendURL;
@@ -17,15 +17,9 @@ const baseUrl = environment.backendURL;
   providedIn: "root",
 })
 export class ProjectService {
-  constructor(private http: HttpClient) {
-    effect(() => {
-      console.log(
-        "ProjectService: $selectedtask changed to",
-        this.$selectedTask()
-      );
-    });
-  }
+  constructor(private http: HttpClient) {}
 
+  $refreshProjects = new BehaviorSubject<boolean>(true);
   $selectedTask = signal<TaskModel | null>(null);
   $selectedProjectId = signal<number>(-1);
   $selectedProject = computed(() => {
@@ -43,7 +37,8 @@ export class ProjectService {
   });
 
   private projectsData$ = this.getProjects().pipe(
-    concatMap((projects) =>
+    combineLatestWith(this.$refreshProjects),
+    concatMap(([projects, refresh]) =>
       forkJoin(
         projects.map((project) => {
           return this.getTasksByProjectID(project.id).pipe(

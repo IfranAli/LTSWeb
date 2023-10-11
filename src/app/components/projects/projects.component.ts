@@ -3,14 +3,12 @@ import {
   Component,
   ViewEncapsulation,
   computed,
-  signal,
+  inject,
 } from "@angular/core";
 import {
   createProjectModel,
   ProjectDatabaseModel,
-  ProjectModel,
 } from "../../models/project.model";
-import { UserModel } from "../../models/user.interface";
 import { ProjectService } from "src/app/services/project.service";
 import { EditProjectDialogComponent } from "../edit-project-dialog/edit-project-dialog.component";
 import { ProjectListComponent } from "../project-list/project-list.component";
@@ -32,25 +30,15 @@ import { EditTaskDialogComponent } from "../edit-task-dialog/edit-task-dialog.co
   ],
 })
 export class ProjectsComponent {
-  projects: ProjectModel[] = [];
-  user: UserModel | null = null;
-  showInactiveProjects = false;
+  projectService = inject(ProjectService);
+  $projects = this.projectService.$projectsWithTasks;
 
-  $refreshProjects = signal(false);
   $showEditProjectDialog = computed(
     () => this.projectService.$selectedProject() != null
   );
   $showEditTaskDialog = computed(
     () => this.projectService.$selectedTask() != null
   );
-
-  constructor(public projectService: ProjectService) {}
-
-  projectsSort = function (a: ProjectModel, b: ProjectModel): number {
-    return a.enabled === b.enabled ? 0 : a.enabled ? -1 : 1;
-  };
-
-  $projects = this.projectService.$projectsWithTasks;
 
   addProject() {
     const model: Omit<ProjectDatabaseModel, "id"> = {
@@ -66,12 +54,12 @@ export class ProjectsComponent {
     //   .subscribe((res) => this.store.dispatch(createProject(res.shift()!)));
   }
 
-  private refresh() {
-    this.$refreshProjects.set(true);
-  }
-
   onCloseDialogEvent(value: any) {
     this.projectService.$selectedProjectId.set(-1);
     this.projectService.$selectedTask.set(null);
+
+    if (value) {
+      this.projectService.$refreshProjects.next(true);
+    }
   }
 }

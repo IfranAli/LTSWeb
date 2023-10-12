@@ -21,15 +21,17 @@
   }
 }
 
+@mixin outline {
+  outline: solid 2px var(--text-active);
+}
+
 @mixin hover-outline {
   transition: color 0.5s;
   color: var(--text-color);
 
   &:hover {
+    @include outline;
     color: var(--text-active);
-    outline-style: solid;
-    outline-color: var(--text-active);
-    outline-width: 1px;
     cursor: pointer;
   }
 }

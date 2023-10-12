@@ -8,16 +8,12 @@
   </ng-container>
 
   <ng-container slot="content">
-    <div class="toolbar">
-      <button type="button" (click)="applyExample()">Example</button>
-    </div>
-
     <div class="bulk-import-form">
       <div class="custom-form">
         <form [formGroup]="bulkImportForm">
           <section>
             <label>
-              <div>Input</div>
+              Input
               <textarea
                 name="InputData"
                 [formControl]="bulkImportForm.controls.input"
@@ -40,16 +36,18 @@
       </div>
 
       <div class="parsed-display scrollable-div">
-        <div *ngFor="let v of test$ | async">
-          {{ v.date }}
-          {{ "$" + v.amount }}
-          {{ v.name }}
+        <div class="task-view" *ngFor="let v of test$ | async">
+          <span *ngIf="v.name">{{ v.name }}</span>
+          <span *ngIf="v.amount"> ＄ {{ v.amount }} </span>
+          <span *ngIf="v.date"> 📅 {{ v.date }} </span>
+          <span *ngIf="v.time"> 🕑 {{ v.time }} </span>
         </div>
       </div>
     </div>
   </ng-container>
 
   <ng-container slot="footer">
+    <button type="button" (click)="applyExample()">Import Example</button>
     <button
       class="primary"
       (click)="addFinanceBulk()"

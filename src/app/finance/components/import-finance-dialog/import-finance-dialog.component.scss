@@ -1,4 +1,5 @@
 @use "src/styles/abstracts/mixins" as mixins;
+
 .bulk-import-form {
   display: flex;
   flex-direction: row;
@@ -15,9 +16,15 @@
   }
 
   .parsed-display {
-    @include mixins.card-shape;
-    box-shadow: none;
-    background-color: var(--bg2);
-    padding: 0.5rem;
+    font-size: small;
+
+    .task-view {
+      @include mixins.card-shape;
+      background-color: var(--bg2);
+      min-width: 250px;
+      padding: 0.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
   }
 }

@@ -3,14 +3,16 @@
 @mixin input-element {
   @include mixins.hover-outline;
   color: inherit;
-  padding: 4px 2px;
+  padding: 0.5rem;
   border-radius: 4px;
   background-color: var(--bg2);
   border: solid 1px var(--border-color);
   outline: none;
   box-shadow: none;
 
-  &:hover {
+  &:hover,
+  &:focus-visible,
+  &:active {
     transition: outline;
     color: var(--text-color);
   }
@@ -21,4 +23,16 @@ input,
 select,
 textarea {
   @include input-element;
+  background-color: var(--bg-form-field);
+
+  &:focus-visible {
+    @include mixins.outline;
+  }
+}
+
+label {
+  :first-child {
+    margin-top: 0.5rem;
+    display: block;
+  }
 }

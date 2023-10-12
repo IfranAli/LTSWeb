@@ -8,7 +8,7 @@ export const dateToString = function (date: Date, seperator = "/"): string {
   return y + seperator + m + seperator + d;
 };
 
-const regExPatternTime: RegExp = /@(\d{2}):(\d{2})/g;
+const regExPatternTime: RegExp = /(\d{1,2}):(\d{2})/;
 export const bulkImportTextToFinanceModel = (
   inputText: string,
   date: string = ""
@@ -16,21 +16,24 @@ export const bulkImportTextToFinanceModel = (
   inputText
     .split("\n")
     .map((value) => {
-      const items = value
-        .split(" ")
-        .map((v) => v.trim())
-        .filter((v) => v.length > 0);
-      const amount = parseFloat(items.at(0) ?? "");
-      const name = items.at(1) ?? "";
-      const time = items.find((v) => {
-        return regExPatternTime.test(v);
-      })?.slice(1) ?? "";
+      // Extract time component
+      let timeStr = "";
+      if (value.indexOf("@") > -1) {
+        [value, timeStr] = value.split("@");
+
+        const regexResult = regExPatternTime.test(timeStr);
+        timeStr = regexResult ? timeStr : "";
+      }
+
+      // Extract name and amount
+      const name = value.substring(value.indexOf(" ")).trim();
+      const amount = parseFloat(value.substring(0, value.indexOf(" ")).trim());
 
       return createFinanceModel({
         name: name,
         amount: amount,
         date: date ?? "",
-        time: time,
+        time: timeStr,
       });
     })
     .filter(

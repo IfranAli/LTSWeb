@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import {
   Component,
   EventEmitter,
@@ -5,20 +6,22 @@ import {
   Output,
   ViewEncapsulation,
 } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
 import { Router } from "@angular/router";
-import {
-  getAuthorisationToken,
-} from "src/app/constants/web-constants";
+import { getAuthorisationToken } from "src/app/constants/web-constants";
+import { DialogBaseComponent, DialogComponent } from "src/app/dialog/dialog.component";
 import { AuthService } from "src/app/services/auth.service";
 
 @Component({
-  selector: "app-login-dialog",
-  templateUrl: "./login-dialog.component.html",
-  styleUrls: ["./login-dialog.component.scss"],
-  encapsulation: ViewEncapsulation.None,
+    selector: "app-login-dialog",
+    templateUrl: "./login-dialog.component.html",
+    styleUrls: ["./login-dialog.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    standalone: true,
+    imports: [CommonModule, DialogBaseComponent, FormsModule, ReactiveFormsModule, DialogComponent]
 })
-export class LoginDialogComponent implements OnInit {
+export class LoginDialogComponent extends DialogBaseComponent {
   @Output() onUserLogin = new EventEmitter<any>();
 
   form = new FormGroup({
@@ -26,10 +29,9 @@ export class LoginDialogComponent implements OnInit {
     password: new FormControl<string>(""),
   });
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {
+    super();
+  }
 
   ngOnInit(): void {
     if (getAuthorisationToken()) {

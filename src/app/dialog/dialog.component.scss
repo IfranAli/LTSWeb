@@ -1,35 +1,61 @@
 @keyframes slideDown {
   from {
     transform: translateY(-200%);
-    opacity: 0;
   }
   to {
     transform: translateY(0);
-    opacity: 1;
   }
 }
 
 @keyframes slideUp {
   from {
     transform: translateY(0);
-    opacity: 1;
   }
   to {
     transform: translateY(-200%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
     opacity: 0;
   }
 }
 
+$animation-speed: 0.5s;
+
 dialog[open] {
-  animation: 0.5s slideDown;
+  animation: $animation-speed slideDown, $animation-speed fadeIn;
   background: transparent;
   border: none;
 }
 
 dialog[closing] {
-  animation: 0.5s slideUp !important;
+  animation: $animation-speed slideUp, $animation-speed fadeOut;
 }
 
 dialog::backdrop {
   background: none;
+}
+
+@media screen and (max-width: 786px) {
+  dialog[open] {
+    animation: $animation-speed fadeIn;
+  }
+
+  dialog[closing] {
+    animation: $animation-speed fadeOut;
+  }
 }

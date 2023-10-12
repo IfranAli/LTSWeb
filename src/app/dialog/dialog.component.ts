@@ -27,6 +27,7 @@ import {
 export class DialogComponent implements OnChanges {
   @Input({ required: false }) isVisible = false;
   @Input({ required: false }) fullScreen = false;
+  @Input({ required: false }) hideCloseButton = false;
   @Output() onModalClose = new EventEmitter<boolean>();
 
   @ViewChild("dialogRef", { static: true })

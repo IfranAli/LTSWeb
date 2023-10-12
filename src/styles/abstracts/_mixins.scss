@@ -1,9 +1,12 @@
 @use "../abstracts/colors" as colors;
 @use "../abstracts/constants" as constants;
 
+@mixin box-shadow {
+  box-shadow: var(--box-shadow);
+}
+
 @mixin card-shape {
   margin: var(--container-margin);
-  box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
 }
 
@@ -14,6 +17,19 @@
 
   &:hover {
     box-shadow: var(--box-shadow);
-    background-color: var(--bg3);
+    background-color: var(--bg-active);
+  }
+}
+
+@mixin hover-outline {
+  transition: color 0.5s;
+  color: var(--text-color);
+
+  &:hover {
+    color: var(--text-active);
+    outline-style: solid;
+    outline-color: var(--text-active);
+    outline-width: 1px;
+    cursor: pointer;
   }
 }

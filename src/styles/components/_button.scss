@@ -6,22 +6,16 @@ article > header > button {
 }
 
 button {
+  @include mixins.hover-outline;
   box-shadow: var(--box-shadow);
   background-color: var(--bg2);
   border: none;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   font-size: medium;
-  color: var(--pico-primary);
-  transition: color 0.5s;
 
   &:hover {
-    color: var(--text-active);
-    outline-style: solid;
-    outline-color: var(--text-active);
-    outline-width: 1px;
     background-color: var(--bg1);
-    cursor: pointer;
   }
 
   &:disabled {
@@ -36,7 +30,7 @@ button {
   background: none;
   margin: 0;
   padding: 0;
-  
+
   &:hover {
     outline: none;
   }

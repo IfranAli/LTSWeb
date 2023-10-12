@@ -1,15 +1,36 @@
-<div class="">
-  <form [formGroup]="form">
+<app-dialog
+  [isVisible]="true"
+  [fullScreen]="fullScreen"
+  [hideCloseButton]="true"
+  (onModalClose)="onModalClose.emit(false)"
+>
+  <ng-container slot="content">
+    <div class="custom-form">
+      <section>
+        <form [formGroup]="form">
+          <label>
+            Username
+            <input
+              matInput
+              [formControl]="form.controls.username"
+              type="text"
+            />
+          </label>
 
-      <label>Username</label>
-      <input matInput [formControl]="form.controls.username" type="text">
+          <label>
+            Password
+            <input
+              matInput
+              [formControl]="form.controls.password"
+              type="password"
+            />
+          </label>
+        </form>
+      </section>
+    </div>
+  </ng-container>
 
-      <label>Password</label>
-      <input matInput [formControl]="form.controls.password" type="password">
-
-  </form>
-
-  <div class="actions">
+  <ng-container slot="footer">
     <button class="primary" (click)="loginUser()" type="submit">Login</button>
-  </div>
-</div>
+  </ng-container>
+</app-dialog>

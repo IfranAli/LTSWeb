@@ -14,7 +14,7 @@
     </section>
 
     <footer>
-      <button (click)="closeDialog()">close</button>
+      <button (click)="closeDialog()" *ngIf="!this.hideCloseButton">close</button>
 
       <div class="actions">
         <ng-content select="[slot=footer]"></ng-content>

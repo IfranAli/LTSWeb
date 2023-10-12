@@ -4,6 +4,7 @@
 
 .custom-article {
   @include mixins.card-shape;
+  @include mixins.box-shadow;
   background-color: var(--bg1);
   padding: 0;
 

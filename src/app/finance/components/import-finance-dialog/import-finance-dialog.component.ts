@@ -11,21 +11,19 @@ import {
   DialogComponent,
 } from "src/app/dialog/dialog.component";
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
-import { Observable, filter, switchMap, of, tap } from "rxjs";
+import { Observable, filter, switchMap, of } from "rxjs";
 import { FinanceModel } from "../../models/finance.model";
-import { parseDateIdentifierAsString } from "src/app/calendar/models/calendar.util";
 import {
   bulkImportTextToFinanceModel,
   dateToString,
 } from "../../util/finance.util";
-import { CALENDAR_MONTHS } from "src/app/calendar/models/calendar.model";
 import { parseDateInput } from "src/app/calendar/date-parser.util";
 
 @Component({
   selector: "app-import-finance-dialog",
   standalone: true,
   templateUrl: "./import-finance-dialog.component.html",
-  styleUrls: ["./import-finance-dialog.component.css"],
+  styleUrls: ["./import-finance-dialog.component.scss"],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
@@ -40,7 +38,6 @@ export class ImportFinanceDialogComponent extends DialogBaseComponent {
   $importDataIsValid = computed(() => this.$data().length == 0);
 
   addFinanceBulk() {
-    
     // todo: add bulk import
     // Time is actually in the data set. just not in the preview.
     console.log(this.$data());
@@ -65,6 +62,20 @@ export class ImportFinanceDialogComponent extends DialogBaseComponent {
         return of(test);
       })
     );
+
+  applyExample() {
+    const importText = `feb 5
+-12.0 breakfast@11:30
+-5 coffee@9:00
+
+apr 12
+-15 transport@13:00
+
+may 1
+- 8 choclates@15:00`;
+
+    this.bulkImportForm.controls.input.setValue(importText);
+  }
 }
 
 export const getFinanceModelsFromInputBulk = (

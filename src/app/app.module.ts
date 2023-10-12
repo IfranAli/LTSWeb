@@ -11,9 +11,10 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AuthGuard } from "./auth-guard.service";
 import { AuthService } from "./services/auth.service";
 import { AuthInterceptor } from "./services/auth-interceptor.service";
+import { DialogComponent } from "./dialog/dialog.component";
 
 @NgModule({
-  declarations: [AppComponent, TaskEditViewComponent, LoginDialogComponent],
+  declarations: [AppComponent, TaskEditViewComponent],
   providers: [
     HttpClientModule,
     AuthGuard,
@@ -32,6 +33,7 @@ import { AuthInterceptor } from "./services/auth-interceptor.service";
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
+    DialogComponent,
   ],
 })
 export class AppModule {}

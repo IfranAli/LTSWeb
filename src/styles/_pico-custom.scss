@@ -10,6 +10,7 @@
   --border-color: #{colors.$border-color-light};
   --text-color: #{colors.$text-color-light};
   --text-color-inverse: #{colors.$text-color-dark};
+  --bg-active: #{colors.$bg-active-light};
 }
 
 /* Automatically enabled if user has Dark mode enabled */
@@ -23,6 +24,7 @@
     --border-color: #{colors.$border-color-dark};
     --text-color: #{colors.$text-color-dark};
     --text-color-inverse: #{colors.$text-color-light};
+    --bg-active: #{colors.$bg-active-dark};
   }
 }
 

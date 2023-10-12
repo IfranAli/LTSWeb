@@ -1,0 +1,23 @@
+@use "src/styles/abstracts/mixins" as mixins;
+.bulk-import-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .custom-form {
+    @include mixins.card-shape;
+    background-color: var(--bg2);
+    flex-grow: 1;
+
+    textarea {
+      width: 100%;
+    }
+  }
+
+  .parsed-display {
+    @include mixins.card-shape;
+    box-shadow: none;
+    background-color: var(--bg2);
+    padding: 0.5rem;
+  }
+}

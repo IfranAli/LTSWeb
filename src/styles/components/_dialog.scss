@@ -40,9 +40,10 @@ dialog {
 }
 
 @media screen and (max-width: constants.$media-sm) {
+
   dialog {
     overflow: visible;
-    height: 40svh;
+    // height: 40svh;
     width: 90svw;
     animation: none;
 

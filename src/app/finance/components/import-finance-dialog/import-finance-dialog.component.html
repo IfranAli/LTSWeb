@@ -1,33 +1,43 @@
-<app-dialog [isVisible]="openModal" (onModalClose)="onModalClose.emit(false)">
+<app-dialog
+  [isVisible]="openModal"
+  (onModalClose)="onModalClose.emit(false)"
+  [fullScreen]="fullScreen"
+>
   <ng-container slot="header">
     <strong>Bulk Import</strong>
   </ng-container>
 
   <ng-container slot="content">
-    <div class="custom-form">
-      <form [formGroup]="bulkImportForm">
-        <section>
-          <label>
-            <div>Input</div>
-            <textarea
-              name="InputData"
-              [formControl]="bulkImportForm.controls.input"
-              type="text"
-            >
-            </textarea>
-          </label>
+    <div class="toolbar">
+      <button type="button" (click)="applyExample()">Example</button>
+    </div>
 
-          <label>
-            Date
-            <input
-              type="date"
-              title="date"
-              [formControl]="bulkImportForm.controls.date"
-              class="form-control"
-            />
-          </label>
-        </section>
-      </form>
+    <div class="bulk-import-form">
+      <div class="custom-form">
+        <form [formGroup]="bulkImportForm">
+          <section>
+            <label>
+              <div>Input</div>
+              <textarea
+                name="InputData"
+                [formControl]="bulkImportForm.controls.input"
+                type="text"
+              >
+              </textarea>
+            </label>
+
+            <label>
+              Date
+              <input
+                type="date"
+                title="date"
+                [formControl]="bulkImportForm.controls.date"
+                class="form-control"
+              />
+            </label>
+          </section>
+        </form>
+      </div>
 
       <div class="parsed-display scrollable-div">
         <div *ngFor="let v of test$ | async">
@@ -40,6 +50,12 @@
   </ng-container>
 
   <ng-container slot="footer">
-    <button class="primary" (click)="addFinanceBulk()" [disabled]="$importDataIsValid()">Import</button>
+    <button
+      class="primary"
+      (click)="addFinanceBulk()"
+      [disabled]="$importDataIsValid()"
+    >
+      Import
+    </button>
   </ng-container>
 </app-dialog>

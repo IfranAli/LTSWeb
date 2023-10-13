@@ -1,23 +1,23 @@
 <ng-container *ngIf="$user() as user; else notLoggedIn">
   <nav>
     <ul>
-      <li>LT.Scheduler</li>
+      <li>{{ title }}</li>
     </ul>
     <ul>
       <li>
-        <a href="/projects">
+        <a href="/projects" [attr.active]="path == '/projects' ? '' : null">
           <!-- Project -->
           <span class="material-symbols-outlined">library_books</span>
         </a>
       </li>
       <li>
-        <a href="/finance">
+        <a href="/finance" [attr.active]="path == '/finance' ? '' : null">
           <!-- Finance -->
           <span class="material-symbols-outlined">account_balance</span>
         </a>
       </li>
       <li>
-        <a href="/calendar">
+        <a href="/calendar" [attr.active]="path == '/calendar' ? '' : null">
           <!-- Calendar -->
           <span class="material-symbols-outlined">calendar_month</span>
         </a>

@@ -2,6 +2,7 @@ import { HttpHeaders } from "@angular/common/http";
 
 export const TOKEN_KEY_NAME = "Authorization";
 export const LOGIN_PAGE_URL = "login";
+export const LANDING_PAGE_URL = "projects";
 
 export const getHttpHeaders = () => {
   return {

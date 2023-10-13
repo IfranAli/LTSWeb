@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
   effect,
+  inject,
   signal,
 } from "@angular/core";
 import {
@@ -13,7 +14,7 @@ import {
   IFinanceSummary,
 } from "../../services/finance.service";
 import { FinanceModel, defaultFinance } from "../../models/finance.model";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import {
   AddFinanceDialogComponent,
   financeDialogData,

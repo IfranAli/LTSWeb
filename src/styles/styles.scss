@@ -28,7 +28,7 @@ body {
 }
 @media screen and (max-width: constants.$media-sm) {
   body {
-    --gap: var(--gap-sm);
+    // --gap: var(--gap-sm);
     --container-margin: var(--gap-sm);
   }
 }

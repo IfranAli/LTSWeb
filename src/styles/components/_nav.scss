@@ -36,5 +36,9 @@ app-root > nav {
     &:hover {
       color: var(--text-active) ;
     }
+    
+    &[active] {
+      color: var(--text-active) ;
+    }
   }
 }

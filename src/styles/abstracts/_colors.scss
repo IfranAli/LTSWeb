@@ -1,13 +1,16 @@
 $bg-light: #b7bcbc;
 $bg-light-1: #{lighten($bg-light, 5%)};
 $bg-light-2: #{lighten($bg-light, 10%)};
+$bg-light-3: #{lighten($bg-light, 15%)};
 $text-color-light: rgb(0, 0, 0, 1);
 $border-color-light: #{darken($bg-light, 10%)};
 $form-field-light: #dce3eb;
 
-$bg-dark: #0d1116;
+$bg-dark: #141a21;
 $bg-dark-1: #{lighten($bg-dark, 5%)};
 $bg-dark-2: #{lighten($bg-dark, 10%)};
+$bg-dark-3: #{lighten($bg-dark, 15%)};
+
 $text-color-dark: rgb(210 204 196);
 $border-color-dark: #{darken($bg-dark, 10%)};
 $form-field-dark: #425162;

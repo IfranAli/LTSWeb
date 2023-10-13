@@ -2,12 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  effect,
+  inject,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { UserService } from "./services/user.service";
-import {
-  LOGIN_PAGE_URL,
-} from "./constants/web-constants";
+import { LANDING_PAGE_URL, LOGIN_PAGE_URL } from "./constants/web-constants";
 
 @Component({
   selector: "app-root",
@@ -18,11 +18,14 @@ import {
   providers: [Location],
 })
 export class AppComponent {
-  title = "LTSweb";
+  router = inject(Router);
+  userService = inject(UserService);
   $user = this.userService.$userData;
+  path = window.location.pathname;
+  title = "LTSweb";
 
-  constructor(private userService: UserService, private router: Router) {
-    if (!this.$user()) {
+  constructor() {
+    if (!this.$user() && this.path !== LOGIN_PAGE_URL) {
       this.router.navigateByUrl(LOGIN_PAGE_URL);
     }
   }

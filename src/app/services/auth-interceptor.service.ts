@@ -30,7 +30,9 @@ export class AuthInterceptor implements HttpInterceptor {
           this.router.navigate([LOGIN_PAGE_URL]);
         }
 
-        return throwError(error);
+        console.log("Unhandled eror: ", error.message);
+
+        return throwError(() => new Error(error.message));
       })
     );
   }

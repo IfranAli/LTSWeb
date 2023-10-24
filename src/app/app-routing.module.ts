@@ -17,7 +17,8 @@ import { LogoutComponent } from "./components/Logout/logout.component";
 
 const routes: Routes = [
   { path: "login", component: LoginDialogComponent },
-  { path: "logout", component: LogoutComponent},
+  { path: "logout", component: LogoutComponent },
+  { path: "", redirectTo: "/projects", pathMatch: "full" },
   { path: "projects", component: ProjectsComponent, canActivate: [AuthGuard] },
   {
     path: "finance",
@@ -38,7 +39,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [],
   exports: [RouterModule],
-  providers: [AuthGuard],
   imports: [
     RouterModule.forRoot(routes),
     NgIf,

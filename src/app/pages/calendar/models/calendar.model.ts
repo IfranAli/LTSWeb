@@ -51,8 +51,13 @@ export const CALENDAR_MONTHS = [
 export const MONTHS_MAX_DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 export interface IDay {
-  date: number;
+  day: number;
+  date: Date;
+
   dayOfWeek: number;
+  events?: CalendarEvent[];
+
+  selected?: boolean;
   currentMonth?: boolean;
   isToday?: boolean;
 }
@@ -70,3 +75,16 @@ export interface IMonth {
 export interface ICalendar {
   months: IMonth[];
 }
+
+export type ICalendarViewModel = {
+  name: string;
+  year: number;
+  days: IDay[];
+};
+
+export type CalendarEvent = {
+  id: Number;
+  title: String;
+  date?: String;
+  time?: String;
+};

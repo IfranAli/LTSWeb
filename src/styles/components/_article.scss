@@ -6,6 +6,7 @@
   @include mixins.card-shape;
   @include mixins.box-shadow;
   background-color: var(--bg1);
+  border: solid 1px var(--border-color);
   padding: 0;
 
   header {
@@ -58,8 +59,10 @@
 
 @media screen and (max-width: constants.$media-sm) {
   .custom-article {
-    border: unset;
     border-top: constants.$boder-style;
     border-bottom: constants.$boder-style;
+    margin: 0;
+    border: unset;
+    --border-radius: 4px;
   }
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { WEEK_DAYS } from "../../models/calendar.model";
+import { IDay, WEEK_DAYS } from "../../models/calendar.model";
 import {
   decrementDateByMonth,
   incrementDateByMonth,
@@ -15,13 +15,13 @@ import { CalendarService } from "./calendar.service";
   styleUrls: ["./calendar.component.scss"],
 })
 export class CalendarComponent implements OnInit {
+  calendarService = inject(CalendarService);
+
   currentDate = new Date();
   weekdays = WEEK_DAYS.map((value) => value.substring(0, 3));
 
   $calendarData = this.calendarService.$viewModel;
   $startDate = this.calendarService.$startDate;
-
-  constructor(private calendarService: CalendarService) {}
 
   ngOnInit(): void {}
 
@@ -31,5 +31,9 @@ export class CalendarComponent implements OnInit {
 
   back() {
     this.$startDate.update((d) => decrementDateByMonth(d));
+  }
+
+  selectDateEvent(day: IDay) {
+    this.calendarService.$selectedDate.set(day.date);
   }
 }

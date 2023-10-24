@@ -4,8 +4,6 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation,
-  effect,
-  inject,
   signal,
 } from "@angular/core";
 import {
@@ -14,7 +12,7 @@ import {
   IFinanceSummary,
 } from "../../services/finance.service";
 import { FinanceModel, defaultFinance } from "../../models/finance.model";
-import { ActivatedRoute, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import {
   AddFinanceDialogComponent,
   financeDialogData,
@@ -38,7 +36,6 @@ import {
 } from "rxjs";
 import { ImportFinanceDialogComponent } from "../import-finance-dialog/import-finance-dialog.component";
 import { CommonModule } from "@angular/common";
-import { ReactiveFormsModule } from "@angular/forms";
 
 export interface FinanceData extends IFinanceSummary {
   items: FinanceViewModel[];

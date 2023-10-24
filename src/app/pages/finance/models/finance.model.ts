@@ -1,5 +1,5 @@
 import { createEntityAdapter } from "@ngrx/entity";
-import { IdentityInterface } from "../../models/Identity.interface";
+import { IdentityInterface } from "../../../models/Identity.interface";
 
 export interface FinanceDatabaseModel {
   id: number;

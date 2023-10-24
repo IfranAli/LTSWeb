@@ -1,5 +1,5 @@
-import { parseDateInput } from "src/app/calendar/date-parser.util";
-import { dateToString } from "src/app/finance/util/finance.util";
+import { parseDateInput } from "src/app/pages/calendar/date-parser.util";
+import { dateToString } from "src/app/pages/finance/util/finance.util";
 
 describe("Date parser tests", () => {
   test("parseDateIdentifier", () => {

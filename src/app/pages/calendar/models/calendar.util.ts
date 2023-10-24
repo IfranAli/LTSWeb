@@ -37,12 +37,6 @@ export const monthToString = function (month: number): string {
   return CALENDAR_MONTHS[month];
 };
 
-export interface ICalendarViewModel {
-  name: string;
-  year: number;
-  days: IDay[];
-}
-
 export function generateCalendarViewModel(year: number, monthIdx: number) {
   const daysInMonth = generateDaysInMonth(year, monthIdx);
 
@@ -90,15 +84,16 @@ export function generateDaysInMonth(year: number, month: Months): IDay[] {
   return Array(nDaysInMonth)
     .fill(0)
     .map((_, i) => {
-      const date = i + 1;
+      const day = i + 1;
       const dayOfWeek = (monthStartDay + i) % 7;
       const isToday =
         year == todaysDate.getFullYear() &&
-        date == todaysDate.getDate() &&
+        day == todaysDate.getDate() &&
         month == todaysDate.getMonth();
 
       const d: IDay = {
-        date: date,
+        day: day,
+        date: new Date(year, month, day),
         dayOfWeek: dayOfWeek,
         currentMonth: true,
         ...(isToday ? { isToday: true } : {}),

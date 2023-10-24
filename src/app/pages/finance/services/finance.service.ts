@@ -1,12 +1,12 @@
 import { Injectable, computed, effect, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../../../environments/environment";
 import {
   FinanceCategory,
   FinanceDatabaseModel,
   FinanceModel,
 } from "../models/finance.model";
-import { getHttpHeaders, ResponseMessage } from "../../constants/web-constants";
+import { getHttpHeaders, ResponseMessage } from "../../../constants/web-constants";
 import { dateToString } from "../util/finance.util";
 import {
   CategoryData,
@@ -27,7 +27,7 @@ import { WeekDays } from "../../calendar/models/calendar.model";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { UserService } from "src/app/services/user.service";
 import { compileClassMetadata } from "@angular/compiler";
-import { incrementDateByMonth } from "src/app/calendar/models/calendar.util";
+import { incrementDateByMonth } from "src/app/pages/calendar/models/calendar.util";
 
 const baseUrl = environment.backendURL;
 const financesUrl = baseUrl + "finance";

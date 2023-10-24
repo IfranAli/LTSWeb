@@ -27,9 +27,10 @@
 
       .box-day {
         background-color: var(--bg1);
-        outline-style: solid;
-        outline-color: var(--border-color);
-        outline-width: 1px;
+        outline: solid 1px var(--border-color);
+        min-height: 10vh;
+        font-weight: bold;
+        padding: 0.3rem;
 
         &.disable {
           background-color: var(--bg);
@@ -46,14 +47,33 @@
           border-radius: 4px;
         }
 
-        min-height: 10vh;
-        font-weight: bold;
-        padding: 0.3rem;
+        &[active] {
+          background-color: var(--text-active);
+        }
 
         &:hover {
-          background-color: var(--bg2);
+          // background-color: var(--bg2);
+        }
+
+        .event-label {
+          font-size: smaller;
+          background-color: rgb(193, 82, 82);
+          white-space: normal;
         }
       }
+    }
+  }
+}
+
+.calendar-events-list {
+  ul {
+    list-style-type: none;
+    padding: 0;
+
+    .event-card {
+      background-color: var(--bg3);
+      padding: 0.5rem 1rem;
+      margin: 1rem;
     }
   }
 }

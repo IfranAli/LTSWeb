@@ -17,7 +17,7 @@ import {
   bulkImportTextToFinanceModel,
   dateToString,
 } from "../../util/finance.util";
-import { parseDateInput } from "src/app/calendar/date-parser.util";
+import { parseDateInput } from "src/app/pages/calendar/date-parser.util";
 
 @Component({
   selector: "app-import-finance-dialog",
@@ -72,7 +72,7 @@ apr 12
 -15 transport@13:00
 
 may 1
-- 8 choclates@15:00`;
+-8 choclates@15:00`;
 
     this.bulkImportForm.controls.input.setValue(importText);
   }

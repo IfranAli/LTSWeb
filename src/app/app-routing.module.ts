@@ -12,25 +12,32 @@ import {
 } from "@angular/common";
 import { LoginDialogComponent } from "./components/login-dialog/login-dialog.component";
 import { AuthGuard } from "./auth-guard.service";
-import { ImportFinanceDialogComponent } from "./finance/components/import-finance-dialog/import-finance-dialog.component";
+import { ImportFinanceDialogComponent } from "./pages/finance/components/import-finance-dialog/import-finance-dialog.component";
 import { LogoutComponent } from "./components/Logout/logout.component";
 
 const routes: Routes = [
   { path: "login", component: LoginDialogComponent },
   { path: "logout", component: LogoutComponent },
   { path: "", redirectTo: "/projects", pathMatch: "full" },
-  { path: "projects", component: ProjectsComponent, canActivate: [AuthGuard] },
+  {
+    path: "projects",
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      import("./pages/project/project.module").then(
+        (value) => value.ProjectModuleModule
+      ),
+  },
   {
     path: "finance",
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import("./finance/finance.module").then((value) => value.FinanceModule),
+      import("./pages/finance/finance.module").then((value) => value.FinanceModule),
   },
   {
     path: "calendar",
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import("./calendar/calendar.module").then(
+      import("./pages/calendar/calendar.module").then(
         (value) => value.CalendarModule
       ),
   },

@@ -40,16 +40,40 @@
         <div
           class="box-day"
           *ngFor="let day of this.$calendarData().days"
+          (click)="selectDateEvent(day)"
           [ngClass]="[
+            day.date.getMonth() == this.calendarService.$startDate().getMonth()
+              ? ''
+              : 'disable',
             day.currentMonth ? '' : 'disable',
             day.currentMonth && day.isToday ? 'today' : ''
           ]"
+          [attr.active]="this.day.selected"
         >
-          <span>
-            {{ day.date }}
-          </span>
+          <span> {{ day.day }}</span>
+          <div class="badge event-label" *ngIf="day.events">
+            {{
+              day.events.length + " Event" + (day.events.length > 1 ? "s" : "")
+            }}
+          </div>
         </div>
       </div>
     </div>
+
+    <section class="calendar-events-list">
+      <h1>Events</h1>
+
+      <ul>
+        <li
+          class="event-card"
+          *ngFor="let e of this.calendarService.calendarEvents$().values()"
+        >
+          <span> {{ e.title }}</span>
+          <div>{{ e.date + " " + e.time }}</div>
+        </li>
+      </ul>
+    </section>
+
+    <footer></footer>
   </article>
 </div>

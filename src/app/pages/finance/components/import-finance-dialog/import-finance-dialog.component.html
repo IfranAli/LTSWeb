@@ -51,7 +51,7 @@
     <button
       class="primary"
       (click)="addFinanceBulk()"
-      [disabled]="$importDataIsValid()"
+      [disabled]="!$importDataIsValid()"
     >
       Import
     </button>

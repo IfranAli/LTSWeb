@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   ViewEncapsulation,
   computed,
+  inject,
   signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -11,13 +13,15 @@ import {
   DialogComponent,
 } from "src/app/dialog/dialog.component";
 import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
-import { Observable, filter, switchMap, of } from "rxjs";
+import { Observable, filter, switchMap, of, tap } from "rxjs";
 import { FinanceModel } from "../../models/finance.model";
 import {
   bulkImportTextToFinanceModel,
   dateToString,
 } from "../../util/finance.util";
 import { parseDateInput } from "src/app/pages/calendar/date-parser.util";
+import { FinanceService } from "../../services/finance.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-import-finance-dialog",
@@ -34,13 +38,32 @@ import { parseDateInput } from "src/app/pages/calendar/date-parser.util";
   ],
 })
 export class ImportFinanceDialogComponent extends DialogBaseComponent {
+  destroyRef = inject(DestroyRef);
+  financeService = inject(FinanceService);
   $data = signal<FinanceModel[]>([]);
-  $importDataIsValid = computed(() => this.$data().length == 0);
+  $importDataIsValid = computed(() => this.$data().length != 0);
 
   addFinanceBulk() {
     // todo: add bulk import
     // Time is actually in the data set. just not in the preview.
-    console.log(this.$data());
+
+    const data = this.$data();
+
+    // todo: Date override logic should go into the parser.
+    // const dateRaw = this.bulkImportForm.controls.date.getRawValue() ?? "";
+    // const date = dateRaw ? dateToString(dateRaw) : "";
+
+    if (!this.$importDataIsValid()) {
+      return;
+    }
+
+    this.financeService
+      .createFinanceMany(data)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((result) => {
+        console.log("Added ", result.data.length, " transactions.");
+        this.onModalClose.emit(true);
+      });
   }
 
   bulkImportForm = new FormGroup({
@@ -54,12 +77,12 @@ export class ImportFinanceDialogComponent extends DialogBaseComponent {
         return value != null;
       }),
       switchMap((value) => {
-        const test: FinanceModel[] = getFinanceModelsFromInputBulk(
+        const parsedFinances: FinanceModel[] = getFinanceModelsFromInputBulk(
           value as string
         );
 
-        this.$data.set(test);
-        return of(test);
+        this.$data.set(parsedFinances);
+        return of(parsedFinances);
       })
     );
 
@@ -100,7 +123,6 @@ export const getFinanceModelsFromInputBulk = (
         return null;
       }
 
-      // const dateStr = parseDateIdentifierAsString(items[0], " ");
       const dateStr = parseDateInput(items[0]);
 
       if (dateStr.length) {
@@ -115,6 +137,7 @@ export const getFinanceModelsFromInputBulk = (
         return expectedLength == actualLength ? processed : null;
       }
 
+      // todo: show incomplete parsing warning.
       const expectedLength = input.split("\n").length;
       const processed = bulkImportTextToFinanceModel(
         input,

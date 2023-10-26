@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "nx serve --host=127.0.0.1",
-    "build": "nx build --skip-nx-cache",
+    "build": "nx build --skip-nx-cache --prod",
     "watch": "nx build --watch --configuration development",
     "analyze": "nx build --stats-json && npx webpack-bundle-analyzer dist/ltsweb/stats.json",
     "test": "jest",

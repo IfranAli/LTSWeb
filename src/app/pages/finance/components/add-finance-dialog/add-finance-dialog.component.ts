@@ -126,23 +126,6 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
           this.onModalClose.emit(true);
         });
     }
-    //   case Actions.BulkImport:
-    //     const input = this.bulkImportForm.controls.input.getRawValue();
-    //     if (input) {
-    //       const dateRaw = this.bulkImportForm.controls.date.getRawValue() ?? "";
-    //       const date = dateRaw ? dateToString(dateRaw) : "";
-    //       const financeModels = getFinanceModelsFromInputBulk(input);
-    //       const result: IDialogResult = {
-    //         action: Actions.BulkImport,
-    //         data: financeModels,
-    //       };
-    //       this.dialogRef.close(result);
-    //     }
-    //     break;
-    //   case Actions.Edit:
-    //     this.dialogRef.close(this.getEditData());
-    //     break;
-    // }
   }
 
   getFinanceModelFromInput = () => {

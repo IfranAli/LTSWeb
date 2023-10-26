@@ -1,18 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { ProjectsComponent } from "./components/projects/projects.component";
-import {
-  AsyncPipe,
-  DatePipe,
-  NgClass,
-  NgForOf,
-  NgIf,
-  NgStyle,
-  NgTemplateOutlet,
-} from "@angular/common";
 import { LoginDialogComponent } from "./components/login-dialog/login-dialog.component";
 import { AuthGuard } from "./auth-guard.service";
-import { ImportFinanceDialogComponent } from "./pages/finance/components/import-finance-dialog/import-finance-dialog.component";
 import { LogoutComponent } from "./components/Logout/logout.component";
 
 const routes: Routes = [
@@ -31,7 +20,9 @@ const routes: Routes = [
     path: "finance",
     canActivate: [AuthGuard],
     loadChildren: () =>
-      import("./pages/finance/finance.module").then((value) => value.FinanceModule),
+      import("./pages/finance/finance.module").then(
+        (value) => value.FinanceModule
+      ),
   },
   {
     path: "calendar",
@@ -46,16 +37,6 @@ const routes: Routes = [
 @NgModule({
   declarations: [],
   exports: [RouterModule],
-  imports: [
-    RouterModule.forRoot(routes),
-    NgIf,
-    NgForOf,
-    DatePipe,
-    AsyncPipe,
-    NgTemplateOutlet,
-    NgClass,
-    NgStyle,
-    ImportFinanceDialogComponent,
-  ],
+  imports: [RouterModule.forRoot(routes)],
 })
 export class AppRoutingModule {}

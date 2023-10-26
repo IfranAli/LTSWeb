@@ -9,24 +9,19 @@ import {
 import { getHttpHeaders, ResponseMessage } from "../../../constants/web-constants";
 import { dateToString } from "../util/finance.util";
 import {
-  CategoryData,
   FinanceDataAll,
   FinanceSummary,
   FinanceViewModel,
   formatCurrency,
 } from "../components/finance-app/finance-app.component";
 import {
-  combineLatestWith,
   Observable,
   of,
-  shareReplay,
   switchMap,
-  tap,
 } from "rxjs";
 import { WeekDays } from "../../calendar/models/calendar.model";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { UserService } from "src/app/services/user.service";
-import { compileClassMetadata } from "@angular/compiler";
 import { incrementDateByMonth } from "src/app/pages/calendar/models/calendar.util";
 
 const baseUrl = environment.backendURL;

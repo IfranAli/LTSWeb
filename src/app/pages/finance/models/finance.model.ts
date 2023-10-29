@@ -1,4 +1,3 @@
-import { createEntityAdapter } from "@ngrx/entity";
 import { IdentityInterface } from "../../../models/Identity.interface";
 
 export interface FinanceDatabaseModel {
@@ -42,8 +41,6 @@ export interface FinanceModelPublic {
 export interface FinanceDatabaseModels {
   entities: FinanceModel[];
 }
-
-export const financeAdapter = createEntityAdapter<FinanceModel>();
 
 export function createFinanceModel(
   model: Partial<FinanceModel> = {},

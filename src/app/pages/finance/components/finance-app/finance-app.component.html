@@ -1,8 +1,3 @@
-<div class="header-actions">
-  <button (click)="openDialogAddFinance()">Add Expense</button>
-  <button (click)="openDialogImport()">Import</button>
-</div>
-
 <div
   class="finance-container"
   *ngIf="summaries$ | async as summaries; else loading"
@@ -90,9 +85,9 @@
             </span>
           </summary>
 
-          <div class="summary-list">
+          <div class="custom-list">
             <div
-              class="grid"
+              class="grid list-item action"
               (click)="openDialogAddFinance(finance.id)"
               *ngFor="let finance of summary.items; trackByFinanceViewModel"
             >
@@ -122,7 +117,10 @@
       </section>
     </ng-container>
 
-    <footer></footer>
+    <footer>
+      <button (click)="openDialogAddFinance()">Add Expense</button>
+      <button (click)="openDialogImport()">Import</button>
+    </footer>
   </article>
 </div>
 

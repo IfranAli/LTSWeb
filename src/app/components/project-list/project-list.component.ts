@@ -12,12 +12,6 @@ import {
   TaskDatabaseModel,
   TaskModel,
 } from "../../models/task.model";
-import {
-  TaskDeletedEvent,
-  TaskPinnedEvent,
-  TaskUpdatedEvent,
-} from "../../models/events.model";
-import { CdkDragDrop, DragDropModule } from "@angular/cdk/drag-drop";
 import { defaultProject, ProjectModel } from "../../models/project.model";
 
 import { TaskState } from "../../constants/constants";
@@ -32,7 +26,7 @@ import { CommonModule } from "@angular/common";
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [CommonModule, DragDropModule, TaskComponent],
+  imports: [CommonModule, TaskComponent],
 })
 export class ProjectListComponent implements OnInit {
   @Input() project: ProjectModel = defaultProject;
@@ -76,44 +70,6 @@ export class ProjectListComponent implements OnInit {
     }
   }
 
-  onTaskChanged(task: TaskUpdatedEvent) {}
-
-  onTaskDeleted($event: TaskDeletedEvent) {
-    if (!this.project) return;
-    if (!(this.project.tasks.length > 0)) return;
-
-    let findIndex = this.project.tasks.findIndex((value) => {
-      return value.id == $event.taskID;
-    });
-
-    if (findIndex && findIndex >= 0) {
-      this.project.tasks.splice(findIndex, 1);
-    }
-  }
-
-  drop($event: CdkDragDrop<TaskModel[], any>) {
-    const item = $event.item.data as TaskModel;
-    const destinationContainer = $event.container;
-    const containerID = destinationContainer.id.split("-").pop() ?? "";
-    const newProjectID = Number.parseInt(containerID) ?? item.id;
-
-    let model = createTaskModel({
-      ...item,
-      projectId: newProjectID,
-    });
-
-    this.projectService.updateTask(model).subscribe((value) => {
-      const response: TaskDatabaseModel = value.shift()!;
-      // // this.store.dispatch(
-      // //   updateTask({
-      // //     ...response,
-      // //   })
-      // );
-    });
-  }
-
-  onTaskPinned($event: TaskPinnedEvent) {}
-
   addTaskToProject() {
     const task = {
       ...createTaskModel(),
@@ -126,12 +82,7 @@ export class ProjectListComponent implements OnInit {
     this.projectService.createTaskOnProject(task).subscribe(
       (result) => {
         const responseTask: TaskDatabaseModel = result.shift()!;
-
-        // this.store.dispatch(
-        //   createTask({
-        //     ...createTaskModel(responseTask),
-        //   })
-        // );
+        // todo: implement this.
       },
       (error) => {}
     );

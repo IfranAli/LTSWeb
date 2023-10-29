@@ -1,14 +1,13 @@
-import {ScheduleSettings} from "./ScheduleSettings";
-import {IdentityInterface} from "./Identity.interface";
-import {createEntityAdapter} from "@ngrx/entity";
-import {Priority, TaskState} from "../constants/constants";
+import { ScheduleSettings } from "./ScheduleSettings";
+import { IdentityInterface } from "./Identity.interface";
+import { Priority, TaskState } from "../constants/constants";
 
 export interface TaskModelPublic {
-  projectId: number
-  name: string,
-  content: string,
-  state: TaskState,
-  priority: Priority,
+  projectId: number;
+  name: string;
+  content: string;
+  state: TaskState;
+  priority: Priority;
 }
 
 const defaultTask: TaskModel = {
@@ -18,20 +17,15 @@ const defaultTask: TaskModel = {
   projectId: -1,
   state: TaskState.TODO,
   priority: Priority.MEDIUM,
-}
+};
 
-export interface TaskDatabaseModel extends TaskModelPublic, IdentityInterface {
-}
+export interface TaskDatabaseModel extends TaskModelPublic, IdentityInterface {}
 
-export interface TaskModel extends TaskDatabaseModel {
-
-}
+export interface TaskModel extends TaskDatabaseModel {}
 
 export interface TaskDatabaseModels {
   entities: TaskModel[];
 }
-
-export const tasksAdapter = createEntityAdapter<TaskModel>();
 
 export class Task implements TaskModel {
   id: number = defaultTask.id;
@@ -60,5 +54,5 @@ export function createTaskModel(
     content: model.content ?? defaultVar.content,
     state: model.state ?? defaultTask.state,
     priority: model.priority ?? defaultVar.priority,
-  }
+  };
 }

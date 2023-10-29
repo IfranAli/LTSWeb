@@ -1,6 +1,5 @@
-import {IdentityInterface} from "./Identity.interface";
-import {TaskModel} from "./task.model";
-import {createEntityAdapter} from "@ngrx/entity";
+import { IdentityInterface } from "./Identity.interface";
+import { TaskModel } from "./task.model";
 
 export interface ProjectModelPublic {
   title: string;
@@ -10,8 +9,9 @@ export interface ProjectModelPublic {
   enabled: boolean;
 }
 
-export interface ProjectDatabaseModel extends ProjectModelPublic, IdentityInterface {
-}
+export interface ProjectDatabaseModel
+  extends ProjectModelPublic,
+    IdentityInterface {}
 
 export interface ProjectModel extends ProjectDatabaseModel {
   tasks: TaskModel[];
@@ -24,22 +24,20 @@ export interface ProjectDatabaseModels {
 export const defaultProject: ProjectModel = {
   tasks: [],
   id: 0,
-  title: '',
-  description: '',
-  colour: '#A0A0D0',
-  code: '',
+  title: "",
+  description: "",
+  colour: "#A0A0D0",
+  code: "",
   enabled: true,
-}
-
-export const projectAdapter = createEntityAdapter<ProjectModel>();
+};
 
 export class Project implements ProjectModel {
   id: number = 0;
-  title: string = '';
-  description: string = '';
-  code: string = '';
+  title: string = "";
+  description: string = "";
+  code: string = "";
   enabled: boolean = true;
-  colour: string = '#D2D2D2';
+  colour: string = "#D2D2D2";
   public tasks: TaskModel[] = [];
 
   /**
@@ -67,29 +65,34 @@ export function createProjectModel(
     code: model.code ?? defaultVar.code,
     enabled: model.enabled ?? defaultVar.enabled,
     tasks: [],
-  }
+  };
 }
 
 export function generateCode(title: string): string {
-  const ignore: string[] = ['A', 'E', 'I', 'O', 'U'];
+  const ignore: string[] = ["A", "E", "I", "O", "U"];
   const limit = 3;
-  let projectCode = '';
+  let projectCode = "";
 
   if (title.length > limit) {
-    projectCode = title.split('').reduce((acc: string, char: string) => {
+    projectCode = title.split("").reduce((acc: string, char: string) => {
       const letter: string = char.toUpperCase();
-      const isLetter: boolean = (letter !== char.toLowerCase());
-      const isUppercase: boolean = isLetter && (char == char.toUpperCase());
+      const isLetter: boolean = letter !== char.toLowerCase();
+      const isUppercase: boolean = isLetter && char == char.toUpperCase();
 
       if (isLetter && (isUppercase || !ignore.includes(letter))) {
         return acc.concat(letter);
       }
 
       return acc;
-    })
+    });
 
-    projectCode = (projectCode.length > limit) ? projectCode.substring(0, limit) : projectCode;
+    projectCode =
+      projectCode.length > limit
+        ? projectCode.substring(0, limit)
+        : projectCode;
   }
 
-  return (projectCode.length > limit) ? title.substring(0, limit).toUpperCase() : projectCode;
+  return projectCode.length > limit
+    ? title.substring(0, limit).toUpperCase()
+    : projectCode;
 }

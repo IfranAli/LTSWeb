@@ -1,8 +1,4 @@
 <div class="box calendar-container">
-  <div class="header-actions">
-    <button class="right-ico">Add</button>
-  </div>
-
   <article class="custom-article" *ngIf="$calendarData() as data">
     <header class="header-actions">
       <button
@@ -60,20 +56,24 @@
       </div>
     </div>
 
-    <section class="calendar-events-list">
+    <footer>
+      <button class="right-ico">Add</button>
+    </footer>
+  </article>
+
+  <article class="custom-article">
+    <div class="custom-list calendar-events-list">
       <h1>Events</h1>
 
       <ul>
         <li
-          class="event-card"
+          class="list-item event-card"
           *ngFor="let e of this.calendarService.calendarEvents$().values()"
         >
           <span> {{ e.title }}</span>
           <div>{{ e.date + " " + e.time }}</div>
         </li>
       </ul>
-    </section>
-
-    <footer></footer>
+    </div>
   </article>
 </div>

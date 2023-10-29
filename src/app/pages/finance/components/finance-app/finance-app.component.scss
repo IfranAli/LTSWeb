@@ -55,7 +55,6 @@
   .finances {
     margin: unset;
     padding: unset;
-    padding-bottom: var(--container-margin);
 
     summary {
       @include mixins.hover-outline;
@@ -66,19 +65,10 @@
       margin-bottom: 0.5rem;
     }
 
-    .summary-list {
-      display: grid;
-      gap: var(--container-margin);
-      margin: var(--container-margin);
-    }
-
     .grid {
-      @include mixins.card-action;
-      margin: unset;
       display: grid;
       grid-template-columns: 1fr 1fr;
       padding: 0.5rem;
-      box-shadow: unset;
     }
   }
   @media screen and (max-width: constants.$media-sm) {

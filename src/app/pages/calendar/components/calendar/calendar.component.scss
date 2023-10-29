@@ -2,12 +2,21 @@
 @use "src/styles/abstracts/constants" as constants;
 
 .calendar-container {
-  .custom-article {
-    background: unset;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1rem;
+}
+
+.calendar-container {
+  article > footer {
+    margin: unset;
   }
 
   .calendar {
     font-size: small;
+    background-color: var(--bg1);
+
     .header {
       border-bottom: solid 1px var(--border-color);
       display: flex;
@@ -26,14 +35,14 @@
       grid-template-columns: repeat(7, 1fr);
 
       .box-day {
-        background-color: var(--bg1);
+        background-color: var(--bg2);
         outline: solid 1px var(--border-color);
         min-height: 10vh;
         font-weight: bold;
         padding: 0.3rem;
 
         &.disable {
-          background-color: var(--bg);
+          background-color: var(--bg1);
 
           span {
             color: var(--bg2);
@@ -52,7 +61,7 @@
         }
 
         &:hover {
-          // background-color: var(--bg2);
+          // background-color: var(--text-active);
         }
 
         .event-label {

@@ -6,7 +6,7 @@
         <span class="description">{{ project.description }}</span>
       </hgroup>
 
-      <div class="toolbar">        
+      <div class="toolbar">
         <small>
           {{ project.code }}
         </small>
@@ -20,22 +20,16 @@
       </div>
     </header>
 
-    <div
-      id="{{ project.id }}"
-      cdkDropList
-      [cdkDropListData]="project.tasks"
-      (cdkDropListDropped)="drop($event)"
-      class="project-task-list article-body"
-    >
-      <div *ngFor="let task of project.tasks" cdkDrag [cdkDragData]="task">
-        <app-task
-          [task]="task"
-          [projectCode]="project.code"
-          (onPinTask)="onTaskPinned($event)"
-          (onTaskDeleted)="onTaskDeleted($event)"
-          (onTaskChanged)="onTaskChanged($event)"
-        >
-        </app-task>
+    <div class="article-body">
+      <div class="custom-list flat">
+        <ng-container *ngFor="let task of project.tasks">
+          <app-task
+            class="list-item action"
+            [task]="task"
+            [projectCode]="project.code"
+          >
+          </app-task>
+        </ng-container>
       </div>
     </div>
 

@@ -6,14 +6,11 @@
 }
 
 @mixin card-shape {
-  margin: var(--container-margin);
   border-radius: var(--border-radius);
 }
 
 @mixin card-action {
-  @include card-shape;
   transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  background-color: var(--bg3);
 
   &:hover {
     box-shadow: var(--box-shadow);

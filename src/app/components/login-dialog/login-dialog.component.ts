@@ -38,6 +38,7 @@ export class LoginDialogComponent extends DialogBaseComponent {
   @Output() onUserLogin = new EventEmitter<any>();
 
   router = inject(Router);
+  authService = inject(AuthService);
 
   form = new FormGroup({
     username: new FormControl<string>(""),
@@ -60,16 +61,14 @@ export class LoginDialogComponent extends DialogBaseComponent {
     const username = rawValues.username!;
     const password = rawValues.password!;
 
-    inject(AuthService)
-      .login(username, password)
-      .subscribe((user) => {
-        if (!user) {
-          console.log("User not found");
-          return;
-        }
+    this.authService.login(username, password).subscribe((user) => {
+      if (!user) {
+        console.log("User not found");
+        return;
+      }
 
-        this.onUserLogin.emit(user);
-        return this.router.navigate(["projects"]);
-      });
+      this.onUserLogin.emit(user);
+      return this.router.navigate(["projects"]);
+    });
   }
 }

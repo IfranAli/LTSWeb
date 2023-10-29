@@ -6,6 +6,8 @@
 @use "src/styles/abstracts/mixins" as mixins;
 @use "./components/nav";
 @use "./components/button";
+@use "./components/card";
+@use "./components/list";
 @use "./components/form";
 @use "./components/article";
 @use "./components/dialog";
@@ -46,7 +48,6 @@ body {
 main {
   @media screen and (min-width: constants.$media-md) {
     margin: auto;
-    // padding: 0 5rem 5rem 5rem;
     margin-bottom: 5rem;
     max-width: 80%;
   }
@@ -58,7 +59,6 @@ main {
   align-items: center;
   height: inherit;
   font-family: var(--font-code);
-  // color: var(--secondary);
 }
 
 @mixin button-style {
@@ -97,12 +97,6 @@ body > app-root > footer {
     width: 100%;
     margin: 0;
   }
-}
-
-// component Box
-.list-item-action {
-  @include mixins.card-action;
-  box-shadow: unset;
 }
 
 // Utility

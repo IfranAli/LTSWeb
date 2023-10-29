@@ -1,68 +1,45 @@
 import {
+  ChangeDetectionStrategy,
   Component,
-  EventEmitter,
+  DestroyRef,
   Input,
-  OnDestroy,
-  OnInit,
-  Output,
+  ViewEncapsulation,
+  inject,
 } from "@angular/core";
 import { Task, TaskModel } from "../../models/task.model";
-import {
-  TaskDeletedEvent,
-  TaskPinnedEvent,
-  TaskUpdatedEvent,
-} from "../../models/events.model";
-import { Subscription } from "rxjs";
-import { CdkMenuModule } from "@angular/cdk/menu";
-import { BrowserModule } from "@angular/platform-browser";
 import { ProjectService } from "src/app/services/project.service";
 import { CommonModule } from "@angular/common";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   selector: "app-task",
   templateUrl: "./task.component.html",
   styleUrls: ["./task.component.scss"],
-  imports: [CommonModule, CdkMenuModule],
+  imports: [CommonModule],
 })
-export class TaskComponent implements OnInit, OnDestroy {
+export class TaskComponent {
   @Input() task: TaskModel = new Task();
   @Input() projectCode: string = "";
 
-  @Output() onPinTask = new EventEmitter<TaskPinnedEvent>();
-
-  @Output() onTaskChanged = new EventEmitter<TaskUpdatedEvent>();
-
-  @Output() onTaskDeleted = new EventEmitter<TaskDeletedEvent>();
-
-  $dialogSubscription: Subscription | undefined;
-  public label = "";
-
-  constructor(private projectService: ProjectService) {
-    this.label = this.projectCode;
-  }
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {
-    this.$dialogSubscription?.unsubscribe();
-  }
+  private projectService = inject(ProjectService);
+  private destroyRef = inject(DestroyRef);
 
   onDelete(id: number) {
-    this.projectService.deleteTask(id).subscribe(
-      (result) => {
-        // this.store.dispatch(deleteTask({ id: id }));
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    this.projectService
+      .deleteTask(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
+    4;
   }
 
   updateTask() {
-    this.projectService.updateTask(this.task).subscribe((value) => {
-      // this.store.dispatch(updateTask(this.task));
-    });
+    this.projectService
+      .updateTask(this.task)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 
   openDialog() {

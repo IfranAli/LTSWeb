@@ -1,0 +1,29 @@
+@use "../abstracts/mixins" as mixins;
+
+.custom-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  background-color: var(--bg2);
+
+  .list-item {
+    background-color: var(--bg3);
+    border-radius: var(--border-radius);
+
+    &.action {
+      @include mixins.card-action;
+    }
+  }
+
+  &.flat {
+    background-color: var(--border-color);
+    padding: unset;
+    gap: 1px;
+
+    .list-item {
+      background-color: var(--bg2);
+      border-radius: 0%;
+    }
+  }
+}

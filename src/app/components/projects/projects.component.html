@@ -16,9 +16,7 @@
 </app-edit-task-dialog>
 
 <div class="box">
-  <ng-container cdkDropListGroup class="projects-drop-group">
-    <div *ngFor="let project of $projects()">
-      <app-project-list [project]="project"></app-project-list>
-    </div>
+  <ng-container *ngFor="let project of $projects()">
+    <app-project-list [project]="project"></app-project-list>
   </ng-container>
 </div>

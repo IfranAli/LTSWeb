@@ -19,9 +19,10 @@ button {
   }
 
   &:disabled {
-    color: var(--text-disabled);
+    color: var(--bg3);
     background-color: var(--bg1);
     cursor: not-allowed;
+    outline: 2px solid var(--bg2);
   }
 }
 

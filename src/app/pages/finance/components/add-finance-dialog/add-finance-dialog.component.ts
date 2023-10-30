@@ -8,7 +8,7 @@ import {
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { createFinanceModel, FinanceModel } from "../../models/finance.model";
-import { dateToString } from "../../util/finance.util";
+import { dateToString, getCurrentDate } from "../../util/finance.util";
 import { parseDateIdentifier } from "../../../calendar/models/calendar.util";
 import {
   DialogBaseComponent,
@@ -50,7 +50,6 @@ export interface financeDialogData {
 export class AddFinanceDialogComponent extends DialogBaseComponent {
   @Input({ required: true }) selected?: FinanceModel;
 
-  selectedTab = Tabs.AddFinance;
   dialogAction = Actions.Add;
 
   addFinanceForm = new FormGroup({
@@ -60,20 +59,12 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
     categoryType: new FormControl<number>(0),
   });
 
-  bulkImportForm = new FormGroup({
-    input: new FormControl<string>(""),
-    date: new FormControl<Date>(new Date()),
-  });
-
+  financeService = inject(FinanceService);
   categories = this.financeService.$categories;
   destroyRef = inject(DestroyRef);
 
-  constructor(private financeService: FinanceService) {
-    super();
-  }
-
   ngOnInit(): void {
-    const defaultDate = this.getCurrentDate("-");
+    const defaultDate = getCurrentDate("-");
 
     if (this.selected) {
       const dateRaw = this.selected.date ?? "";
@@ -140,14 +131,4 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
         this.addFinanceForm.controls.categoryType.getRawValue() ?? 0,
     });
   };
-
-  private getCurrentDate(seperator = "-"): string {
-    const date = new Date();
-
-    return [
-      date.getFullYear(),
-      date.getMonth() == 0 ? 1 : date.getMonth(),
-      date.getDay(),
-    ].join(seperator);
-  }
 }

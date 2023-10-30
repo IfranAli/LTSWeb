@@ -30,8 +30,7 @@ body {
 }
 @media screen and (max-width: constants.$media-sm) {
   body {
-    // --gap: var(--gap-sm);
-    --container-margin: var(--gap-sm);
+    --container-margin: 0;
   }
 }
 @media screen and (min-width: constants.$media-md) {
@@ -46,10 +45,18 @@ body {
 }
 
 main {
+  margin: var(--container-margin);
+
   @media screen and (min-width: constants.$media-md) {
     margin: auto;
     margin-bottom: 5rem;
     max-width: 80%;
+  }
+
+  .container {
+    display: grid;
+    gap: 1rem;
+    margin: var(--container-margin);
   }
 }
 
@@ -85,20 +92,6 @@ main {
   }
 }
 
-body > app-root > footer {
-  background: var(--pico-background-color);
-  position: sticky;
-
-  .bottom-nav > nav > ul {
-    // color: var(--primary);
-    display: flex;
-    align-content: center;
-    justify-content: space-evenly;
-    width: 100%;
-    margin: 0;
-  }
-}
-
 // Utility
 .toolbar {
   display: flex;
@@ -123,11 +116,35 @@ article > section {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1rem;
+  padding: 0;
 }
 
 // Font Styling
 .font-code {
   @include font-style-code;
+}
+
+// Utility
+.actionable {
+  &:hover {
+    @include mixins.card-action;
+  }
+}
+
+.seperator {
+  border-top: solid 1px var(--border-color);
+  padding-top: 1rem;
+}
+
+.row {
+  display: flex;
+  gap: 1rem;
+}
+
+.col-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 // Badge Styling
@@ -137,6 +154,13 @@ article > section {
   white-space: nowrap;
   color: #fff;
   padding: 0.2rem 0.5rem;
+
+  &.micro {
+    font-size: xx-small;
+    margin: 2px 0;
+    padding: 0 2px;
+    white-space: normal;
+  }
 }
 
 // UI Styling

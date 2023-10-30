@@ -1,0 +1,83 @@
+<app-dialog
+  [isVisible]="openModal"
+  [fullScreen]="fullScreen"
+  (onModalClose)="onModalClose.emit(false)"
+>
+  <ng-container slot="header">
+    <strong> {{ $title() }} </strong>
+  </ng-container>
+
+  <ng-container slot="content">
+    <div class="custom-form">
+      <form [formGroup]="calendarEventForm">
+        <section>
+          <label
+            >Name
+
+            <input
+              name="calendarEventName"
+              [formControl]="calendarEventForm.controls.title"
+              type="text"
+              title="name"
+              [class.invalid]="inputInvalid(calendarEventForm.controls.title)"
+            />
+
+            <span *ngIf="inputInvalid(calendarEventForm.controls.title)">
+              Name is required
+            </span>
+          </label>
+
+          <div class="row seperator">
+            <label
+              >Date
+              <input
+                name="calendarEventName"
+                [formControl]="calendarEventForm.controls.date"
+                type="date"
+                title="date"
+                [class.invalid]="inputInvalid(calendarEventForm.controls.date)"
+              />
+              <span *ngIf="inputInvalid(calendarEventForm.controls.date)">
+                Date is required
+              </span>
+            </label>
+
+            <label
+              >Time
+
+              <input
+                name="calendarEventName"
+                [formControl]="calendarEventForm.controls.time"
+                type="text"
+                title="name"
+                [class.invalid]="inputInvalid(calendarEventForm.controls.time)"
+              />
+
+              <span *ngIf="inputInvalid(calendarEventForm.controls.time)">
+                Required format in 24 hour time: 00:00, 23:59.
+              </span>
+            </label>
+          </div>
+        </section>
+      </form>
+    </div>
+  </ng-container>
+
+  <ng-container slot="footer">
+    <button
+      *ngIf="this.$isEdit() as editing"
+      class="danger"
+      (click)="this.deleteEvent()"
+    >
+      Delete
+    </button>
+
+    <button
+      class="primary"
+      (click)="this.addEvent()"
+      [disabled]="!this.calendarEventForm.valid"
+    >
+      {{ this.$isEdit() ? "Update" : "Add" }}
+    </button>
+  </ng-container>
+</app-dialog>

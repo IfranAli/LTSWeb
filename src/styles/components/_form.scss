@@ -28,11 +28,23 @@ textarea {
   &:focus-visible {
     @include mixins.outline;
   }
+
+  &.invalid {
+    border-color: var(--text-danger);
+  }
 }
 
-label {
-  :first-child {
-    margin-top: 0.5rem;
-    display: block;
+form section {
+  label {
+    :first-child {
+      margin-top: 0.5rem;
+      display: block;
+    }
+
+    span {
+      display: block;
+      margin-top: 0.5rem;
+      color: var(--text-danger);
+    }
   }
 }

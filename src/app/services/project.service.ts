@@ -8,7 +8,14 @@ import {
 } from "../models/task.model";
 import { environment } from "../../environments/environment";
 import { getHttpHeaders, ResponseMessage } from "../constants/web-constants";
-import { BehaviorSubject, Observable, combineLatestWith, concatMap, forkJoin, map } from "rxjs";
+import {
+  BehaviorSubject,
+  Observable,
+  combineLatestWith,
+  concatMap,
+  forkJoin,
+  map,
+} from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
 
 const baseUrl = environment.backendURL;
@@ -21,7 +28,7 @@ export class ProjectService {
 
   $refreshProjects = new BehaviorSubject<boolean>(true);
   $selectedTask = signal<TaskModel | null>(null);
-  
+
   // todo: Store the whole project object.
   $selectedProjectId = signal<number>(-1);
   $selectedProject = computed(() => {

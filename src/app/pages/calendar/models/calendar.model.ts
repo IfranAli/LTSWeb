@@ -83,8 +83,10 @@ export type ICalendarViewModel = {
 };
 
 export type CalendarEvent = {
-  id: Number;
-  title: String;
-  date?: String;
-  time?: String;
+  id: number;
+  title: string;
+  date?: string;
+  time?: string;
 };
+
+export type CalendarEventCreate = Omit<CalendarEvent, "id">;

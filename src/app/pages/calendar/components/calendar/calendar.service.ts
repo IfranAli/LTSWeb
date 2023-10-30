@@ -1,56 +1,145 @@
-import { Injectable, Signal, computed, effect, signal } from "@angular/core";
+import {
+  Injectable,
+  Signal,
+  computed,
+  effect,
+  inject,
+  signal,
+} from "@angular/core";
 import { generateCalendarViewModel } from "../../models/calendar.util";
-import { CalendarEvent, ICalendarViewModel } from "../../models/calendar.model";
+import {
+  CalendarEvent,
+  CalendarEventCreate,
+  ICalendarViewModel,
+} from "../../models/calendar.model";
+import { environment } from "src/environments/environment";
+import { getHttpHeaders } from "src/app/constants/web-constants";
+import { HttpClient } from "@angular/common/http";
+import { UserService } from "src/app/services/user.service";
+import { tap } from "rxjs/internal/operators/tap";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class CalendarService {
+  // Services
+  userService = inject(UserService);
+  http = inject(HttpClient);
+
+  // Constants
+  private baseUrl = environment.backendURL;
+  private calendarUrl = this.baseUrl + "calendar";
+
+  // Private netowrk methods.
+  private $eventsSignal = toSignal(
+    this.fetchCalendarEventsFromNetwork().pipe(
+      tap((events) => this.$calendarEvents.set(events))
+    )
+  );
+
+  private fetchCalendarEventsFromNetwork(): Observable<CalendarEvent[]> {
+    const url = this.calendarUrl + "/";
+    return this.http.get<CalendarEvent[]>(url, getHttpHeaders());
+  }
+
+  private $eventsFetch = computed(() => {
+    return this.$eventsSignal() ?? [];
+  });
+
+  // Public signals
   $startDate = signal<Date>(new Date());
   $selectedDate = signal<Date>(this.$startDate());
   $activeDate = computed(() => this.$startDate());
 
-  private events: Array<CalendarEvent> = [
-    {
-      id: 0,
-      title: "Tea Break",
-      date: "2023/10/09",
-      time: "11:00",
-    },
-    {
-      id: 1,
-      title: "Reading Time",
-      date: "2023/10/10",
-      time: "13:00",
-    },
-    {
-      id: 2,
-      title: "Snack Break",
-      date: "2023/10/15",
-      time: "15:30",
-    },
-    {
-      id: 3,
-      title: "Bed Time",
-      date: "2023/10/15",
-      time: "22:30",
-    },
-    {
-      id: 4,
-      title: "Medication",
-      date: "2023/10/13",
-      time: "21:20",
-    },
-  ];
+  $showEventDialog = signal<boolean>(false);
+  $selectedEventId = signal<number>(-1);
 
-  calendarEvents$ = signal<CalendarEvent[]>(this.events);
+  $calendarEvents = signal<CalendarEvent[]>([]);
+  $viewModel = computed(() => this.$calendarViewModel());
+
+  onCloseDialog(event: any) {
+    this.$showEventDialog.set(false);
+  }
+
+  private logger = effect(() => {
+    // const events = this.$events();
+    // console.log("events: ", events);
+    // const p = this.$selectedEventId();
+    // console.log(p);
+  });
+
+  public GetDefaultCalendarEvent() {
+    return {
+      id: -1,
+      title: "",
+      date: "",
+      time: "",
+    };
+  }
+
+  public GetCalendarEvent(id: number) {
+    return this.$calendarEvents().find((e) => e.id == id);
+  }
+
+  public AddCalendarEvent(event: CalendarEventCreate) {
+    const postData = event;
+    return this.http
+      .post<CalendarEvent>(this.calendarUrl, postData, getHttpHeaders())
+      .pipe(
+        tap((e: CalendarEvent) => {
+          this.$calendarEvents.update((events) => [...events, e]);
+        })
+      );
+  }
+
+  public UpdateCalendarEvent(event: CalendarEvent) {
+    const updateData = event;
+
+    return this.http
+      .put<CalendarEvent>(
+        this.calendarUrl + "/" + updateData.id,
+        updateData,
+        getHttpHeaders()
+      )
+      .pipe(
+        tap((e: CalendarEvent) => {
+          this.$calendarEvents.update((events) => {
+            const idx = events.findIndex((e) => e.id == event.id);
+            if (idx >= 0) {
+              events[idx] = e;
+            }
+            return events;
+          });
+        })
+      );
+  }
+
+  public DeleteCalendarEvent(event: Pick<CalendarEvent, "id">) {
+    return this.http
+      .delete(this.calendarUrl + "/" + event.id, getHttpHeaders())
+      .pipe(
+        tap((v) => {
+          this.$calendarEvents.update((events) => {
+            const idx = events.findIndex((e) => e.id == event.id);
+            if (idx >= 0) {
+              events.splice(idx, 1);
+            }
+            return events;
+          });
+        })
+      );
+  }
 
   private allEventsByDay$ = computed(() => {
-    const result = this.calendarEvents$().reduce((acc, c) => {
+    const events = this.$calendarEvents();
+    const result = events.reduce((acc, c) => {
       const day = parseInt(c.date?.split("/").at(2) ?? "0");
       const dayEvents = [...(acc.get(day) ?? []), c];
       return acc.set(day, dayEvents);
     }, new Map<number, CalendarEvent[]>());
+
     return result;
   });
 
@@ -84,7 +173,5 @@ export class CalendarService {
     return cal;
   });
 
-  $viewModel = computed(() => this.$calendarViewModel());
-
-  constructor() {}
+  // Netowrk methods.
 }

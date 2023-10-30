@@ -8,6 +8,16 @@ export const dateToString = function (date: Date, seperator = "/"): string {
   return y + seperator + m + seperator + d;
 };
 
+export function getCurrentDate(seperator = "-"): string {
+  const date = new Date();
+
+  return [
+    date.getFullYear(),
+    date.getMonth() == 0 ? 1 : date.getMonth(),
+    date.getDay(),
+  ].join(seperator);
+}
+
 const regExPatternTime: RegExp = /(\d{1,2}):(\d{2})/;
 export const bulkImportTextToFinanceModel = (
   inputText: string,

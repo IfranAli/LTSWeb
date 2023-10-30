@@ -1,14 +1,7 @@
 @use "src/styles/abstracts/colors" as global;
 @use "src/styles/abstracts/constants" as constants;
 
-.calendar-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 1rem;
-}
-
-.calendar-container {
+.container {
   article > footer {
     margin: unset;
   }
@@ -65,24 +58,13 @@
         }
 
         .event-label {
-          font-size: smaller;
           background-color: rgb(193, 82, 82);
-          white-space: normal;
+
+          &:hover {
+            outline: 2px solid #fff;
+          }
         }
       }
-    }
-  }
-}
-
-.calendar-events-list {
-  ul {
-    list-style-type: none;
-    padding: 0;
-
-    .event-card {
-      background-color: var(--bg3);
-      padding: 0.5rem 1rem;
-      margin: 1rem;
     }
   }
 }

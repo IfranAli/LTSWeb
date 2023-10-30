@@ -208,7 +208,6 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   }
 
   onCloseDialogEvent(value: boolean) {
-    console.log("closing on finance app");
     this.$$selectedFinance.set(undefined);
     this.showEditDialog.set(false);
     this.showImportDialog.set(false);

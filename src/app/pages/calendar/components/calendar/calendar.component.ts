@@ -6,13 +6,14 @@ import {
   incrementDateByMonth,
 } from "../../models/calendar.util";
 import { CalendarService } from "./calendar.service";
+import { CalendarEventDialogComponent } from "../CalendarEventDialog/calendar-event-dialog.component";
 
 @Component({
   selector: "app-calendar",
   standalone: true,
-  imports: [CommonModule],
   templateUrl: "./calendar.component.html",
   styleUrls: ["./calendar.component.scss"],
+  imports: [CommonModule, CalendarEventDialogComponent],
 })
 export class CalendarComponent implements OnInit {
   calendarService = inject(CalendarService);

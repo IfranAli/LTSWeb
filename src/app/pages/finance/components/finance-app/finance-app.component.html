@@ -1,5 +1,5 @@
 <div
-  class="finance-container"
+  class="container"
   *ngIf="summaries$ | async as summaries; else loading"
 >
   <article class="custom-article">
@@ -68,58 +68,73 @@
           ></div>
         </div>
       </section>
-
-      <section class="finances">
-        <details
-          class="finance-list"
-          *ngFor="let summary of financeData; let idx = index"
-          [open]="idx == 0 ? true : false"
-        >
-          <summary>
-            <span>
-              {{ summary.categoryName }}
-            </span>
-
-            <span>
-              {{ summary.total }}
-            </span>
-          </summary>
-
-          <div class="custom-list">
-            <div
-              class="grid list-item action"
-              (click)="openDialogAddFinance(finance.id)"
-              *ngFor="let finance of summary.items; trackByFinanceViewModel"
-            >
-              <div
-                class="amount"
-                [class.credit]="finance.isCredit"
-                [class.debit]="!finance.isCredit"
-              >
-                {{ finance.amountFormatted }}
-              </div>
-
-              <div class="date">{{ finance.dateFormatted }}</div>
-
-              <span class="label">{{ finance.name }}</span>
-
-              <span class="categoryBadge">
-                <span
-                  class="badge no-outline small"
-                  [style.backgroundColor]="finance.categoryColour"
-                >
-                  {{ finance.categoryLabel }}
-                </span>
-              </span>
-            </div>
-          </div>
-        </details>
-      </section>
     </ng-container>
 
     <footer>
       <button (click)="openDialogAddFinance()">Add Expense</button>
       <button (click)="openDialogImport()">Import</button>
+    </footer>
+  </article>
+
+  <article
+    class="custom-article"
+    *ngIf="financeData$ | async as financeData; else loading"
+  >
+  <header>
+      <hgroup>
+        <h3>Expenses</h3>
+        <h2>{{ financeData[0].total}}</h2>
+      </hgroup>
+  </header>
+    <section class="finances">
+      <details
+        class="finance-list"
+        *ngFor="let summary of financeData; let idx = index"
+        [open]="idx == 0 ? true : false"
+      >
+        <summary>
+          <span>
+            {{ summary.categoryName }}
+          </span>
+
+          <span>
+            {{ summary.total }}
+          </span>
+        </summary>
+
+        <div class="custom-list">
+          <div
+            class="grid list-item action"
+            (click)="openDialogAddFinance(finance.id)"
+            *ngFor="let finance of summary.items; trackByFinanceViewModel"
+          >
+            <div
+              class="amount"
+              [class.credit]="finance.isCredit"
+              [class.debit]="!finance.isCredit"
+            >
+              {{ finance.amountFormatted }}
+            </div>
+
+            <div class="date">{{ finance.dateFormatted }}</div>
+
+            <span class="label">{{ finance.name }}</span>
+
+            <span class="categoryBadge">
+              <span
+                class="badge no-outline small"
+                [style.backgroundColor]="finance.categoryColour"
+              >
+                {{ finance.categoryLabel }}
+              </span>
+            </span>
+          </div>
+        </div>
+      </details>
+    </section>
+    
+    <footer>
+
     </footer>
   </article>
 </div>

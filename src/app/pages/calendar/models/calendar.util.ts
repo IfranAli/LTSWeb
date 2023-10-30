@@ -25,6 +25,12 @@ const weekdayToString = function (weekday: number): string {
   return WeekDays[weekday];
 };
 
+export const RegExValidate24HourTimeStr = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/;
+
+export const validate24HourTime = function (time: string): boolean {
+  return RegExValidate24HourTimeStr.test(time);
+};
+
 /**
  * Returns the month as a string for a given month number.
  * @param month

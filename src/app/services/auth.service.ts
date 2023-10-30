@@ -39,7 +39,7 @@ export class AuthService {
       }),
       tap((user) => {
         if (!user) {
-          console.log("User not found");
+          console.error("User not found");
         }
       })
     );

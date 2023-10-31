@@ -6,7 +6,10 @@ import {
   inject,
   signal,
 } from "@angular/core";
-import { generateCalendarViewModel } from "../../models/calendar.util";
+import {
+  generateCalendarViewModel,
+  incrementDateByMonth,
+} from "../../models/calendar.util";
 import {
   CalendarEvent,
   CalendarEventCreate,
@@ -17,8 +20,9 @@ import { getHttpHeaders } from "src/app/constants/web-constants";
 import { HttpClient } from "@angular/common/http";
 import { UserService } from "src/app/services/user.service";
 import { tap } from "rxjs/internal/operators/tap";
-import { toSignal } from "@angular/core/rxjs-interop";
-import { Observable } from "rxjs";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
+import { Observable, empty } from "rxjs";
+import { dateToString } from "src/app/pages/finance/util/finance.util";
 
 @Injectable({
   providedIn: "root",
@@ -32,26 +36,28 @@ export class CalendarService {
   private baseUrl = environment.backendURL;
   private calendarUrl = this.baseUrl + "calendar";
 
-  // Private netowrk methods.
-  private $eventsSignal = toSignal(
-    this.fetchCalendarEventsFromNetwork().pipe(
-      tap((events) => this.$calendarEvents.set(events))
-    )
-  );
-
-  private fetchCalendarEventsFromNetwork(): Observable<CalendarEvent[]> {
-    const url = this.calendarUrl + "/";
-    return this.http.get<CalendarEvent[]>(url, getHttpHeaders());
-  }
-
-  private $eventsFetch = computed(() => {
-    return this.$eventsSignal() ?? [];
-  });
-
   // Public signals
   $startDate = signal<Date>(new Date());
   $selectedDate = signal<Date>(this.$startDate());
-  $activeDate = computed(() => this.$startDate());
+
+  // Network Observable streams.
+  public getCalendarEventsForDateRange(
+    from: Date,
+    to: Date
+  ): Observable<CalendarEvent[]> {
+    const url = this.calendarUrl + "/";
+    const result = this.http
+      .get<CalendarEvent[]>(url, {
+        ...getHttpHeaders(),
+        params: {
+          from: dateToString(from),
+          to: dateToString(to),
+        },
+      })
+      .pipe(tap((events) => this.$calendarEvents.set(events)));
+
+    return result;
+  }
 
   $showEventDialog = signal<boolean>(false);
   $selectedEventId = signal<number>(-1);
@@ -61,22 +67,6 @@ export class CalendarService {
 
   onCloseDialog(event: any) {
     this.$showEventDialog.set(false);
-  }
-
-  private logger = effect(() => {
-    // const events = this.$events();
-    // console.log("events: ", events);
-    // const p = this.$selectedEventId();
-    // console.log(p);
-  });
-
-  public GetDefaultCalendarEvent() {
-    return {
-      id: -1,
-      title: "",
-      date: "",
-      time: "",
-    };
   }
 
   public GetCalendarEvent(id: number) {
@@ -135,32 +125,41 @@ export class CalendarService {
   private allEventsByDay$ = computed(() => {
     const events = this.$calendarEvents();
     const result = events.reduce((acc, c) => {
-      const day = parseInt(c.date?.split("/").at(2) ?? "0");
-      const dayEvents = [...(acc.get(day) ?? []), c];
-      return acc.set(day, dayEvents);
-    }, new Map<number, CalendarEvent[]>());
+      const dateStr = c.date ?? "";
+      const dayEvents = [...(acc.get(dateStr) ?? []), c];
+      return acc.set(dateStr, dayEvents);
+    }, new Map<string, CalendarEvent[]>());
 
     return result;
   });
 
   private $calendarViewModel: Signal<ICalendarViewModel> = computed(() => {
-    const startDate = this.$startDate();
-    const m = startDate.getMonth();
-    const y = startDate.getFullYear();
-
-    const cal = generateCalendarViewModel(y, m);
+    const calendar = generateCalendarViewModel(
+      this.$startDate().getFullYear(),
+      this.$startDate().getMonth()
+    );
     const events = this.allEventsByDay$();
 
-    events.forEach((events, day) => {
-      const idx = day - 1;
-      if (idx > 0 && idx < cal.days.length) {
-        cal.days[idx].events = events;
+    if (events.size == 0) {
+      return calendar;
+    }
+
+    // Assign events to days in calendar.
+    events.forEach((events, dayStr) => {
+      const dateObj = new Date(dayStr);
+      const date = dateObj.getDate();
+      const day = calendar.days.find(
+        (d) => d.day == date && d.date.getMonth() == dateObj.getMonth()
+      );
+
+      if (day) {
+        day.events = events;
       }
     });
 
     // Apply selectedDate
     const selectedDate = this.$selectedDate();
-    const found = cal.days.find(
+    const found = calendar.days.find(
       (d) =>
         d.date.getMonth() == selectedDate.getMonth() &&
         d.date.getDate() == selectedDate.getDate()
@@ -169,9 +168,6 @@ export class CalendarService {
     if (found) {
       found.selected = true;
     }
-
-    return cal;
+    return calendar;
   });
-
-  // Netowrk methods.
 }

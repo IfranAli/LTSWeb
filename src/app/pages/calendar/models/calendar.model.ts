@@ -85,8 +85,19 @@ export type ICalendarViewModel = {
 export type CalendarEvent = {
   id: number;
   title: string;
+  color?: string;
   date?: string;
   time?: string;
+};
+
+export const defaultCalendarEvent = () => {
+  return {
+    id: -1,
+    title: "",
+    color: "",
+    date: "",
+    time: "",
+  };
 };
 
 export type CalendarEventCreate = Omit<CalendarEvent, "id">;

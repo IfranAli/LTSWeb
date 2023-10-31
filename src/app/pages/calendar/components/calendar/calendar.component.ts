@@ -7,6 +7,8 @@ import {
 } from "../../models/calendar.util";
 import { CalendarService } from "./calendar.service";
 import { CalendarEventDialogComponent } from "../CalendarEventDialog/calendar-event-dialog.component";
+import { mergeMap, tap } from "rxjs";
+import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-calendar",
@@ -23,6 +25,23 @@ export class CalendarComponent implements OnInit {
 
   $calendarData = this.calendarService.$viewModel;
   $startDate = this.calendarService.$startDate;
+
+  $events = toSignal(
+    toObservable(this.$startDate).pipe(
+      mergeMap((startDate) => {
+        
+        // Get three months of events. 
+        const dateFrom = decrementDateByMonth(startDate);
+        const dateTo = incrementDateByMonth(startDate);
+        dateFrom.setDate(1);
+
+        return this.calendarService.getCalendarEventsForDateRange(
+          dateFrom,
+          dateTo
+        );
+      })
+    )
+  );
 
   ngOnInit(): void {}
 

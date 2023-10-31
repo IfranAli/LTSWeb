@@ -27,6 +27,22 @@
             </span>
           </label>
 
+          <label
+            >Color
+
+            <input
+              name="calendarEventName"
+              [formControl]="calendarEventForm.controls.color"
+              type="color"
+              title="color"
+              [class.invalid]="inputInvalid(calendarEventForm.controls.color)"
+            />
+
+            <span *ngIf="inputInvalid(calendarEventForm.controls.color)">
+              Color is required
+            </span>
+          </label>
+
           <div class="row seperator">
             <label
               >Date

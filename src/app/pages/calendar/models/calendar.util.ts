@@ -181,33 +181,15 @@ export const parseDateIdentifier = (
 };
 
 export const incrementDateByMonth = (date: Date): Date => {
-  let m = date.getMonth();
-  let y = date.getFullYear();
+  const nextMonth = new Date(date.getFullYear(), date.getMonth() + 2, 0);
 
-  if (m == Months.December) {
-    y++;
-    m = Months.January;
-  } else {
-    m++;
+  if (date.getDate() <= nextMonth.getDate()) {
+    nextMonth.setDate(date.getDate());
   }
-
-  date.setFullYear(y, m);
-
-  return date;
+  return nextMonth;
 };
 
 export const decrementDateByMonth = (date: Date): Date => {
-  let m = date.getMonth();
-  let y = date.getFullYear();
-
-  if (m == Months.January) {
-    y = y - 1;
-    m = Months.December;
-  } else {
-    m = m - 1;
-  }
-
-  date.setFullYear(y, m);
-
-  return date;
+  const prevMonth = new Date(date.getFullYear(), date.getMonth(), 0);
+  return prevMonth;
 };

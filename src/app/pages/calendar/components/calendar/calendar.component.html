@@ -59,6 +59,7 @@
           <div
             class="badge micro actionable event-label"
             *ngFor="let e of day.events?.values()"
+            [style.background-color]="e.color"
             (click)="
               calendarService.$selectedEventId.set(e.id);
               calendarService.$showEventDialog.set(true)
@@ -83,17 +84,14 @@
     </footer>
   </article>
 
-  <article
-    class="custom-article"
-    *ngIf="this.calendarService.$calendarEvents() as events"
-  >
+  <article class="custom-article" *ngIf="this.$events() as events">
     <header>
       <hgroup>
         <h2>Events</h2>
         <h3>{{ events.length }} events</h3>
       </hgroup>
     </header>
-    <div class="custom-list calendar-events-list">
+    <div class="custom-list calendar-events-list" *ngIf="events.values()">
       <div
         class="list-item action event-card"
         *ngFor="let e of events.values()"

@@ -58,7 +58,9 @@
         }
 
         .event-label {
-          background-color: rgb(193, 82, 82);
+          background-color: #374e77;
+          color: var(--text-color);
+          font-weight: 400;
 
           &:hover {
             outline: 2px solid #fff;

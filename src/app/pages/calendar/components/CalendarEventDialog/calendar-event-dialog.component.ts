@@ -18,7 +18,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { CalendarEvent } from "../../models/calendar.model";
+import {
+  CalendarEvent,
+  defaultCalendarEvent,
+} from "../../models/calendar.model";
 import {
   RegExValidate24HourTimeStr,
   parseDateIdentifier,
@@ -47,8 +50,7 @@ export class CalendarEventDialogComponent extends DialogBaseComponent {
   $eventModel = computed(() => {
     const id = this.calendarService.$selectedEventId();
     const model =
-      this.calendarService.GetCalendarEvent(id) ??
-      this.calendarService.GetDefaultCalendarEvent();
+      this.calendarService.GetCalendarEvent(id) ?? defaultCalendarEvent();
 
     return model;
   });
@@ -75,6 +77,7 @@ export class CalendarEventDialogComponent extends DialogBaseComponent {
       this.$eventModel().title,
       Validators.required
     ),
+    color: new FormControl<string>(this.$eventModel().color ?? ""),
     date: new FormControl<string>(this.$date() ?? "", Validators.required),
     time: new FormControl<string>(this.$eventModel().time ?? "", [
       Validators.pattern(RegExValidate24HourTimeStr),
@@ -101,6 +104,7 @@ export class CalendarEventDialogComponent extends DialogBaseComponent {
     const model: CalendarEvent = {
       id: this.$eventModel().id,
       title: values.title ?? "",
+      color: values.color ?? "",
       date: values.date ?? "",
       time: values.time ?? "",
     };
@@ -111,7 +115,6 @@ export class CalendarEventDialogComponent extends DialogBaseComponent {
 
     ob.pipe(
       tap((v) => {
-        console.log(v);
         this.calendarService.$showEventDialog.set(false);
       }),
       takeUntilDestroyed(this.destroyRef)

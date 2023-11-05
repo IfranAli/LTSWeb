@@ -1,7 +1,4 @@
-<div
-  class="container"
-  *ngIf="summaries$ | async as summaries; else loading"
->
+<div class="container" *ngIf="$vm() as data; else loading">
   <article class="custom-article">
     <header class="header-actions">
       <button
@@ -26,7 +23,7 @@
       </button>
     </header>
 
-    <ng-container *ngIf="financeData$ | async as financeData; else loading">
+    <ng-container *ngIf="data.summaryGraph?.summaries as items; else loading">
       <app-add-finance-dialog
         *ngIf="$$selectedFinance() as selected"
         [openModal]="showEditDialog()"
@@ -44,10 +41,7 @@
       <section class="summary">
         <div
           class="category"
-          *ngFor="
-            let categorySummary of summaries.summaries;
-            trackBy: trackByFinanceSummary
-          "
+          *ngFor="let categorySummary of items; trackBy: trackByFinanceSummary"
         >
           <div class="summary-label">
             <span>
@@ -55,7 +49,7 @@
               ({{ categorySummary.percentage }})
             </span>
 
-            <span class="week-total">
+            <span class="currency" content="sdad">
               {{ categorySummary.total }}
             </span>
           </div>
@@ -63,7 +57,7 @@
           <div
             [style.width]="categorySummary.percentage"
             [style.max-width]="categorySummary.percentage"
-            [style.background]="categorySummary.colour"
+            [style.background]="categorySummary.color"
             class="amount-bar"
           ></div>
         </div>
@@ -78,18 +72,18 @@
 
   <article
     class="custom-article"
-    *ngIf="financeData$ | async as financeData; else loading"
+    *ngIf="data.financesByWeekly as weeks; else loading"
   >
-  <header>
+    <header *ngIf="weeks.length">
       <hgroup>
         <h3>Expenses</h3>
-        <h2>{{ financeData[0].total}}</h2>
+        <h2>{{ data.summaryGraph?.total }}</h2>
       </hgroup>
-  </header>
-    <section class="finances">
+    </header>
+    <section class="finances" *ngIf="weeks.length > 0">
       <details
         class="finance-list"
-        *ngFor="let summary of financeData; let idx = index"
+        *ngFor="let summary of weeks; let idx = index"
         [open]="idx == 0 ? true : false"
       >
         <summary>
@@ -97,7 +91,7 @@
             {{ summary.categoryName }}
           </span>
 
-          <span>
+          <span class="currency">
             {{ summary.total }}
           </span>
         </summary>
@@ -132,10 +126,8 @@
         </div>
       </details>
     </section>
-    
-    <footer>
 
-    </footer>
+    <footer></footer>
   </article>
 </div>
 

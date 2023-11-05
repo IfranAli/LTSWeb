@@ -70,3 +70,13 @@
     }
   }
 }
+
+@media screen and (min-width: constants.$media-lg) {
+  .container {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 2fr 1fr;
+    align-items: start;
+    gap: 2rem;
+  }
+}

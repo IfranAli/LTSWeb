@@ -6,27 +6,29 @@ import {
   FinanceDatabaseModel,
   FinanceModel,
 } from "../models/finance.model";
-import { getHttpHeaders, ResponseMessage } from "../../../constants/web-constants";
+import {
+  getHttpHeaders,
+  ResponseMessage,
+} from "../../../constants/web-constants";
 import { dateToString } from "../util/finance.util";
 import {
-  FinanceDataAll,
   FinanceSummary,
   FinanceViewModel,
-  formatCurrency,
 } from "../components/finance-app/finance-app.component";
-import {
-  Observable,
-  of,
-  switchMap,
-} from "rxjs";
+import { Observable, of, switchMap, tap } from "rxjs";
 import { WeekDays } from "../../calendar/models/calendar.model";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { UserService } from "src/app/services/user.service";
 import { incrementDateByMonth } from "src/app/pages/calendar/models/calendar.util";
+import { parse } from "@babel/core";
 
 const baseUrl = environment.backendURL;
 const financesUrl = baseUrl + "finance";
 
+export type FinanceDataAll = {
+  category: FinanceCategoryResult;
+  summaries: FinanceSummary[];
+};
 export interface IFinanceSummary {
   total: string;
   categoryName: string;
@@ -42,6 +44,12 @@ export interface FinanceCategoryResult {
   categoryTypesMap: Map<number, string>;
   categoryColorMap: Map<string, string>;
 }
+
+// Format a number to a currency string.
+export const formatCurrency = (number: number): string => {
+  const prefix = number < 0 ? "-$" : "$";
+  return prefix + Math.abs(number).toFixed(2);
+};
 
 @Injectable({
   providedIn: "root",
@@ -116,10 +124,11 @@ export class FinanceService {
 
     const summaryGraphs: FinanceSummary[] = summaries
       .map((d): FinanceSummary => {
-        const v = parseFloat(d.total);
-        const p = (v / grandTotal) * 100;
+        const total = parseFloat(d.total);
+        const partPercentage = (total / grandTotal) * 100;
         const categoryName = d.categoryName ?? "";
-        const c = categoryData.categoryColorMap.get(categoryName) ?? "#A8D6D6";
+        const color =
+          categoryData.categoryColorMap.get(categoryName) ?? "#A8D6D6";
 
         const items: FinanceViewModel[] = d.items.map((i: FinanceModel) => {
           return FinanceService.financeModelToViewModel(i, categoryData);
@@ -127,11 +136,11 @@ export class FinanceService {
 
         const financeSummary: FinanceSummary = {
           categoryName: d.categoryName,
-          colour: c,
-          total: formatCurrency(parseFloat(d.total)),
+          colour: color,
+          total: total,
           items: items,
-          percentage: p.toFixed(0).concat("%"),
-          percentageRaw: parseInt(p.toFixed(0)),
+          percentage: partPercentage.toFixed(0).concat("%"),
+          percentageRaw: parseInt(partPercentage.toFixed(0)),
         };
 
         return financeSummary;

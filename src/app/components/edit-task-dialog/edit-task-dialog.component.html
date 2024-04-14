@@ -3,7 +3,9 @@
   [fullScreen]="fullScreen"
   (onModalClose)="onModalClose.emit(false)"
 >
-  <ng-container slot="header"> </ng-container>
+  <ng-container slot="header">
+    <h2 class="title">Edit task</h2>
+  </ng-container>
 
   <ng-container slot="content">
     <div class="custom-form">

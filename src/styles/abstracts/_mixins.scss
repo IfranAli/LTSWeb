@@ -25,7 +25,7 @@
 
 @mixin hover-outline {
   transition: color 0.5s;
-  color: var(--text-color);
+  color: inherit;
 
   &:hover {
     @include outline;

@@ -3,20 +3,20 @@
     <header class="header-actions">
       <button
         type="button"
-        class="secondary material-symbols-outlined"
+        class="header-btn material-symbols-outlined"
         (click)="back()"
       >
         arrow_back_ios
       </button>
 
       <hgroup>
-        <h3>{{ title }}</h3>
-        <h2>Finance Summary</h2>
+        <h3 class="title">{{ title }}</h3>
+        <h2 class="subtitle">Finance Summary</h2>
       </hgroup>
 
       <button
         type="button"
-        class="secondary material-symbols-outlined"
+        class="header-btn material-symbols-outlined"
         (click)="forward()"
       >
         arrow_forward_ios
@@ -25,7 +25,7 @@
 
     <ng-container *ngIf="data.summaryGraph?.summaries as items; else loading">
       <app-add-finance-dialog
-        *ngIf="$$selectedFinance() as selected"
+        *ngIf="$selectedFinance() as selected"
         [openModal]="showEditDialog()"
         [selected]="selected"
         (onModalClose)="onCloseDialogEvent($event)"
@@ -76,8 +76,8 @@
   >
     <header *ngIf="weeks.length">
       <hgroup>
-        <h3>Expenses</h3>
-        <h2>{{ data.summaryGraph?.total }}</h2>
+        <h3 class="title">Expenses</h3>
+        <h2 class="subtitle">{{ data.summaryGraph?.total }}</h2>
       </hgroup>
     </header>
     <section class="finances" *ngIf="weeks.length > 0">
@@ -96,12 +96,14 @@
           </span>
         </summary>
 
+        <!-- weekly expense items -->
         <div class="custom-list">
           <div
-            class="grid list-item action"
+            class="list-item action"
             (click)="openDialogAddFinance(finance.id)"
             *ngFor="let finance of summary.items; trackByFinanceViewModel"
-          >
+          > 
+          
             <div
               class="amount"
               [class.credit]="finance.isCredit"
@@ -110,11 +112,11 @@
               {{ finance.amountFormatted }}
             </div>
 
-            <div class="date">{{ finance.dateFormatted }}</div>
+            <div class="date align-right">{{ finance.dateFormatted }}</div>
 
             <span class="label">{{ finance.name }}</span>
 
-            <span class="categoryBadge">
+            <span class="categoryBadge align-right">
               <span
                 class="badge no-outline small"
                 [style.backgroundColor]="finance.categoryColour"
@@ -122,6 +124,7 @@
                 {{ finance.categoryLabel }}
               </span>
             </span>
+
           </div>
         </div>
       </details>

@@ -18,8 +18,8 @@
       </button>
 
       <hgroup>
-        <h2>{{ data.name }}</h2>
-        <h3>{{ data.year }}</h3>
+        <h2 class="title">{{ data.name }}</h2>
+        <h3 class="subtitle">{{ data.year }}</h3>
       </hgroup>
 
       <button
@@ -87,8 +87,8 @@
   <article class="custom-article" *ngIf="this.$events() as events">
     <header>
       <hgroup>
-        <h2>Events</h2>
-        <h3>{{ events.length }} events</h3>
+        <h2 class="title">Events</h2>
+        <h3 class="subtitle">{{ events.length }} notices</h3>
       </hgroup>
     </header>
     <div class="custom-list calendar-events-list" *ngIf="events.values()">

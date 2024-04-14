@@ -1,4 +1,4 @@
-import { Injectable, computed, effect, signal } from "@angular/core";
+import { Injectable, computed, effect, inject, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../../environments/environment";
 import {
@@ -15,12 +15,11 @@ import {
   FinanceSummary,
   FinanceViewModel,
 } from "../components/finance-app/finance-app.component";
-import { Observable, of, switchMap, tap } from "rxjs";
+import { Observable, of, switchMap } from "rxjs";
 import { WeekDays } from "../../calendar/models/calendar.model";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { UserService } from "src/app/services/user.service";
 import { incrementDateByMonth } from "src/app/pages/calendar/models/calendar.util";
-import { parse } from "@babel/core";
 
 const baseUrl = environment.backendURL;
 const financesUrl = baseUrl + "finance";
@@ -55,6 +54,10 @@ export const formatCurrency = (number: number): string => {
   providedIn: "root",
 })
 export class FinanceService {
+  // Services.
+  http = inject(HttpClient);
+  userService = inject(UserService);
+
   private $apiCategories = toSignal(this.getFinanceCategories());
 
   private $categoryMaps = computed(() => {
@@ -78,13 +81,6 @@ export class FinanceService {
 
   // Public signals.
   $categories = computed(() => this.$categoryMaps());
-
-  constructor(private http: HttpClient, private userService: UserService) {
-    effect(() => {
-      // const v = this.$categoryMaps();
-      // console.log(v);
-    });
-  }
 
   static financeModelToViewModel = (
     fm: FinanceModel,
@@ -190,17 +186,17 @@ export class FinanceService {
   private $dateTo = computed(() => incrementDateByMonth(this.$dateFrom()));
 
   getFinanceSummaryForDateRange(
-    accountId: number,
     from: Date,
     to: Date
   ): Observable<FinanceDataAll> {
-    const url = financesUrl.concat("/", "summary", "/" + String(accountId));
+    const userId = this.userService.userAccountId$();
+    const url = `${financesUrl}/summary/${userId}`;
     const iFinanceSummary = this.http.get<IFinanceSummary[]>(url, {
       ...getHttpHeaders(),
       params: {
         from: dateToString(from),
         to: dateToString(to),
-        accountId: accountId,
+        accountId: userId,
       },
     });
 

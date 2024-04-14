@@ -43,28 +43,24 @@ dialog {
 @media screen and (max-width: constants.$media-sm) {
 
   dialog {
-    overflow: visible;
-    // height: 40svh;
-    width: 90svw;
-    animation: none;
+    height: 80%;
+    width: 100%;
+    box-shadow: none;
 
     .dialog-container {
-      margin: 0;
       height: 100%;
       width: 100%;
 
       &.full-screen {
-        margin: 0;
+        border-radius: unset;
+        margin: unset;
+
         height: 100svh;
         width: 100lvw;
 
         position: fixed;
         top: 0;
         left: 0;
-
-        border-radius: unset;
-        margin: unset;
-        box-shadow: none;
       }
     }
   }

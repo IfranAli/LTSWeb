@@ -15,7 +15,6 @@ import {
   formatCurrency,
 } from "../../services/finance.service";
 import { FinanceModel, defaultFinance } from "../../models/finance.model";
-import { Router } from "@angular/router";
 import { AddFinanceDialogComponent } from "../add-finance-dialog/add-finance-dialog.component";
 import {
   decrementDateByMonth,
@@ -121,27 +120,22 @@ type ViewModel = {
   ],
 })
 export class FinanceAppComponent implements OnInit, OnDestroy {
+  // Services.
+  financeService = inject(FinanceService);
+
   financeData$: Observable<FinanceData[]> = of([]);
   financeModels: FinanceModel[] = [];
 
   $vm = signal<ViewModel>({});
 
-  effect = effect(() => {
-    const vm = this.$vm();
-    console.log(vm);
-  });
-
   title = "";
   dateFrom$ = new BehaviorSubject<Date>(new Date());
   refresh$ = new BehaviorSubject<boolean>(true);
 
-  // todo: Actually read this value from service.
-  accountId = 0;
-
   model: FinanceModel = defaultFinance;
   showEditDialog = signal(false);
   showImportDialog = signal(false);
-  $$selectedFinance = signal<FinanceModel | undefined>(undefined);
+  $selectedFinance = signal<FinanceModel | undefined>(undefined);
 
   applyTitle = (date: Date) => {
     const dateFrom = date;
@@ -150,9 +144,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     this.title = monthName + " " + year;
   };
 
-  financeService = inject(FinanceService);
-
-  summaries$ = this.dateFrom$.pipe(
+  private summaries$ = this.dateFrom$.pipe(
     combineLatestWith(this.refresh$),
     tap(([date, _]) => this.applyTitle(date)),
     switchMap(([date, _]) => {
@@ -166,7 +158,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
       this.title = monthName + " " + year;
 
       return this.financeService
-        .getFinanceSummaryForDateRange(this.accountId, dateFrom, dateTo)
+        .getFinanceSummaryForDateRange(dateFrom, dateTo)
         .pipe(
           tap((data: FinanceDataAll) => {
             const allFinances = data.summaries
@@ -227,8 +219,6 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
   private _ = toSignal(this.summaries$, {});
 
-  constructor() {}
-
   back() {
     this.dateFrom$.next(decrementDateByMonth(this.dateFrom$.value));
   }
@@ -238,7 +228,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   }
 
   onCloseDialogEvent(value: boolean) {
-    this.$$selectedFinance.set(undefined);
+    this.$selectedFinance.set(undefined);
     this.showEditDialog.set(false);
     this.showImportDialog.set(false);
 
@@ -250,9 +240,9 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   openDialogAddFinance(financeId?: number) {
     const finance = financeId
       ? this.financeModels.find((value) => value.id == financeId)
-      : { ...this.model, accountId: this.accountId };
+      : { ...this.model };
 
-    this.$$selectedFinance.set(finance);
+    this.$selectedFinance.set(finance);
     this.showEditDialog.set(true);
   }
 

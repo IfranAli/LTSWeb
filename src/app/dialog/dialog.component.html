@@ -1,9 +1,9 @@
 <dialog #dialogRef [attr.closing]="$isClosing() ? true : null">
   <div
     class="dialog-container custom-article"
-    [class.full-screen]="fullScreen"
     *ngIf="$showDialog()"
   >
+    <!-- [class.full-screen]="fullScreen" -->
     <header>
       <!-- <a class="close" (click)="closeDialog()"> </a> -->
       <ng-content select="[slot=header]"></ng-content>

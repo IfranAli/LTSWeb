@@ -30,7 +30,9 @@ body {
 }
 @media screen and (max-width: constants.$media-sm) {
   body {
-    --container-margin: 0;
+    --container-margin: 0.25rem;
+    // --box-shadow: none;
+    // --border-radius: 1rem;
   }
 }
 @media screen and (min-width: constants.$media-md) {
@@ -150,10 +152,10 @@ article > section {
 // Badge Styling
 .badge {
   font-size: small;
-  border-radius: 4px;
+  border-radius:  0.25rem;
   white-space: nowrap;
-  color: #fff;
-  padding: 0.2rem 0.5rem;
+  color: var(--text-color-dark);
+  padding: 0.1rem 0.25rem;
 
   &.micro {
     font-size: smaller;

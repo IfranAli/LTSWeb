@@ -7,28 +7,27 @@ article > header > button {
 
 button {
   @include mixins.hover-outline;
-  box-shadow: var(--box-shadow);
+  // box-shadow: var(--box-shadow);
   background-color: var(--bg2);
-  border: none;
+  border: solid 1px var(--border-color);
   padding: 0.5rem 1rem;
   border-radius: 4px;
-  font-size: medium;
 
   &:hover {
     background-color: var(--bg1);
   }
 
   &:disabled {
-    color: var(--bg3);
-    background-color: var(--bg1);
+    color: var(--text-color-inverse);
+    background-color: var(--bg);
     cursor: not-allowed;
-    outline: 2px solid var(--bg2);
-  }
+  }  
 }
 
 .btn-flat {
   box-shadow: none;
   background: none;
+  border: none;
   margin: 0;
   padding: 0;
 

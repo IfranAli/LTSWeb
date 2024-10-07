@@ -122,7 +122,7 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
   getFinanceModelFromInput = () => {
     const date = this.addFinanceForm.controls.date.getRawValue() ?? "";
 
-    return createFinanceModel({
+    const model = createFinanceModel({
       id: this.selected?.id ?? -1,
       name: this.addFinanceForm.controls.name.getRawValue() ?? "",
       date: date,
@@ -130,5 +130,8 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
       categoryType:
         this.addFinanceForm.controls.categoryType.getRawValue() ?? 0,
     });
+
+    console.debug("Finance model", model);
+    return model;
   };
 }

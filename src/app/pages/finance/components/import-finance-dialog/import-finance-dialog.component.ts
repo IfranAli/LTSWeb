@@ -54,6 +54,7 @@ export class ImportFinanceDialogComponent extends DialogBaseComponent {
     // const date = dateRaw ? dateToString(dateRaw) : "";
 
     if (!this.$importDataIsValid()) {
+      console.error("Invalid data.", data);
       return;
     }
 

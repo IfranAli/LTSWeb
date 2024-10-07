@@ -1,8 +1,20 @@
-html,
-body {
+.navbar {
+  @apply bg-slate-50 dark:bg-slate-800;
+
+  ul > li > a {
+
+    span {
+      @apply font-extralight my-1;
+    }
+  }
 }
 
-main {
-  overflow-y: scroll;
-  overflow-x: hidden;
+
+/** utility card styles */
+.card-0 {
+  @apply gap-2 bg-slate-100 dark:bg-slate-800 m-4 p-4 rounded-lg shadow-lg;
+}
+
+.card-1 {
+  @apply gap-2 bg-slate-200 dark:bg-slate-700 m-4 p-4 rounded-lg shadow-lg;
 }

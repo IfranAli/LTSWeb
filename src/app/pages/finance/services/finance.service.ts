@@ -93,18 +93,13 @@ export class FinanceService {
     const weekday = WeekDays[date.getDay()].slice(0, 3);
     const dayOfMonth = date.getDate();
 
-    const suffixes = ["st", "nd", "rd", "th"];
-    const daySuffix = [1, 2, 3].indexOf(dayOfMonth);
-    const suffix = daySuffix > -1 ? suffixes[daySuffix] : suffixes[3];
-
-    const dateText = [weekday, dayOfMonth.toString().concat(suffix)].join(" ");
-    // const dateText = [weekday, fm.date].join(' ')
+    const dateFormatted = `${weekday} ${dayOfMonth}/${date.getMonth() + 1}/${date.getFullYear()}`;
     const amount = fm.amount;
 
     return {
       categoryLabel: category,
       categoryColour: colour,
-      dateFormatted: dateText,
+      dateFormatted: dateFormatted,
       isCredit: amount > 0,
       amountFormatted: formatCurrency(amount),
       ...fm,

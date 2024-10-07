@@ -1,196 +1,52 @@
-@use "./reset";
-@use "./abstracts/colors" as colors;
-@use "./abstracts/constants" as constants;
-@use "./pico-custom";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
-@use "src/styles/abstracts/mixins" as mixins;
-@use "./components/nav";
-@use "./components/button";
-@use "./components/card";
-@use "./components/list";
-@use "./components/form";
-@use "./components/article";
-@use "./components/dialog";
+@import "./form.scss";
 
 html {
-  background-color: var(--bg1);
-}
-:root {
-  font-family: var(--font-family);
+  @apply bg-slate-300 text-slate-950 dark:bg-slate-950 dark:text-slate-100;
 }
 
-body {
-  background-color: var(--bg);
-  color: var(--text-color);
-
-  // @media variables
-  --media-sm: constants.$media-sm;
-  --media-md: constants.$media-md;
-  --media-lg: constants.$media-lg;
+button {
+  @apply font-semibold py-2 px-4 rounded content-center;
+  @apply bg-blue-500 hover:bg-blue-600 text-white;
 }
-@media screen and (max-width: constants.$media-sm) {
-  body {
-    --container-margin: 0.25rem;
-    // --box-shadow: none;
-    // --border-radius: 1rem;
-  }
-}
-@media screen and (min-width: constants.$media-md) {
-  body {
-    // --background-color: green;
-  }
-}
-@media screen and (min-width: constants.$media-lg) {
-  body {
-    // --background-color: blue;
-  }
-}
-
-main {
-  margin: var(--container-margin);
-
-  @media screen and (min-width: constants.$media-md) {
-    margin: auto;
-    margin-bottom: 5rem;
-    max-width: 80%;
-  }
-
-  .container {
-    display: grid;
-    gap: 1rem;
-    margin: var(--container-margin);
-  }
-}
-
-// Mixins
-@mixin font-style-code {
-  display: flex;
-  align-items: center;
-  height: inherit;
-  font-family: var(--font-code);
-}
-
-@mixin button-style {
-  font-family: var(--font-code);
-  // color: var(--primary);
-  font-size: smaller;
-  display: flex;
-  align-items: center;
-  padding: 0.2rem 0.4rem;
-  border: 1px solid var(--primary);
-  box-shadow: 3px 3px #8c4a50;
-
-  &:hover {
-    background-color: var(--primary);
-    cursor: pointer;
-
-    .highlight {
-      // color: var(--secondary) !important;
-    }
-
-    span {
-      // color: white;
-    }
-  }
-}
-
-// Utility
-.toolbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  height: min-content;
-  gap: 0.5rem;
-}
-
-// Misc
-article > section {
-  padding: var(--gap) 0;
-}
-
-.scrollable-div {
-  height: 30svh;
-  overflow-y: scroll;
-}
-
-// Form Styling
-.custom-form > form > section {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  padding: 0;
-}
-
-// Font Styling
-.font-code {
-  @include font-style-code;
-}
-
-// Utility
-.actionable {
-  &:hover {
-    @include mixins.card-action;
-  }
-}
-
-.seperator {
-  border-top: solid 1px var(--border-color);
-  padding-top: 1rem;
-}
-
-.row {
-  display: flex;
-  gap: 1rem;
-}
-
-.col-2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-// Badge Styling
-.badge {
-  font-size: small;
-  border-radius:  0.25rem;
-  white-space: nowrap;
-  color: var(--text-color-dark);
-  padding: 0.1rem 0.25rem;
-
-  &.micro {
-    font-size: smaller;
-    margin: 2px 0;
-    padding: 0 2px;
-    white-space: normal;
-  }
-}
-
-// UI Styling
 
 .header-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: var(--gap);
+  @apply flex justify-between items-center m-4 mt-8;
 }
 
-.custom-form {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+.dialog-container {
+  @apply flex flex-col gap-4 bg-slate-300 dark:bg-slate-800 text-slate-950 dark:text-slate-100
+  p-4 rounded-lg shadow-lg
+  h-96;
+
+  section {
+    @apply flex-grow;
+  }
+
+  header {
+    @apply flex flex-col justify-between items-center;
+  }
+
+  footer {
+    @apply flex gap-4 justify-between;
+
+    .actions {
+      @apply flex gap-4;
+    }
+  }
 }
 
-[aria-selected="true"] {
-  // color: var(--primary) !important;
-  font-weight: bold;
+.toolbar {
+  button {
+    @apply bg-transparent p-0 align-top text-slate-400 hover:text-slate-500;
+  }
 }
 
-.right-icon {
-  display: flex;
-  flex-direction: row-reverse;
-}
-.actions {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
+// badge
+.badge {
+  @apply text-xs font-semibold rounded-sm whitespace-nowrap text-gray-700 p-1;
+  @apply min-w-20 h-min text-center;
 }

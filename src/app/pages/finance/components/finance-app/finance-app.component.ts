@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation,
-  effect,
   inject,
   signal,
 } from "@angular/core";

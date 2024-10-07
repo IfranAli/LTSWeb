@@ -1,10 +1,10 @@
-<div class="project-list example-container">
+<div class="project-list example-container card-0">
   <article class="custom-article">
     <header>
-      <hgroup>
+      <div>
         <span class="title">{{ project.title }}</span>
         <span class="description">{{ project.description }}</span>
-      </hgroup>
+      </div>
 
       <div class="toolbar">
         <small>
@@ -12,7 +12,7 @@
         </small>
         <button
           name="Settings"
-          class="btn-flat"
+          class="btn-flat header-btn"
           (click)="openDialog(project.id)"
         >
           <span class="material-symbols-outlined highlight">settings</span>
@@ -24,7 +24,7 @@
       <div class="custom-list flat">
         <ng-container *ngFor="let task of project.tasks">
           <app-task
-            class="list-item action"
+            class="action"
             [task]="task"
             [projectCode]="project.code"
           >
@@ -34,13 +34,18 @@
     </div>
 
     <footer>
-      <div class="right-icon">
-        <span
-          class="material-symbols-outlined highlight"
+      <div class="toolbar">
+        <button
+          name="Settings"
+          class="btn-flat header-btn"
           (click)="addTaskToProject()"
-          >add
-        </span>
+        >
+          <span
+          
+          class="material-symbols-outlined highlight">Add</span>
+        </button>
       </div>
+
     </footer>
   </article>
 </div>

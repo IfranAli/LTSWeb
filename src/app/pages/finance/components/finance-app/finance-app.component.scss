@@ -1,87 +1,25 @@
-@use "src/styles/abstracts/constants" as constants;
-@use "src/styles/abstracts/colors" as colors;
-@use "src/styles/abstracts/mixins" as mixins;
+.summary {
+  @apply flex flex-col;
 
-// Keyframes
-@keyframes spring {
-  0% {
-    width: 0;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
-.nowrap {
-  white-space: nowrap;
-}
-
-.container {
-  font-size: medium;
-
-  section {
+  .category {
     font-size: inherit;
-  }
+    white-space: nowrap;
 
-  .summary {
-    font-size: small;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    .summary-label {
+      display: flex;
+      justify-content: space-between;
 
-    .category {
-      font-size: inherit;
-      white-space: nowrap;
-
-      .summary-label {
-        display: flex;
-        justify-content: space-between;
-
-        label {
-          margin: 0;
-        }
-      }
-
-      .amount-bar {
-        animation: 1s ease-out 0s 1 spring;
-        height: 0.3rem;
-
-        padding: unset;
-        margin: unset;
-      }
-    }
-  }
-
-  .finances {
-    margin: unset;
-    padding: unset;
-
-    summary {
-      @include mixins.hover-outline;
-      padding: 0.5rem 1rem;
-    }
-
-    .custom-list {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-
-      .list-item {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        padding: 0.5rem;
-        gap: 0.5rem;
-        font-weight: 100;
+      label {
+        margin: 0;
       }
     }
 
-  }
-  
-  .align-right {
-    text-align: right;
-  }
+    .amount-bar {
+      animation: 1s ease-out 0s 1 spring;
+      height: 0.3rem;
 
-  @media screen and (max-width: constants.$media-sm) {
-    font-size: small;
+      padding: unset;
+      margin: unset;
+    }
   }
 }

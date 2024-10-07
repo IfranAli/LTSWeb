@@ -1,6 +1,6 @@
 <div class="container" *ngIf="$vm() as data; else loading">
   <article class="custom-article">
-    <header class="header-actions">
+    <header class="header-actions card-0">
       <button
         type="button"
         class="header-btn material-symbols-outlined"
@@ -38,7 +38,7 @@
       >
       </app-import-finance-dialog>
 
-      <section class="summary">
+      <section class="summary card-0">
         <div
           class="category"
           *ngFor="let categorySummary of items; trackBy: trackByFinanceSummary"
@@ -64,30 +64,36 @@
       </section>
     </ng-container>
 
-    <footer>
+    <footer class="card-0 flex">
       <button (click)="openDialogAddFinance()">Add Expense</button>
       <button (click)="openDialogImport()">Import</button>
     </footer>
   </article>
 
   <article
-    class="custom-article"
+    class="finances-by-weekly flex-col card-0"
     *ngIf="data.financesByWeekly as weeks; else loading"
   >
-    <header *ngIf="weeks.length">
+    <header
+      *ngIf="weeks.length"
+      class="flex flex-1 flex-col divide-y divide-solid"
+    >
       <hgroup>
         <h3 class="title">Expenses</h3>
         <h2 class="subtitle">{{ data.summaryGraph?.total }}</h2>
       </hgroup>
     </header>
-    <section class="finances" *ngIf="weeks.length > 0">
+
+    <section class="finances flex flex-col gap-4" *ngIf="weeks.length > 0">
       <details
         class="finance-list"
         *ngFor="let summary of weeks; let idx = index"
         [open]="idx == 0 ? true : false"
       >
-        <summary>
-          <span>
+        <summary
+          class="bg-slate-300 p-2 dark:bg-slate-600 divide-slate-300 hover:bg-slate-400 cursor-pointer rounded-md"
+        >
+          <span class="font-semibold">
             {{ summary.categoryName }}
           </span>
 
@@ -97,13 +103,14 @@
         </summary>
 
         <!-- weekly expense items -->
-        <div class="custom-list">
+        <div
+          class="flex flex-col divide-y divide-solid divide-slate-800 gap-x-4"
+        >
           <div
-            class="list-item action"
+            class="p-2 hover:bg-slate-300 cursor-pointer columns-4"
             (click)="openDialogAddFinance(finance.id)"
             *ngFor="let finance of summary.items; trackByFinanceViewModel"
-          > 
-          
+          >
             <div
               class="amount"
               [class.credit]="finance.isCredit"
@@ -112,19 +119,18 @@
               {{ finance.amountFormatted }}
             </div>
 
-            <div class="date align-right">{{ finance.dateFormatted }}</div>
+            <div>{{ finance.dateFormatted }}</div>
+            <div>{{ finance.name }}</div>
 
-            <span class="label">{{ finance.name }}</span>
-
-            <span class="categoryBadge align-right">
+            <!-- category badge -->
+            <div>
               <span
-                class="badge no-outline small"
+                class="badge"
                 [style.backgroundColor]="finance.categoryColour"
               >
                 {{ finance.categoryLabel }}
               </span>
-            </span>
-
+            </div>
           </div>
         </div>
       </details>

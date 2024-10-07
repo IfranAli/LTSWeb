@@ -118,7 +118,8 @@ export class UserService {
               accountId: user.accountId,
               token: value.data?.token ?? "",
             };
-
+            
+            // todo: verify user data
             this.setUserDataToLocalStorage(userData);
 
             this.$userData.set(userData);

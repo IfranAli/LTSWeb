@@ -1,28 +1,44 @@
 <ng-container *ngIf="$user() as user; else notLoggedIn">
-  <nav>
-    <ul>
-      <li>{{ title }}</li>
+  <div class="navbar flex shadow-xl p-2 px-4">
+    <ul class="w-14">
+      <li class="text-2xl font-semibold text-blue-500">{{ title }}</li>
     </ul>
-    <ul>
+
+    <ul class="grow flex gap-4 place-content-center">
       <li>
-        <a href="/projects" [attr.active]="path == '/projects' ? '' : null">
+        <a
+          class="hover:text-blue-800"
+          href="/projects"
+          [attr.active]="path == '/projects' ? '' : null"
+        >
           <!-- Project -->
           <span class="material-symbols-outlined">library_books</span>
         </a>
       </li>
+
       <li>
-        <a href="/finance" [attr.active]="path == '/finance' ? '' : null">
+        <a
+          class="hover:text-green-800"
+          href="/finance"
+          [attr.active]="path == '/finance' ? '' : null"
+        >
           <!-- Finance -->
           <span class="material-symbols-outlined">account_balance</span>
         </a>
       </li>
+
       <li>
-        <a href="/calendar" [attr.active]="path == '/calendar' ? '' : null">
+        <a
+          class="hover:text-orange-800"
+          href="/calendar"
+          [attr.active]="path == '/calendar' ? '' : null"
+        >
           <!-- Calendar -->
           <span class="material-symbols-outlined">calendar_month</span>
         </a>
       </li>
     </ul>
+
     <ul>
       <li>
         <a href="/logout">
@@ -30,15 +46,16 @@
         </a>
       </li>
     </ul>
-  </nav>
+  </div>
 
-  <main>
+  <main class="container m-4 mx-auto my-auto">
     <router-outlet></router-outlet>
   </main>
 </ng-container>
 
 <ng-template #notLoggedIn>
-  <main class="contianer">
+  <main>
+    <h1 class="text-5xl">Not logged in</h1>
     <router-outlet></router-outlet>
   </main>
 </ng-template>

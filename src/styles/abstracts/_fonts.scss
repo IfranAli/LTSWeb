@@ -1,9 +1,0 @@
-@use "src/styles/abstracts/colors" as colors;
-
-// Fonts setup
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,400;0,700;1,300&display=swap');
-
-// Variables
-$font-stack: 'Roboto', sans-serif;
-$font-mono: 'Roboto Condensed';
-$primary-color: colors.$app-bg-main;

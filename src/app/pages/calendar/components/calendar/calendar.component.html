@@ -8,7 +8,7 @@
     >
     </app-calendar-event-dialog>
 
-    <header class="header-actions">
+    <header class="header-actions card-0">
       <button
         type="button"
         class="secondary material-symbols-outlined"
@@ -17,10 +17,10 @@
         arrow_back_ios
       </button>
 
-      <hgroup>
-        <h2 class="title">{{ data.name }}</h2>
+      <div class="text-center">
+        <h2 class="title font-semibold">{{ data.name }}</h2>
         <h3 class="subtitle">{{ data.year }}</h3>
-      </hgroup>
+      </div>
 
       <button
         type="button"
@@ -32,17 +32,17 @@
     </header>
 
     <!-- Header -->
-    <div class="calendar">
-      <div class="header">
+    <div class="calendar card-0">
+      <div class="header grid grid-cols-7 rounded-lg p-2 m-1 font-semibold">
         <div *ngFor="let day of weekdays">
           {{ day }}
         </div>
       </div>
 
       <!-- Body -->
-      <div class="calendar-days">
+      <div class="calendar-days grid grid-cols-7">
         <div
-          class="box-day"
+          class="box-day h-20 p-2 m-1 bg-slate-50 rounded-lg border-solid border-slate-200 border-2"
           *ngFor="let day of this.$calendarData().days"
           (click)="selectDateEvent(day)"
           [ngClass]="[
@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <footer>
+    <footer class="card-0 flex">
       <button
         class="right-ico"
         (click)="
@@ -84,23 +84,25 @@
     </footer>
   </article>
 
-  <article class="custom-article" *ngIf="this.$events() as events">
+  <article class="card-0" *ngIf="this.$events() as events">
     <header>
-      <hgroup>
-        <h2 class="title">Events</h2>
-        <h3 class="subtitle">{{ events.length }} notices</h3>
-      </hgroup>
+      <h2 class="font-semibold">Events ({{ events.length }})</h2>
     </header>
-    <div class="custom-list calendar-events-list" *ngIf="events.values()">
+
+    <div class="calendar-events-list" *ngIf="events.values()">
       <div
-        class="list-item action event-card"
+        class="bg-slate-200 p-2 m-1 rounded-lg hover:bg-slate-300 cursor-pointer"
         *ngFor="let e of events.values()"
         (click)="
           calendarService.$selectedEventId.set(e.id);
           calendarService.$showEventDialog.set(true)
         "
+        (keydown.enter)="
+          calendarService.$selectedEventId.set(e.id);
+          calendarService.$showEventDialog.set(true)
+        "
       >
-        <span> {{ e.title }}</span>
+        <div class="font-semibold">{{ e.title }}</div>
         <div>{{ e.date + " " + e.time }}</div>
       </div>
     </div>

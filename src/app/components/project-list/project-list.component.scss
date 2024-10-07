@@ -1,7 +1,6 @@
-@use "src/styles/abstracts/colors" as colors;
-@use "src/styles/abstracts/constants" as constants;
-
 .project-list {
+  @apply m-4 p-5 rounded-lg shadow-lg;
+
   article {
     header {
       display: flex;
@@ -21,17 +20,6 @@
         font-size: small;
         font-weight: 300;
       }
-    }
-
-    .project-task-list {
-    }
-  }
-}
-
-@media screen and (max-width: constants.$media-sm) {
-  .project-list > article {
-    footer {
-      padding-right: 1rem;
     }
   }
 }

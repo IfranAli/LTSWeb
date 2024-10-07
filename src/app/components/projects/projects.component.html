@@ -8,6 +8,7 @@
   (onModalClose)="onCloseDialogEvent($event)"
 >
 </app-edit-project-dialog>
+
 <app-edit-task-dialog
   *ngIf="$showEditTaskDialog() as show"
   [openModal]="show"
@@ -15,7 +16,7 @@
 >
 </app-edit-task-dialog>
 
-<div class="container">
+<div class="projects-container">
   <ng-container *ngFor="let project of $projects()">
     <app-project-list [project]="project"></app-project-list>
   </ng-container>

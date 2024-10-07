@@ -40,6 +40,8 @@ dialog[open] {
   animation: $animation-speed slideDown, $animation-speed fadeIn;
   background: transparent;
   border: none;
+  
+  @apply w-full max-w-md;
 }
 
 dialog[closing] {
@@ -47,7 +49,7 @@ dialog[closing] {
 }
 
 dialog::backdrop {
-  background: none;
+  @apply backdrop-blur-lg bg-black/30;
 }
 
 @media screen and (max-width: 786px) {

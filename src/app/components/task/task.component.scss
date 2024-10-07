@@ -1,39 +1,25 @@
-@use "src/styles/abstracts/constants" as constants;
-@use "src/styles/abstracts/colors" as colors;
-
 .task {
-  display: grid;
-  grid-template-columns: 1fr 10fr 1fr;
-  padding: 1rem 0.5rem;
-  gap: 0.5rem;
-  border-radius: var(--border-radius);
-  align-items: center;
-  margin: unset;
+  @apply flex p-4 rounded-lg my-4 gap-x-2 bg-slate-200 dark:bg-slate-700;
 
   .content {
-    font-size: small;
-
-    .description {
-      color: #7a7e85;
-      display: block;
-    }
+    @apply flex-grow;
   }
 
   .badge {
     &.todo {
-      color: colors.$color-blue;
+      @apply text-blue-100 bg-blue-500;
     }
 
     &.in-progress {
-      color: colors.$color-yellow;
+      @apply text-yellow-100 bg-yellow-500;
     }
 
     &.blocked {
-      color: colors.$color-red;
+      @apply text-red-100 bg-red-500;
     }
 
     &.done {
-      color: colors.$color-green;
+      @apply text-green-100 bg-green-500;
     }
   }
 }
@@ -41,18 +27,18 @@
 .priority {
   display: block;
   &.lowest {
-    color: #5992ff;
+    @apply text-blue-500;
   }
 
   &.medium {
-    color: #cbae27;
+    @apply text-yellow-500;
   }
 
   &.high {
-    color: #ff773d;
+    @apply text-orange-500;
   }
 
   &.highest {
-    color: #e86767;
+    @apply text-red-500;
   }
 }

@@ -1,21 +1,15 @@
 import { createFinanceModel, FinanceModel } from "../models/finance.model";
 
-export const dateToString = function (date: Date, seperator = "/"): string {
+export const dateToString = function (date: Date, separator = "/"): string {
   const y = date.getFullYear();
   const m = (date.getMonth() + 1).toString().padStart(2, "0");
   const d = date.getDate().toString().padStart(2, "0");
 
-  return y + seperator + m + seperator + d;
+  return y + separator + m + separator + d;
 };
 
-export function getCurrentDate(seperator = "-"): string {
-  const date = new Date();
-
-  return [
-    date.getFullYear(),
-    date.getMonth() == 0 ? 1 : date.getMonth(),
-    date.getDay(),
-  ].join(seperator);
+export function getCurrentDate(separator = "-"): string {
+  return dateToString(new Date(), separator);
 }
 
 const regExPatternTime: RegExp = /(\d{1,2}):(\d{2})/;

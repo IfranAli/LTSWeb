@@ -1,0 +1,12 @@
+
+.custom-form {
+    @apply flex flex-row p-4 rounded-lg dark:bg-slate-700 bg-slate-200;
+    
+    section {
+        @apply flex flex-col gap-4;
+    }
+    
+    input, textarea, select {
+        @apply p-2 rounded-md dark:bg-slate-800 dark:text-white;
+    }
+}

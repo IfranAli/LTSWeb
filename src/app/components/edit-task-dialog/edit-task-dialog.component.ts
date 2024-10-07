@@ -62,17 +62,31 @@ export class EditTaskDialogComponent extends DialogBaseComponent {
   }
 
   getDialogData(): TaskModel {
+    
     const taskForm = this.taskForm.getRawValue() as Partial<TaskModel>;
     return createTaskModel(taskForm, this.task);
   }
 
   deleteTask() {
-    // this.subscription = this.projectService
-    //   .deleteTask(this.task.id)
-    //   .subscribe((result) => {
-    //     // this.store.dispatch(deleteTask({ id: this.task.id }));
-    //     // this.dialogRef.close();
-    //   });
+    const taskId = this.task?.id;
+    if (!taskId) {
+      console.error("task id is not valid");
+      return
+    }
+
+    console.log("delete task", taskId);
+    this.projectService.deleteTask(this.task.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (value) => {
+          console.log(value);
+          this.onModalClose.emit(true);
+        },
+        error: (err) => {
+          console.error(err);
+          this.onModalClose.emit(true);
+        },
+      });
   }
 
   save() {

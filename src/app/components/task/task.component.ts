@@ -32,7 +32,6 @@ export class TaskComponent {
       .deleteTask(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe();
-    4;
   }
 
   updateTask() {

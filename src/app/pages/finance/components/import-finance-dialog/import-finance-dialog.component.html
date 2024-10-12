@@ -37,12 +37,12 @@
       </div>
 
       <div class="parsed-display scrollable-div">
-        <div class="task-view" *ngFor="let v of test$ | async">
-          <span *ngIf="v.name">{{ v.name }}</span>
-          <span *ngIf="v.amount"> ＄ {{ v.amount }} </span>
-          <span *ngIf="v.date"> 📅 {{ v.date }} </span>
-          <span *ngIf="v.time"> 🕑 {{ v.time }} </span>
-        </div>
+        <ng-container *ngFor="let v of test$ | async">
+          <span>{{ v.name }}</span>
+          <span>＄{{ v.amount }} </span>
+          <span> 📅 {{ v.date }} </span>
+          <span> 🕑 {{ v.time }} </span>
+        </ng-container>
       </div>
     </div>
   </ng-container>

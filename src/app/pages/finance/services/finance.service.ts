@@ -34,11 +34,6 @@ export interface IFinanceSummary {
   items: FinanceModel[];
 }
 
-export interface IResult<T> {
-  data: T[];
-  errors: string[];
-}
-
 export interface FinanceCategoryResult {
   categoryTypesMap: Map<number, string>;
   categoryColorMap: Map<string, string>;
@@ -93,7 +88,9 @@ export class FinanceService {
     const weekday = WeekDays[date.getDay()].slice(0, 3);
     const dayOfMonth = date.getDate();
 
-    const dateFormatted = `${weekday} ${dayOfMonth}/${date.getMonth() + 1}/${date.getFullYear()}`;
+    const dateFormatted = `${weekday} ${dayOfMonth}/${
+      date.getMonth() + 1
+    }/${date.getFullYear()}`;
     const amount = fm.amount;
 
     return {
@@ -155,7 +152,7 @@ export class FinanceService {
       const { id, ...noId } = model;
       return noId;
     });
-    return this.http.post<IResult<FinanceDatabaseModel>>(
+    return this.http.post<FinanceDatabaseModel[]>(
       financesUrl,
       model,
       getHttpHeaders()

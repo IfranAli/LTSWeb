@@ -19,8 +19,7 @@ button {
 
 .dialog-container {
   @apply flex flex-col gap-4 bg-slate-300 dark:bg-slate-800 text-slate-950 dark:text-slate-100
-  p-4 rounded-lg shadow-lg
-  h-96;
+  p-4 rounded-lg shadow-lg;
 
   section {
     @apply flex-grow;

@@ -62,7 +62,7 @@ export class ImportFinanceDialogComponent extends DialogBaseComponent {
       .createFinanceMany(data)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result) => {
-        console.log("Added ", result.data.length, " transactions.");
+        console.log("Added ", result.length, " transactions.");
         this.onModalClose.emit(true);
       });
   }

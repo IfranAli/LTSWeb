@@ -21,11 +21,13 @@ import {
   incrementDateByMonth,
   parseDateFormattedStr,
 } from "../../../calendar/models/calendar.util";
-import { sortFinanceModels } from "../../util/finance.util";
+import { dateToString, sortFinanceModels } from "../../util/finance.util";
 import { CALENDAR_MONTHS } from "../../../calendar/models/calendar.model";
 import {
   BehaviorSubject,
+  combineLatest,
   combineLatestWith,
+  map,
   Observable,
   of,
   switchMap,
@@ -34,6 +36,7 @@ import {
 import { ImportFinanceDialogComponent } from "../import-finance-dialog/import-finance-dialog.component";
 import { CommonModule } from "@angular/common";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { ActivatedRoute, Router } from "@angular/router";
 
 export interface FinanceViewModel extends FinanceModel {
   accountId: number;
@@ -120,6 +123,8 @@ type ViewModel = {
 })
 export class FinanceAppComponent implements OnInit, OnDestroy {
   // Services.
+  route = inject(ActivatedRoute);
+  router = inject(Router);
   financeService = inject(FinanceService);
 
   financeData$: Observable<FinanceData[]> = of([]);
@@ -128,7 +133,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   $vm = signal<ViewModel>({});
 
   title = "";
-  dateFrom$ = new BehaviorSubject<Date>(new Date());
+  dateContext = signal<Date>(new Date());
   refresh$ = new BehaviorSubject<boolean>(true);
 
   model: FinanceModel = defaultFinance;
@@ -143,9 +148,20 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     this.title = monthName + " " + year;
   };
 
-  private summaries$ = this.dateFrom$.pipe(
-    combineLatestWith(this.refresh$),
-    tap(([date, _]) => this.applyTitle(date)),
+  private pageParams$ = this.route.queryParams.pipe(
+    map((params) => {
+      console.debug("params", params);
+      const dateFrom = params?.["dateFrom"] ?? null;
+      const date = dateFrom ? new Date(dateFrom) : new Date();
+      this.dateContext.set(date);
+      return date;
+    })
+  );
+
+  private summaries$ = combineLatest([this.pageParams$, this.refresh$]).pipe(
+    tap(([date, _]) => {
+      this.applyTitle(date);
+    }),
     switchMap(([date, _]) => {
       const dateFrom = date;
       dateFrom.setDate(1);
@@ -165,7 +181,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
               .flat()
               .sort(sortFinanceModels);
             const financesByWeeks: FinanceModel[][] = getFinancesByWeek(
-              this.dateFrom$.value,
+              dateFrom,
               allFinances
             );
 
@@ -218,12 +234,26 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
   private _ = toSignal(this.summaries$, {});
 
-  back() {
-    this.dateFrom$.next(decrementDateByMonth(this.dateFrom$.value));
-  }
+  /**
+   * Adjust the date window by one month.
+   * @param forwards If true, the date window is moved forwards by one month. Otherwise, it is moved backwards by one month.
+   */
+  setDateWindow(forwards: boolean) {
+    const date = this.dateContext();
+    const dateFrom = forwards
+      ? incrementDateByMonth(date)
+      : decrementDateByMonth(date);
 
-  forward() {
-    this.dateFrom$.next(incrementDateByMonth(this.dateFrom$.value));
+    const dateTo = incrementDateByMonth(new Date(dateFrom));
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        dateFrom: dateToString(dateFrom, "-"),
+        dateTo: dateToString(dateTo, "-"),
+      },
+      queryParamsHandling: "merge",
+    });
   }
 
   onCloseDialogEvent(value: boolean) {
@@ -255,10 +285,8 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.refresh$.complete();
-    this.dateFrom$.complete();
+    // this.dateFrom$.complete();
   }
-
-  ngOnInit(): void {}
 
   trackByFinanceSummary(_: any, item: SummaryViewModel) {
     return item.categoryName;
@@ -267,4 +295,6 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   trackByFinanceViewModel(_: any, item: FinanceViewModel) {
     return item.id;
   }
+
+  ngOnInit(): void {}
 }

@@ -1,10 +1,10 @@
 <div class="container" *ngIf="$vm() as data; else loading">
   <article class="custom-article">
-    <header class="header-actions card-0">
+    <header class="card-0 header-actions">
       <button
         type="button"
         class="header-btn material-symbols-outlined"
-        (click)="back()"
+        (click)="setDateWindow(false)"
       >
         arrow_back_ios
       </button>
@@ -17,7 +17,7 @@
       <button
         type="button"
         class="header-btn material-symbols-outlined"
-        (click)="forward()"
+        (click)="setDateWindow(true)"
       >
         arrow_forward_ios
       </button>
@@ -78,9 +78,9 @@
       *ngIf="weeks.length"
       class="flex flex-1 flex-col divide-y divide-solid"
     >
-      <hgroup>
-        <h3 class="title">Expenses</h3>
-        <h2 class="subtitle">{{ data.summaryGraph?.total }}</h2>
+      <hgroup class="flex justify-between items-center mb-4">
+        <h2 class="text-lg">Expenses</h2>
+        <h2 class="text-lg">{{ data.summaryGraph?.total }}</h2>
       </hgroup>
     </header>
 
@@ -91,23 +91,18 @@
         [open]="idx == 0 ? true : false"
       >
         <summary
-          class="bg-slate-200 p-2 dark:bg-slate-600 divide-red-300 hover:bg-slate-400 cursor-pointer rounded-md"
+          class="hover:bg-slate-200 hover:dark:bg-zinc-700 cursor-pointer border-b-2 border-zinc-700 p-2 text-lg"
         >
-          <span class="font-semibold">
-            {{ summary.categoryName }}
-          </span>
-
-          <span class="currency">
-            {{ summary.total }}
-          </span>
+          {{ summary.categoryName }}
+          {{ summary.total }}
         </summary>
 
         <!-- weekly expense items -->
         <div
-          class="flex flex-col divide-y divide-solid divide-red-700 gap-x-4"
+          class="flex flex-col divide-y divide-solid divide-slate-200 dark:divide-zinc-800 gap-x-4 rounded-lg"
         >
           <div
-            class="p-2 hover:bg-slate-300 cursor-pointer columns-4"
+            class="p-2 hover:bg-slate-300 dark:hover:bg-zinc-800 cursor-pointer columns-4"
             (click)="openDialogAddFinance(finance.id)"
             *ngFor="let finance of summary.items; trackByFinanceViewModel"
           >

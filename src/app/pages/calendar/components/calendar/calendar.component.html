@@ -8,7 +8,7 @@
     >
     </app-calendar-event-dialog>
 
-    <header class="header-actions card-0">
+    <header class="card-0 header-actions">
       <button
         type="button"
         class="secondary material-symbols-outlined"
@@ -33,7 +33,7 @@
 
     <!-- Header -->
     <div class="calendar card-0">
-      <div class="header grid grid-cols-7 rounded-lg p-2 m-1 font-semibold">
+      <div class="header grid grid-cols-7 font-semibold">
         <div *ngFor="let day of weekdays">
           {{ day }}
         </div>
@@ -42,7 +42,7 @@
       <!-- Body -->
       <div class="calendar-days grid grid-cols-7">
         <div
-          class="box-day h-20 p-2 m-1 bg-slate-50 rounded-lg border-solid border-slate-200 border-2"
+          class="box-day h-20 rounded-sm p-1 m-1"
           *ngFor="let day of this.$calendarData().days"
           (click)="selectDateEvent(day)"
           [ngClass]="[
@@ -91,7 +91,7 @@
 
     <div class="calendar-events-list" *ngIf="events.values()">
       <div
-        class="bg-slate-200 p-2 m-1 rounded-lg hover:bg-slate-300 cursor-pointer"
+        class="bg-slate-200 dark:bg-zinc-800 p-2 m-1 rounded-lg hover:bg-slate-300 dark:hover:bg-zinc-700 cursor-pointer"
         *ngFor="let e of events.values()"
         (click)="
           calendarService.$selectedEventId.set(e.id);

@@ -1,6 +1,4 @@
 .task {
-  @apply flex p-4 rounded-lg my-4 gap-x-2 bg-slate-200 dark:bg-slate-700;
-
   .content {
     @apply flex-grow;
   }

@@ -37,6 +37,7 @@ import { ImportFinanceDialogComponent } from "../import-finance-dialog/import-fi
 import { CommonModule } from "@angular/common";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router } from "@angular/router";
+import { SummaryView } from "../ui/summary-view.component";
 
 export interface FinanceViewModel extends FinanceModel {
   accountId: number;
@@ -51,7 +52,7 @@ export interface FinanceViewModel extends FinanceModel {
   isCredit: boolean;
 }
 
-type FinanceData = {
+export type FinanceData = {
   categoryName: string;
   items: FinanceViewModel[];
   total: number;
@@ -119,7 +120,8 @@ type ViewModel = {
     CommonModule,
     AddFinanceDialogComponent,
     ImportFinanceDialogComponent,
-  ],
+    SummaryView
+],
 })
 export class FinanceAppComponent implements OnInit, OnDestroy {
   // Services.

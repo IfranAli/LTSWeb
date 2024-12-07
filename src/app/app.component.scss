@@ -1,20 +1,18 @@
 .navbar {
-  @apply bg-slate-50 dark:bg-slate-800;
+  @apply bg-slate-50 dark:bg-zinc-900;
 
   ul > li > a {
-
     span {
       @apply font-extralight my-1;
     }
   }
 }
 
-
 /** utility card styles */
 .card-0 {
-  @apply gap-2 bg-slate-100 dark:bg-slate-800 m-4 p-4 rounded-lg shadow-lg;
+  @apply gap-2 bg-slate-100 dark:bg-zinc-900 p-4 rounded-lg shadow-lg my-4;
 }
 
 .card-1 {
-  @apply gap-2 bg-slate-200 dark:bg-slate-700 m-4 p-4 rounded-lg shadow-lg;
+  @apply gap-2 bg-slate-200 dark:bg-zinc-900 p-4 rounded-lg shadow-lg sm:m-4;
 }

@@ -1,4 +1,5 @@
-<div class="container" *ngIf="$vm() as data; else loading">
+<!-- <div class="container" *ngIf="$vm() as data; else loading"> -->
+<div class="container">
   <article class="custom-article">
     <header class="card-0 header-actions">
       <button
@@ -23,7 +24,8 @@
       </button>
     </header>
 
-    <ng-container *ngIf="data.summaryGraph?.summaries as items; else loading">
+    @if ($vm(); as data) {
+    <ng-container *ngIf="data.summaryGraph?.summaries as items">
       <app-add-finance-dialog
         *ngIf="$selectedFinance() as selected"
         [openModal]="showEditDialog()"
@@ -63,6 +65,7 @@
         </div>
       </section>
     </ng-container>
+    }
 
     <footer class="card-0 flex">
       <button (click)="openDialogAddFinance()">Add Expense</button>
@@ -70,9 +73,17 @@
     </footer>
   </article>
 
+  @if($vm(); as data) {
+  <article>
+    @if (data.financesByWeekly; as d2) { @if (d2.length > 0) {
+    <h1>Weekly Expenses!!</h1>
+    <summary-view [finances]="d2"></summary-view>
+    } }
+  </article>
+
   <article
     class="finances-by-weekly flex-col card-0"
-    *ngIf="data.financesByWeekly as weeks; else loading"
+    *ngIf="data.financesByWeekly as weeks"
   >
     <header
       *ngIf="weeks.length"
@@ -133,19 +144,5 @@
 
     <footer></footer>
   </article>
+  }
 </div>
-
-<ng-template #loading>
-  <div class="summary">
-    <div class="container">
-      <div class="category" style="background: #8a8a8a; width: 100%">
-        <span class="name">Loading</span>
-
-        <div>
-          <span style="float: right">0.0</span>
-          <span style="float: left">Loading</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-template>

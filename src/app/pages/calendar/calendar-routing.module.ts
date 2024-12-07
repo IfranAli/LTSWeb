@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
-import {CalendarComponent} from "./components/calendar/calendar.component";
+
 
 const routes: Routes = [
   {
     path: '',
-    component: CalendarComponent
+    loadComponent: () => import('./components/calendar/calendar.component').then(m => m.CalendarComponent)
   }
 ]
 

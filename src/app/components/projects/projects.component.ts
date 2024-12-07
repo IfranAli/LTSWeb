@@ -12,22 +12,20 @@ import {
 import { ProjectService } from "src/app/services/project.service";
 import { EditProjectDialogComponent } from "../edit-project-dialog/edit-project-dialog.component";
 import { ProjectListComponent } from "../project-list/project-list.component";
-import { CommonModule } from "@angular/common";
+
 import { EditTaskDialogComponent } from "../edit-task-dialog/edit-task-dialog.component";
 
 @Component({
-  selector: "app-projects",
-  templateUrl: "./projects.component.html",
-  styleUrls: ["./projects.component.scss"],
-  standalone: true,
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
+    selector: "app-projects",
+    templateUrl: "./projects.component.html",
+    styleUrls: ["./projects.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
     EditProjectDialogComponent,
     ProjectListComponent,
-    EditTaskDialogComponent,
-  ],
+    EditTaskDialogComponent
+]
 })
 export class ProjectsComponent {
   projectService = inject(ProjectService);

@@ -34,7 +34,7 @@ import {
   tap,
 } from "rxjs";
 import { ImportFinanceDialogComponent } from "../import-finance-dialog/import-finance-dialog.component";
-import { CommonModule } from "@angular/common";
+
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SummaryView } from "../ui/summary-view.component";
@@ -110,18 +110,16 @@ type ViewModel = {
 };
 
 @Component({
-  selector: "app-finance-app",
-  standalone: true,
-  templateUrl: "./finance-app.component.html",
-  styleUrls: ["./finance-app.component.scss"],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  imports: [
-    CommonModule,
+    selector: "app-finance-app",
+    templateUrl: "./finance-app.component.html",
+    styleUrls: ["./finance-app.component.scss"],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    imports: [
     AddFinanceDialogComponent,
     ImportFinanceDialogComponent,
     SummaryView
-],
+]
 })
 export class FinanceAppComponent implements OnInit, OnDestroy {
   // Services.

@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewEncapsulation,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation, inject, input, output } from "@angular/core";
 import {
   createTaskModel,
   TaskDatabaseModel,
@@ -17,26 +9,25 @@ import { defaultProject, ProjectModel } from "../../models/project.model";
 import { TaskState } from "../../constants/constants";
 import { ProjectService } from "src/app/services/project.service";
 import { TaskComponent } from "../task/task.component";
-import { CommonModule } from "@angular/common";
+
 
 @Component({
-  selector: "app-project-list",
-  templateUrl: "./project-list.component.html",
-  styleUrls: ["./project-list.component.scss"],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [CommonModule, TaskComponent],
+    selector: "app-project-list",
+    templateUrl: "./project-list.component.html",
+    styleUrls: ["./project-list.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [TaskComponent]
 })
 export class ProjectListComponent implements OnInit {
-  @Input() project: ProjectModel = defaultProject;
+  projectService = inject(ProjectService);
 
-  @Output() onProjectChanged = new EventEmitter<Event>();
-  @Output() onAddTaskToProject = new EventEmitter<Partial<TaskModel>>();
+  readonly project = input<ProjectModel>(defaultProject);
+
+  readonly onProjectChanged = output<Event>();
+  readonly onAddTaskToProject = output<Partial<TaskModel>>();
 
   projectColour: string = "#d2d2d2";
-
-  constructor(public projectService: ProjectService) {}
 
   private static taskSortMethod(a: TaskModel, b: TaskModel): number {
     // All done tasks go to the bottom of the list.
@@ -60,8 +51,9 @@ export class ProjectListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.project.colour != "") {
-      this.projectColour = this.project.colour;
+    const project = this.project();
+    if (project.colour != "") {
+      this.projectColour = project.colour;
     } else {
       // todo: Make it not so random.
       const randomColor =
@@ -73,7 +65,7 @@ export class ProjectListComponent implements OnInit {
   addTaskToProject() {
     const task = {
       ...createTaskModel(),
-      projectId: this.project.id,
+      projectId: this.project().id,
       content: "",
       state: TaskState.TODO,
       name: "",

@@ -1,8 +1,8 @@
-import { Component, DestroyRef } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
 import { createTaskModel, TaskModel } from "../../models/task.model";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { Priority, TaskState } from "../../constants/constants";
-import { AsyncPipe, NgForOf } from "@angular/common";
+import { AsyncPipe } from "@angular/common";
 import { ProjectService } from "src/app/services/project.service";
 import {
   DialogBaseComponent,
@@ -11,19 +11,20 @@ import {
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
-  standalone: true,
-  selector: "app-edit-task-dialog",
-  templateUrl: "./edit-task-dialog.component.html",
-  styleUrls: ["./edit-task-dialog.component.scss"],
-  imports: [
+    selector: "app-edit-task-dialog",
+    templateUrl: "./edit-task-dialog.component.html",
+    styleUrls: ["./edit-task-dialog.component.scss"],
+    imports: [
     ReactiveFormsModule,
     AsyncPipe,
-    NgForOf,
     DialogComponent,
-    DialogBaseComponent,
-  ],
+    DialogBaseComponent
+]
 })
 export class EditTaskDialogComponent extends DialogBaseComponent {
+  private destroyRef = inject(DestroyRef);
+  private projectService = inject(ProjectService);
+
   task: TaskModel;
   taskForm = new FormGroup({
     name: new FormControl<string>(""),
@@ -35,10 +36,7 @@ export class EditTaskDialogComponent extends DialogBaseComponent {
 
   public Priority = Priority;
 
-  constructor(
-    private destroyRef: DestroyRef,
-    private projectService: ProjectService
-  ) {
+  constructor() {
     super();
 
     const data = this.projectService.$selectedTask();

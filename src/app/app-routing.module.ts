@@ -1,12 +1,12 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { LoginDialogComponent } from "./components/login-dialog/login-dialog.component";
+
 import { AuthGuard } from "./auth-guard.service";
-import { LogoutComponent } from "./components/Logout/logout.component";
+
 
 const routes: Routes = [
-  { path: "login", component: LoginDialogComponent },
-  { path: "logout", component: LogoutComponent },
+  { path: "login", loadComponent: () => import('./components/login-dialog/login-dialog.component').then(m => m.LoginDialogComponent) },
+  { path: "logout", loadComponent: () => import('./components/Logout/logout.component').then(m => m.LogoutComponent) },
   { path: "", redirectTo: "/projects", pathMatch: "full" },
   {
     path: "projects",

@@ -1,8 +1,8 @@
 <app-dialog
-  [isVisible]="openModal"
-  [fullScreen]="fullScreen"
+  [isVisible]="openModal()"
+  [fullScreen]="fullScreen()"
   (onModalClose)="onModalClose.emit(false)"
->
+  >
   <ng-container slot="header">
     <h2 class="title">{{ dialogAction }}</h2>
   </ng-container>
@@ -11,21 +11,24 @@
     <div
       class="custom-form"
       [class.hideHeader]="dialogAction == 'Edit Finance'"
-    >
+      >
       <form [formGroup]="addFinanceForm">
         <section>
           <label>
             Category
-            <select
-              name="FinanceCategoryType"
-              title="category"
-              [formControl]="addFinanceForm.controls.categoryType"
-              *ngIf="categories()?.categoryTypesMap as types"
-            >
-              <option *ngFor="let type of types | keyvalue" [value]="type.key">
-                {{ type.value }}
-              </option>
-            </select>
+            @if (categories()?.categoryTypesMap; as types) {
+              <select
+                name="FinanceCategoryType"
+                title="category"
+                [formControl]="addFinanceForm.controls.categoryType"
+                >
+                @for (type of types | keyvalue; track type) {
+                  <option [value]="type.key">
+                    {{ type.value }}
+                  </option>
+                }
+              </select>
+            }
           </label>
 
           <label>
@@ -35,7 +38,7 @@
               [formControl]="addFinanceForm.controls.name"
               type="text"
               title="name"
-            />
+              />
           </label>
 
           <label>
@@ -45,7 +48,7 @@
               title="date"
               [formControl]="addFinanceForm.controls.date"
               class="form-control"
-            />
+              />
           </label>
 
           <label>
@@ -54,7 +57,7 @@
               name="financeAmount"
               title="amount"
               [formControl]="addFinanceForm.controls.amount"
-            />
+              />
           </label>
         </section>
       </form>
@@ -62,13 +65,14 @@
   </ng-container>
 
   <ng-container slot="footer">
-    <button
-      *ngIf="dialogAction == 'Edit Finance'"
-      class="danger"
-      (click)="deleteFinance()"
-    >
-      Delete
-    </button>
+    @if (dialogAction == 'Edit Finance') {
+      <button
+        class="danger"
+        (click)="deleteFinance()"
+        >
+        Delete
+      </button>
+    }
 
     <button class="primary" (click)="addFinance()">
       {{ dialogAction == "Add Finance" ? "Create" : "Update" }}

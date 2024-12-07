@@ -2,19 +2,19 @@
   <article class="custom-article">
     <header>
       <div>
-        <span class="title">{{ project.title }}</span>
-        <span class="description">{{ project.description }}</span>
+        <span class="title">{{ project().title }}</span>
+        <span class="description">{{ project().description }}</span>
       </div>
 
       <div class="toolbar">
         <small>
-          {{ project.code }}
+          {{ project().code }}
         </small>
         <button
           name="Settings"
           class="btn-flat header-btn"
-          (click)="openDialog(project.id)"
-        >
+          (click)="openDialog(project().id)"
+          >
           <span class="material-symbols-outlined highlight">settings</span>
         </button>
       </div>
@@ -22,14 +22,14 @@
 
     <div class="article-body">
       <div class="custom-list flat">
-        <ng-container *ngFor="let task of project.tasks">
+        @for (task of project().tasks; track task) {
           <app-task
             class="action"
             [task]="task"
-            [projectCode]="project.code"
-          >
+            [projectCode]="project().code"
+            >
           </app-task>
-        </ng-container>
+        }
       </div>
     </div>
 
@@ -39,9 +39,9 @@
           name="Settings"
           class="btn-flat header-btn"
           (click)="addTaskToProject()"
-        >
+          >
           <span
-          
+
           class="material-symbols-outlined highlight">Add</span>
         </button>
       </div>

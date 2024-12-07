@@ -3,12 +3,14 @@ import {
   clearAuthorisationToken,
 } from "../constants/web-constants";
 import { of, switchMap, tap } from "rxjs";
-import { Injectable, computed } from "@angular/core";
+import { Injectable, computed, inject } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService, private router: Router) {}
+  private userService = inject(UserService);
+  private router = inject(Router);
+
 
   $authenticated = computed(() => {
     return this.userService.userIsLoggedIn();

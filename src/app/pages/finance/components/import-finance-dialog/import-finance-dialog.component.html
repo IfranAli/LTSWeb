@@ -1,8 +1,8 @@
 <app-dialog
-  [isVisible]="openModal"
+  [isVisible]="openModal()"
   (onModalClose)="onModalClose.emit(false)"
-  [fullScreen]="fullScreen"
->
+  [fullScreen]="fullScreen()"
+  >
   <ng-container slot="header">
     <h2 class="title">Bulk Import</h2>
     <h3 class="subtitle">Bulk Import</h3>
@@ -19,7 +19,7 @@
                 name="InputData"
                 [formControl]="bulkImportForm.controls.input"
                 type="text"
-              >
+                >
               </textarea>
             </label>
 
@@ -30,19 +30,19 @@
                 title="date"
                 [formControl]="bulkImportForm.controls.date"
                 class="form-control"
-              />
+                />
             </label>
           </section>
         </form>
       </div>
 
       <div class="parsed-display scrollable-div">
-        <ng-container *ngFor="let v of test$ | async">
+        @for (v of test$ | async; track v) {
           <span>{{ v.name }}</span>
           <span>＄{{ v.amount }} </span>
           <span> 📅 {{ v.date }} </span>
           <span> 🕑 {{ v.time }} </span>
-        </ng-container>
+        }
       </div>
     </div>
   </ng-container>
@@ -53,7 +53,7 @@
       class="primary"
       (click)="addFinanceBulk()"
       [disabled]="!$importDataIsValid()"
-    >
+      >
       Import
     </button>
   </ng-container>

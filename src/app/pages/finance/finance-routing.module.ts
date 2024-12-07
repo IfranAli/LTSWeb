@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule, Routes } from "@angular/router";
-import { FinanceAppComponent } from "./components/finance-app/finance-app.component";
 
-const routes: Routes = [{ path: "", component: FinanceAppComponent }];
+
+const routes: Routes = [{ path: "", loadComponent: () => import('./components/finance-app/finance-app.component').then(m => m.FinanceAppComponent) }];
 
 @NgModule({
   declarations: [],

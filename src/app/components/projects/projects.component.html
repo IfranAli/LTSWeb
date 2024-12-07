@@ -2,22 +2,24 @@
   <button class="" (click)="addProject()">Add Project</button>
 </div>
 
-<app-edit-project-dialog
-  *ngIf="$showEditProjectDialog() as show"
-  [openModal]="show"
-  (onModalClose)="onCloseDialogEvent($event)"
->
-</app-edit-project-dialog>
+@if ($showEditProjectDialog(); as show) {
+  <app-edit-project-dialog
+    [openModal]="show"
+    (onModalClose)="onCloseDialogEvent($event)"
+    >
+  </app-edit-project-dialog>
+}
 
-<app-edit-task-dialog
-  *ngIf="$showEditTaskDialog() as show"
-  [openModal]="show"
-  (onModalClose)="onCloseDialogEvent($event)"
->
-</app-edit-task-dialog>
+@if ($showEditTaskDialog(); as show) {
+  <app-edit-task-dialog
+    [openModal]="show"
+    (onModalClose)="onCloseDialogEvent($event)"
+    >
+  </app-edit-task-dialog>
+}
 
 <div class="projects-container">
-  <ng-container *ngFor="let project of $projects()">
+  @for (project of $projects(); track project) {
     <app-project-list [project]="project"></app-project-list>
-  </ng-container>
+  }
 </div>

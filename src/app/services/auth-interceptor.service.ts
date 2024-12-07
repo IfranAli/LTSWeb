@@ -4,7 +4,7 @@ import {
   clearAuthorisationToken,
 } from "../constants/web-constants";
 import { Observable, catchError, of, switchMap, tap, throwError } from "rxjs";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -16,7 +16,9 @@ import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private userService: UserService, private router: Router) {}
+  private userService = inject(UserService);
+  private router = inject(Router);
+
 
   intercept(
     req: HttpRequest<any>,

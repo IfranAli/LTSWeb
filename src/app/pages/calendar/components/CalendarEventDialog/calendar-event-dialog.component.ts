@@ -6,7 +6,7 @@ import {
   computed,
   inject,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
+
 import {
   DialogBaseComponent,
   DialogComponent,
@@ -35,13 +35,12 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { tap } from "rxjs/internal/operators/tap";
 
 @Component({
-  selector: "app-calendar-event-dialog",
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  templateUrl: "./calendar-event-dialog.component.html",
-  styleUrls: ["./calendar-event-dialog.component.css"],
-  imports: [CommonModule, ReactiveFormsModule, DialogComponent],
+    selector: "app-calendar-event-dialog",
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    templateUrl: "./calendar-event-dialog.component.html",
+    styleUrls: ["./calendar-event-dialog.component.css"],
+    imports: [ReactiveFormsModule, DialogComponent]
 })
 export class CalendarEventDialogComponent extends DialogBaseComponent {
   calendarService = inject(CalendarService);

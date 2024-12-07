@@ -1,10 +1,9 @@
-import { CommonModule } from "@angular/common";
+
 import {
   Component,
-  EventEmitter,
-  Output,
   ViewEncapsulation,
   inject,
+  output
 } from "@angular/core";
 import {
   FormControl,
@@ -21,21 +20,19 @@ import {
 import { AuthService } from "src/app/services/auth.service";
 
 @Component({
-  selector: "app-login-dialog",
-  templateUrl: "./login-dialog.component.html",
-  styleUrls: ["./login-dialog.component.scss"],
-  encapsulation: ViewEncapsulation.None,
-  standalone: true,
-  imports: [
-    CommonModule,
+    selector: "app-login-dialog",
+    templateUrl: "./login-dialog.component.html",
+    styleUrls: ["./login-dialog.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    imports: [
     DialogBaseComponent,
     FormsModule,
     ReactiveFormsModule,
-    DialogComponent,
-  ],
+    DialogComponent
+]
 })
 export class LoginDialogComponent extends DialogBaseComponent {
-  @Output() onUserLogin = new EventEmitter<any>();
+  readonly onUserLogin = output<any>();
 
   router = inject(Router);
   authService = inject(AuthService);

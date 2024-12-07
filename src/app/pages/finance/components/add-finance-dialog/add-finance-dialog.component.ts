@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  Input,
   inject,
+  input
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
@@ -40,15 +40,14 @@ export interface financeDialogData {
 }
 
 @Component({
-  selector: "app-add-finance-dialog",
-  standalone: true,
-  templateUrl: "./add-finance-dialog.component.html",
-  styleUrls: ["./add-finance-dialog.component.scss"],
-  imports: [CommonModule, ReactiveFormsModule, DialogComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: "app-add-finance-dialog",
+    templateUrl: "./add-finance-dialog.component.html",
+    styleUrls: ["./add-finance-dialog.component.scss"],
+    imports: [CommonModule, ReactiveFormsModule, DialogComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddFinanceDialogComponent extends DialogBaseComponent {
-  @Input({ required: true }) selected?: FinanceModel;
+  readonly selected = input.required<FinanceModel | undefined>();
 
   dialogAction = Actions.Add;
 
@@ -66,26 +65,27 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
   ngOnInit(): void {
     const defaultDate = getCurrentDate("-");
 
-    if (this.selected) {
-      const dateRaw = this.selected.date ?? "";
+    const selected = this.selected();
+    if (selected) {
+      const dateRaw = selected.date ?? "";
       const parsed = parseDateIdentifier(dateRaw, "/");
       const date: string = parsed ? dateToString(parsed, "-") : defaultDate;
 
       this.dialogAction = Actions.Edit;
       this.addFinanceForm.setValue({
         date: date,
-        amount: this.selected.amount ?? 0,
-        name: this.selected.name,
-        categoryType: this.selected.categoryType,
+        amount: selected.amount ?? 0,
+        name: selected.name,
+        categoryType: selected.categoryType,
       });
 
       this.dialogAction =
-        (this.selected.id ?? 0) > 0 ? Actions.Edit : Actions.Add;
+        (selected.id ?? 0) > 0 ? Actions.Edit : Actions.Add;
     }
   }
 
   deleteFinance(): void {
-    const id = this.selected?.id ?? -1;
+    const id = this.selected()?.id ?? -1;
     if (id > 0) {
       this.financeService
         .deleteFinance(id)
@@ -123,7 +123,7 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
     const date = this.addFinanceForm.controls.date.getRawValue() ?? "";
 
     const model = createFinanceModel({
-      id: this.selected?.id ?? -1,
+      id: this.selected()?.id ?? -1,
       name: this.addFinanceForm.controls.name.getRawValue() ?? "",
       date: date,
       amount: this.addFinanceForm.controls.amount.getRawValue() ?? 0,

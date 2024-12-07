@@ -1,4 +1,4 @@
-import { Injectable, computed, signal } from "@angular/core";
+import { Injectable, computed, signal, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import {
@@ -52,12 +52,14 @@ export interface UserData {
   providedIn: "root",
 })
 export class UserService {
+  private http = inject(HttpClient);
+
   $userData = signal<UserData | null>(null);
 
   // todo: This is probably wrong. need to get value from backend.
   userAccountId$ = computed(() => this.$userData()?.accountId ?? 0);
 
-  constructor(private http: HttpClient) {
+  constructor() {
     const userData = this.getUserDataFromLocalStorage();
 
     if (userData) {

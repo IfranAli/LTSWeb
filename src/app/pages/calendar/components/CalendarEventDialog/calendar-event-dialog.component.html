@@ -1,8 +1,8 @@
 <app-dialog
-  [isVisible]="openModal"
-  [fullScreen]="fullScreen"
+  [isVisible]="openModal()"
+  [fullScreen]="fullScreen()"
   (onModalClose)="onModalClose.emit(false)"
->
+  >
   <ng-container slot="header">
     <h2 class="title">{{ $title() }}</h2>
   </ng-container>
@@ -20,11 +20,13 @@
               type="text"
               title="name"
               [class.invalid]="inputInvalid(calendarEventForm.controls.title)"
-            />
+              />
 
-            <span *ngIf="inputInvalid(calendarEventForm.controls.title)">
-              Name is required
-            </span>
+            @if (inputInvalid(calendarEventForm.controls.title)) {
+              <span>
+                Name is required
+              </span>
+            }
           </label>
 
           <label
@@ -36,11 +38,13 @@
               type="color"
               title="color"
               [class.invalid]="inputInvalid(calendarEventForm.controls.color)"
-            />
+              />
 
-            <span *ngIf="inputInvalid(calendarEventForm.controls.color)">
-              Color is required
-            </span>
+            @if (inputInvalid(calendarEventForm.controls.color)) {
+              <span>
+                Color is required
+              </span>
+            }
           </label>
 
           <div class="row seperator">
@@ -52,10 +56,12 @@
                 type="date"
                 title="date"
                 [class.invalid]="inputInvalid(calendarEventForm.controls.date)"
-              />
-              <span *ngIf="inputInvalid(calendarEventForm.controls.date)">
-                Date is required
-              </span>
+                />
+              @if (inputInvalid(calendarEventForm.controls.date)) {
+                <span>
+                  Date is required
+                </span>
+              }
             </label>
 
             <label
@@ -67,11 +73,13 @@
                 type="text"
                 title="name"
                 [class.invalid]="inputInvalid(calendarEventForm.controls.time)"
-              />
+                />
 
-              <span *ngIf="inputInvalid(calendarEventForm.controls.time)">
-                Required format in 24 hour time: 00:00, 23:59.
-              </span>
+              @if (inputInvalid(calendarEventForm.controls.time)) {
+                <span>
+                  Required format in 24 hour time: 00:00, 23:59.
+                </span>
+              }
             </label>
           </div>
         </section>
@@ -80,19 +88,20 @@
   </ng-container>
 
   <ng-container slot="footer">
-    <button
-      *ngIf="this.$isEdit() as editing"
-      class="danger"
-      (click)="this.deleteEvent()"
-    >
-      Delete
-    </button>
+    @if (this.$isEdit(); as editing) {
+      <button
+        class="danger"
+        (click)="this.deleteEvent()"
+        >
+        Delete
+      </button>
+    }
 
     <button
       class="primary"
       (click)="this.addEvent()"
       [disabled]="!this.calendarEventForm.valid"
-    >
+      >
       {{ this.$isEdit() ? "Update" : "Add" }}
     </button>
   </ng-container>

@@ -24,18 +24,17 @@ import { FinanceService } from "../../services/finance.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: "app-import-finance-dialog",
-  standalone: true,
-  templateUrl: "./import-finance-dialog.component.html",
-  styleUrls: ["./import-finance-dialog.component.scss"],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    DialogBaseComponent,
-    DialogComponent,
-  ],
+    selector: "app-import-finance-dialog",
+    templateUrl: "./import-finance-dialog.component.html",
+    styleUrls: ["./import-finance-dialog.component.scss"],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        ReactiveFormsModule,
+        DialogBaseComponent,
+        DialogComponent,
+    ]
 })
 export class ImportFinanceDialogComponent extends DialogBaseComponent {
   destroyRef = inject(DestroyRef);

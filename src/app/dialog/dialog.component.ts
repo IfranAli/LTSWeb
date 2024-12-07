@@ -1,41 +1,38 @@
-import { CommonModule } from "@angular/common";
+
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   HostListener,
-  Input,
   OnChanges,
-  Output,
   SimpleChanges,
-  ViewChild,
   ViewEncapsulation,
   effect,
   signal,
+  input,
+  output,
+  viewChild
 } from "@angular/core";
 
 @Component({
-  selector: "app-dialog",
-  templateUrl: "./dialog.component.html",
-  styleUrls: ["./dialog.component.scss"],
-  imports: [CommonModule],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+    selector: "app-dialog",
+    templateUrl: "./dialog.component.html",
+    styleUrls: ["./dialog.component.scss"],
+    imports: [],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DialogComponent implements OnChanges {
-  @Input({ required: false }) isVisible = false;
-  @Input({ required: false }) fullScreen = false;
-  @Input({ required: false }) hideCloseButton = false;
-  @Output() onModalClose = new EventEmitter<boolean>();
+  readonly isVisible = input(false);
+  readonly fullScreen = input(false);
+  readonly hideCloseButton = input(false);
+  readonly onModalClose = output<boolean>();
 
-  @ViewChild("dialogRef", { static: true })
-  dialogElement?: ElementRef<HTMLDialogElement>;
+  readonly dialogElement = viewChild<ElementRef<HTMLDialogElement>>("dialogRef");
 
   @HostListener("window:keydown.esc", ["$event"])
   handleKeyDown(event: KeyboardEvent) {
-    if (this.isVisible) {
+    if (this.isVisible()) {
       this.closeDialog();
     }
   }
@@ -44,10 +41,10 @@ export class DialogComponent implements OnChanges {
   $isClosing = signal(false);
 
   private setHtmlDialog = (show: boolean) => {
-    const e = this.dialogElement?.nativeElement ?? null;
+    const e = this.dialogElement()?.nativeElement ?? null;
 
     if (show) {
-      this.fullScreen ? e?.showModal() : e?.show();
+      this.fullScreen() ? e?.showModal() : e?.show();
     } else {
       e?.close();
     }
@@ -84,7 +81,7 @@ export class DialogComponent implements OnChanges {
   template: "",
 })
 export class DialogBaseComponent {
-  @Input({ required: false }) openModal = false;
-  @Input({ required: false }) fullScreen = true;
-  @Output() onModalClose = new EventEmitter<boolean>();
+  readonly openModal = input(false);
+  readonly fullScreen = input(true);
+  readonly onModalClose = output<boolean>();
 }

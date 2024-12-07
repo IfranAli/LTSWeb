@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { generateCode, ProjectModel } from "../../models/project.model";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
@@ -7,17 +7,18 @@ import {
   DialogBaseComponent,
   DialogComponent,
 } from "src/app/dialog/dialog.component";
-import { CommonModule } from "@angular/common";
+
 
 @Component({
-  selector: "app-edit-project-dialog",
-  templateUrl: "./edit-project-dialog.component.html",
-  styleUrls: ["./edit-project-dialog.component.scss"],
-  imports: [CommonModule, ReactiveFormsModule, DialogComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
+    selector: "app-edit-project-dialog",
+    templateUrl: "./edit-project-dialog.component.html",
+    styleUrls: ["./edit-project-dialog.component.scss"],
+    imports: [ReactiveFormsModule, DialogComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditProjectDialogComponent extends DialogBaseComponent {
+  private projectService = inject(ProjectService);
+
   model: ProjectModel = {
     tasks: [],
     title: "",
@@ -35,7 +36,7 @@ export class EditProjectDialogComponent extends DialogBaseComponent {
     code: new FormControl<string>(""),
   });
 
-  constructor(private projectService: ProjectService) {
+  constructor() {
     super();
     const data = this.projectService.$selectedProject();
 

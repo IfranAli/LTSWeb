@@ -1,4 +1,4 @@
-import { Injectable, Signal, computed, effect, signal } from "@angular/core";
+import { Injectable, Signal, computed, effect, signal, inject } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { ProjectDatabaseModel, ProjectModel } from "../models/project.model";
 import {
@@ -24,7 +24,8 @@ const baseUrl = environment.backendURL;
   providedIn: "root",
 })
 export class ProjectService {
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+
 
   $refreshProjects = new BehaviorSubject<boolean>(true);
   $selectedTask = signal<TaskModel | null>(null);

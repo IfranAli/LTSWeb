@@ -11,11 +11,10 @@ import { mergeMap, tap } from "rxjs";
 import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: "app-calendar",
-  standalone: true,
-  templateUrl: "./calendar.component.html",
-  styleUrls: ["./calendar.component.scss"],
-  imports: [CommonModule, CalendarEventDialogComponent],
+    selector: "app-calendar",
+    templateUrl: "./calendar.component.html",
+    styleUrls: ["./calendar.component.scss"],
+    imports: [CommonModule, CalendarEventDialogComponent]
 })
 export class CalendarComponent implements OnInit {
   calendarService = inject(CalendarService);

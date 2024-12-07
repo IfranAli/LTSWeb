@@ -1,13 +1,14 @@
 <div class="container">
-  <article class="custom-article" *ngIf="$calendarData() as data">
+  @if ($calendarData(); as data) {
+  <article class="custom-article">
     <!-- Dialogs -->
+    @if (calendarService.$showEventDialog()) {
     <app-calendar-event-dialog
-      *ngIf="calendarService.$showEventDialog()"
       [openModal]="calendarService.$showEventDialog()"
       (onModalClose)="calendarService.onCloseDialog($event)"
     >
     </app-calendar-event-dialog>
-
+    }
     <header class="card-0 header-actions">
       <button
         type="button"
@@ -16,12 +17,10 @@
       >
         arrow_back_ios
       </button>
-
       <div class="text-center">
         <h2 class="title font-semibold">{{ data.name }}</h2>
         <h3 class="subtitle">{{ data.year }}</h3>
       </div>
-
       <button
         type="button"
         class="secondary material-symbols-outlined"
@@ -30,20 +29,20 @@
         arrow_forward_ios
       </button>
     </header>
-
     <!-- Header -->
     <div class="calendar card-0">
       <div class="header grid grid-cols-7 font-semibold">
-        <div *ngFor="let day of weekdays">
+        @for (day of weekdays; track day) {
+        <div>
           {{ day }}
         </div>
+        }
       </div>
-
       <!-- Body -->
       <div class="calendar-days grid grid-cols-7">
+        @for (day of this.$calendarData().days; track day) {
         <div
           class="box-day h-20 rounded-sm p-1 m-1"
-          *ngFor="let day of this.$calendarData().days"
           (click)="selectDateEvent(day)"
           [ngClass]="[
             day.date.getMonth() == this.calendarService.$startDate().getMonth()
@@ -52,13 +51,11 @@
             day.currentMonth ? '' : 'disable',
             day.currentMonth && day.isToday ? 'today' : ''
           ]"
-          [attr.active]="this.day.selected"
         >
           <span> {{ day.day }}</span>
-
+          @for (e of day.events?.values(); track e) {
           <div
             class="badge micro actionable event-label"
-            *ngFor="let e of day.events?.values()"
             [style.background-color]="e.color"
             (click)="
               calendarService.$selectedEventId.set(e.id);
@@ -67,10 +64,11 @@
           >
             {{ e.title }}
           </div>
+          }
         </div>
+        }
       </div>
     </div>
-
     <footer class="card-0 flex">
       <button
         class="right-ico"
@@ -83,16 +81,16 @@
       </button>
     </footer>
   </article>
-
-  <article class="card-0" *ngIf="this.$events() as events">
+  } @if (this.$events(); as events) {
+  <article class="card-0">
     <header>
       <h2 class="font-semibold">Events ({{ events.length }})</h2>
     </header>
-
-    <div class="calendar-events-list" *ngIf="events.values()">
+    @if (events.values()) {
+    <div class="calendar-events-list">
+      @for (e of events.values(); track e) {
       <div
         class="bg-slate-200 dark:bg-zinc-800 p-2 m-1 rounded-lg hover:bg-slate-300 dark:hover:bg-zinc-700 cursor-pointer"
-        *ngFor="let e of events.values()"
         (click)="
           calendarService.$selectedEventId.set(e.id);
           calendarService.$showEventDialog.set(true)
@@ -105,8 +103,10 @@
         <div class="font-semibold">{{ e.title }}</div>
         <div>{{ e.date + " " + e.time }}</div>
       </div>
+      }
     </div>
-
+    }
     <footer></footer>
   </article>
+  }
 </div>

@@ -26,7 +26,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 @Component({
     selector: "app-import-finance-dialog",
     templateUrl: "./import-finance-dialog.component.html",
-    styleUrls: ["./import-finance-dialog.component.scss"],
+    styleUrls: ["./import-finance-dialog.component.css"],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [

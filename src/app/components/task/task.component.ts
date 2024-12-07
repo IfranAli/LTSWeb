@@ -16,7 +16,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
     encapsulation: ViewEncapsulation.None,
     selector: "app-task",
     templateUrl: "./task.component.html",
-    styleUrls: ["./task.component.scss"],
+    styleUrls: ["./task.component.css"],
     imports: []
 })
 export class TaskComponent {

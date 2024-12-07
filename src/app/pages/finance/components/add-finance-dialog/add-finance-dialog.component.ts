@@ -42,7 +42,7 @@ export interface financeDialogData {
 @Component({
     selector: "app-add-finance-dialog",
     templateUrl: "./add-finance-dialog.component.html",
-    styleUrls: ["./add-finance-dialog.component.scss"],
+    styleUrls: ["./add-finance-dialog.component.css"],
     imports: [CommonModule, ReactiveFormsModule, DialogComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

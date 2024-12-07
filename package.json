@@ -11,8 +11,7 @@
     "analyze": "ng build --stats-json && npx webpack-bundle-analyzer dist/ltsweb/stats.json",
     "test": "jest",
     "depcheck": "npx depcheck",
-    "docs:json": "compodoc -p ./tsconfig.json -e json -d .",
-    "buildCSS": "sass --load-path=./ -I ./node_modules src/styles/styles.scss dist/styles_out.css"
+    "docs:json": "compodoc -p ./tsconfig.json -e json -d ."
   },
   "private": true,
   "dependencies": {

@@ -11,7 +11,7 @@ import { RouterOutlet } from "@angular/router";
 @Component({
     selector: "app-root",
     templateUrl: "./app.component.html",
-    styleUrls: ["./app.component.scss", "../styles/styles.scss"],
+    styleUrls: ["./app.component.css", "../styles/styles.css"],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     providers: [Location],

@@ -12,7 +12,7 @@ import {
 @Component({
     selector: "app-edit-project-dialog",
     templateUrl: "./edit-project-dialog.component.html",
-    styleUrls: ["./edit-project-dialog.component.scss"],
+    styleUrls: ["./edit-project-dialog.component.css"],
     imports: [ReactiveFormsModule, DialogComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

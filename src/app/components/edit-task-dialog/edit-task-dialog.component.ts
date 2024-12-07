@@ -13,7 +13,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 @Component({
     selector: "app-edit-task-dialog",
     templateUrl: "./edit-task-dialog.component.html",
-    styleUrls: ["./edit-task-dialog.component.scss"],
+    styleUrls: ["./edit-task-dialog.component.css"],
     imports: [
     ReactiveFormsModule,
     AsyncPipe,

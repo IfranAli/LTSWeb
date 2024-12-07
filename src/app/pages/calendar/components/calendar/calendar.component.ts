@@ -13,7 +13,7 @@ import { toObservable, toSignal } from "@angular/core/rxjs-interop";
 @Component({
     selector: "app-calendar",
     templateUrl: "./calendar.component.html",
-    styleUrls: ["./calendar.component.scss"],
+    styleUrls: ["./calendar.component.css"],
     imports: [CommonModule, CalendarEventDialogComponent]
 })
 export class CalendarComponent implements OnInit {

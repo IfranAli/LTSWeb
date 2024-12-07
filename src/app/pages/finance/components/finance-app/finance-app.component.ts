@@ -112,7 +112,7 @@ type ViewModel = {
 @Component({
     selector: "app-finance-app",
     templateUrl: "./finance-app.component.html",
-    styleUrls: ["./finance-app.component.scss"],
+    styleUrls: ["./finance-app.component.css"],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     imports: [

@@ -22,7 +22,7 @@ import { AuthService } from "src/app/services/auth.service";
 @Component({
     selector: "app-login-dialog",
     templateUrl: "./login-dialog.component.html",
-    styleUrls: ["./login-dialog.component.scss"],
+    styleUrls: ["./login-dialog.component.css"],
     encapsulation: ViewEncapsulation.None,
     imports: [
     DialogBaseComponent,

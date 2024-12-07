@@ -17,7 +17,7 @@ import {
 @Component({
     selector: "app-dialog",
     templateUrl: "./dialog.component.html",
-    styleUrls: ["./dialog.component.scss"],
+    styleUrls: ["./dialog.component.css"],
     imports: [],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush

@@ -6,9 +6,7 @@ const routes: Routes = [
   {
     path: "",
     loadComponent: () =>
-      import("./components/finance-app/finance-app.component").then(
-        (m) => m.FinanceAppComponent
-      ),
+      import("./dev-test/dev-test.component").then((m) => m.DevTestComponent),
   },
 ];
 

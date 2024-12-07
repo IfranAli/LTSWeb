@@ -1,34 +1,31 @@
-
 import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
-  OnChanges,
-  SimpleChanges,
   ViewEncapsulation,
   effect,
-  signal,
   input,
   output,
-  viewChild
+  viewChild,
+  model,
 } from "@angular/core";
 
 @Component({
-    selector: "app-dialog",
-    templateUrl: "./dialog.component.html",
-    styleUrls: ["./dialog.component.css"],
-    imports: [],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: "app-dialog",
+  templateUrl: "./dialog.component.html",
+  imports: [],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogComponent implements OnChanges {
-  readonly isVisible = input(false);
+export class DialogComponent {
+  isVisible = model(false);
   readonly fullScreen = input(false);
   readonly hideCloseButton = input(false);
   readonly onModalClose = output<boolean>();
 
-  readonly dialogElement = viewChild<ElementRef<HTMLDialogElement>>("dialogRef");
+  readonly dialogElement =
+    viewChild<ElementRef<HTMLDialogElement>>("dialogRef");
 
   @HostListener("window:keydown.esc", ["$event"])
   handleKeyDown(event: KeyboardEvent) {
@@ -37,42 +34,24 @@ export class DialogComponent implements OnChanges {
     }
   }
 
-  $showDialog = signal(false);
-  $isClosing = signal(false);
+  onStateUpdate = effect(() => {
+    const dialog = this.dialogElement()?.nativeElement;
 
-  private setHtmlDialog = (show: boolean) => {
-    const e = this.dialogElement()?.nativeElement ?? null;
+    if (dialog) {
+      const state = this.isVisible();
 
-    if (show) {
-      this.fullScreen() ? e?.showModal() : e?.show();
-    } else {
-      e?.close();
+      if (state) {
+        dialog.showModal();
+      } else {
+        dialog.close();
+      }
     }
-  };
+  });
 
   public closeDialog = () => {
-    this.$isClosing.set(true);
-
-    setTimeout(() => {
-      this.$isClosing.set(false);
-      this.$showDialog.set(false);
-      this.setHtmlDialog(false);
-      this.onModalClose.emit(true);
-    }, 500);
+    this.isVisible.set(false);
+    this.onModalClose.emit(true);
   };
-
-  constructor() {
-    effect(() => {
-      if (this.$showDialog()) {
-        this.setHtmlDialog(true);
-      }
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    const { isVisible } = changes;
-    this.$showDialog.set(isVisible.currentValue);
-  }
 }
 
 @Component({

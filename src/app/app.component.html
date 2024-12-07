@@ -1,55 +1,65 @@
 @if ($user(); as user) {
-  <div class="navbar flex shadow-xl p-2 px-4">
-    <ul class="w-14">
-      <li class="text-2xl font-semibold text-blue-500">{{ title }}</li>
-    </ul>
-    <ul class="grow flex gap-4 place-content-center">
-      <li>
-        <a
-          class="hover:text-blue-800"
-          href="/projects"
-          [attr.active]="path == '/projects' ? '' : null"
-          >
-          <!-- Project -->
-          <span class="material-symbols-outlined">library_books</span>
-        </a>
-      </li>
-      <li>
-        <a
-          class="hover:text-green-800"
-          href="/finance"
-          [attr.active]="path == '/finance' ? '' : null"
-          >
-          <!-- Finance -->
-          <span class="material-symbols-outlined">account_balance</span>
-        </a>
-      </li>
-      <li>
-        <a
-          class="hover:text-orange-800"
-          href="/calendar"
-          [attr.active]="path == '/calendar' ? '' : null"
-          >
-          <!-- Calendar -->
-          <span class="material-symbols-outlined">calendar_month</span>
-        </a>
-      </li>
-    </ul>
-    <ul>
-      <li>
-        <a href="/logout">
-          <span class="material-symbols-outlined">logout</span>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <main class="container m-4 mx-auto my-auto">
-    <router-outlet></router-outlet>
-  </main>
-} @else {
-  <main>
-    <h1 class="text-5xl">Not logged in</h1>
-    <router-outlet></router-outlet>
-  </main>
-}
+<div class="navbar flex shadow-xl p-2 px-4">
+  <ul class="w-14">
+    <li class="text-2xl font-semibold text-blue-500">{{ title }}</li>
+  </ul>
+  <ul class="grow flex gap-4 place-content-center">
+    <li>
+      <a
+        class="hover:text-blue-800"
+        href="/projects"
+        [attr.active]="path == '/projects' ? '' : null"
+      >
+        <!-- Project -->
+        <span class="material-symbols-outlined">library_books</span>
+      </a>
+    </li>
+    <li>
+      <a
+        class="hover:text-green-800"
+        href="/finance"
+        [attr.active]="path == '/finance' ? '' : null"
+      >
+        <!-- Finance -->
+        <span class="material-symbols-outlined">account_balance</span>
+      </a>
+    </li>
+    <li>
+      <a
+        class="hover:text-orange-800"
+        href="/calendar"
+        [attr.active]="path == '/calendar' ? '' : null"
+      >
+        <!-- Calendar -->
+        <span class="material-symbols-outlined">calendar_month</span>
+      </a>
+    </li>
+    <li>
+      <a
+        class="hover:text-green-400"
+        href="/dev-test"
+        [attr.active]="path == '/dev-test' ? '' : null"
+      >
+        <!-- Dev Test -->
+        <span class="material-symbols-outlined">code</span>
+      </a>
+    </li>
+  </ul>
+  <ul>
+    <li>
+      <a href="/logout">
+        <span class="material-symbols-outlined">logout</span>
+      </a>
+    </li>
+  </ul>
+</div>
 
+<main class="container m-4 mx-auto my-auto">
+  <router-outlet></router-outlet>
+</main>
+} @else {
+<main>
+  <h1 class="text-5xl">Not logged in</h1>
+  <router-outlet></router-outlet>
+</main>
+}

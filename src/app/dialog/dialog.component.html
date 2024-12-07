@@ -1,24 +1,25 @@
-<dialog #dialogRef [attr.closing]="$isClosing() ? true : null">
-  @if ($showDialog()) {
-    <div
-      class="dialog-container custom-article"
-      >
-      <!-- [class.full-screen]="fullScreen" -->
-      <header>
-        <!-- <a class="close" (click)="closeDialog()"> </a> -->
-        <ng-content select="[slot=header]"></ng-content>
-      </header>
-      <section>
-        <ng-content select="[slot=content]"></ng-content>
-      </section>
-      <footer>
-        @if (!this.hideCloseButton()) {
-          <button (click)="closeDialog()">close</button>
-        }
-        <div class="actions">
-          <ng-content select="[slot=footer]"></ng-content>
-        </div>
-      </footer>
-    </div>
+<dialog #dialogRef>
+  @if (isVisible()) {
+  <div class="dialog-container">
+    <!-- [class.full-screen]="fullScreen" -->
+
+    <header>
+      <!-- <a class="close" (click)="closeDialog()"> </a> -->
+      <ng-content select="[slot=header]"></ng-content>
+    </header>
+
+    <section>
+      <ng-content select="[slot=content]"></ng-content>
+    </section>
+
+    <footer>
+      @if (!this.hideCloseButton()) {
+      <button (click)="closeDialog()">close</button>
+      }
+      <div class="actions">
+        <ng-content select="[slot=footer]"></ng-content>
+      </div>
+    </footer>
+  </div>
   }
 </dialog>

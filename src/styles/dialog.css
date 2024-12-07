@@ -34,18 +34,16 @@
   }
 }
 
-$animation-speed: 0.5s;
-
-dialog[open] {
-  animation: $animation-speed slideDown, $animation-speed fadeIn;
-  background: transparent;
-  border: none;
-  
-  @apply w-full max-w-md;
+:root {
+  --animation-speed: 0.5s;
 }
 
-dialog[closing] {
-  animation: $animation-speed slideUp, $animation-speed fadeOut;
+dialog[open] {
+  animation: var(--animation-speed) slideDown, var(--animation-speed) fadeIn;
+  border: none;
+
+  @apply w-full max-w-md;
+  @apply bg-slate-300 dark:bg-slate-800 text-slate-950 dark:text-slate-100;
 }
 
 dialog::backdrop {
@@ -54,10 +52,10 @@ dialog::backdrop {
 
 @media screen and (max-width: 786px) {
   dialog[open] {
-    animation: $animation-speed fadeIn;
+    animation: var(--animation-speed) fadeIn;
   }
 
   dialog[closing] {
-    animation: $animation-speed fadeOut;
+    animation: var(--animation-speed) fadeOut;
   }
 }

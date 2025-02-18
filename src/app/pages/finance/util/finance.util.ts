@@ -32,12 +32,12 @@ export const bulkImportTextToFinanceModel = (
       // Extract name and amount
       const name = value.substring(value.indexOf(" ")).trim();
       const amount = parseFloat(value.substring(0, value.indexOf(" ")).trim());
+      const financeDate = new Date(`${date} ${timeStr}`);
 
       return createFinanceModel({
         name: name,
         amount: amount,
-        date: date ?? "",
-        time: timeStr,
+        date: financeDate?.toISOString() ?? "",
       });
     })
     .filter(

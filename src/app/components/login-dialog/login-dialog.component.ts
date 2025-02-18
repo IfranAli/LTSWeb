@@ -25,7 +25,6 @@ import { AuthService } from "src/app/services/auth.service";
     styleUrls: ["./login-dialog.component.css"],
     encapsulation: ViewEncapsulation.None,
     imports: [
-    DialogBaseComponent,
     FormsModule,
     ReactiveFormsModule,
     DialogComponent

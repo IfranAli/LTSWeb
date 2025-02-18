@@ -1,9 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
+  effect,
   inject,
-  input
+  input,
+  signal,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
@@ -16,6 +19,8 @@ import {
 } from "src/app/dialog/dialog.component";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { FinanceService } from "../../services/finance.service";
+import { FinanceCategoryService } from "../../services/FinanceCategory.service";
+import { DateTimeInputComponent } from "../../../../components/date-time-input/date-time-input.component";
 
 export enum Tabs {
   AddFinance = 0,
@@ -40,47 +45,56 @@ export interface financeDialogData {
 }
 
 @Component({
-    selector: "app-add-finance-dialog",
-    templateUrl: "./add-finance-dialog.component.html",
-    styleUrls: ["./add-finance-dialog.component.css"],
-    imports: [CommonModule, ReactiveFormsModule, DialogComponent],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: "app-add-finance-dialog",
+  templateUrl: "./add-finance-dialog.component.html",
+  styleUrls: ["./add-finance-dialog.component.css"],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DialogComponent,
+    DateTimeInputComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddFinanceDialogComponent extends DialogBaseComponent {
   readonly selected = input.required<FinanceModel | undefined>();
 
+  public categoryTypes = inject(FinanceCategoryService).categoryTypesMap();
+
   dialogAction = Actions.Add;
 
-  addFinanceForm = new FormGroup({
-    name: new FormControl<string>(""),
-    date: new FormControl<string>(""),
-    amount: new FormControl<number>(0),
-    categoryType: new FormControl<number>(0),
-  });
+  inputName = signal("");
+  inputDate = signal(new Date(Date.now()));
+  inputAmount = signal(0);
+  inputCategoryType = signal(0);
+
+  financeData = computed(() =>
+    createFinanceModel({
+      id: this.selected()?.id ?? -1,
+      name: this.inputName(),
+      date: this.inputDate().toISOString(),
+      amount: this.inputAmount(),
+      categoryType: this.inputCategoryType(),
+    })
+  );
 
   financeService = inject(FinanceService);
-  categories = this.financeService.$categories;
   destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    const defaultDate = getCurrentDate("-");
-
     const selected = this.selected();
     if (selected) {
-      const dateRaw = selected.date ?? "";
-      const parsed = parseDateIdentifier(dateRaw, "/");
-      const date: string = parsed ? dateToString(parsed, "-") : defaultDate;
-
       this.dialogAction = Actions.Edit;
-      this.addFinanceForm.setValue({
-        date: date,
-        amount: selected.amount ?? 0,
-        name: selected.name,
-        categoryType: selected.categoryType,
-      });
+      this.inputName.set(selected.name);
+      this.inputAmount.set(selected.amount);
+      this.inputCategoryType.set(selected.categoryType);
 
-      this.dialogAction =
-        (selected.id ?? 0) > 0 ? Actions.Edit : Actions.Add;
+      const selectedDate = new Date(selected.date);
+      if (!isNaN(selectedDate.getTime())) {
+        this.inputDate.set(selectedDate);
+      }
+
+      this.dialogAction = (selected.id ?? 0) > 0 ? Actions.Edit : Actions.Add;
     }
   }
 
@@ -96,13 +110,20 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
     }
   }
 
+  eventToHtmlValue = <T>(event: Event) => {
+    const v = (event.target as HTMLInputElement).value;
+    console.debug("Event to HTML Value: ", v);
+    return v;
+  };
+
+  eventToNumber = (event: Event): number => {
+    return parseFloat(this.eventToHtmlValue(event));
+  };
+
   addFinance(): void {
-    const financeData = this.getFinanceModelFromInput();
+    const financeData = this.financeData();
 
     if (financeData.id > 0) {
-      // const oldData = this.selected;
-      // todo check if data has changed
-
       this.financeService
         .updateFinance(financeData)
         .pipe(takeUntilDestroyed(this.destroyRef))
@@ -118,20 +139,4 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
         });
     }
   }
-
-  getFinanceModelFromInput = () => {
-    const date = this.addFinanceForm.controls.date.getRawValue() ?? "";
-
-    const model = createFinanceModel({
-      id: this.selected()?.id ?? -1,
-      name: this.addFinanceForm.controls.name.getRawValue() ?? "",
-      date: date,
-      amount: this.addFinanceForm.controls.amount.getRawValue() ?? 0,
-      categoryType:
-        this.addFinanceForm.controls.categoryType.getRawValue() ?? 0,
-    });
-
-    console.debug("Finance model", model);
-    return model;
-  };
 }

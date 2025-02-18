@@ -7,7 +7,7 @@ import {
   inject,
   signal,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { CommonModule, DatePipe } from "@angular/common";
 import {
   DialogBaseComponent,
   DialogComponent,
@@ -24,17 +24,11 @@ import { FinanceService } from "../../services/finance.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
-    selector: "app-import-finance-dialog",
-    templateUrl: "./import-finance-dialog.component.html",
-    styleUrls: ["./import-finance-dialog.component.css"],
-    encapsulation: ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        DialogBaseComponent,
-        DialogComponent,
-    ]
+  selector: "app-import-finance-dialog",
+  templateUrl: "./import-finance-dialog.component.html",
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [CommonModule, ReactiveFormsModule, DialogComponent, DatePipe],
 })
 export class ImportFinanceDialogComponent extends DialogBaseComponent {
   destroyRef = inject(DestroyRef);
@@ -43,19 +37,14 @@ export class ImportFinanceDialogComponent extends DialogBaseComponent {
   $importDataIsValid = computed(() => this.$data().length != 0);
 
   addFinanceBulk() {
-    // todo: add bulk import
-    // Time is actually in the data set. just not in the preview.
-
     const data = this.$data();
-
-    // todo: Date override logic should go into the parser.
-    // const dateRaw = this.bulkImportForm.controls.date.getRawValue() ?? "";
-    // const date = dateRaw ? dateToString(dateRaw) : "";
 
     if (!this.$importDataIsValid()) {
       console.error("Invalid data.", data);
       return;
     }
+
+    console.debug(data);
 
     this.financeService
       .createFinanceMany(data)
@@ -133,20 +122,15 @@ export const getFinanceModelsFromInputBulk = (
           dateStr
         );
         const actualLength = processed.length;
-
         return expectedLength == actualLength ? processed : null;
+      } else {
+        const processed = bulkImportTextToFinanceModel(
+          input,
+          dateToString(new Date())
+        );
+
+        return processed;
       }
-
-      // todo: show incomplete parsing warning.
-      const expectedLength = input.split("\n").length;
-      const processed = bulkImportTextToFinanceModel(
-        input,
-        dateToString(new Date())
-      );
-      const actualLength = processed.length;
-
-      // return expectedLength == actualLength ? processed : null;
-      return processed;
     })
     .flatMap((v) => v)
     .filter((v) => v!!) as FinanceModel[];

@@ -1,16 +1,13 @@
 <dialog #dialogRef>
   @if (isVisible()) {
-  <div class="dialog-container">
-    <!-- [class.full-screen]="fullScreen" -->
-
+  <div class="dialog-container mx-auto">
     <header>
-      <!-- <a class="close" (click)="closeDialog()"> </a> -->
       <ng-content select="[slot=header]"></ng-content>
     </header>
 
-    <section>
+    <main>
       <ng-content select="[slot=content]"></ng-content>
-    </section>
+    </main>
 
     <footer>
       @if (!this.hideCloseButton()) {

@@ -1,59 +1,34 @@
-<app-dialog
-  [isVisible]="openModal()"
-  (onModalClose)="onModalClose.emit(false)"
-  [fullScreen]="fullScreen()"
-  >
+<app-dialog [isVisible]="openModal()" (onModalClose)="onModalClose.emit(false)" [fullScreen]="fullScreen()">
   <ng-container slot="header">
-    <h2 class="title">Bulk Import</h2>
-    <h3 class="subtitle">Bulk Import</h3>
+    <h1 class="text-xl">Bulk Import</h1>
   </ng-container>
 
   <ng-container slot="content">
-    <div class="bulk-import-form">
-      <div class="custom-form">
-        <form [formGroup]="bulkImportForm">
-          <section>
-            <label>
-              Input
-              <textarea
-                name="InputData"
-                [formControl]="bulkImportForm.controls.input"
-                type="text"
-                >
-              </textarea>
-            </label>
+    <form [formGroup]="bulkImportForm" class="custom-form">
+      <section>
+        <label> Input </label>
+        <textarea name="InputData" [formControl]="bulkImportForm.controls.input" type="text">
+        </textarea>
 
-            <label>
-              Date
-              <input
-                type="date"
-                title="date"
-                [formControl]="bulkImportForm.controls.date"
-                class="form-control"
-                />
-            </label>
-          </section>
-        </form>
-      </div>
+        <label> Date </label>
+        <input type="date" title="date" [formControl]="bulkImportForm.controls.date" class="form-control" />
+      </section>
+    </form>
 
-      <div class="parsed-display scrollable-div">
+    <section>
+      <div class="grid grid-cols-3 gap-2 m-2">
         @for (v of test$ | async; track v) {
-          <span>{{ v.name }}</span>
-          <span>＄{{ v.amount }} </span>
-          <span> 📅 {{ v.date }} </span>
-          <span> 🕑 {{ v.time }} </span>
+        <span>{{ v.name }}</span>
+        <span>＄{{ v.amount }} </span>
+        <span> 📅 {{ v.date | date: 'short'}} </span>
         }
       </div>
-    </div>
+    </section>
   </ng-container>
 
   <ng-container slot="footer">
     <button type="button" (click)="applyExample()">Import Example</button>
-    <button
-      class="primary"
-      (click)="addFinanceBulk()"
-      [disabled]="!$importDataIsValid()"
-      >
+    <button class="primary" (click)="addFinanceBulk()" [disabled]="!$importDataIsValid()">
       Import
     </button>
   </ng-container>

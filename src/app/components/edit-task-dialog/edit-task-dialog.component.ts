@@ -16,9 +16,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
     styleUrls: ["./edit-task-dialog.component.css"],
     imports: [
     ReactiveFormsModule,
-    AsyncPipe,
     DialogComponent,
-    DialogBaseComponent
 ]
 })
 export class EditTaskDialogComponent extends DialogBaseComponent {

@@ -1,64 +1,35 @@
-<app-dialog
-  [isVisible]="openModal()"
-  [fullScreen]="fullScreen()"
-  (onModalClose)="onModalClose.emit(false)"
-  >
+<app-dialog [isVisible]="openModal()" [fullScreen]="fullScreen()" (onModalClose)="onModalClose.emit(false)">
   <ng-container slot="header">
-    <h2 class="title">{{ dialogAction }}</h2>
+    <h1 class="text-xl">{{ dialogAction }}</h1>
   </ng-container>
 
   <ng-container slot="content">
-    <div
-      class="custom-form"
-      [class.hideHeader]="dialogAction == 'Edit Finance'"
-      >
-      <form [formGroup]="addFinanceForm">
+    <div [class.hideHeader]="dialogAction == 'Edit Finance'">
+      <form class="custom-form">
         <section>
-          <label>
-            Category
-            @if (categories()?.categoryTypesMap; as types) {
-              <select
-                name="FinanceCategoryType"
-                title="category"
-                [formControl]="addFinanceForm.controls.categoryType"
-                >
-                @for (type of types | keyvalue; track type) {
-                  <option [value]="type.key">
-                    {{ type.value }}
-                  </option>
-                }
-              </select>
+          <label> Category </label>
+          @if (categoryTypes; as types) {
+
+          <select name="FinanceCategoryType" title="category"
+            (change)="this.inputCategoryType.set(this.eventToNumber($event))">
+            @for (type of types | keyvalue; track type) {
+            <option [value]="type.key" [selected]="type.key == this.inputCategoryType()">
+              {{ type.value }}
+            </option>
             }
-          </label>
+          </select>
+          }
 
-          <label>
-            Name
-            <input
-              name="FinanceName"
-              [formControl]="addFinanceForm.controls.name"
-              type="text"
-              title="name"
-              />
-          </label>
+          <label> Name </label>
+          <input name="FinanceName" type="text" title="name" [value]="inputName()"
+            (change)="this.inputName.set(this.eventToHtmlValue($event))" />
 
-          <label>
-            Date
-            <input
-              type="date"
-              title="date"
-              [formControl]="addFinanceForm.controls.date"
-              class="form-control"
-              />
-          </label>
+          <label> Date </label>
+          <app-date-time-input [(inputDate)]="inputDate" />
 
-          <label>
-            Amount
-            <input
-              name="financeAmount"
-              title="amount"
-              [formControl]="addFinanceForm.controls.amount"
-              />
-          </label>
+          <label> Amount </label>
+          <input name=" financeAmount" title="amount" (change)="this.inputAmount.set((this.eventToNumber($event)))"
+            [value]="inputAmount()" />
         </section>
       </form>
     </div>
@@ -66,12 +37,7 @@
 
   <ng-container slot="footer">
     @if (dialogAction == 'Edit Finance') {
-      <button
-        class="danger"
-        (click)="deleteFinance()"
-        >
-        Delete
-      </button>
+    <button class="danger" (click)="deleteFinance()">Delete</button>
     }
 
     <button class="primary" (click)="addFinance()">

@@ -4,56 +4,38 @@ import {
   OnDestroy,
   OnInit,
   ViewEncapsulation,
+  computed,
+  effect,
   inject,
   signal,
 } from "@angular/core";
-import {
-  FinanceCategoryResult,
-  FinanceDataAll,
-  FinanceService,
-  formatCurrency,
-} from "../../services/finance.service";
+import { FinanceService } from "../../services/finance.service";
 import { FinanceModel, defaultFinance } from "../../models/finance.model";
 import { AddFinanceDialogComponent } from "../add-finance-dialog/add-finance-dialog.component";
 import {
   decrementDateByMonth,
-  getTotalDaysInMonth,
   incrementDateByMonth,
   parseDateFormattedStr,
 } from "../../../calendar/models/calendar.util";
-import { dateToString, sortFinanceModels } from "../../util/finance.util";
+import { dateToString } from "../../util/finance.util";
 import { CALENDAR_MONTHS } from "../../../calendar/models/calendar.model";
-import {
-  BehaviorSubject,
-  combineLatest,
-  combineLatestWith,
-  map,
-  Observable,
-  of,
-  switchMap,
-  tap,
-} from "rxjs";
+import { BehaviorSubject, map, Observable, of } from "rxjs";
 import { ImportFinanceDialogComponent } from "../import-finance-dialog/import-finance-dialog.component";
 
 import { toSignal } from "@angular/core/rxjs-interop";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SummaryView } from "../ui/summary-view.component";
+import { CommonModule } from "@angular/common";
+import { FinanceSummaryService } from "../../services/FinanceSummary.service";
+import { ApiFinanceItem } from "../../services/finance-api.models";
 
-export interface FinanceViewModel extends FinanceModel {
-  accountId: number;
-  name: string;
-  date: string;
-  dateFormatted: string;
-  amount: number;
-  categoryType: number;
-  categoryColour: string;
+export interface FinanceViewModel extends ApiFinanceItem {
   categoryLabel: string;
-  amountFormatted: string;
-  isCredit: boolean;
+  categoryColour: string;
 }
 
 export type FinanceData = {
-  categoryName: string;
+  name: string;
   items: FinanceViewModel[];
   total: number;
 };
@@ -74,58 +56,68 @@ export type CategoryData = {
 
 const getFinancesByWeek = (
   date: Date,
-  financeModels: FinanceViewModel[]
-): FinanceViewModel[][] => {
+  financeModels: ApiFinanceItem[]
+): ApiFinanceItem[][] => {
   const dateStart = new Date(date.getFullYear(), date.getMonth(), 1);
   const dayStart = dateStart.getDay() == 0 ? 6 : dateStart.getDay();
   const numRows = (42 - dayStart) % 7;
 
-  return financeModels.reduce((p, c) => {
-    const day = parseDateFormattedStr(c.date)?.d ?? 0;
+  const result = financeModels.reduce<ApiFinanceItem[][]>((acc, curr) => {
+    const date = dateToString(new Date(curr.date));
+    const day = parseDateFormattedStr(date)?.d ?? 0;
     const week = Math.floor((dayStart + day) / 7);
 
-    if (!p[week]) {
-      p[week] = [];
+    if (!acc[week]) {
+      acc[week] = [];
     }
 
-    p[week] = [...p[week], c];
-    return p;
-  }, Array.from(new Array(numRows)).fill([]));
+    acc[week] = [...acc[week], curr];
+    return acc;
+  }, []);
+
+  const sorted = result
+    .filter((value) => value.length)
+    .map((i) => i.sort((a, b) => a.date.localeCompare(b.date)));
+
+  return sorted;
 };
 
 type SummaryViewModel = {
   color: string;
   categoryName: string;
-  total: string;
+  total: number;
   percentage: string;
+  percentageRaw: number;
 };
 
 type ViewModel = {
   summaryGraph?: {
-    category: FinanceCategoryResult;
+    category: any;
     summaries: SummaryViewModel[];
-    total: string;
+    total: number;
   };
   financesByWeekly?: FinanceData[];
 };
 
 @Component({
-    selector: "app-finance-app",
-    templateUrl: "./finance-app.component.html",
-    styleUrls: ["./finance-app.component.css"],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None,
-    imports: [
+  selector: "app-finance-app",
+  templateUrl: "./finance-app.component.html",
+  styleUrls: ["./finance-app.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  imports: [
     AddFinanceDialogComponent,
     ImportFinanceDialogComponent,
-    SummaryView
-]
+    SummaryView,
+    CommonModule,
+  ],
 })
 export class FinanceAppComponent implements OnInit, OnDestroy {
   // Services.
   route = inject(ActivatedRoute);
   router = inject(Router);
   financeService = inject(FinanceService);
+  financeSummaryService = inject(FinanceSummaryService);
 
   financeData$: Observable<FinanceData[]> = of([]);
   financeModels: FinanceModel[] = [];
@@ -139,7 +131,14 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   model: FinanceModel = defaultFinance;
   showEditDialog = signal(false);
   showImportDialog = signal(false);
-  $selectedFinance = signal<FinanceModel | undefined>(undefined);
+  $selectedFinance = this.financeSummaryService.$selectedFinance;
+
+  onFinanceSelected = effect(() => {
+    const selected = this.$selectedFinance();
+    if (selected) {
+      this.showEditDialog.set(true);
+    }
+  });
 
   applyTitle = (date: Date) => {
     const dateFrom = date;
@@ -150,89 +149,66 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
   private pageParams$ = this.route.queryParams.pipe(
     map((params) => {
-      console.debug("params", params);
       const dateFrom = params?.["dateFrom"] ?? null;
       const date = dateFrom ? new Date(dateFrom) : new Date();
+      date.setDate(1);
+
       this.dateContext.set(date);
+      this.financeSummaryService.$dateFrom.set(date);
+      this.financeSummaryService.$selectedFinance.set(null);
+      this.applyTitle(date);
       return date;
     })
   );
 
-  private summaries$ = combineLatest([this.pageParams$, this.refresh$]).pipe(
-    tap(([date, _]) => {
-      this.applyTitle(date);
-    }),
-    switchMap(([date, _]) => {
-      const dateFrom = date;
-      dateFrom.setDate(1);
-      const dateTo = new Date(dateFrom);
-      dateTo.setDate(getTotalDaysInMonth(dateTo));
+  private params = toSignal(this.pageParams$, {});
 
-      const monthName = CALENDAR_MONTHS[dateFrom.getMonth()];
-      const year = dateFrom.getFullYear().toString();
-      this.title = monthName + " " + year;
+  public summary = computed(() => {
+    const isLoading = this.financeSummaryService.isLoading();
 
-      return this.financeService
-        .getFinanceSummaryForDateRange(dateFrom, dateTo)
-        .pipe(
-          tap((data: FinanceDataAll) => {
-            const allFinances = data.summaries
-              .map((s) => s.items)
-              .flat()
-              .sort(sortFinanceModels);
-            const financesByWeeks: FinanceModel[][] = getFinancesByWeek(
-              dateFrom,
-              allFinances
-            );
+    const result: {
+      financeDataByWeekly: FinanceData[];
+      total: number;
+      summary: FinanceSummary[];
+    } = {
+      financeDataByWeekly: [],
+      total: 0,
+      summary: [],
+    };
 
-            this.financeModels = allFinances;
-
-            const financeDataByWeekly: FinanceData[] = financesByWeeks
-              .reduce<FinanceData[]>((p, c, idx) => {
-                const weekTotal = c.reduce((p, c) => p + c.amount, 0);
-                const financeViewModels = c.map<FinanceViewModel>((fm) =>
-                  FinanceService.financeModelToViewModel(fm)
-                );
-
-                const model: FinanceData = {
-                  categoryName: `Week ${idx + 1}`,
-                  total: weekTotal,
-                  items: financeViewModels,
-                };
-
-                return [...p, model];
-              }, [])
-              .filter((value) => value.items.length)
-              .reverse();
-
-            const total = financeDataByWeekly.reduce((p, c) => p + c.total, 0);
-
-            const summaryGraphViewModel: SummaryViewModel[] =
-              data.summaries.map((s) => {
-                return {
-                  categoryName: s.categoryName,
-                  color: s.colour,
-                  total: formatCurrency(s.total),
-                  percentage: s.percentage,
-                };
-              });
-
-            this.$vm.set({
-              summaryGraph: {
-                category: data.category,
-                summaries: summaryGraphViewModel,
-                total: formatCurrency(total),
-              },
-              financesByWeekly: financeDataByWeekly,
-            });
-
-            return of(data);
-          })
+    if (isLoading) {
+      return result;
+    }
+    const apiData = this.financeSummaryService.financesData();
+    const financesByWeeks = getFinancesByWeek(this.dateContext(), apiData);
+    const financeDataByWeekly: FinanceData[] = financesByWeeks
+      .reduce<FinanceData[]>((p, c, idx) => {
+        const weekTotal = c.reduce((p, c) => p + c.amount, 0);
+        const financeViewModels = c.map<FinanceViewModel>((fm) =>
+          this.financeService.financeModelToViewModel(fm)
         );
-    })
-  );
 
-  private _ = toSignal(this.summaries$, {});
+        const model: FinanceData = {
+          name: `Week ${idx + 1}`,
+          total: weekTotal,
+          items: financeViewModels,
+        };
+
+        return [...p, model];
+      }, [])
+      .filter((value) => value.items.length)
+      .reverse();
+
+    const total = financeDataByWeekly.reduce((p, c) => p + c.total, 0);
+    const summary: FinanceSummary[] =
+      this.financeSummaryService.summariesProcessed();
+
+    result.financeDataByWeekly = financeDataByWeekly;
+    result.summary = summary;
+    result.total = total;
+
+    return result;
+  });
 
   /**
    * Adjust the date window by one month.
@@ -244,20 +220,23 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
       ? incrementDateByMonth(date)
       : decrementDateByMonth(date);
 
-    const dateTo = incrementDateByMonth(new Date(dateFrom));
+    if (dateFrom) {
+      console.debug("from", dateFrom);
+    }
+
+    dateFrom.setDate(1);
 
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
         dateFrom: dateToString(dateFrom, "-"),
-        dateTo: dateToString(dateTo, "-"),
       },
       queryParamsHandling: "merge",
     });
   }
 
   onCloseDialogEvent(value: boolean) {
-    this.$selectedFinance.set(undefined);
+    this.$selectedFinance.set(null);
     this.showEditDialog.set(false);
     this.showImportDialog.set(false);
 
@@ -271,8 +250,10 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
       ? this.financeModels.find((value) => value.id == financeId)
       : { ...this.model };
 
-    this.$selectedFinance.set(finance);
-    this.showEditDialog.set(true);
+    if (finance) {
+      this.$selectedFinance.set(finance);
+      this.showEditDialog.set(true);
+    }
   }
 
   openDialogImport() {

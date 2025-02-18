@@ -1,135 +1,62 @@
-<!-- <div class="container" *ngIf="$vm() as data; else loading"> -->
-<div class="container">
-  <article class="custom-article">
-    <header class="card-0 header-actions">
-      <button
-        type="button"
-        class="header-btn material-symbols-outlined"
-        (click)="setDateWindow(false)"
-      >
-        arrow_back_ios
-      </button>
+@let summaryData = summary();
 
-      <hgroup>
-        <h3 class="title">{{ title }}</h3>
-        <h2 class="subtitle">Finance Summary</h2>
-      </hgroup>
+@if (summaryData) { @if ($selectedFinance(); as selected) {
+<app-add-finance-dialog [openModal]="showEditDialog()" [selected]="selected"
+  (onModalClose)="onCloseDialogEvent($event)" />
+} @if (showImportDialog()) {
+<app-import-finance-dialog [openModal]="showImportDialog()" (onModalClose)="onCloseDialogEvent($event)" />
+}
 
-      <button
-        type="button"
-        class="header-btn material-symbols-outlined"
-        (click)="setDateWindow(true)"
-      >
-        arrow_forward_ios
-      </button>
-    </header>
+<div class="flex flex-col text-sm bg-transparent mt-2">
+  <div class="header-actions bg-zinc-900 rounded-t-lg p-4">
+    <button type="button" class="button header-btn material-symbols-outlined" (click)="setDateWindow(false)">
+      arrow_back_ios
+    </button>
 
-    @if ($vm(); as data) { @if (data.summaryGraph?.summaries; as items) { @if
-    ($selectedFinance(); as selected) {
-    <app-add-finance-dialog
-      [openModal]="showEditDialog()"
-      [selected]="selected"
-      (onModalClose)="onCloseDialogEvent($event)"
-    ></app-add-finance-dialog>
-    } @if (showImportDialog()) {
-    <app-import-finance-dialog
-      [openModal]="showImportDialog()"
-      (onModalClose)="onCloseDialogEvent($event)"
-    >
-    </app-import-finance-dialog>
+    <hgroup class="text-center">
+      <h1 class="text-xl">{{ title }}</h1>
+      <h2 class="text-">Summary</h2>
+    </hgroup>
+
+    <button type="button" class="button material-symbols-outlined" (click)="setDateWindow(true)">
+      arrow_forward_ios
+    </button>
+  </div>
+
+  <div class="flex flex-col gap-1 p-3 justify-between bg-zinc-900">
+    @for (item of summaryData.summary; track item.categoryName) {
+    @let total = item.total | currency;
+
+    <div class="text-xs font-light">
+      {{ item.percentage }}
+      {{ item.categoryName }}
+      {{ total }}
+    </div>
+
+    <div [style.width]="item.percentage" [style.max-width]="item.percentage" [style.background]="item.colour"
+      class=" min-w-2 h-1">
+      &nbsp;
+    </div>
     }
-    <section class="summary card-0">
-      @for (categorySummary of items; track trackByFinanceSummary($index,
-      categorySummary)) {
-      <div class="category">
-        <div class="summary-label">
-          <span>
-            {{ categorySummary.categoryName }}
-            ({{ categorySummary.percentage }})
-          </span>
-          <span class="currency" content="sdad">
-            {{ categorySummary.total }}
-          </span>
-        </div>
-        <div
-          [style.width]="categorySummary.percentage"
-          [style.max-width]="categorySummary.percentage"
-          [style.background]="categorySummary.color"
-          class="amount-bar"
-        ></div>
-      </div>
-      }
-    </section>
-    } }
 
-    <footer class="card-0 flex">
-      <button (click)="openDialogAddFinance()">Add Expense</button>
-      <button (click)="openDialogImport()">Import</button>
-    </footer>
-  </article>
+  </div>
 
-  @if($vm(); as data) {
-  <article>
-    @if (data.financesByWeekly; as d2) { @if (d2.length > 0) {
-    <h1>Weekly Expenses!!</h1>
-    <summary-view [finances]="d2"></summary-view>
-    } }
-  </article>
-
-  @if (data.financesByWeekly; as weeks) {
-  <article class="finances-by-weekly flex-col card-0">
-    @if (weeks.length) {
-    <header class="flex flex-1 flex-col divide-y divide-solid">
-      <hgroup class="flex justify-between items-center mb-4">
-        <h2 class="text-lg">Expenses</h2>
-        <h2 class="text-lg">{{ data.summaryGraph?.total }}</h2>
-      </hgroup>
-    </header>
-    } @if (weeks.length > 0) {
-    <section class="finances flex flex-col gap-4">
-      @for (summary of weeks; track summary; let idx = $index) {
-      <details class="finance-list" [open]="idx == 0 ? true : false">
-        <summary
-          class="hover:bg-slate-200 hover:dark:bg-zinc-700 cursor-pointer border-b-2 border-zinc-700 p-2 text-lg"
-        >
-          {{ summary.categoryName }}
-          {{ summary.total }}
-        </summary>
-        <!-- weekly expense items -->
-        <div
-          class="flex flex-col divide-y divide-solid divide-slate-200 dark:divide-zinc-800 gap-x-4 rounded-lg"
-        >
-          @for (finance of summary.items; track finance) {
-          <div
-            class="p-2 hover:bg-slate-300 dark:hover:bg-zinc-800 cursor-pointer columns-4"
-            (click)="openDialogAddFinance(finance.id)"
-          >
-            <div
-              class="amount"
-              [class.credit]="finance.isCredit"
-              [class.debit]="!finance.isCredit"
-            >
-              {{ finance.amountFormatted }}
-            </div>
-            <div>{{ finance.dateFormatted }}</div>
-            <div>{{ finance.name }}</div>
-            <!-- category badge -->
-            <div>
-              <span
-                class="badge"
-                [style.backgroundColor]="finance.categoryColour"
-              >
-                {{ finance.categoryLabel }}
-              </span>
-            </div>
-          </div>
-          }
-        </div>
-      </details>
-      }
-    </section>
-    }
-    <footer></footer>
-  </article>
-  } }
+  <div class="flex gap-2 p-3 justify-end bg-zinc-900 rounded-b-lg">
+    <button class="button" (click)="openDialogAddFinance()">
+      Add Expense
+    </button>
+    <button class="button" (click)="openDialogImport()">
+      Import
+    </button>
+  </div>
 </div>
+}
+
+@if(summaryData) {
+<article class="card-0">
+  @if (summaryData.financeDataByWeekly; as financesByWeekly) { @if
+  (financesByWeekly.length > 0) {
+  <summary-view (itemClickEvent)="openDialogAddFinance($event)" [finances]="financesByWeekly"></summary-view>
+  } }
+</article>
+}

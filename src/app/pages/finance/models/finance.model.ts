@@ -5,7 +5,6 @@ export interface FinanceDatabaseModel {
   accountId: number;
   name: string;
   date: string;
-  time: string;
   amount: number;
   categoryType: number;
 }
@@ -22,7 +21,6 @@ export const defaultFinance: FinanceModel = {
   accountId: 0,
   name: "",
   date: "",
-  time: "",
   amount: 0,
   categoryType: 0,
 };
@@ -51,7 +49,6 @@ export function createFinanceModel(
     accountId: model.accountId ?? defaultVar.accountId,
     name: model.name ?? defaultVar.name,
     date: model.date ?? defaultVar.date,
-    time: model.time ?? defaultVar.time,
     amount: model.amount ?? defaultVar.amount,
     categoryType: model.categoryType ?? defaultVar.categoryType,
   };

@@ -1,12 +1,59 @@
+/* 
+ * Form styles
+ */
+input,
+textarea,
+select {
+  /* @apply block mb-2;
+  @apply dark:bg-zinc-700 dark:text-zinc-900 rounded-sm; */
 
-.custom-form {
-    @apply flex flex-row p-4 rounded-lg dark:bg-slate-700 bg-slate-200;
-    
-    section {
-        @apply flex flex-col gap-4;
-    }
-    
-    input, textarea, select {
-        @apply p-2 rounded-md dark:bg-slate-800 dark:text-white;
-    }
+  /* @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500; */
+  @apply focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+  @apply bg-slate-200 border-slate-400;
+  @apply dark:bg-zinc-800 border dark:border-zinc-700;
+  @apply rounded-sm;
 }
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+select,
+textarea {
+  @apply dark:text-white dark:placeholder-gray-400;
+  padding: 0.5rem;
+}
+
+/* #region custom-form */
+.custom-form {
+  display: flex;
+  flex-direction: row;
+
+  section {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  label {
+    @apply text-sm pt-2 mt-2 mb-1 font-medium;
+  }
+}
+
+.dialog-container {
+  @apply flex flex-col gap-2 p-2 rounded-lg shadow-lg;
+
+  section {
+    @apply flex-grow;
+  }
+
+  footer {
+    @apply flex gap-4 justify-between;
+
+    .actions {
+      @apply flex gap-4;
+    }
+  }
+}
+/* #endregion aaa */

@@ -1,48 +1,43 @@
-import { createFinanceModel, FinanceModel } from "../models/finance.model";
+import { createFinanceModel, FinanceModel } from '../models/finance.model';
 
-export const dateToString = function (date: Date, separator = "/"): string {
+export const dateToString = function (date: Date, separator = '/'): string {
   const y = date.getFullYear();
-  const m = (date.getMonth() + 1).toString().padStart(2, "0");
-  const d = date.getDate().toString().padStart(2, "0");
+  const m = (date.getMonth() + 1).toString().padStart(2, '0');
+  const d = date.getDate().toString().padStart(2, '0');
 
   return y + separator + m + separator + d;
 };
 
-export function getCurrentDate(separator = "-"): string {
+export function getCurrentDate(separator = '-'): string {
   return dateToString(new Date(), separator);
 }
 
 const regExPatternTime: RegExp = /(\d{1,2}):(\d{2})/;
-export const bulkImportTextToFinanceModel = (
-  inputText: string,
-  date: string = ""
-): FinanceModel[] =>
+export const bulkImportTextToFinanceModel = (inputText: string, date: string = ''): FinanceModel[] =>
   inputText
-    .split("\n")
+    .split('\n')
     .map((value) => {
       // Extract time component
-      let timeStr = "";
-      if (value.indexOf("@") > -1) {
-        [value, timeStr] = value.split("@");
+      let timeStr = '';
+      if (value.indexOf('@') > -1) {
+        [value, timeStr] = value.split('@');
 
         const regexResult = regExPatternTime.test(timeStr);
-        timeStr = regexResult ? timeStr : "";
+        timeStr = regexResult ? timeStr : '';
       }
 
       // Extract name and amount
-      const name = value.substring(value.indexOf(" ")).trim();
-      const amount = parseFloat(value.substring(0, value.indexOf(" ")).trim());
+      const name = value.substring(value.indexOf(' ')).trim();
+      const amount = parseFloat(value.substring(0, value.indexOf(' ')).trim());
       const financeDate = new Date(`${date} ${timeStr}`);
 
       return createFinanceModel({
         name: name,
         amount: amount,
-        date: financeDate?.toISOString() ?? "",
+        date: financeDate?.toISOString() ?? '',
       });
     })
-    .filter(
-      (model) => model.name.length > 0 && (model.amount > 0 || model.amount < 0)
-    );
+    .filter((model) => model.name.length > 0 && (model.amount > 0 || model.amount < 0));
 
 export const sortFinanceModels = (a: FinanceModel, b: FinanceModel) => {
   if (a.date == b.date) {

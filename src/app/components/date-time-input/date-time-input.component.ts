@@ -1,16 +1,16 @@
-import { DatePipe } from "@angular/common";
-import { Component, input, model, output } from "@angular/core";
+import { DatePipe } from '@angular/common';
+import { Component, input, model, output } from '@angular/core';
 
 @Component({
-  selector: "app-date-time-input",
+  selector: 'app-date-time-input',
   imports: [DatePipe],
   template: ` <div>
     <h2>Time and Date:</h2>
     <input
       type="datetime-local"
-      [value]="inputDate() | date : 'yyyy-MM-ddTHH:mm'"
+      [value]="inputDate() | date: 'yyyy-MM-ddTHH:mm'"
       (change)="inputUpdated($event)"
-      [title]="inputDate() | date : 'medium'"
+      [title]="inputDate() | date: 'medium'"
     />
   </div>`,
   styles: ``,

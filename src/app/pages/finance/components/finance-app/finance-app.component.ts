@@ -8,26 +8,26 @@ import {
   effect,
   inject,
   signal,
-} from "@angular/core";
-import { FinanceService } from "../../services/finance.service";
-import { FinanceModel, defaultFinance } from "../../models/finance.model";
-import { AddFinanceDialogComponent } from "../add-finance-dialog/add-finance-dialog.component";
+} from '@angular/core';
+import { FinanceService } from '../../services/finance.service';
+import { FinanceModel, defaultFinance } from '../../models/finance.model';
+import { AddFinanceDialogComponent } from '../add-finance-dialog/add-finance-dialog.component';
 import {
   decrementDateByMonth,
   incrementDateByMonth,
   parseDateFormattedStr,
-} from "../../../calendar/models/calendar.util";
-import { dateToString } from "../../util/finance.util";
-import { CALENDAR_MONTHS } from "../../../calendar/models/calendar.model";
-import { BehaviorSubject, map, Observable, of } from "rxjs";
-import { ImportFinanceDialogComponent } from "../import-finance-dialog/import-finance-dialog.component";
+} from '../../../calendar/models/calendar.util';
+import { dateToString } from '../../util/finance.util';
+import { CALENDAR_MONTHS } from '../../../calendar/models/calendar.model';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
+import { ImportFinanceDialogComponent } from '../import-finance-dialog/import-finance-dialog.component';
 
-import { toSignal } from "@angular/core/rxjs-interop";
-import { ActivatedRoute, Router } from "@angular/router";
-import { SummaryView } from "../ui/summary-view.component";
-import { CommonModule } from "@angular/common";
-import { FinanceSummaryService } from "../../services/FinanceSummary.service";
-import { ApiFinanceItem } from "../../services/finance-api.models";
+import { toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, Router } from '@angular/router';
+import { SummaryViewComponent } from '../ui/summary-view.component';
+import { CommonModule } from '@angular/common';
+import { FinanceSummaryService } from '../../services/FinanceSummary.service';
+import { ApiFinanceItem } from '../../services/finance-api.models';
 
 export interface FinanceViewModel extends ApiFinanceItem {
   categoryLabel: string;
@@ -57,10 +57,12 @@ export type CategoryData = {
 const getFinancesByWeek = (
   date: Date,
   financeModels: ApiFinanceItem[]
-): ApiFinanceItem[][] => {
+): {
+  weekNumber: number;
+  items: ApiFinanceItem[];
+}[] => {
   const dateStart = new Date(date.getFullYear(), date.getMonth(), 1);
   const dayStart = dateStart.getDay() == 0 ? 6 : dateStart.getDay();
-  const numRows = (42 - dayStart) % 7;
 
   const result = financeModels.reduce<ApiFinanceItem[][]>((acc, curr) => {
     const date = dateToString(new Date(curr.date));
@@ -75,9 +77,10 @@ const getFinancesByWeek = (
     return acc;
   }, []);
 
-  const sorted = result
-    .filter((value) => value.length)
-    .map((i) => i.sort((a, b) => a.date.localeCompare(b.date)));
+  const sorted = result.map((i, idx) => ({
+    weekNumber: idx + 1,
+    items: i.sort((a, b) => a.date.localeCompare(b.date)),
+  }));
 
   return sorted;
 };
@@ -100,19 +103,14 @@ type ViewModel = {
 };
 
 @Component({
-  selector: "app-finance-app",
-  templateUrl: "./finance-app.component.html",
-  styleUrls: ["./finance-app.component.css"],
+  selector: 'app-finance-app',
+  templateUrl: './finance-app.component.html',
+  styleUrls: ['./finance-app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [
-    AddFinanceDialogComponent,
-    ImportFinanceDialogComponent,
-    SummaryView,
-    CommonModule,
-  ],
+  imports: [AddFinanceDialogComponent, ImportFinanceDialogComponent, SummaryViewComponent, CommonModule],
 })
-export class FinanceAppComponent implements OnInit, OnDestroy {
+export class FinanceAppComponent implements OnDestroy {
   // Services.
   route = inject(ActivatedRoute);
   router = inject(Router);
@@ -124,7 +122,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
 
   $vm = signal<ViewModel>({});
 
-  title = "";
+  title = '';
   dateContext = signal<Date>(new Date());
   refresh$ = new BehaviorSubject<boolean>(true);
 
@@ -144,12 +142,12 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     const dateFrom = date;
     const monthName = CALENDAR_MONTHS[dateFrom.getMonth()];
     const year = dateFrom.getFullYear().toString();
-    this.title = monthName + " " + year;
+    this.title = monthName + ' ' + year;
   };
 
   private pageParams$ = this.route.queryParams.pipe(
     map((params) => {
-      const dateFrom = params?.["dateFrom"] ?? null;
+      const dateFrom = params?.['dateFrom'] ?? null;
       const date = dateFrom ? new Date(dateFrom) : new Date();
       date.setDate(1);
 
@@ -182,26 +180,26 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     const apiData = this.financeSummaryService.financesData();
     const financesByWeeks = getFinancesByWeek(this.dateContext(), apiData);
     const financeDataByWeekly: FinanceData[] = financesByWeeks
-      .reduce<FinanceData[]>((p, c, idx) => {
-        const weekTotal = c.reduce((p, c) => p + c.amount, 0);
-        const financeViewModels = c.map<FinanceViewModel>((fm) =>
+      .reduce<FinanceData[]>((acc, curr) => {
+        const name = `Week ${curr.weekNumber}`;
+        const weekTotal = curr.items.reduce((p, c) => p + c.amount, 0);
+        const financeViewModels = curr.items.map<FinanceViewModel>((fm) =>
           this.financeService.financeModelToViewModel(fm)
         );
 
         const model: FinanceData = {
-          name: `Week ${idx + 1}`,
+          name: name,
           total: weekTotal,
           items: financeViewModels,
         };
 
-        return [...p, model];
+        return [...acc, model];
       }, [])
       .filter((value) => value.items.length)
       .reverse();
 
     const total = financeDataByWeekly.reduce((p, c) => p + c.total, 0);
-    const summary: FinanceSummary[] =
-      this.financeSummaryService.summariesProcessed();
+    const summary: FinanceSummary[] = this.financeSummaryService.summariesProcessed();
 
     result.financeDataByWeekly = financeDataByWeekly;
     result.summary = summary;
@@ -216,12 +214,10 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
    */
   setDateWindow(forwards: boolean) {
     const date = this.dateContext();
-    const dateFrom = forwards
-      ? incrementDateByMonth(date)
-      : decrementDateByMonth(date);
+    const dateFrom = forwards ? incrementDateByMonth(date) : decrementDateByMonth(date);
 
     if (dateFrom) {
-      console.debug("from", dateFrom);
+      console.debug('from', dateFrom);
     }
 
     dateFrom.setDate(1);
@@ -229,9 +225,9 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: {
-        dateFrom: dateToString(dateFrom, "-"),
+        dateFrom: dateToString(dateFrom, '-'),
       },
-      queryParamsHandling: "merge",
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -246,9 +242,7 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   }
 
   openDialogAddFinance(financeId?: number) {
-    const finance = financeId
-      ? this.financeModels.find((value) => value.id == financeId)
-      : { ...this.model };
+    const finance = financeId ? this.financeModels.find((value) => value.id == financeId) : { ...this.model };
 
     if (finance) {
       this.$selectedFinance.set(finance);
@@ -276,6 +270,4 @@ export class FinanceAppComponent implements OnInit, OnDestroy {
   trackByFinanceViewModel(_: any, item: FinanceViewModel) {
     return item.id;
   }
-
-  ngOnInit(): void {}
 }

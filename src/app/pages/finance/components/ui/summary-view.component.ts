@@ -1,39 +1,55 @@
-import { Component, computed, inject, input, output } from "@angular/core";
-import { FinanceData } from "../finance-app/finance-app.component";
-import { FinanceItemView } from "./expense-view.component";
-import { CommonModule } from "@angular/common";
-import { FinanceSummaryService } from "../../services/FinanceSummary.service";
+import { Component, computed, inject, input, linkedSignal, output } from '@angular/core';
+import { FinanceData } from '../finance-app/finance-app.component';
+import { FinanceItemViewComponent } from './expense-view.component';
+import { CommonModule } from '@angular/common';
+import { FinanceSummaryService } from '../../services/FinanceSummary.service';
 
 @Component({
-  selector: "summary-view",
+  selector: 'app-summary-view',
   template: `
     @for (weekData of finances(); track weekData.name; let idx = $index) {
-    <details [open]="idx == 0 ? true : false">
-      <summary
-        class="p-2 bg-slate-300 dark:bg-zinc-900 rounded-lg my-2 font-thin hover:bg-slate-400 hover:dark:bg-zinc-800 hover:cursor-pointer"
-      >
-        {{ weekData.name }} {{ weekData.total | currency }} across
-        {{ weekData.items.length }} items
-      </summary>
+      <div>
+        <div
+          class="font-light p-2 rounded-sm hover:bg-slate-400 hover:dark:bg-zinc-800 hover:cursor-pointer "
+          (click)="onHeaderClicked(idx)"
+        >
+          {{ weekData.name }} {{ weekData.total | currency }} across {{ weekData.items.length }} items
+        </div>
 
-      <div
-        class="grid flex-wrap sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-4"
-      >
-        @for (expense of weekData.items; track expense.id) {
-        <expense-view (click)="onItemClicked(expense.id)" [expense]="expense" />
+        @if (isExpandedLookup()[idx]) {
+          <div class="grid flex-wrap sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-4 p-2">
+            @for (expense of weekData.items; track expense.id) {
+              <app-expense-view (click)="onItemClicked(expense.id)" [expense]="expense" />
+            }
+          </div>
         }
       </div>
-    </details>
     }
   `,
   standalone: true,
-  imports: [FinanceItemView, CommonModule],
+  imports: [FinanceItemViewComponent, CommonModule],
 })
-export class SummaryView {
+export class SummaryViewComponent {
   finances = input<FinanceData[]>([]);
   itemClickEvent = output<number>();
 
   financeSummaryService = inject(FinanceSummaryService);
+  isExpandedLookup = linkedSignal(() => {
+    const arr: boolean[] = this.finances().map(() => false);
+    arr[0] = true;
+    return arr;
+  });
+
+  onHeaderClicked(id: number) {
+    this.isExpandedLookup.update((prev) => {
+      return prev.map((v, i) => {
+        if (i === id) {
+          return !v;
+        }
+        return v;
+      });
+    });
+  }
 
   onItemClicked(id: number) {
     const expense = this.finances()
@@ -41,7 +57,7 @@ export class SummaryView {
       .find((f) => f.id === id);
 
     if (expense) {
-      console.debug("Item clicked", expense);
+      console.debug('Item clicked', expense);
       this.financeSummaryService.$selectedFinance.set(expense);
     }
   }
@@ -51,6 +67,6 @@ export class SummaryView {
   });
 
   constructor() {
-    console.debug("SummaryView created");
+    console.debug('SummaryView created');
   }
 }

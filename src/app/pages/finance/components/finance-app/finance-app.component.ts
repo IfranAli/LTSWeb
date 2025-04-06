@@ -28,6 +28,7 @@ import { SummaryViewComponent } from '../ui/summary-view.component';
 import { CommonModule } from '@angular/common';
 import { FinanceSummaryService } from '../../services/FinanceSummary.service';
 import { ApiFinanceItem } from '../../services/finance-api.models';
+import { cardComponent } from '../../../../components/layout/card/card.component';
 
 export interface FinanceViewModel extends ApiFinanceItem {
   categoryLabel: string;
@@ -108,7 +109,7 @@ type ViewModel = {
   styleUrls: ['./finance-app.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [AddFinanceDialogComponent, ImportFinanceDialogComponent, SummaryViewComponent, CommonModule],
+  imports: [AddFinanceDialogComponent, ImportFinanceDialogComponent, SummaryViewComponent, CommonModule, cardComponent],
 })
 export class FinanceAppComponent implements OnDestroy {
   // Services.

@@ -1,0 +1,42 @@
+.item-card {
+  @apply text-sm;
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: 1fr;
+  padding: 0.5rem 0.5rem;
+  border: var(--border);
+  border-radius: 0.5rem;
+
+  .item-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &:hover {
+    box-shadow: var(--box-shadow);
+  }
+}
+
+/* Light mode: Mix with white */
+@media (prefers-color-scheme: light) {
+  .item-card {
+    border-left: solid 0.5rem color-mix(in srgb, var(--category-colour) 100%, white 25%);
+  }
+
+  .item-card:hover {
+    border-color: color-mix(in srgb, var(--category-colour) 50%, white 10%);
+  }
+}
+
+/* Dark mode: Mix with black */
+@media (prefers-color-scheme: dark) {
+  .item-card {
+    border-left: solid 0.5rem color-mix(in srgb, var(--category-colour) 100%, black 25%);
+  }
+
+  .item-card:hover {
+    background-color: color-mix(in srgb, var(--category-colour) 50%, black 10%);
+  }
+}

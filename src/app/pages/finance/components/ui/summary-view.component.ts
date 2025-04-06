@@ -6,25 +6,41 @@ import { FinanceSummaryService } from '../../services/FinanceSummary.service';
 
 @Component({
   selector: 'app-summary-view',
-  template: `
-    @for (weekData of finances(); track weekData.name; let idx = $index) {
-      <div>
-        <div
-          class="font-light p-2 rounded-sm hover:bg-slate-400 hover:dark:bg-zinc-800 hover:cursor-pointer "
-          (click)="onHeaderClicked(idx)"
-        >
-          {{ weekData.name }} {{ weekData.total | currency }} across {{ weekData.items.length }} items
-        </div>
+  styles: [
+    `
+      .list {
+        margin: 0;
+        padding: 0;
 
-        @if (isExpandedLookup()[idx]) {
-          <div class="grid flex-wrap sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-4 p-2">
-            @for (expense of weekData.items; track expense.id) {
-              <app-expense-view (click)="onItemClicked(expense.id)" [expense]="expense" />
-            }
+        .list-section-title {
+          padding: 0.5rem 0.5rem;
+          border-top: var(--border);
+        }
+
+        .list-section-title:first-child {
+          border-top: none;
+        }
+      }
+    `,
+  ],
+  template: `
+    <div>
+      <div class="card-0 list">
+        @for (weekData of finances(); track weekData.name; let idx = $index) {
+          <div class="list-section-title hover:cursor-pointer text-sm" (click)="onHeaderClicked(idx)">
+            {{ weekData.name }} {{ weekData.total | currency }} across {{ weekData.items.length }} items
           </div>
+
+          @if (isExpandedLookup()[idx]) {
+            <div class="grid flex-wrap sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-2 gap-4">
+              @for (expense of weekData.items; track expense.id) {
+                <app-expense-view (click)="onItemClicked(expense.id)" [expense]="expense" />
+              }
+            </div>
+          }
         }
       </div>
-    }
+    </div>
   `,
   standalone: true,
   imports: [FinanceItemViewComponent, CommonModule],

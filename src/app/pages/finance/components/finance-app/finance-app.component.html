@@ -1,65 +1,69 @@
 @let summaryData = summary();
 
-@if (summaryData) {
-  @if ($selectedFinance(); as selected) {
-    <app-add-finance-dialog
-      [openModal]="showEditDialog()"
-      [selected]="selected"
-      (onModalClose)="onCloseDialogEvent($event)"
-    />
+<div class="container">
+  @if (summaryData) {
+    @if ($selectedFinance(); as selected) {
+      <app-add-finance-dialog
+        [openModal]="showEditDialog()"
+        [selected]="selected"
+        (onModalClose)="onCloseDialogEvent($event)"
+      />
+    }
+    @if (showImportDialog()) {
+      <app-import-finance-dialog [openModal]="showImportDialog()" (onModalClose)="onCloseDialogEvent($event)" />
+    }
+
+    <app-card>
+      <div card-header class="flex justify-between items-center">
+        <button type="button" class="button header-button material-symbols-outlined" (click)="setDateWindow(false)">
+          arrow_back_ios
+        </button>
+
+        <hgroup class="text-center">
+          <h1 class="text-lg">{{ title }}</h1>
+          <h2 class="text-sm">Summary</h2>
+        </hgroup>
+
+        <button type="button" class="button header-button material-symbols-outlined" (click)="setDateWindow(true)">
+          arrow_forward_ios
+        </button>
+      </div>
+
+      <div card-body>
+        @if (summaryData.summary.length > 0) {
+          @for (item of summaryData.summary; track item.categoryName) {
+            @let total = item.total | currency;
+
+            <div class="space-y-1">
+              <div class="text font-light text-sm">
+                {{ item.percentage }}
+                {{ item.categoryName }}
+                {{ total }}
+              </div>
+
+              <div
+                [style.width]="item.percentage"
+                [style.max-width]="item.percentage"
+                [style.background]="item.colour"
+                class="min-w-2 h-1"
+              >
+                &nbsp;
+              </div>
+            </div>
+          }
+        } @else {
+          <div class="text-center text-sm text-disabled">No data available</div>
+        }
+      </div>
+
+      <div card-footer class="flex gap-2">
+        <button class="button" (click)="openDialogAddFinance()">Add Expense</button>
+        <button class="button" (click)="openDialogImport()">Import</button>
+      </div>
+    </app-card>
   }
-  @if (showImportDialog()) {
-    <app-import-finance-dialog [openModal]="showImportDialog()" (onModalClose)="onCloseDialogEvent($event)" />
-  }
 
-  <div class="flex flex-col text-sm bg-transparent mt-2">
-    <div class="header-actions bg-slate-200 dark:bg-zinc-900 rounded-t-lg p-4 pb-0">
-      <button type="button" class="button header-btn material-symbols-outlined" (click)="setDateWindow(false)">
-        arrow_back_ios
-      </button>
-
-      <hgroup class="text-center">
-        <h1 class="text-xl">{{ title }}</h1>
-        <h2 class="text-">Summary</h2>
-      </hgroup>
-
-      <button type="button" class="button material-symbols-outlined" (click)="setDateWindow(true)">
-        arrow_forward_ios
-      </button>
-    </div>
-
-    <div class="flex flex-col gap-3 p-4 justify-between bg-slate-200 dark:bg-zinc-900">
-      @for (item of summaryData.summary; track item.categoryName) {
-        @let total = item.total | currency;
-
-        <div class="space-y-1">
-          <div class="text font-light">
-            {{ item.percentage }}
-            {{ item.categoryName }}
-            {{ total }}
-          </div>
-
-          <div
-            [style.width]="item.percentage"
-            [style.max-width]="item.percentage"
-            [style.background]="item.colour"
-            class="min-w-2 h-1"
-          >
-            &nbsp;
-          </div>
-        </div>
-      }
-    </div>
-
-    <div class="flex gap-2 p-3 pt-0 justify-end bg-slate-200 dark:bg-zinc-900 rounded-b-lg">
-      <button class="button" (click)="openDialogAddFinance()">Add Expense</button>
-      <button class="button" (click)="openDialogImport()">Import</button>
-    </div>
-  </div>
-}
-
-@if (summaryData) {
-  <article class="card-0">
+  @if (summaryData?.financeDataByWeekly && summaryData.financeDataByWeekly.length > 0) {
     @if (summaryData.financeDataByWeekly; as financesByWeekly) {
       @if (financesByWeekly.length > 0) {
         <app-summary-view
@@ -68,5 +72,5 @@
         ></app-summary-view>
       }
     }
-  </article>
-}
+  }
+</div>

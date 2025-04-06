@@ -1,0 +1,12 @@
+:root {
+  --font-family: 'Roboto', sans-serif;
+  --monospace: 'Roboto Mono', monospace;
+}
+
+.text-disabled {
+  color: var(--fg4);
+}
+
+.text-mono {
+  font-family: var(--monospace);
+}

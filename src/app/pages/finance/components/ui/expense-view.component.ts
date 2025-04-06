@@ -5,24 +5,33 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-expense-view',
   imports: [CommonModule],
+  styleUrls: ['./expense-view.component.css'],
   template: `
     @if (expense(); as e) {
       <div
-        class="p-4 flex gap-4 rounded-md text-sm hover:cursor-pointer hover:bg-slate-300 hover:dark:bg-zinc-700 border"
-        [style.border-color]="e.categoryColour"
+        class="item-card font-extralight"
+        [style]="{
+          '--category-colour': e.categoryColour,
+        }"
       >
-        <div class="flex flex-grow flex-col gap-4 items-start justify-between">
-          <div class="text-lg font-extralight" [style.color]="e.categoryColour">
+        <div class="item-row">
+          <span>
             {{ e.name }}
-          </div>
-          <div class="text-xl font-extralight">{{ e.amount | currency }}</div>
+          </span>
+
+          <span>
+            {{ e.amount | currency }}
+          </span>
         </div>
 
-        <div class="flex flex-col gap-4 items-end justify-between">
-          <div class="text" [style.color]="e.categoryColour">
+        <div class="item-row ">
+          <span class="">
             {{ e.categoryLabel }}
-          </div>
-          <div>{{ e.date | date: 'short' }}</div>
+          </span>
+
+          <span>
+            {{ e.date | date: 'shortTime' }}
+          </span>
         </div>
       </div>
     }

@@ -1,0 +1,23 @@
+.card {
+  border-radius: 0.25rem;
+  border: var(--border);
+  box-shadow: var(--box-shadow);
+  background-color: color-mix(in srgb, var(--accent) 100%, var(--bg-inverse) 10%);
+
+  .header {
+    padding: 0.5rem;
+  }
+
+  .body {
+    background-color: var(--bg);
+    padding: 0.5rem;
+    border-top: inherit;
+    border-bottom: inherit;
+  }
+
+  .footer {
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: row-reverse;
+  }
+}

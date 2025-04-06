@@ -1,0 +1,29 @@
+.expense-bar {
+  display: flex;
+  padding: 0.25rem 0;
+  font-size: small;
+  margin: 0;
+
+  &:hover {
+    background-color: var(--accent);
+    cursor: pointer;
+    mix-blend-mode: difference;
+  }
+
+  .bar {
+    width: var(--item-percentage);
+    position: absolute;
+    background-color: var(--item-colour);
+    border-radius: 2px;
+  }
+
+  .label {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0.5rem;
+    z-index: 1;
+    color: color-mix(in srgb, var(--item-colour) 90%, var(--bg-inverse) 10%);
+    mix-blend-mode: difference;
+  }
+}

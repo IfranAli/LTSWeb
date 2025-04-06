@@ -5,7 +5,8 @@
   grid-template-columns: 1fr;
   padding: 0.5rem 0.5rem;
   border: var(--border);
-  border-radius: 0.5rem;
+  border-color: var(--category-colour);
+  border-radius: 0 0.5rem 0.5rem 0;
 
   .item-row {
     display: flex;

@@ -30,7 +30,7 @@ import { CommonModule } from '@angular/common';
           </span>
 
           <span>
-            {{ e.date | date: 'shortTime' }}
+            {{ e.date | date: 'short' }}
           </span>
         </div>
       </div>

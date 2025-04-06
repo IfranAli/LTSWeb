@@ -34,20 +34,23 @@
           @for (item of summaryData.summary; track item.categoryName) {
             @let total = item.total | currency;
 
-            <div class="space-y-1">
-              <div class="text font-light text-sm">
-                {{ item.percentage }}
-                {{ item.categoryName }}
-                {{ total }}
-              </div>
+            <div
+              class="expense-bar font-mono"
+              [style]="{
+                '--item-percentage': item.percentage,
+                '--item-colour': item.colour,
+              }"
+            >
+              <div class="bar">&nbsp;</div>
 
-              <div
-                [style.width]="item.percentage"
-                [style.max-width]="item.percentage"
-                [style.background]="item.colour"
-                class="min-w-2 h-1"
-              >
-                &nbsp;
+              <div class="label">
+                <div>
+                  {{ item.percentage }}
+                  {{ item.categoryName }}
+                </div>
+                <div class="font-bold">
+                  {{ total }}
+                </div>
               </div>
             </div>
           }

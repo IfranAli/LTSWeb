@@ -2,7 +2,7 @@
   border-radius: 0.25rem;
   border: var(--border);
   box-shadow: var(--box-shadow);
-  background-color: color-mix(in srgb, var(--accent) 100%, var(--bg-inverse) 10%);
+  background-color: var(--bg1);
 
   .header {
     padding: 0.5rem;

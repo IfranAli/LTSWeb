@@ -3,13 +3,11 @@
 /* Default Colours */
 :root {
   /* Background Colours */
-  --bg: #282828;
-  --bg0_h: #1d2021;
-  --bg0: #282828;
-  --bg1: #3c3836;
-  --bg2: #504945;
-  --bg3: #665c54;
-  --bg4: #7c6f64;
+  --dark-bg: #282828;
+  --dark-bg1: #3c3836;
+  --dark-bg2: #504945;
+  --dark-bg3: #665c54;
+  --dark-bg4: #7c6f64;
 
   /* Foreground Colours */
   --fg: #ebdbb2;
@@ -44,30 +42,13 @@
   --orange: #d65d0e;
   --orange-light: #fe8019;
 
-  /* Light Mode Colours */
-  --light-bg: var(--bg0);
-  --light-bg0_h: #f9f5d7;
-  --light-bg0: color-mix(in srgb, var(--light-bg) 80, white);
-  --light-bg1: color-mix(in srgb, var(--light-bg) 50%, white);
-  --light-bg2: color-mix(in srgb, var(--light-bg) 30%, white);
-  --light-bg3: color-mix(in srgb, var(--light-bg) 20%, white);
-  --light-bg4: color-mix(in srgb, var(--light-bg) 10%, white);
-
-  --light-fg: #3c3836;
-  --light-fg0: #282828;
-  --light-fg1: #3c3836;
-  --light-fg2: #504945;
-  --light-fg3: #665c54;
-  --light-fg4: #7c6f64;
-
-  --light-gray: #928374;
-  --light-red: #9d0006;
-  --light-green: #79740e;
-  --light-yellow: #657614;
-  --light-blue: #076678;
-  --light-purple: #8f3f71;
-  --light-aqua: #427658;
-  --light-orange: #af3a03;
+  /* Default */
+  --bg: var(--dark-bg);
+  --bg0: var(--dark-bg0);
+  --bg1: var(--dark-bg1);
+  --bg2: var(--dark-bg2);
+  --bg3: var(--dark-bg3);
+  --bg4: var(--dark-bg4);
 
   --bg-inverse: #d2d2d2;
 }
@@ -75,23 +56,15 @@
 /* Light Mode */
 @media (prefers-color-scheme: light) {
   :root {
-    --bg-inverse: #282828;;
-
     /* Background Colours */
-    --bg: var(--light-bg0);
-    --bg0_h: var(--light-bg0_h);
-    --bg0: var(--light-bg0);
-    --bg1: var(--light-bg1);
-    --bg2: var(--light-bg2);
-    --bg3: var(--light-bg3);
-    --bg4: var(--light-bg4);
+    --bg-inverse: #282828;
+    --bg: #e7e1e1;
+    --bg1: color-mix(in srgb, var(--bg) 80%, black);
+    --bg2: color-mix(in srgb, var(--bg) 50%, black);
+    --bg3: color-mix(in srgb, var(--bg) 30%, black);
 
     /* Foreground Colours */
-    --fg: var(--light-fg);
-    --fg0: var(--light-fg0);
+    --fg: var(--dark-bg);
     --fg1: var(--light-fg1);
-    --fg2: var(--light-fg2);
-    --fg3: var(--light-fg3);
-    --fg4: var(--light-fg4);
   }
 }

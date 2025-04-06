@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, linkedSignal, output } from '@angular/core';
+import { Component, computed, inject, input, linkedSignal, output, ViewEncapsulation } from '@angular/core';
 import { FinanceData } from '../finance-app/finance-app.component';
 import { FinanceItemViewComponent } from './expense-view.component';
 import { CommonModule } from '@angular/common';
@@ -6,6 +6,7 @@ import { FinanceSummaryService } from '../../services/FinanceSummary.service';
 
 @Component({
   selector: 'app-summary-view',
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
       .list {
@@ -15,6 +16,7 @@ import { FinanceSummaryService } from '../../services/FinanceSummary.service';
         .list-section-title {
           padding: 0.5rem 0.5rem;
           border-top: var(--border);
+          background-color: var(--bg1);
         }
 
         .list-section-title:first-child {

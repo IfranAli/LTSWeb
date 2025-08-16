@@ -6,6 +6,8 @@
 
   .header {
     padding: 0.5rem;
+    /* position: sticky;
+    top: 0px; */
   }
 
   .body {
@@ -13,11 +15,20 @@
     padding: 0.5rem;
     border-top: inherit;
     border-bottom: inherit;
+    /* overflow-y: auto; */
   }
 
   .footer {
     padding: 0.5rem;
     display: flex;
     flex-direction: row-reverse;
+    /* position: sticky;
+    bottom: 0; */
+  }
+}
+
+.card.noBodyPadding {
+  .body {
+    padding: 0;
   }
 }

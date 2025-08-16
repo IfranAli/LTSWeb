@@ -6,26 +6,21 @@ import {
   computed,
   inject,
   signal,
-} from "@angular/core";
-import { CommonModule, DatePipe } from "@angular/common";
-import {
-  DialogBaseComponent,
-  DialogComponent,
-} from "src/app/dialog/dialog.component";
-import { FormGroup, FormControl, ReactiveFormsModule } from "@angular/forms";
-import { Observable, filter, switchMap, of, tap } from "rxjs";
-import { FinanceModel } from "../../models/finance.model";
-import {
-  bulkImportTextToFinanceModel,
-  dateToString,
-} from "../../util/finance.util";
-import { parseDateInput } from "src/app/pages/calendar/date-parser.util";
-import { FinanceService } from "../../services/finance.service";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+} from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { DialogBaseComponent, DialogComponent } from 'src/app/dialog/dialog.component';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { Observable, filter, switchMap, of, tap } from 'rxjs';
+import { FinanceModel } from '../../models/finance.model';
+import { bulkImportTextToFinanceModel } from '../../util/finance.util';
+import { parseDateInput } from 'src/app/pages/calendar/date-parser.util';
+import { FinanceService } from '../../services/finance.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { dateToString } from '../../../../util/date-util';
 
 @Component({
-  selector: "app-import-finance-dialog",
-  templateUrl: "./import-finance-dialog.component.html",
+  selector: 'app-import-finance-dialog',
+  templateUrl: './import-finance-dialog.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, ReactiveFormsModule, DialogComponent, DatePipe],
@@ -40,7 +35,7 @@ export class ImportFinanceDialogComponent extends DialogBaseComponent {
     const data = this.$data();
 
     if (!this.$importDataIsValid()) {
-      console.error("Invalid data.", data);
+      console.error('Invalid data.', data);
       return;
     }
 
@@ -50,30 +45,27 @@ export class ImportFinanceDialogComponent extends DialogBaseComponent {
       .createFinanceMany(data)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((result) => {
-        console.log("Added ", result.length, " transactions.");
+        console.log('Added ', result.length, ' transactions.');
         this.onModalClose.emit(true);
       });
   }
 
   bulkImportForm = new FormGroup({
-    input: new FormControl<string>(""),
+    input: new FormControl<string>(''),
     date: new FormControl<Date>(new Date()),
   });
 
-  test$: Observable<FinanceModel[]> =
-    this.bulkImportForm.controls.input.valueChanges.pipe(
-      filter((value) => {
-        return value != null;
-      }),
-      switchMap((value) => {
-        const parsedFinances: FinanceModel[] = getFinanceModelsFromInputBulk(
-          value as string
-        );
+  test$: Observable<FinanceModel[]> = this.bulkImportForm.controls.input.valueChanges.pipe(
+    filter((value) => {
+      return value != null;
+    }),
+    switchMap((value) => {
+      const parsedFinances: FinanceModel[] = getFinanceModelsFromInputBulk(value as string);
 
-        this.$data.set(parsedFinances);
-        return of(parsedFinances);
-      })
-    );
+      this.$data.set(parsedFinances);
+      return of(parsedFinances);
+    })
+  );
 
   applyExample() {
     const importText = `feb 5
@@ -90,23 +82,21 @@ may 1
   }
 }
 
-export const getFinanceModelsFromInputBulk = (
-  input: string
-): FinanceModel[] => {
+export const getFinanceModelsFromInputBulk = (input: string): FinanceModel[] => {
   const ins = input
-    .split("\n")
+    .split('\n')
     .map((v) => {
       const r = v.trim();
 
-      return r == "" ? "\n\n" : r;
+      return r == '' ? '\n\n' : r;
     })
-    .join("\n");
+    .join('\n');
 
   const result = ins
-    .split("\n\n")
+    .split('\n\n')
     .filter((v) => v.length)
     .map((m) => {
-      const items = m.split("\n").filter((v) => v.length);
+      const items = m.split('\n').filter((v) => v.length);
 
       if (items.length < 2) {
         return null;
@@ -117,17 +107,11 @@ export const getFinanceModelsFromInputBulk = (
       if (dateStr.length) {
         const itemsSlice = items.slice(1);
         const expectedLength = itemsSlice.length;
-        const processed = bulkImportTextToFinanceModel(
-          itemsSlice.join("\n").trim(),
-          dateStr
-        );
+        const processed = bulkImportTextToFinanceModel(itemsSlice.join('\n').trim(), dateStr);
         const actualLength = processed.length;
         return expectedLength == actualLength ? processed : null;
       } else {
-        const processed = bulkImportTextToFinanceModel(
-          input,
-          dateToString(new Date())
-        );
+        const processed = bulkImportTextToFinanceModel(input, dateToString(new Date()));
 
         return processed;
       }

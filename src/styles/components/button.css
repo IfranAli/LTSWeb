@@ -1,0 +1,53 @@
+button {
+  font-size: small;
+  font-weight: bold;
+  touch-action: manipulation;
+  border: var(--border);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+
+  &:hover {
+    background-color: var(--accent);
+    color: var(--fg);
+    box-shadow: var(--box-shadow);
+  }
+
+  &.header-button {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+
+    &:hover {
+      color: var(--accent);
+    }
+  }
+
+  &.primary {
+    background-color: var(--accent);
+    color: var(--fg);
+  }
+
+  &.secondary {
+    background-color: var(--bg0);
+    color: var(--fg1);
+  }
+
+  &.danger {
+    background-color: var(--red);
+    color: var(--fg);
+  }
+
+  &.disabled {
+    background-color: var(--bg2);
+    color: var(--fg3);
+    cursor: not-allowed;
+  }
+}
+
+.header-actions {
+  @apply flex justify-between items-center;
+}
+
+.badge {
+  @apply text-sm  font-bold;
+}

@@ -16,7 +16,7 @@ import {
   incrementDateByMonth,
   parseDateFormattedStr,
 } from '../../../calendar/models/calendar.util';
-import { dateToString } from '../../util/finance.util';
+import { sortFinanceModels } from '../../util/finance.util';
 import { CALENDAR_MONTHS } from '../../../calendar/models/calendar.model';
 import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { ImportFinanceDialogComponent } from '../import-finance-dialog/import-finance-dialog.component';
@@ -28,6 +28,7 @@ import { CommonModule } from '@angular/common';
 import { FinanceSummaryService } from '../../services/FinanceSummary.service';
 import { ApiFinanceItem } from '../../services/finance-api.models';
 import { cardComponent } from '../../../../components/layout/card/card.component';
+import { dateToString } from '../../../../util/date-util';
 
 export interface FinanceViewModel extends ApiFinanceItem {
   categoryLabel: string;
@@ -58,6 +59,7 @@ const getFinancesByWeek = (
   date: Date,
   financeModels: ApiFinanceItem[]
 ): {
+  title: string;
   weekNumber: number;
   items: ApiFinanceItem[];
 }[] => {
@@ -77,10 +79,17 @@ const getFinancesByWeek = (
     return acc;
   }, []);
 
-  const sorted = result.map((i, idx) => ({
-    weekNumber: idx + 1,
-    items: i.sort((a, b) => a.date.localeCompare(b.date)),
-  }));
+  const sorted = result.map((weekItems, idx) => {
+    const sortedItems = weekItems.sort((a, b) => sortFinanceModels(a, b));
+    const endDate = sortedItems.length ? new Date(sortedItems[sortedItems.length - 1].date) : null;
+    const dateRangeStr = `${dateStart.toDateString()} ${endDate ? '- ' + endDate.toDateString() : ''}`;
+
+    return {
+      title: dateRangeStr,
+      weekNumber: idx + 1,
+      items: sortedItems,
+    };
+  });
 
   return sorted;
 };
@@ -181,7 +190,7 @@ export class FinanceAppComponent implements OnDestroy {
     const financesByWeeks = getFinancesByWeek(this.dateContext(), apiData);
     const financeDataByWeekly: FinanceData[] = financesByWeeks
       .reduce<FinanceData[]>((acc, curr) => {
-        const name = `Week ${curr.weekNumber}`;
+        const name = `Week ${curr.weekNumber} ${curr.title}`;
         const weekTotal = curr.items.reduce((p, c) => p + c.amount, 0);
         const financeViewModels = curr.items.map<FinanceViewModel>((fm) =>
           this.financeService.financeModelToViewModel(fm)

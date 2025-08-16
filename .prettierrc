@@ -6,6 +6,7 @@
     "tabWidth": 2,
     "endOfLine": "auto",
     "bracketSpacing": true,
+    "useTabs": false,
     "overrides": [
         {
             "files": "*.scss",

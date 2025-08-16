@@ -1,7 +1,5 @@
-import { Component, ComponentRef, effect, ElementRef, inject, model, signal, viewChild } from '@angular/core';
-import { DialogTestService } from '../services/dialog-test.service';
-import { DateTimeInputComponent } from '../../../components/date-time-input/date-time-input.component';
-import { FormsModule } from '@angular/forms';
+import { Component, ComponentRef, effect, ElementRef, inject, model, Signal, signal, viewChild } from '@angular/core';
+import { DateTimeInputComponent } from 'src/app/components/date-time-input/date-time-input.component';
 
 @Component({
   selector: 'app-dev-dialog',
@@ -79,29 +77,28 @@ export class DevDialogComponent {
 @Component({
   selector: 'app-dialog-wrapper',
   imports: [],
-  providers: [DialogTestService],
+  providers: [],
   template: ``,
   styles: ``,
 })
 export class DialogWrapperComponent {
-  dialogService = inject(DialogTestService);
+  // dialogService = inject(DialogTestService);
   dialogState = model(false);
   componentRef = signal<ComponentRef<DevDialogComponent> | null>(null);
 
-  ngAfterViewInit() {
-    const containerRef = this.dialogService.rootContainerRef();
-
-    if (containerRef) {
-      const created = containerRef.createComponent(DevDialogComponent);
-      created.instance.modalState = this.dialogState;
-      this.componentRef.set(created);
-    }
-  }
+  // ngAfterViewInit() {
+  // const containerRef = this.dialogService.rootContainerRef();
+  // if (containerRef) {
+  //   const created = containerRef.createComponent(DevDialogComponent);
+  //   created.instance.modalState = this.dialogState;
+  //   this.componentRef.set(created);
+  // }
+  // }
 }
 
 @Component({
   selector: 'app-dev-test',
-  imports: [FormsModule, DialogWrapperComponent, DateTimeInputComponent],
+  imports: [DialogWrapperComponent, DateTimeInputComponent],
   template: `
     <div class="container mx-auto p-4">
       <header class="header-actions">
@@ -118,7 +115,7 @@ export class DialogWrapperComponent {
         <section class="bg-zinc-800 p-4 rounded shadow">
           <h2 class="text-xl font-semibold">Section 1</h2>
           <p>
-            <app-date-time-input [(ngModel)]="myDateTime"></app-date-time-input>
+            <app-date-time-input [(inputDate)]="myDateTime"></app-date-time-input>
             /> Content for section 1.
           </p>
         </section>
@@ -160,7 +157,7 @@ export class DialogWrapperComponent {
   `,
   styles: ``,
 })
-export class DevTestComponent {
+export class FinanceFilterOptionsComponent {
   myDateTime = signal(new Date());
   showModal = signal(false);
 

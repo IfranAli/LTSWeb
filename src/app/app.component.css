@@ -1,9 +1,3 @@
-.navbar {
-  background-color: var(--bg0);
-
-  ul > li > a {
-    span {
-      @apply font-extralight my-1;
-    }
-  }
+.container {
+  overflow-y: auto;
 }

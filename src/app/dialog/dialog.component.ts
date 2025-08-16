@@ -9,11 +9,11 @@ import {
   output,
   viewChild,
   model,
-} from "@angular/core";
+} from '@angular/core';
 
 @Component({
-  selector: "app-dialog",
-  templateUrl: "./dialog.component.html",
+  selector: 'app-dialog',
+  templateUrl: './dialog.component.html',
   imports: [],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -24,10 +24,9 @@ export class DialogComponent {
   readonly hideCloseButton = input(false);
   readonly onModalClose = output<boolean>();
 
-  readonly dialogElement =
-    viewChild<ElementRef<HTMLDialogElement>>("dialogRef");
+  readonly dialogElement = viewChild<ElementRef<HTMLDialogElement>>('dialogRef');
 
-  @HostListener("window:keydown.esc", ["$event"])
+  @HostListener('window:keydown.esc', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     if (this.isVisible()) {
       this.closeDialog();
@@ -57,7 +56,7 @@ export class DialogComponent {
 @Component({
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: "",
+  template: '',
 })
 export class DialogBaseComponent {
   readonly openModal = input(false);

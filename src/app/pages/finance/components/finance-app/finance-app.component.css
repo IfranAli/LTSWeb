@@ -12,7 +12,6 @@
 
   .bar {
     width: var(--item-percentage);
-    position: absolute;
     background-color: var(--item-colour);
     border-radius: 2px;
   }

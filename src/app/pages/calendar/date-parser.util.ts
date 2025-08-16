@@ -1,15 +1,14 @@
-import { dateToString } from "../finance/util/finance.util";
-import { CALENDAR_MONTHS } from "./models/calendar.model";
+import { dateToString } from '../../util/date-util';
+import { CALENDAR_MONTHS } from './models/calendar.model';
 
-const toTitleCase = (str: string) =>
-  str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();
+const toTitleCase = (str: string) => str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();
 
 export function parseDateInput(s: string) {
   const date = new Date();
 
-  const arr = s.split(" ");
+  const arr = s.split(' ');
   if (![2, 3].includes(arr.length)) {
-    return "";
+    return '';
   }
 
   const year = arr
@@ -24,9 +23,7 @@ export function parseDateInput(s: string) {
     .map((v) => {
       if (v.length >= 3 && Number.isNaN(Number(v))) {
         const searchValue = toTitleCase(v);
-        const monthIdx = CALENDAR_MONTHS.findIndex(
-          (m) => m.search(searchValue) >= 0
-        );
+        const monthIdx = CALENDAR_MONTHS.findIndex((m) => m.search(searchValue) >= 0);
 
         return monthIdx >= 0 ? monthIdx : undefined;
       }
@@ -48,5 +45,5 @@ export function parseDateInput(s: string) {
     date.setFullYear(year ?? date.getFullYear(), month, day);
   }
 
-  return dateToString(date, "/");
+  return dateToString(date, '/');
 }

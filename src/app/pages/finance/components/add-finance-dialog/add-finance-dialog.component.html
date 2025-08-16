@@ -25,7 +25,7 @@
             (change)="this.inputName.set(this.eventToHtmlValue($event))" />
 
           <label> Date </label>
-          <app-date-time-input [(inputDate)]="inputDate" />
+          <app-date-time-input [(ngModel)]="inputDate" [ngModelOptions]="{ standalone: true }" />
 
           <label> Amount </label>
           <input name=" financeAmount" title="amount" (change)="this.inputAmount.set((this.eventToNumber($event)))"

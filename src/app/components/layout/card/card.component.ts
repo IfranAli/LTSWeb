@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-card',
   styleUrls: ['./card.component.css'],
   template: `
-    <div class="card card-header flex flex-col">
+    <div class="card card-header flex flex-col" [class.noBodyPadding]="noBodyPadding">
       <!-- Header -->
       <div class="header rounded-t-lg">
         <ng-content select="[card-header]"></ng-content>
@@ -21,4 +21,6 @@ import { Component } from '@angular/core';
     </div>
   `,
 })
-export class cardComponent {}
+export class cardComponent {
+  @Input() noBodyPadding: boolean = false;
+}

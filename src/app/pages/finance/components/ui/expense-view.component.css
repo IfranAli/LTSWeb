@@ -4,9 +4,6 @@
   flex-direction: column;
   grid-template-columns: 1fr;
   padding: 0.5rem 0.5rem;
-  border: var(--border);
-  border-color: var(--category-colour);
-  border-radius: 0 0.5rem 0.5rem 0;
 
   .item-row {
     display: flex;
@@ -23,21 +20,25 @@
 /* Light mode: Mix with white */
 @media (prefers-color-scheme: light) {
   .item-card {
-    border-left: solid 0.5rem color-mix(in srgb, var(--category-colour) 100%, white 25%);
+    border-left: solid 0.5rem color-mix(in srgb, var(--category-colour) 50%, transparent);
+    background-color: color-mix(in srgb, var(--category-colour) 4%, transparent);
   }
 
   .item-card:hover {
-    border-color: color-mix(in srgb, var(--category-colour) 50%, white 10%);
+    border-left: solid 0.5rem color-mix(in srgb, var(--category-colour) 100%, transparent);
+    background-color: color-mix(in srgb, var(--category-colour) 80%, transparent);
   }
 }
 
 /* Dark mode: Mix with black */
 @media (prefers-color-scheme: dark) {
   .item-card {
-    border-left: solid 0.5rem color-mix(in srgb, var(--category-colour) 100%, black 25%);
+    border-left: solid 0.5rem color-mix(in srgb, var(--category-colour) 80%, transparent);
+    color: color-mix(in srgb, var(--category-colour) 25%, var(--fg));
   }
 
   .item-card:hover {
-    background-color: color-mix(in srgb, var(--category-colour) 50%, black 10%);
+    border-left: solid 0.5rem color-mix(in srgb, var(--category-colour) 100%, transparent);
+    background-color: color-mix(in srgb, var(--category-colour) 80%, transparent);
   }
 }

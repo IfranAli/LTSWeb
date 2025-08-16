@@ -1,26 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  DestroyRef,
-  effect,
-  inject,
-  input,
-  signal,
-} from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { createFinanceModel, FinanceModel } from "../../models/finance.model";
-import { dateToString, getCurrentDate } from "../../util/finance.util";
-import { parseDateIdentifier } from "../../../calendar/models/calendar.util";
-import {
-  DialogBaseComponent,
-  DialogComponent,
-} from "src/app/dialog/dialog.component";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { FinanceService } from "../../services/finance.service";
-import { FinanceCategoryService } from "../../services/FinanceCategory.service";
-import { DateTimeInputComponent } from "../../../../components/date-time-input/date-time-input.component";
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { createFinanceModel, FinanceModel } from '../../models/finance.model';
+import { DialogBaseComponent, DialogComponent } from 'src/app/dialog/dialog.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FinanceService } from '../../services/finance.service';
+import { FinanceCategoryService } from '../../services/FinanceCategory.service';
+import { DateTimeInputComponent } from '../../../../components/date-time-input/date-time-input.component';
 
 export enum Tabs {
   AddFinance = 0,
@@ -28,10 +14,10 @@ export enum Tabs {
 }
 
 export enum Actions {
-  BulkImport = "Bulk Import",
-  Add = "Add Finance",
-  Edit = "Edit Finance",
-  Delete = "Delete",
+  BulkImport = 'Bulk Import',
+  Add = 'Add Finance',
+  Edit = 'Edit Finance',
+  Delete = 'Delete',
 }
 
 export interface IDialogResult {
@@ -45,15 +31,10 @@ export interface financeDialogData {
 }
 
 @Component({
-  selector: "app-add-finance-dialog",
-  templateUrl: "./add-finance-dialog.component.html",
-  styleUrls: ["./add-finance-dialog.component.css"],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    DialogComponent,
-    DateTimeInputComponent,
-  ],
+  selector: 'app-add-finance-dialog',
+  templateUrl: './add-finance-dialog.component.html',
+  styleUrls: ['./add-finance-dialog.component.css'],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, DialogComponent, DateTimeInputComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddFinanceDialogComponent extends DialogBaseComponent {
@@ -63,7 +44,7 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
 
   dialogAction = Actions.Add;
 
-  inputName = signal("");
+  inputName = signal('');
   inputDate = signal(new Date(Date.now()));
   inputAmount = signal(0);
   inputCategoryType = signal(0);
@@ -112,7 +93,7 @@ export class AddFinanceDialogComponent extends DialogBaseComponent {
 
   eventToHtmlValue = <T>(event: Event) => {
     const v = (event.target as HTMLInputElement).value;
-    console.debug("Event to HTML Value: ", v);
+    console.debug('Event to HTML Value: ', v);
     return v;
   };
 

@@ -2,15 +2,18 @@
 @import 'tailwindcss/components.css';
 @import 'tailwindcss/utilities.css';
 
-@import './dialog.css';
 @import './form.css';
 @import './colours.css';
 @import './fonts.css';
 
+@import './components/navbar.css';
+@import './components/button.css';
+@import './components/dialog.css';
+
 :root {
-  --box-shadow: 4px 4px 0 color-mix(in srgb, black 80%, transparent);
-  --border: var(--fg2) solid 1px;
-  --page-margin: 1rem;
+  /* --box-shadow: 4px 4px 0 color-mix(in srgb, black 80%, transparent); */
+  --border: var(--fg1) solid 1px;
+  --page-margin: 1rem; /* Unused */
 }
 
 html {
@@ -19,55 +22,17 @@ html {
   font-family: var(--font-family);
 }
 
-button {
-  font-family: var(--monospace);
-  font-size: small;
-  font-weight: bold;
-  touch-action: manipulation;
-  border: var(--border);
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-
-  &:hover {
-    background-color: var(--accent);
-    color: var(--fg);
-    box-shadow: var(--box-shadow);
-  }
-
-  &.header-button {
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-
-    &:hover {
-      color: var(--accent);
-    }
-  }
-}
-
-.header-actions {
-  @apply flex justify-between items-center;
-}
-
-.navbar {
-  background-color: var(--bg0);
-  border-bottom: var(--border);
-  border-color: var(--fg1);
-}
-
-.badge {
-  @apply text-sm  font-bold;
-}
-
 .container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2rem;
+  /* padding: 0 0.5rem; */
+  margin: auto;
 }
 
 /** utility card styles */
 [class^='card-'] {
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   margin: var(--page-margin);
   padding: 0.5rem;
   box-shadow: var(--box-shadow);
@@ -89,6 +54,6 @@ button {
 /* Remove margin on small screens */
 @media (max-width: 640px) {
   :root {
-    --page-margin: 0;
+    /* --page-margin: 1rem; */
   }
 }

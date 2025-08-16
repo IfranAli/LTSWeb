@@ -14,11 +14,11 @@ select {
   @apply rounded-sm;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-input[type="date"],
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='number'],
+input[type='date'],
 select,
 textarea {
   @apply dark:text-white dark:placeholder-gray-400;
@@ -41,19 +41,4 @@ textarea {
   }
 }
 
-.dialog-container {
-  @apply flex flex-col gap-2 p-2 rounded-lg shadow-lg;
-
-  section {
-    @apply flex-grow;
-  }
-
-  footer {
-    @apply flex gap-4 justify-between;
-
-    .actions {
-      @apply flex gap-4;
-    }
-  }
-}
 /* #endregion aaa */

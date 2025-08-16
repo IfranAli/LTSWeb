@@ -1,0 +1,59 @@
+dialog {
+  margin: auto;
+  background-color: var(--bg);
+  color: var(--fg);
+  display: flex;
+  @apply w-full h-full md:max-w-md rounded-lg;
+}
+dialog::backdrop {
+  @apply backdrop-blur-lg bg-black/30;
+}
+
+.dialog-container {
+  @apply gap-2 rounded-lg shadow-lg;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  header {
+    padding: 1rem;
+    border-bottom: var(--border);
+    background-color: var(--bg1);
+    position: sticky;
+    top: 0;
+
+    align-content: stretch;
+    justify-content: space-between;
+  }
+
+  main {
+    padding: 0.5rem 1rem;
+    min-height: 1000px;
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+  footer {
+    padding: 1rem;
+    background-color: var(--bg1);
+    border-top: var(--border);
+    position: sticky;
+    bottom: 0;
+
+    @apply flex gap-4 justify-between;
+
+    .actions {
+      @apply flex gap-4;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  dialog {
+    height: max-content;
+    min-height: 40%;
+  }
+  dialog .dialog-container {
+    max-height: 80%;
+  }
+}

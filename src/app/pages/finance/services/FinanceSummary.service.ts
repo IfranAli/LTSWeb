@@ -1,16 +1,14 @@
-import { Injectable, computed, effect, inject, linkedSignal, resource, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, linkedSignal, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { FinanceCategory, FinanceDatabaseModel, FinanceModel } from '../models/finance.model';
-import { getHttpHeaders, ResponseMessage } from '../../../constants/web-constants';
-import { dateToString } from '../util/finance.util';
-import { FinanceSummary, FinanceViewModel } from '../components/finance-app/finance-app.component';
-import { Observable, of, switchMap, tap } from 'rxjs';
-import { rxResource, toSignal } from '@angular/core/rxjs-interop';
+import { FinanceModel } from '../models/finance.model';
+import { getHttpHeaders } from '../../../constants/web-constants';
+import { FinanceSummary } from '../components/finance-app/finance-app.component';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { UserService } from 'src/app/services/user.service';
-import { incrementDateByMonth } from 'src/app/pages/calendar/models/calendar.util';
 import { ApiFinanceSummary } from './finance-api.models';
 import { FinanceCategoryService } from './FinanceCategory.service';
+import { dateToString } from '../../../util/date-util';
 
 const baseUrl = environment.backendURL;
 const financesUrl = baseUrl + 'finance';

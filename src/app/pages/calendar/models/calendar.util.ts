@@ -1,5 +1,5 @@
-import { CALENDAR_MONTHS, IDay, Months, WeekDays } from "./calendar.model";
-import { dateToString } from "../../finance/util/finance.util";
+import { dateToString } from '../../../util/date-util';
+import { CALENDAR_MONTHS, IDay, Months, WeekDays } from './calendar.model';
 
 export const getTotalDaysInMonth = (date: Date): number => {
   const calc = new Date(date);
@@ -20,7 +20,7 @@ export const isLeapYear = function (year: number) {
  */
 const weekdayToString = function (weekday: number): string {
   if (weekday < 0 || weekday > 6) {
-    throw new Error("Invalid weekday");
+    throw new Error('Invalid weekday');
   }
   return WeekDays[weekday];
 };
@@ -38,7 +38,7 @@ export const validate24HourTime = function (time: string): boolean {
  */
 export const monthToString = function (month: number): string {
   if (month < 0 || month > 11) {
-    throw new Error("Invalid month");
+    throw new Error('Invalid month');
   }
   return CALENDAR_MONTHS[month];
 };
@@ -65,9 +65,7 @@ export function generateCalendarViewModel(year: number, monthIdx: number) {
     const nextMonthIdx = monthIdx == 11 ? 0 : monthIdx + 1;
     const nextMonth = generateDaysInMonth(year, nextMonthIdx);
 
-    paddingEnd = nextMonth
-      .slice(0, daysForNextMonth)
-      .map((d) => ({ ...d, currentMonth: false }));
+    paddingEnd = nextMonth.slice(0, daysForNextMonth).map((d) => ({ ...d, currentMonth: false }));
   }
 
   const result = {
@@ -92,10 +90,7 @@ export function generateDaysInMonth(year: number, month: Months): IDay[] {
     .map((_, i) => {
       const day = i + 1;
       const dayOfWeek = (monthStartDay + i) % 7;
-      const isToday =
-        year == todaysDate.getFullYear() &&
-        day == todaysDate.getDate() &&
-        month == todaysDate.getMonth();
+      const isToday = year == todaysDate.getFullYear() && day == todaysDate.getDate() && month == todaysDate.getMonth();
 
       const d: IDay = {
         day: day,
@@ -109,10 +104,7 @@ export function generateDaysInMonth(year: number, month: Months): IDay[] {
     });
 }
 
-export const segmentArray = function (
-  arr: Array<any>,
-  sz: number = 2
-): Array<any> {
+export const segmentArray = function (arr: Array<any>, sz: number = 2): Array<any> {
   const length = arr.length;
   let accum = [];
 
@@ -125,8 +117,7 @@ export const segmentArray = function (
 };
 
 // todo: move into own file
-const isMonth = (str: string): string =>
-  CALENDAR_MONTHS.find((m) => m.search(str) >= 0) ?? "";
+const isMonth = (str: string): string => CALENDAR_MONTHS.find((m) => m.search(str) >= 0) ?? '';
 const isDay = (str: string): number => {
   const day = parseFloat(str);
   return Number.isSafeInteger(day) && day >= 1 && day <= 31 ? day : 0;
@@ -143,7 +134,7 @@ export interface IDateParsed {
 }
 
 export const parseDateFormattedStr = (dateStr: string): IDateParsed => {
-  const split = dateStr.split("/");
+  const split = dateStr.split('/');
 
   return {
     d: parseInt(split[2] ?? 0),
@@ -152,18 +143,12 @@ export const parseDateFormattedStr = (dateStr: string): IDateParsed => {
   };
 };
 
-export const parseDateIdentifierAsString = (
-  str: string,
-  separator = "/"
-): string => {
+export const parseDateIdentifierAsString = (str: string, separator = '/'): string => {
   const result = parseDateIdentifier(str);
-  return result ? dateToString(result) : "";
+  return result ? dateToString(result) : '';
 };
 
-export const parseDateIdentifier = (
-  str: string,
-  separator: string = " "
-): Date | null => {
+export const parseDateIdentifier = (str: string, separator: string = ' '): Date | null => {
   const items = str.split(separator, 3);
   const yearString = items.find((v) => isYear(v) > 0) ?? null;
 
